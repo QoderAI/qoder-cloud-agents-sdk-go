@@ -90,5 +90,3 @@ go test -race ./...
 根模块验证包含 Managed 的 95 条官网路由契约、领域字段对齐快照，以及 Forward 的 110 条 API 契约和协议测试（请求/null/联合类型、multipart、临时下载链接、分页、SSE、错误、重试、取消、自定义 HTTP 客户端）。离线测试使用本地 HTTP transport 或 httptest，不访问真实账户或创建远端资源。
 
 95 个 API 使用对应的 `agent_test.go`、`session_test.go` 等文件直接调用方法。原独立 `test/` 模块已移除；两种模式的测试与源码同目录，沿用上游的外部测试 package 写法。真实环境用例位于对应 API 的 `*_live_test.go`，需要 `-tags live` 和显式测试配置。SDK 通用用法见 [根目录指南](../README.md)。
-
-完整方法签名、参数和返回类型见 [Managed API 参考](../docs/managed-api.md)。

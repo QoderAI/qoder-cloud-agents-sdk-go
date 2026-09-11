@@ -9,7 +9,7 @@ SDK 提供两种客户端，共享鉴权、HTTP、错误处理、参数和分页
 | Forward | `forward` | Identity、Template、Session、Schedule、Batch、Channel |
 | Managed | `managed` | Agent、Session、Deployment、Dream |
 
-本页介绍 Go SDK 的用法与配置。完整 API 参考分别见 [Forward API](docs/forward-api.md) 和 [Managed API](docs/managed-api.md)。
+本页介绍 Go SDK 的用法与配置。
 
 - [Installation](#installation)
 - [Requirements](#requirements)
