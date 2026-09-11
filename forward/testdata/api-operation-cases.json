@@ -1,0 +1,4773 @@
+{
+  "schema_version": 1,
+  "operation_count": 110,
+  "cases": [
+    {
+      "operation_id": "addSessionResource",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "add_session_resource",
+        "typescript": "addSessionResource",
+        "go": "AddSessionResource"
+      },
+      "http_method": "POST",
+      "path": "/sessions/{session_id}/resources",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "AddSessionResourceRequest",
+        "python_name": "add_session_resource_request",
+        "typescript_name": "addSessionResourceRequest",
+        "go_name": "AddSessionResourceRequest",
+        "value": {
+          "type": "custom",
+          "file_id": "file_contract"
+        }
+      }
+    },
+    {
+      "operation_id": "archiveMemoryStore",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "archive_memory_store",
+        "typescript": "archiveMemoryStore",
+        "go": "ArchiveMemoryStore"
+      },
+      "http_method": "POST",
+      "path": "/memory_stores/{memory_store_id}/archive",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "archiveSchedule",
+      "resource": "Schedules",
+      "clients": {
+        "python": "schedules",
+        "typescript": "schedules",
+        "go": "Schedules"
+      },
+      "methods": {
+        "python": "archive_schedule",
+        "typescript": "archiveSchedule",
+        "go": "ArchiveSchedule"
+      },
+      "http_method": "POST",
+      "path": "/schedules/{schedule_id}/archive",
+      "parameters": [
+        {
+          "wire_name": "schedule_id",
+          "location": "path",
+          "required": true,
+          "python_name": "schedule_id",
+          "typescript_name": "scheduleId",
+          "go_name": "ScheduleId",
+          "value": "sched_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "archiveSchedules",
+      "resource": "Schedules",
+      "clients": {
+        "python": "schedules",
+        "typescript": "schedules",
+        "go": "Schedules"
+      },
+      "methods": {
+        "python": "archive_schedules",
+        "typescript": "archiveSchedules",
+        "go": "ArchiveSchedules"
+      },
+      "http_method": "POST",
+      "path": "/schedules/archive",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "ArchiveSchedulesRequest",
+        "python_name": "archive_schedules_request",
+        "typescript_name": "archiveSchedulesRequest",
+        "go_name": "ArchiveSchedulesRequest",
+        "value": {
+          "scope": "by_schedule_ids",
+          "schedule_ids": [
+            "sdk-contract"
+          ]
+        }
+      }
+    },
+    {
+      "operation_id": "archiveSession",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "archive_session",
+        "typescript": "archiveSession",
+        "go": "ArchiveSession"
+      },
+      "http_method": "POST",
+      "path": "/sessions/{session_id}/archive",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "archiveSessionThread",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "archive_session_thread",
+        "typescript": "archiveSessionThread",
+        "go": "ArchiveSessionThread"
+      },
+      "http_method": "POST",
+      "path": "/sessions/{session_id}/threads/{thread_id}/archive",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "thread_id",
+          "location": "path",
+          "required": true,
+          "python_name": "thread_id",
+          "typescript_name": "threadId",
+          "go_name": "ThreadId",
+          "value": "sthr_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "archiveTemplate",
+      "resource": "Templates",
+      "clients": {
+        "python": "templates",
+        "typescript": "templates",
+        "go": "Templates"
+      },
+      "methods": {
+        "python": "archive_template",
+        "typescript": "archiveTemplate",
+        "go": "ArchiveTemplate"
+      },
+      "http_method": "POST",
+      "path": "/templates/{template_id}/archive",
+      "parameters": [
+        {
+          "wire_name": "template_id",
+          "location": "path",
+          "required": true,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "cancelBatch",
+      "resource": "Batches",
+      "clients": {
+        "python": "batches",
+        "typescript": "batches",
+        "go": "Batches"
+      },
+      "methods": {
+        "python": "cancel_batch",
+        "typescript": "cancelBatch",
+        "go": "CancelBatch"
+      },
+      "http_method": "POST",
+      "path": "/batches/{batch_id}/cancel",
+      "parameters": [
+        {
+          "wire_name": "batch_id",
+          "location": "path",
+          "required": true,
+          "python_name": "batch_id",
+          "typescript_name": "batchId",
+          "go_name": "BatchId",
+          "value": "batch_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "cancelSession",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "cancel_session",
+        "typescript": "cancelSession",
+        "go": "CancelSession"
+      },
+      "http_method": "POST",
+      "path": "/sessions/{session_id}/cancel",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "clearIdentity",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "clear_identity",
+        "typescript": "clearIdentity",
+        "go": "ClearIdentity"
+      },
+      "http_method": "POST",
+      "path": "/identities/{identity_id}/clear",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "ClearIdentityRequest",
+        "python_name": "clear_identity_request",
+        "typescript_name": "clearIdentityRequest",
+        "go_name": "ClearIdentityRequest",
+        "value": {}
+      }
+    },
+    {
+      "operation_id": "cloneTemplate",
+      "resource": "Templates",
+      "clients": {
+        "python": "templates",
+        "typescript": "templates",
+        "go": "Templates"
+      },
+      "methods": {
+        "python": "clone_template",
+        "typescript": "cloneTemplate",
+        "go": "CloneTemplate"
+      },
+      "http_method": "POST",
+      "path": "/templates/{template_id}/clone",
+      "parameters": [
+        {
+          "wire_name": "template_id",
+          "location": "path",
+          "required": true,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CloneTemplateRequest",
+        "python_name": "clone_template_request",
+        "typescript_name": "cloneTemplateRequest",
+        "go_name": "CloneTemplateRequest",
+        "value": {}
+      }
+    },
+    {
+      "operation_id": "createBatch",
+      "resource": "Batches",
+      "clients": {
+        "python": "batches",
+        "typescript": "batches",
+        "go": "Batches"
+      },
+      "methods": {
+        "python": "create_batch",
+        "typescript": "createBatch",
+        "go": "CreateBatch"
+      },
+      "http_method": "POST",
+      "path": "/batches",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CreateBatchRequest",
+        "python_name": "create_batch_request",
+        "typescript_name": "createBatchRequest",
+        "go_name": "CreateBatchRequest",
+        "value": {
+          "input_file_id": "input_file_contract",
+          "completion_window": "24h"
+        }
+      }
+    },
+    {
+      "operation_id": "createChannel",
+      "resource": "Channels",
+      "clients": {
+        "python": "channels",
+        "typescript": "channels",
+        "go": "Channels"
+      },
+      "methods": {
+        "python": "create_channel",
+        "typescript": "createChannel",
+        "go": "CreateChannel"
+      },
+      "http_method": "POST",
+      "path": "/channels",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CreateChannelRequest",
+        "python_name": "create_channel_request",
+        "typescript_name": "createChannelRequest",
+        "go_name": "CreateChannelRequest",
+        "value": {
+          "channel_type": "sdk-contract"
+        }
+      }
+    },
+    {
+      "operation_id": "createChannelQrSession",
+      "resource": "Channels",
+      "clients": {
+        "python": "channels",
+        "typescript": "channels",
+        "go": "Channels"
+      },
+      "methods": {
+        "python": "create_channel_qr_session",
+        "typescript": "createChannelQrSession",
+        "go": "CreateChannelQrSession"
+      },
+      "http_method": "POST",
+      "path": "/channels/{channel_id}/qr_sessions",
+      "parameters": [
+        {
+          "wire_name": "channel_id",
+          "location": "path",
+          "required": true,
+          "python_name": "channel_id",
+          "typescript_name": "channelId",
+          "go_name": "ChannelId",
+          "value": "ch_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "createEnvironment",
+      "resource": "Environments",
+      "clients": {
+        "python": "environments",
+        "typescript": "environments",
+        "go": "Environments"
+      },
+      "methods": {
+        "python": "create_environment",
+        "typescript": "createEnvironment",
+        "go": "CreateEnvironment"
+      },
+      "http_method": "POST",
+      "path": "/environments",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CreateEnvironmentRequest",
+        "python_name": "create_environment_request",
+        "typescript_name": "createEnvironmentRequest",
+        "go_name": "CreateEnvironmentRequest",
+        "value": {
+          "name": "sdk-contract"
+        }
+      }
+    },
+    {
+      "operation_id": "createIdentity",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "create_identity",
+        "typescript": "createIdentity",
+        "go": "CreateIdentity"
+      },
+      "http_method": "POST",
+      "path": "/identities",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CreateIdentityRequest",
+        "python_name": "create_identity_request",
+        "typescript_name": "createIdentityRequest",
+        "go_name": "CreateIdentityRequest",
+        "value": {
+          "external_id": "sdk-contract-user"
+        }
+      }
+    },
+    {
+      "operation_id": "createMemoryStore",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "create_memory_store",
+        "typescript": "createMemoryStore",
+        "go": "CreateMemoryStore"
+      },
+      "http_method": "POST",
+      "path": "/memory_stores",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": true,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CreateMemoryStoreRequest",
+        "python_name": "create_memory_store_request",
+        "typescript_name": "createMemoryStoreRequest",
+        "go_name": "CreateMemoryStoreRequest",
+        "value": {
+          "name": "sdk-contract"
+        }
+      }
+    },
+    {
+      "operation_id": "createMemoryStoreMemory",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "create_memory_store_memory",
+        "typescript": "createMemoryStoreMemory",
+        "go": "CreateMemoryStoreMemory"
+      },
+      "http_method": "POST",
+      "path": "/memory_stores/{memory_store_id}/memories",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CreateMemoryStoreMemoryRequest",
+        "python_name": "create_memory_store_memory_request",
+        "typescript_name": "createMemoryStoreMemoryRequest",
+        "go_name": "CreateMemoryStoreMemoryRequest",
+        "value": {
+          "path": "notes/sdk-contract.md",
+          "content": "SDK contract content"
+        }
+      }
+    },
+    {
+      "operation_id": "createSchedule",
+      "resource": "Schedules",
+      "clients": {
+        "python": "schedules",
+        "typescript": "schedules",
+        "go": "Schedules"
+      },
+      "methods": {
+        "python": "create_schedule",
+        "typescript": "createSchedule",
+        "go": "CreateSchedule"
+      },
+      "http_method": "POST",
+      "path": "/schedules",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CreateScheduleRequest",
+        "python_name": "create_schedule_request",
+        "typescript_name": "createScheduleRequest",
+        "go_name": "CreateScheduleRequest",
+        "value": {
+          "identity_id": "idn_contract",
+          "template_id": "tmpl_contract",
+          "name": "sdk-contract",
+          "initial_events": [
+            {}
+          ],
+          "environment_id": "env_contract"
+        }
+      }
+    },
+    {
+      "operation_id": "createSession",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "create_session",
+        "typescript": "createSession",
+        "go": "CreateSession"
+      },
+      "http_method": "POST",
+      "path": "/sessions",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CreateSessionRequest",
+        "python_name": "create_session_request",
+        "typescript_name": "createSessionRequest",
+        "go_name": "CreateSessionRequest",
+        "value": {
+          "identity_id": "idn_contract",
+          "template_id": "tmpl_contract"
+        }
+      }
+    },
+    {
+      "operation_id": "createSkill",
+      "resource": "Skills",
+      "clients": {
+        "python": "skills",
+        "typescript": "skills",
+        "go": "Skills"
+      },
+      "methods": {
+        "python": "create_skill",
+        "typescript": "createSkill",
+        "go": "CreateSkill"
+      },
+      "http_method": "POST",
+      "path": "/skills",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "multipart",
+        "fields": [
+          {
+            "wire_name": "files",
+            "python_name": "files",
+            "typescript_name": "files",
+            "go_name": "Files",
+            "binary": true,
+            "value": null
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "createSkillVersion",
+      "resource": "Skills",
+      "clients": {
+        "python": "skills",
+        "typescript": "skills",
+        "go": "Skills"
+      },
+      "methods": {
+        "python": "create_skill_version",
+        "typescript": "createSkillVersion",
+        "go": "CreateSkillVersion"
+      },
+      "http_method": "POST",
+      "path": "/skills/{id}/versions",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "skill_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "multipart",
+        "fields": [
+          {
+            "wire_name": "files",
+            "python_name": "files",
+            "typescript_name": "files",
+            "go_name": "Files",
+            "binary": true,
+            "value": null
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "createTemplate",
+      "resource": "Templates",
+      "clients": {
+        "python": "templates",
+        "typescript": "templates",
+        "go": "Templates"
+      },
+      "methods": {
+        "python": "create_template",
+        "typescript": "createTemplate",
+        "go": "CreateTemplate"
+      },
+      "http_method": "POST",
+      "path": "/templates",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "X-Qoder-Beta",
+          "location": "header",
+          "required": false,
+          "python_name": "x_qoder_beta",
+          "typescript_name": "xQoderBeta",
+          "go_name": "XQoderBeta",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CreateTemplateRequest",
+        "python_name": "create_template_request",
+        "typescript_name": "createTemplateRequest",
+        "go_name": "CreateTemplateRequest",
+        "value": {
+          "name": "sdk-contract",
+          "model": "ultimate",
+          "environment_id": "env_contract"
+        }
+      }
+    },
+    {
+      "operation_id": "createVault",
+      "resource": "Vaults",
+      "clients": {
+        "python": "vaults",
+        "typescript": "vaults",
+        "go": "Vaults"
+      },
+      "methods": {
+        "python": "create_vault",
+        "typescript": "createVault",
+        "go": "CreateVault"
+      },
+      "http_method": "POST",
+      "path": "/vaults",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CreateVaultRequest",
+        "python_name": "create_vault_request",
+        "typescript_name": "createVaultRequest",
+        "go_name": "CreateVaultRequest",
+        "value": {
+          "display_name": "sdk-contract"
+        }
+      }
+    },
+    {
+      "operation_id": "createVaultCredential",
+      "resource": "Vaults",
+      "clients": {
+        "python": "vaults",
+        "typescript": "vaults",
+        "go": "Vaults"
+      },
+      "methods": {
+        "python": "create_vault_credential",
+        "typescript": "createVaultCredential",
+        "go": "CreateVaultCredential"
+      },
+      "http_method": "POST",
+      "path": "/vaults/{id}/credentials",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "vault_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "CreateVaultCredentialRequest",
+        "python_name": "create_vault_credential_request",
+        "typescript_name": "createVaultCredentialRequest",
+        "go_name": "CreateVaultCredentialRequest",
+        "value": {
+          "auth": {}
+        }
+      }
+    },
+    {
+      "operation_id": "deleteChannel",
+      "resource": "Channels",
+      "clients": {
+        "python": "channels",
+        "typescript": "channels",
+        "go": "Channels"
+      },
+      "methods": {
+        "python": "delete_channel",
+        "typescript": "deleteChannel",
+        "go": "DeleteChannel"
+      },
+      "http_method": "DELETE",
+      "path": "/channels/{channel_id}",
+      "parameters": [
+        {
+          "wire_name": "channel_id",
+          "location": "path",
+          "required": true,
+          "python_name": "channel_id",
+          "typescript_name": "channelId",
+          "go_name": "ChannelId",
+          "value": "ch_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "deleteEnvironment",
+      "resource": "Environments",
+      "clients": {
+        "python": "environments",
+        "typescript": "environments",
+        "go": "Environments"
+      },
+      "methods": {
+        "python": "delete_environment",
+        "typescript": "deleteEnvironment",
+        "go": "DeleteEnvironment"
+      },
+      "http_method": "DELETE",
+      "path": "/environments/{id}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "env_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "deleteFile",
+      "resource": "Files",
+      "clients": {
+        "python": "files",
+        "typescript": "files",
+        "go": "Files"
+      },
+      "methods": {
+        "python": "delete_file",
+        "typescript": "deleteFile",
+        "go": "DeleteFile"
+      },
+      "http_method": "DELETE",
+      "path": "/files/{file_id}",
+      "parameters": [
+        {
+          "wire_name": "file_id",
+          "location": "path",
+          "required": true,
+          "python_name": "file_id",
+          "typescript_name": "fileId",
+          "go_name": "FileId",
+          "value": "file_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "deleteIdentity",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "delete_identity",
+        "typescript": "deleteIdentity",
+        "go": "DeleteIdentity"
+      },
+      "http_method": "DELETE",
+      "path": "/identities/{identity_id}",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "deleteMemoryStore",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "delete_memory_store",
+        "typescript": "deleteMemoryStore",
+        "go": "DeleteMemoryStore"
+      },
+      "http_method": "DELETE",
+      "path": "/memory_stores/{memory_store_id}",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "deleteMemoryStoreMemory",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "delete_memory_store_memory",
+        "typescript": "deleteMemoryStoreMemory",
+        "go": "DeleteMemoryStoreMemory"
+      },
+      "http_method": "DELETE",
+      "path": "/memory_stores/{memory_store_id}/memories/{memory_id}",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        },
+        {
+          "wire_name": "memory_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_id",
+          "typescript_name": "memoryId",
+          "go_name": "MemoryId",
+          "value": "memory_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "deleteSkill",
+      "resource": "Skills",
+      "clients": {
+        "python": "skills",
+        "typescript": "skills",
+        "go": "Skills"
+      },
+      "methods": {
+        "python": "delete_skill",
+        "typescript": "deleteSkill",
+        "go": "DeleteSkill"
+      },
+      "http_method": "DELETE",
+      "path": "/skills/{id}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "skill_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "deleteSkillVersion",
+      "resource": "Skills",
+      "clients": {
+        "python": "skills",
+        "typescript": "skills",
+        "go": "Skills"
+      },
+      "methods": {
+        "python": "delete_skill_version",
+        "typescript": "deleteSkillVersion",
+        "go": "DeleteSkillVersion"
+      },
+      "http_method": "DELETE",
+      "path": "/skills/{id}/versions/{version}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "skill_contract"
+        },
+        {
+          "wire_name": "version",
+          "location": "path",
+          "required": true,
+          "python_name": "version",
+          "typescript_name": "version",
+          "go_name": "Version",
+          "value": "1759178010641129"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "deleteVault",
+      "resource": "Vaults",
+      "clients": {
+        "python": "vaults",
+        "typescript": "vaults",
+        "go": "Vaults"
+      },
+      "methods": {
+        "python": "delete_vault",
+        "typescript": "deleteVault",
+        "go": "DeleteVault"
+      },
+      "http_method": "DELETE",
+      "path": "/vaults/{id}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "vault_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "deleteVaultCredential",
+      "resource": "Vaults",
+      "clients": {
+        "python": "vaults",
+        "typescript": "vaults",
+        "go": "Vaults"
+      },
+      "methods": {
+        "python": "delete_vault_credential",
+        "typescript": "deleteVaultCredential",
+        "go": "DeleteVaultCredential"
+      },
+      "http_method": "DELETE",
+      "path": "/vaults/{id}/credentials/{cred_id}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "vault_contract"
+        },
+        {
+          "wire_name": "cred_id",
+          "location": "path",
+          "required": true,
+          "python_name": "cred_id",
+          "typescript_name": "credId",
+          "go_name": "CredId",
+          "value": "cred_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "detachMemoryStore",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "detach_memory_store",
+        "typescript": "detachMemoryStore",
+        "go": "DetachMemoryStore"
+      },
+      "http_method": "DELETE",
+      "path": "/identities/{identity_id}/templates/{template_id}/memory_stores/{memory_store_id}",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "template_id",
+          "location": "path",
+          "required": true,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        },
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "disableIdentity",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "disable_identity",
+        "typescript": "disableIdentity",
+        "go": "DisableIdentity"
+      },
+      "http_method": "POST",
+      "path": "/identities/{identity_id}/disable",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "downloadFile",
+      "resource": "Files",
+      "clients": {
+        "python": "files",
+        "typescript": "files",
+        "go": "Files"
+      },
+      "methods": {
+        "python": "download_file",
+        "typescript": "downloadFile",
+        "go": "DownloadFile"
+      },
+      "http_method": "GET",
+      "path": "/files/{file_id}/content",
+      "parameters": [
+        {
+          "wire_name": "file_id",
+          "location": "path",
+          "required": true,
+          "python_name": "file_id",
+          "typescript_name": "fileId",
+          "go_name": "FileId",
+          "value": "file_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "downloadSkillVersion",
+      "resource": "Skills",
+      "clients": {
+        "python": "skills",
+        "typescript": "skills",
+        "go": "Skills"
+      },
+      "methods": {
+        "python": "download_skill_version",
+        "typescript": "downloadSkillVersion",
+        "go": "DownloadSkillVersion"
+      },
+      "http_method": "GET",
+      "path": "/skills/{id}/versions/{version}/content",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "skill_contract"
+        },
+        {
+          "wire_name": "version",
+          "location": "path",
+          "required": true,
+          "python_name": "version",
+          "typescript_name": "version",
+          "go_name": "Version",
+          "value": "1759178010641129"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "enableIdentity",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "enable_identity",
+        "typescript": "enableIdentity",
+        "go": "EnableIdentity"
+      },
+      "http_method": "POST",
+      "path": "/identities/{identity_id}/enable",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "ensureAdminIdentity",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "ensure_admin_identity",
+        "typescript": "ensureAdminIdentity",
+        "go": "EnsureAdminIdentity"
+      },
+      "http_method": "POST",
+      "path": "/identities/admin/ensure",
+      "parameters": [],
+      "request_body": null
+    },
+    {
+      "operation_id": "getBatch",
+      "resource": "Batches",
+      "clients": {
+        "python": "batches",
+        "typescript": "batches",
+        "go": "Batches"
+      },
+      "methods": {
+        "python": "get_batch",
+        "typescript": "getBatch",
+        "go": "GetBatch"
+      },
+      "http_method": "GET",
+      "path": "/batches/{batch_id}",
+      "parameters": [
+        {
+          "wire_name": "batch_id",
+          "location": "path",
+          "required": true,
+          "python_name": "batch_id",
+          "typescript_name": "batchId",
+          "go_name": "BatchId",
+          "value": "batch_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getBatchError",
+      "resource": "Batches",
+      "clients": {
+        "python": "batches",
+        "typescript": "batches",
+        "go": "Batches"
+      },
+      "methods": {
+        "python": "get_batch_error",
+        "typescript": "getBatchError",
+        "go": "GetBatchError"
+      },
+      "http_method": "GET",
+      "path": "/batches/{batch_id}/error",
+      "parameters": [
+        {
+          "wire_name": "batch_id",
+          "location": "path",
+          "required": true,
+          "python_name": "batch_id",
+          "typescript_name": "batchId",
+          "go_name": "BatchId",
+          "value": "batch_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getBatchOutput",
+      "resource": "Batches",
+      "clients": {
+        "python": "batches",
+        "typescript": "batches",
+        "go": "Batches"
+      },
+      "methods": {
+        "python": "get_batch_output",
+        "typescript": "getBatchOutput",
+        "go": "GetBatchOutput"
+      },
+      "http_method": "GET",
+      "path": "/batches/{batch_id}/output",
+      "parameters": [
+        {
+          "wire_name": "batch_id",
+          "location": "path",
+          "required": true,
+          "python_name": "batch_id",
+          "typescript_name": "batchId",
+          "go_name": "BatchId",
+          "value": "batch_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getChannel",
+      "resource": "Channels",
+      "clients": {
+        "python": "channels",
+        "typescript": "channels",
+        "go": "Channels"
+      },
+      "methods": {
+        "python": "get_channel",
+        "typescript": "getChannel",
+        "go": "GetChannel"
+      },
+      "http_method": "GET",
+      "path": "/channels/{channel_id}",
+      "parameters": [
+        {
+          "wire_name": "channel_id",
+          "location": "path",
+          "required": true,
+          "python_name": "channel_id",
+          "typescript_name": "channelId",
+          "go_name": "ChannelId",
+          "value": "ch_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getChannelQrSession",
+      "resource": "Channels",
+      "clients": {
+        "python": "channels",
+        "typescript": "channels",
+        "go": "Channels"
+      },
+      "methods": {
+        "python": "get_channel_qr_session",
+        "typescript": "getChannelQrSession",
+        "go": "GetChannelQrSession"
+      },
+      "http_method": "GET",
+      "path": "/qr_sessions/{session_key}",
+      "parameters": [
+        {
+          "wire_name": "session_key",
+          "location": "path",
+          "required": true,
+          "python_name": "session_key",
+          "typescript_name": "sessionKey",
+          "go_name": "SessionKey",
+          "value": "qr_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getEffectiveConfig",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "get_effective_config",
+        "typescript": "getEffectiveConfig",
+        "go": "GetEffectiveConfig"
+      },
+      "http_method": "GET",
+      "path": "/identities/{identity_id}/templates/{template_id}/effective",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "template_id",
+          "location": "path",
+          "required": true,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getEnvironment",
+      "resource": "Environments",
+      "clients": {
+        "python": "environments",
+        "typescript": "environments",
+        "go": "Environments"
+      },
+      "methods": {
+        "python": "get_environment",
+        "typescript": "getEnvironment",
+        "go": "GetEnvironment"
+      },
+      "http_method": "GET",
+      "path": "/environments/{id}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "env_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getFile",
+      "resource": "Files",
+      "clients": {
+        "python": "files",
+        "typescript": "files",
+        "go": "Files"
+      },
+      "methods": {
+        "python": "get_file",
+        "typescript": "getFile",
+        "go": "GetFile"
+      },
+      "http_method": "GET",
+      "path": "/files/{file_id}",
+      "parameters": [
+        {
+          "wire_name": "file_id",
+          "location": "path",
+          "required": true,
+          "python_name": "file_id",
+          "typescript_name": "fileId",
+          "go_name": "FileId",
+          "value": "file_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getIdentity",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "get_identity",
+        "typescript": "getIdentity",
+        "go": "GetIdentity"
+      },
+      "http_method": "GET",
+      "path": "/identities/{identity_id}",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getIdentityConfig",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "get_identity_config",
+        "typescript": "getIdentityConfig",
+        "go": "GetIdentityConfig"
+      },
+      "http_method": "GET",
+      "path": "/identities/{identity_id}/templates/{template_id}/config",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "template_id",
+          "location": "path",
+          "required": true,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getIdentityStats",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "get_identity_stats",
+        "typescript": "getIdentityStats",
+        "go": "GetIdentityStats"
+      },
+      "http_method": "GET",
+      "path": "/identities/stats",
+      "parameters": [],
+      "request_body": null
+    },
+    {
+      "operation_id": "getMemoryStore",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "get_memory_store",
+        "typescript": "getMemoryStore",
+        "go": "GetMemoryStore"
+      },
+      "http_method": "GET",
+      "path": "/memory_stores/{memory_store_id}",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getMemoryStoreMemory",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "get_memory_store_memory",
+        "typescript": "getMemoryStoreMemory",
+        "go": "GetMemoryStoreMemory"
+      },
+      "http_method": "GET",
+      "path": "/memory_stores/{memory_store_id}/memories/{memory_id}",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        },
+        {
+          "wire_name": "memory_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_id",
+          "typescript_name": "memoryId",
+          "go_name": "MemoryId",
+          "value": "memory_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getMemoryStoreMemoryVersion",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "get_memory_store_memory_version",
+        "typescript": "getMemoryStoreMemoryVersion",
+        "go": "GetMemoryStoreMemoryVersion"
+      },
+      "http_method": "GET",
+      "path": "/memory_stores/{memory_store_id}/memory_versions/{memory_version_id}",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        },
+        {
+          "wire_name": "memory_version_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_version_id",
+          "typescript_name": "memoryVersionId",
+          "go_name": "MemoryVersionId",
+          "value": "memver_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getSchedule",
+      "resource": "Schedules",
+      "clients": {
+        "python": "schedules",
+        "typescript": "schedules",
+        "go": "Schedules"
+      },
+      "methods": {
+        "python": "get_schedule",
+        "typescript": "getSchedule",
+        "go": "GetSchedule"
+      },
+      "http_method": "GET",
+      "path": "/schedules/{schedule_id}",
+      "parameters": [
+        {
+          "wire_name": "schedule_id",
+          "location": "path",
+          "required": true,
+          "python_name": "schedule_id",
+          "typescript_name": "scheduleId",
+          "go_name": "ScheduleId",
+          "value": "sched_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getScheduleRun",
+      "resource": "Schedules",
+      "clients": {
+        "python": "schedules",
+        "typescript": "schedules",
+        "go": "Schedules"
+      },
+      "methods": {
+        "python": "get_schedule_run",
+        "typescript": "getScheduleRun",
+        "go": "GetScheduleRun"
+      },
+      "http_method": "GET",
+      "path": "/schedule_runs/{run_id}",
+      "parameters": [
+        {
+          "wire_name": "run_id",
+          "location": "path",
+          "required": true,
+          "python_name": "run_id",
+          "typescript_name": "runId",
+          "go_name": "RunId",
+          "value": "run_contract"
+        },
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": false,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getSession",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "get_session",
+        "typescript": "getSession",
+        "go": "GetSession"
+      },
+      "http_method": "GET",
+      "path": "/sessions/{session_id}",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getSessionThread",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "get_session_thread",
+        "typescript": "getSessionThread",
+        "go": "GetSessionThread"
+      },
+      "http_method": "GET",
+      "path": "/sessions/{session_id}/threads/{thread_id}",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "thread_id",
+          "location": "path",
+          "required": true,
+          "python_name": "thread_id",
+          "typescript_name": "threadId",
+          "go_name": "ThreadId",
+          "value": "sthr_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getSkill",
+      "resource": "Skills",
+      "clients": {
+        "python": "skills",
+        "typescript": "skills",
+        "go": "Skills"
+      },
+      "methods": {
+        "python": "get_skill",
+        "typescript": "getSkill",
+        "go": "GetSkill"
+      },
+      "http_method": "GET",
+      "path": "/skills/{id}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "skill_contract"
+        },
+        {
+          "wire_name": "include_content",
+          "location": "query",
+          "required": false,
+          "python_name": "include_content",
+          "typescript_name": "includeContent",
+          "go_name": "IncludeContent",
+          "value": true
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getSkillVersion",
+      "resource": "Skills",
+      "clients": {
+        "python": "skills",
+        "typescript": "skills",
+        "go": "Skills"
+      },
+      "methods": {
+        "python": "get_skill_version",
+        "typescript": "getSkillVersion",
+        "go": "GetSkillVersion"
+      },
+      "http_method": "GET",
+      "path": "/skills/{id}/versions/{version}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "skill_contract"
+        },
+        {
+          "wire_name": "version",
+          "location": "path",
+          "required": true,
+          "python_name": "version",
+          "typescript_name": "version",
+          "go_name": "Version",
+          "value": "1759178010641129"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getTemplate",
+      "resource": "Templates",
+      "clients": {
+        "python": "templates",
+        "typescript": "templates",
+        "go": "Templates"
+      },
+      "methods": {
+        "python": "get_template",
+        "typescript": "getTemplate",
+        "go": "GetTemplate"
+      },
+      "http_method": "GET",
+      "path": "/templates/{template_id}",
+      "parameters": [
+        {
+          "wire_name": "template_id",
+          "location": "path",
+          "required": true,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getVault",
+      "resource": "Vaults",
+      "clients": {
+        "python": "vaults",
+        "typescript": "vaults",
+        "go": "Vaults"
+      },
+      "methods": {
+        "python": "get_vault",
+        "typescript": "getVault",
+        "go": "GetVault"
+      },
+      "http_method": "GET",
+      "path": "/vaults/{id}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "vault_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "getVaultCredential",
+      "resource": "Vaults",
+      "clients": {
+        "python": "vaults",
+        "typescript": "vaults",
+        "go": "Vaults"
+      },
+      "methods": {
+        "python": "get_vault_credential",
+        "typescript": "getVaultCredential",
+        "go": "GetVaultCredential"
+      },
+      "http_method": "GET",
+      "path": "/vaults/{id}/credentials/{cred_id}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "vault_contract"
+        },
+        {
+          "wire_name": "cred_id",
+          "location": "path",
+          "required": true,
+          "python_name": "cred_id",
+          "typescript_name": "credId",
+          "go_name": "CredId",
+          "value": "cred_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listBatchTasks",
+      "resource": "Batches",
+      "clients": {
+        "python": "batches",
+        "typescript": "batches",
+        "go": "Batches"
+      },
+      "methods": {
+        "python": "list_batch_tasks",
+        "typescript": "listBatchTasks",
+        "go": "ListBatchTasks"
+      },
+      "http_method": "GET",
+      "path": "/batches/{batch_id}/tasks",
+      "parameters": [
+        {
+          "wire_name": "batch_id",
+          "location": "path",
+          "required": true,
+          "python_name": "batch_id",
+          "typescript_name": "batchId",
+          "go_name": "BatchId",
+          "value": "batch_contract"
+        },
+        {
+          "wire_name": "status",
+          "location": "query",
+          "required": false,
+          "python_name": "status",
+          "typescript_name": "status",
+          "go_name": "Status",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "custom_id",
+          "location": "query",
+          "required": false,
+          "python_name": "custom_id",
+          "typescript_name": "customId",
+          "go_name": "CustomId",
+          "value": "custom_contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listBatches",
+      "resource": "Batches",
+      "clients": {
+        "python": "batches",
+        "typescript": "batches",
+        "go": "Batches"
+      },
+      "methods": {
+        "python": "list_batches",
+        "typescript": "listBatches",
+        "go": "ListBatches"
+      },
+      "http_method": "GET",
+      "path": "/batches",
+      "parameters": [
+        {
+          "wire_name": "status",
+          "location": "query",
+          "required": false,
+          "python_name": "status",
+          "typescript_name": "status",
+          "go_name": "Status",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listChannels",
+      "resource": "Channels",
+      "clients": {
+        "python": "channels",
+        "typescript": "channels",
+        "go": "Channels"
+      },
+      "methods": {
+        "python": "list_channels",
+        "typescript": "listChannels",
+        "go": "ListChannels"
+      },
+      "http_method": "GET",
+      "path": "/channels",
+      "parameters": [
+        {
+          "wire_name": "channel_type",
+          "location": "query",
+          "required": false,
+          "python_name": "channel_type",
+          "typescript_name": "channelType",
+          "go_name": "ChannelType",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "enabled",
+          "location": "query",
+          "required": false,
+          "python_name": "enabled",
+          "typescript_name": "enabled",
+          "go_name": "Enabled",
+          "value": true
+        },
+        {
+          "wire_name": "binding_status",
+          "location": "query",
+          "required": false,
+          "python_name": "binding_status",
+          "typescript_name": "bindingStatus",
+          "go_name": "BindingStatus",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": false,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "template_id",
+          "location": "query",
+          "required": false,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listEnvironment",
+      "resource": "Environments",
+      "clients": {
+        "python": "environments",
+        "typescript": "environments",
+        "go": "Environments"
+      },
+      "methods": {
+        "python": "list_environment",
+        "typescript": "listEnvironment",
+        "go": "ListEnvironment"
+      },
+      "http_method": "GET",
+      "path": "/environments",
+      "parameters": [
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "page",
+          "location": "query",
+          "required": false,
+          "python_name": "page",
+          "typescript_name": "page",
+          "go_name": "Page",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listFile",
+      "resource": "Files",
+      "clients": {
+        "python": "files",
+        "typescript": "files",
+        "go": "Files"
+      },
+      "methods": {
+        "python": "list_file",
+        "typescript": "listFile",
+        "go": "ListFile"
+      },
+      "http_method": "GET",
+      "path": "/files",
+      "parameters": [
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "page",
+          "location": "query",
+          "required": false,
+          "python_name": "page",
+          "typescript_name": "page",
+          "go_name": "Page",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        },
+        {
+          "wire_name": "name",
+          "location": "query",
+          "required": false,
+          "python_name": "name",
+          "typescript_name": "name",
+          "go_name": "Name",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "scope_id",
+          "location": "query",
+          "required": false,
+          "python_name": "scope_id",
+          "typescript_name": "scopeId",
+          "go_name": "ScopeId",
+          "value": "scope_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listIdentities",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "list_identities",
+        "typescript": "listIdentities",
+        "go": "ListIdentities"
+      },
+      "http_method": "GET",
+      "path": "/identities",
+      "parameters": [
+        {
+          "wire_name": "external_id",
+          "location": "query",
+          "required": false,
+          "python_name": "external_id",
+          "typescript_name": "externalId",
+          "go_name": "ExternalId",
+          "value": "sdk-contract-user"
+        },
+        {
+          "wire_name": "identity_ids",
+          "location": "query",
+          "required": false,
+          "python_name": "identity_ids",
+          "typescript_name": "identityIds",
+          "go_name": "IdentityIds",
+          "value": [
+            "sdk-contract"
+          ]
+        },
+        {
+          "wire_name": "search",
+          "location": "query",
+          "required": false,
+          "python_name": "search",
+          "typescript_name": "search",
+          "go_name": "Search",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "enabled",
+          "location": "query",
+          "required": false,
+          "python_name": "enabled",
+          "typescript_name": "enabled",
+          "go_name": "Enabled",
+          "value": true
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listIdentityAgents",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "list_identity_agents",
+        "typescript": "listIdentityAgents",
+        "go": "ListIdentityAgents"
+      },
+      "http_method": "GET",
+      "path": "/identities/{identity_id}/agents",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listIdentityConfigs",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "list_identity_configs",
+        "typescript": "listIdentityConfigs",
+        "go": "ListIdentityConfigs"
+      },
+      "http_method": "GET",
+      "path": "/identities/{identity_id}/templates",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "template_id",
+          "location": "query",
+          "required": false,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        },
+        {
+          "wire_name": "status",
+          "location": "query",
+          "required": false,
+          "python_name": "status",
+          "typescript_name": "status",
+          "go_name": "Status",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listMemoryStore",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "list_memory_store",
+        "typescript": "listMemoryStore",
+        "go": "ListMemoryStore"
+      },
+      "http_method": "GET",
+      "path": "/memory_stores",
+      "parameters": [
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "system_managed",
+          "location": "query",
+          "required": false,
+          "python_name": "system_managed",
+          "typescript_name": "systemManaged",
+          "go_name": "SystemManaged",
+          "value": true
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listMemoryStoreMemoryMemories",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "list_memory_store_memory_memories",
+        "typescript": "listMemoryStoreMemoryMemories",
+        "go": "ListMemoryStoreMemoryMemories"
+      },
+      "http_method": "GET",
+      "path": "/memory_stores/{memory_store_id}/memories",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "path_prefix",
+          "location": "query",
+          "required": false,
+          "python_name": "path_prefix",
+          "typescript_name": "pathPrefix",
+          "go_name": "PathPrefix",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listMemoryStoreMemoryVersion",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "list_memory_store_memory_version",
+        "typescript": "listMemoryStoreMemoryVersion",
+        "go": "ListMemoryStoreMemoryVersion"
+      },
+      "http_method": "GET",
+      "path": "/memory_stores/{memory_store_id}/memory_versions",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "memory_id",
+          "location": "query",
+          "required": false,
+          "python_name": "memory_id",
+          "typescript_name": "memoryId",
+          "go_name": "MemoryId",
+          "value": "memory_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listMemoryStoreMounts",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "list_memory_store_mounts",
+        "typescript": "listMemoryStoreMounts",
+        "go": "ListMemoryStoreMounts"
+      },
+      "http_method": "GET",
+      "path": "/identities/{identity_id}/templates/{template_id}/memory_stores",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "template_id",
+          "location": "path",
+          "required": true,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listModels",
+      "resource": "Models",
+      "clients": {
+        "python": "models",
+        "typescript": "models",
+        "go": "Models"
+      },
+      "methods": {
+        "python": "list_models",
+        "typescript": "listModels",
+        "go": "ListModels"
+      },
+      "http_method": "GET",
+      "path": "/models",
+      "parameters": [],
+      "request_body": null
+    },
+    {
+      "operation_id": "listScheduleRuns",
+      "resource": "Schedules",
+      "clients": {
+        "python": "schedules",
+        "typescript": "schedules",
+        "go": "Schedules"
+      },
+      "methods": {
+        "python": "list_schedule_runs",
+        "typescript": "listScheduleRuns",
+        "go": "ListScheduleRuns"
+      },
+      "http_method": "GET",
+      "path": "/schedule_runs",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "schedule_id",
+          "location": "query",
+          "required": false,
+          "python_name": "schedule_id",
+          "typescript_name": "scheduleId",
+          "go_name": "ScheduleId",
+          "value": "sched_contract"
+        },
+        {
+          "wire_name": "status",
+          "location": "query",
+          "required": false,
+          "python_name": "status",
+          "typescript_name": "status",
+          "go_name": "Status",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "trigger_type",
+          "location": "query",
+          "required": false,
+          "python_name": "trigger_type",
+          "typescript_name": "triggerType",
+          "go_name": "TriggerType",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "has_error",
+          "location": "query",
+          "required": false,
+          "python_name": "has_error",
+          "typescript_name": "hasError",
+          "go_name": "HasError",
+          "value": true
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        },
+        {
+          "wire_name": "sort_by",
+          "location": "query",
+          "required": false,
+          "python_name": "sort_by",
+          "typescript_name": "sortBy",
+          "go_name": "SortBy",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "order",
+          "location": "query",
+          "required": false,
+          "python_name": "order",
+          "typescript_name": "order",
+          "go_name": "Order",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listSchedules",
+      "resource": "Schedules",
+      "clients": {
+        "python": "schedules",
+        "typescript": "schedules",
+        "go": "Schedules"
+      },
+      "methods": {
+        "python": "list_schedules",
+        "typescript": "listSchedules",
+        "go": "ListSchedules"
+      },
+      "http_method": "GET",
+      "path": "/schedules",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": false,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "template_id",
+          "location": "query",
+          "required": false,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        },
+        {
+          "wire_name": "status",
+          "location": "query",
+          "required": false,
+          "python_name": "status",
+          "typescript_name": "status",
+          "go_name": "Status",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "include_archived",
+          "location": "query",
+          "required": false,
+          "python_name": "include_archived",
+          "typescript_name": "includeArchived",
+          "go_name": "IncludeArchived",
+          "value": true
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        },
+        {
+          "wire_name": "sort_by",
+          "location": "query",
+          "required": false,
+          "python_name": "sort_by",
+          "typescript_name": "sortBy",
+          "go_name": "SortBy",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "order",
+          "location": "query",
+          "required": false,
+          "python_name": "order",
+          "typescript_name": "order",
+          "go_name": "Order",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listSessionEvents",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "list_session_events",
+        "typescript": "listSessionEvents",
+        "go": "ListSessionEvents"
+      },
+      "http_method": "GET",
+      "path": "/sessions/{session_id}/events",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        },
+        {
+          "wire_name": "order",
+          "location": "query",
+          "required": false,
+          "python_name": "order",
+          "typescript_name": "order",
+          "go_name": "Order",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "type",
+          "location": "query",
+          "required": false,
+          "python_name": "type",
+          "typescript_name": "type",
+          "go_name": "Type",
+          "value": "custom"
+        },
+        {
+          "wire_name": "types[]",
+          "location": "query",
+          "required": false,
+          "python_name": "types",
+          "typescript_name": "types",
+          "go_name": "Types",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "include_tool_calls",
+          "location": "query",
+          "required": false,
+          "python_name": "include_tool_calls",
+          "typescript_name": "includeToolCalls",
+          "go_name": "IncludeToolCalls",
+          "value": true
+        },
+        {
+          "wire_name": "include_thinking",
+          "location": "query",
+          "required": false,
+          "python_name": "include_thinking",
+          "typescript_name": "includeThinking",
+          "go_name": "IncludeThinking",
+          "value": true
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listSessionThreadEvents",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "list_session_thread_events",
+        "typescript": "listSessionThreadEvents",
+        "go": "ListSessionThreadEvents"
+      },
+      "http_method": "GET",
+      "path": "/sessions/{session_id}/threads/{thread_id}/events",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "thread_id",
+          "location": "path",
+          "required": true,
+          "python_name": "thread_id",
+          "typescript_name": "threadId",
+          "go_name": "ThreadId",
+          "value": "sthr_contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listSessionThreads",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "list_session_threads",
+        "typescript": "listSessionThreads",
+        "go": "ListSessionThreads"
+      },
+      "http_method": "GET",
+      "path": "/sessions/{session_id}/threads",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listSessions",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "list_sessions",
+        "typescript": "listSessions",
+        "go": "ListSessions"
+      },
+      "http_method": "GET",
+      "path": "/sessions",
+      "parameters": [
+        {
+          "wire_name": "identity_ids",
+          "location": "query",
+          "required": false,
+          "python_name": "identity_ids",
+          "typescript_name": "identityIds",
+          "go_name": "IdentityIds",
+          "value": {}
+        },
+        {
+          "wire_name": "template_id",
+          "location": "query",
+          "required": false,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        },
+        {
+          "wire_name": "source_type",
+          "location": "query",
+          "required": false,
+          "python_name": "source_type",
+          "typescript_name": "sourceType",
+          "go_name": "SourceType",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "created_at[gt]",
+          "location": "query",
+          "required": false,
+          "python_name": "created_at_gt",
+          "typescript_name": "createdAtGt",
+          "go_name": "CreatedAtGt",
+          "value": "2026-08-31T00:00:00Z"
+        },
+        {
+          "wire_name": "created_at[gte]",
+          "location": "query",
+          "required": false,
+          "python_name": "created_at_gte",
+          "typescript_name": "createdAtGte",
+          "go_name": "CreatedAtGte",
+          "value": "2026-08-31T00:00:00Z"
+        },
+        {
+          "wire_name": "created_at[lt]",
+          "location": "query",
+          "required": false,
+          "python_name": "created_at_lt",
+          "typescript_name": "createdAtLt",
+          "go_name": "CreatedAtLt",
+          "value": "2026-08-31T00:00:00Z"
+        },
+        {
+          "wire_name": "created_at[lte]",
+          "location": "query",
+          "required": false,
+          "python_name": "created_at_lte",
+          "typescript_name": "createdAtLte",
+          "go_name": "CreatedAtLte",
+          "value": "2026-08-31T00:00:00Z"
+        },
+        {
+          "wire_name": "updated_at[gt]",
+          "location": "query",
+          "required": false,
+          "python_name": "updated_at_gt",
+          "typescript_name": "updatedAtGt",
+          "go_name": "UpdatedAtGt",
+          "value": "2026-08-31T00:00:00Z"
+        },
+        {
+          "wire_name": "updated_at[gte]",
+          "location": "query",
+          "required": false,
+          "python_name": "updated_at_gte",
+          "typescript_name": "updatedAtGte",
+          "go_name": "UpdatedAtGte",
+          "value": "2026-08-31T00:00:00Z"
+        },
+        {
+          "wire_name": "updated_at[lt]",
+          "location": "query",
+          "required": false,
+          "python_name": "updated_at_lt",
+          "typescript_name": "updatedAtLt",
+          "go_name": "UpdatedAtLt",
+          "value": "2026-08-31T00:00:00Z"
+        },
+        {
+          "wire_name": "updated_at[lte]",
+          "location": "query",
+          "required": false,
+          "python_name": "updated_at_lte",
+          "typescript_name": "updatedAtLte",
+          "go_name": "UpdatedAtLte",
+          "value": "2026-08-31T00:00:00Z"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        },
+        {
+          "wire_name": "order",
+          "location": "query",
+          "required": false,
+          "python_name": "order",
+          "typescript_name": "order",
+          "go_name": "Order",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "include_archived",
+          "location": "query",
+          "required": false,
+          "python_name": "include_archived",
+          "typescript_name": "includeArchived",
+          "go_name": "IncludeArchived",
+          "value": true
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listSkill",
+      "resource": "Skills",
+      "clients": {
+        "python": "skills",
+        "typescript": "skills",
+        "go": "Skills"
+      },
+      "methods": {
+        "python": "list_skill",
+        "typescript": "listSkill",
+        "go": "ListSkill"
+      },
+      "http_method": "GET",
+      "path": "/skills",
+      "parameters": [
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "page",
+          "location": "query",
+          "required": false,
+          "python_name": "page",
+          "typescript_name": "page",
+          "go_name": "Page",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        },
+        {
+          "wire_name": "display_title",
+          "location": "query",
+          "required": false,
+          "python_name": "display_title",
+          "typescript_name": "displayTitle",
+          "go_name": "DisplayTitle",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "source",
+          "location": "query",
+          "required": false,
+          "python_name": "source",
+          "typescript_name": "source",
+          "go_name": "Source",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "name",
+          "location": "query",
+          "required": false,
+          "python_name": "name",
+          "typescript_name": "name",
+          "go_name": "Name",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listSkillVersion",
+      "resource": "Skills",
+      "clients": {
+        "python": "skills",
+        "typescript": "skills",
+        "go": "Skills"
+      },
+      "methods": {
+        "python": "list_skill_version",
+        "typescript": "listSkillVersion",
+        "go": "ListSkillVersion"
+      },
+      "http_method": "GET",
+      "path": "/skills/{id}/versions",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "skill_contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "page",
+          "location": "query",
+          "required": false,
+          "python_name": "page",
+          "typescript_name": "page",
+          "go_name": "Page",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listTemplates",
+      "resource": "Templates",
+      "clients": {
+        "python": "templates",
+        "typescript": "templates",
+        "go": "Templates"
+      },
+      "methods": {
+        "python": "list_templates",
+        "typescript": "listTemplates",
+        "go": "ListTemplates"
+      },
+      "http_method": "GET",
+      "path": "/templates",
+      "parameters": [
+        {
+          "wire_name": "status",
+          "location": "query",
+          "required": false,
+          "python_name": "status",
+          "typescript_name": "status",
+          "go_name": "Status",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listVault",
+      "resource": "Vaults",
+      "clients": {
+        "python": "vaults",
+        "typescript": "vaults",
+        "go": "Vaults"
+      },
+      "methods": {
+        "python": "list_vault",
+        "typescript": "listVault",
+        "go": "ListVault"
+      },
+      "http_method": "GET",
+      "path": "/vaults",
+      "parameters": [
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "page",
+          "location": "query",
+          "required": false,
+          "python_name": "page",
+          "typescript_name": "page",
+          "go_name": "Page",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        },
+        {
+          "wire_name": "name",
+          "location": "query",
+          "required": false,
+          "python_name": "name",
+          "typescript_name": "name",
+          "go_name": "Name",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "listVaultCredential",
+      "resource": "Vaults",
+      "clients": {
+        "python": "vaults",
+        "typescript": "vaults",
+        "go": "Vaults"
+      },
+      "methods": {
+        "python": "list_vault_credential",
+        "typescript": "listVaultCredential",
+        "go": "ListVaultCredential"
+      },
+      "http_method": "GET",
+      "path": "/vaults/{id}/credentials",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "vault_contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "python_name": "limit",
+          "typescript_name": "limit",
+          "go_name": "Limit",
+          "value": 1
+        },
+        {
+          "wire_name": "page",
+          "location": "query",
+          "required": false,
+          "python_name": "page",
+          "typescript_name": "page",
+          "go_name": "Page",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "python_name": "after_id",
+          "typescript_name": "afterId",
+          "go_name": "AfterId",
+          "value": "after_contract"
+        },
+        {
+          "wire_name": "before_id",
+          "location": "query",
+          "required": false,
+          "python_name": "before_id",
+          "typescript_name": "beforeId",
+          "go_name": "BeforeId",
+          "value": "before_contract"
+        },
+        {
+          "wire_name": "name",
+          "location": "query",
+          "required": false,
+          "python_name": "name",
+          "typescript_name": "name",
+          "go_name": "Name",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "mountMemoryStore",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "mount_memory_store",
+        "typescript": "mountMemoryStore",
+        "go": "MountMemoryStore"
+      },
+      "http_method": "POST",
+      "path": "/identities/{identity_id}/templates/{template_id}/memory_stores",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "template_id",
+          "location": "path",
+          "required": true,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "MountMemoryStoreRequest",
+        "python_name": "mount_memory_store_request",
+        "typescript_name": "mountMemoryStoreRequest",
+        "go_name": "MountMemoryStoreRequest",
+        "value": {
+          "memory_store_id": "memstore_contract"
+        }
+      }
+    },
+    {
+      "operation_id": "pairChannel",
+      "resource": "Channels",
+      "clients": {
+        "python": "channels",
+        "typescript": "channels",
+        "go": "Channels"
+      },
+      "methods": {
+        "python": "pair_channel",
+        "typescript": "pairChannel",
+        "go": "PairChannel"
+      },
+      "http_method": "POST",
+      "path": "/channel_pairings",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "PairChannelRequest",
+        "python_name": "pair_channel_request",
+        "typescript_name": "pairChannelRequest",
+        "go_name": "PairChannelRequest",
+        "value": {
+          "code": "123456",
+          "identity_id": "idn_contract",
+          "template_id": "tmpl_contract"
+        }
+      }
+    },
+    {
+      "operation_id": "pauseSchedule",
+      "resource": "Schedules",
+      "clients": {
+        "python": "schedules",
+        "typescript": "schedules",
+        "go": "Schedules"
+      },
+      "methods": {
+        "python": "pause_schedule",
+        "typescript": "pauseSchedule",
+        "go": "PauseSchedule"
+      },
+      "http_method": "POST",
+      "path": "/schedules/{schedule_id}/pause",
+      "parameters": [
+        {
+          "wire_name": "schedule_id",
+          "location": "path",
+          "required": true,
+          "python_name": "schedule_id",
+          "typescript_name": "scheduleId",
+          "go_name": "ScheduleId",
+          "value": "sched_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "redactMemoryStoreMemoryVersion",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "redact_memory_store_memory_version",
+        "typescript": "redactMemoryStoreMemoryVersion",
+        "go": "RedactMemoryStoreMemoryVersion"
+      },
+      "http_method": "POST",
+      "path": "/memory_stores/{memory_store_id}/memory_versions/{memory_version_id}/redact",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        },
+        {
+          "wire_name": "memory_version_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_version_id",
+          "typescript_name": "memoryVersionId",
+          "go_name": "MemoryVersionId",
+          "value": "memver_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "runSchedule",
+      "resource": "Schedules",
+      "clients": {
+        "python": "schedules",
+        "typescript": "schedules",
+        "go": "Schedules"
+      },
+      "methods": {
+        "python": "run_schedule",
+        "typescript": "runSchedule",
+        "go": "RunSchedule"
+      },
+      "http_method": "POST",
+      "path": "/schedules/{schedule_id}/run",
+      "parameters": [
+        {
+          "wire_name": "schedule_id",
+          "location": "path",
+          "required": true,
+          "python_name": "schedule_id",
+          "typescript_name": "scheduleId",
+          "go_name": "ScheduleId",
+          "value": "sched_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "sendSessionEvents",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "send_session_events",
+        "typescript": "sendSessionEvents",
+        "go": "SendSessionEvents"
+      },
+      "http_method": "POST",
+      "path": "/sessions/{session_id}/events",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "SendSessionEventsRequest",
+        "python_name": "send_session_events_request",
+        "typescript_name": "sendSessionEventsRequest",
+        "go_name": "SendSessionEventsRequest",
+        "value": {
+          "events": [
+            {}
+          ]
+        }
+      }
+    },
+    {
+      "operation_id": "streamSessionEvents",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "stream_session_events",
+        "typescript": "streamSessionEvents",
+        "go": "StreamSessionEvents"
+      },
+      "http_method": "GET",
+      "path": "/sessions/{session_id}/events/stream",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "event_deltas[]",
+          "location": "query",
+          "required": false,
+          "python_name": "event_deltas",
+          "typescript_name": "eventDeltas",
+          "go_name": "EventDeltas",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "include_tool_calls",
+          "location": "query",
+          "required": false,
+          "python_name": "include_tool_calls",
+          "typescript_name": "includeToolCalls",
+          "go_name": "IncludeToolCalls",
+          "value": true
+        },
+        {
+          "wire_name": "include_thinking",
+          "location": "query",
+          "required": false,
+          "python_name": "include_thinking",
+          "typescript_name": "includeThinking",
+          "go_name": "IncludeThinking",
+          "value": true
+        },
+        {
+          "wire_name": "Last-Event-ID",
+          "location": "header",
+          "required": false,
+          "python_name": "last_event_id",
+          "typescript_name": "lastEventId",
+          "go_name": "LastEventId",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "streamSessionThreadEvents",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "stream_session_thread_events",
+        "typescript": "streamSessionThreadEvents",
+        "go": "StreamSessionThreadEvents"
+      },
+      "http_method": "GET",
+      "path": "/sessions/{session_id}/threads/{thread_id}/stream",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "thread_id",
+          "location": "path",
+          "required": true,
+          "python_name": "thread_id",
+          "typescript_name": "threadId",
+          "go_name": "ThreadId",
+          "value": "sthr_contract"
+        },
+        {
+          "wire_name": "Last-Event-ID",
+          "location": "header",
+          "required": false,
+          "python_name": "last_event_id",
+          "typescript_name": "lastEventId",
+          "go_name": "LastEventId",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "unpairChannel",
+      "resource": "Channels",
+      "clients": {
+        "python": "channels",
+        "typescript": "channels",
+        "go": "Channels"
+      },
+      "methods": {
+        "python": "unpair_channel",
+        "typescript": "unpairChannel",
+        "go": "UnpairChannel"
+      },
+      "http_method": "DELETE",
+      "path": "/channel_pairings/{pairing_id}",
+      "parameters": [
+        {
+          "wire_name": "pairing_id",
+          "location": "path",
+          "required": true,
+          "python_name": "pairing_id",
+          "typescript_name": "pairingId",
+          "go_name": "PairingId",
+          "value": "pair_contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "unpauseSchedule",
+      "resource": "Schedules",
+      "clients": {
+        "python": "schedules",
+        "typescript": "schedules",
+        "go": "Schedules"
+      },
+      "methods": {
+        "python": "unpause_schedule",
+        "typescript": "unpauseSchedule",
+        "go": "UnpauseSchedule"
+      },
+      "http_method": "POST",
+      "path": "/schedules/{schedule_id}/unpause",
+      "parameters": [
+        {
+          "wire_name": "schedule_id",
+          "location": "path",
+          "required": true,
+          "python_name": "schedule_id",
+          "typescript_name": "scheduleId",
+          "go_name": "ScheduleId",
+          "value": "sched_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": null
+    },
+    {
+      "operation_id": "updateChannel",
+      "resource": "Channels",
+      "clients": {
+        "python": "channels",
+        "typescript": "channels",
+        "go": "Channels"
+      },
+      "methods": {
+        "python": "update_channel",
+        "typescript": "updateChannel",
+        "go": "UpdateChannel"
+      },
+      "http_method": "POST",
+      "path": "/channels/{channel_id}",
+      "parameters": [
+        {
+          "wire_name": "channel_id",
+          "location": "path",
+          "required": true,
+          "python_name": "channel_id",
+          "typescript_name": "channelId",
+          "go_name": "ChannelId",
+          "value": "ch_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "UpdateChannelRequest",
+        "python_name": "update_channel_request",
+        "typescript_name": "updateChannelRequest",
+        "go_name": "UpdateChannelRequest",
+        "value": {}
+      }
+    },
+    {
+      "operation_id": "updateEnvironment",
+      "resource": "Environments",
+      "clients": {
+        "python": "environments",
+        "typescript": "environments",
+        "go": "Environments"
+      },
+      "methods": {
+        "python": "update_environment",
+        "typescript": "updateEnvironment",
+        "go": "UpdateEnvironment"
+      },
+      "http_method": "POST",
+      "path": "/environments/{id}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "env_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "UpdateEnvironmentRequest",
+        "python_name": "update_environment_request",
+        "typescript_name": "updateEnvironmentRequest",
+        "go_name": "UpdateEnvironmentRequest",
+        "value": {}
+      }
+    },
+    {
+      "operation_id": "updateIdentity",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "update_identity",
+        "typescript": "updateIdentity",
+        "go": "UpdateIdentity"
+      },
+      "http_method": "POST",
+      "path": "/identities/{identity_id}",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "UpdateIdentityRequest",
+        "python_name": "update_identity_request",
+        "typescript_name": "updateIdentityRequest",
+        "go_name": "UpdateIdentityRequest",
+        "value": {}
+      }
+    },
+    {
+      "operation_id": "updateMemoryStore",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "update_memory_store",
+        "typescript": "updateMemoryStore",
+        "go": "UpdateMemoryStore"
+      },
+      "http_method": "POST",
+      "path": "/memory_stores/{memory_store_id}",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "UpdateMemoryStoreRequest",
+        "python_name": "update_memory_store_request",
+        "typescript_name": "updateMemoryStoreRequest",
+        "go_name": "UpdateMemoryStoreRequest",
+        "value": {}
+      }
+    },
+    {
+      "operation_id": "updateMemoryStoreMemory",
+      "resource": "MemoryStores",
+      "clients": {
+        "python": "memory_stores",
+        "typescript": "memoryStores",
+        "go": "MemoryStores"
+      },
+      "methods": {
+        "python": "update_memory_store_memory",
+        "typescript": "updateMemoryStoreMemory",
+        "go": "UpdateMemoryStoreMemory"
+      },
+      "http_method": "POST",
+      "path": "/memory_stores/{memory_store_id}/memories/{memory_id}",
+      "parameters": [
+        {
+          "wire_name": "memory_store_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_store_id",
+          "typescript_name": "memoryStoreId",
+          "go_name": "MemoryStoreId",
+          "value": "memstore_contract"
+        },
+        {
+          "wire_name": "memory_id",
+          "location": "path",
+          "required": true,
+          "python_name": "memory_id",
+          "typescript_name": "memoryId",
+          "go_name": "MemoryId",
+          "value": "memory_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "UpdateMemoryStoreMemoryRequest",
+        "python_name": "update_memory_store_memory_request",
+        "typescript_name": "updateMemoryStoreMemoryRequest",
+        "go_name": "UpdateMemoryStoreMemoryRequest",
+        "value": {
+          "content": "SDK contract content"
+        }
+      }
+    },
+    {
+      "operation_id": "updateSchedule",
+      "resource": "Schedules",
+      "clients": {
+        "python": "schedules",
+        "typescript": "schedules",
+        "go": "Schedules"
+      },
+      "methods": {
+        "python": "update_schedule",
+        "typescript": "updateSchedule",
+        "go": "UpdateSchedule"
+      },
+      "http_method": "POST",
+      "path": "/schedules/{schedule_id}",
+      "parameters": [
+        {
+          "wire_name": "schedule_id",
+          "location": "path",
+          "required": true,
+          "python_name": "schedule_id",
+          "typescript_name": "scheduleId",
+          "go_name": "ScheduleId",
+          "value": "sched_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "UpdateScheduleRequest",
+        "python_name": "update_schedule_request",
+        "typescript_name": "updateScheduleRequest",
+        "go_name": "UpdateScheduleRequest",
+        "value": {}
+      }
+    },
+    {
+      "operation_id": "updateSession",
+      "resource": "Sessions",
+      "clients": {
+        "python": "sessions",
+        "typescript": "sessions",
+        "go": "Sessions"
+      },
+      "methods": {
+        "python": "update_session",
+        "typescript": "updateSession",
+        "go": "UpdateSession"
+      },
+      "http_method": "POST",
+      "path": "/sessions/{session_id}",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "path",
+          "required": true,
+          "python_name": "session_id",
+          "typescript_name": "sessionId",
+          "go_name": "SessionId",
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "UpdateSessionRequest",
+        "python_name": "update_session_request",
+        "typescript_name": "updateSessionRequest",
+        "go_name": "UpdateSessionRequest",
+        "value": {}
+      }
+    },
+    {
+      "operation_id": "updateSkill",
+      "resource": "Skills",
+      "clients": {
+        "python": "skills",
+        "typescript": "skills",
+        "go": "Skills"
+      },
+      "methods": {
+        "python": "update_skill",
+        "typescript": "updateSkill",
+        "go": "UpdateSkill"
+      },
+      "http_method": "PUT",
+      "path": "/skills/{id}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "skill_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "UpdateSkillRequest",
+        "python_name": "update_skill_request",
+        "typescript_name": "updateSkillRequest",
+        "go_name": "UpdateSkillRequest",
+        "value": {}
+      }
+    },
+    {
+      "operation_id": "updateTemplate",
+      "resource": "Templates",
+      "clients": {
+        "python": "templates",
+        "typescript": "templates",
+        "go": "Templates"
+      },
+      "methods": {
+        "python": "update_template",
+        "typescript": "updateTemplate",
+        "go": "UpdateTemplate"
+      },
+      "http_method": "POST",
+      "path": "/templates/{template_id}",
+      "parameters": [
+        {
+          "wire_name": "template_id",
+          "location": "path",
+          "required": true,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        },
+        {
+          "wire_name": "X-Qoder-Beta",
+          "location": "header",
+          "required": false,
+          "python_name": "x_qoder_beta",
+          "typescript_name": "xQoderBeta",
+          "go_name": "XQoderBeta",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "UpdateTemplateRequest",
+        "python_name": "update_template_request",
+        "typescript_name": "updateTemplateRequest",
+        "go_name": "UpdateTemplateRequest",
+        "value": {}
+      }
+    },
+    {
+      "operation_id": "uploadFile",
+      "resource": "Files",
+      "clients": {
+        "python": "files",
+        "typescript": "files",
+        "go": "Files"
+      },
+      "methods": {
+        "python": "upload_file",
+        "typescript": "uploadFile",
+        "go": "UploadFile"
+      },
+      "http_method": "POST",
+      "path": "/files",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "multipart",
+        "fields": [
+          {
+            "wire_name": "file",
+            "python_name": "file",
+            "typescript_name": "file",
+            "go_name": "File",
+            "binary": true,
+            "value": null
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "upsertIdentityConfig",
+      "resource": "Identities",
+      "clients": {
+        "python": "identities",
+        "typescript": "identities",
+        "go": "Identities"
+      },
+      "methods": {
+        "python": "upsert_identity_config",
+        "typescript": "upsertIdentityConfig",
+        "go": "UpsertIdentityConfig"
+      },
+      "http_method": "POST",
+      "path": "/identities/{identity_id}/templates/{template_id}/config",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "python_name": "identity_id",
+          "typescript_name": "identityId",
+          "go_name": "IdentityId",
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "template_id",
+          "location": "path",
+          "required": true,
+          "python_name": "template_id",
+          "typescript_name": "templateId",
+          "go_name": "TemplateId",
+          "value": "tmpl_contract"
+        },
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "python_name": "idempotency_key",
+          "typescript_name": "idempotencyKey",
+          "go_name": "IdempotencyKey",
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "model": "UpsertIdentityConfigRequest",
+        "python_name": "upsert_identity_config_request",
+        "typescript_name": "upsertIdentityConfigRequest",
+        "go_name": "UpsertIdentityConfigRequest",
+        "value": {
+          "identity_config": {}
+        }
+      }
+    },
+    {
+      "operation_id": "archiveEnvironment",
+      "resource": "Environments",
+      "clients": {
+        "go": "Environments"
+      },
+      "methods": {
+        "go": "Archive"
+      },
+      "http_method": "POST",
+      "path": "/environments/{id}/archive",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "python_name": "id",
+          "typescript_name": "id",
+          "go_name": "Id",
+          "value": "env_contract"
+        }
+      ],
+      "request_body": null,
+      "source": "Forward router POST /environments/{id}/archive; verified against CN production on 2026-09-09"
+    }
+  ]
+}

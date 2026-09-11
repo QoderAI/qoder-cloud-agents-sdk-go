@@ -1,0 +1,4325 @@
+{
+  "AdvisorRedactedResultBlockParam": [
+    "EncryptedContent",
+    "StopReason",
+    "Type"
+  ],
+  "AdvisorResultBlockParam": [
+    "Text",
+    "StopReason",
+    "Type"
+  ],
+  "AdvisorToolResultBlockParam": [
+    "Content",
+    "ToolUseID",
+    "CacheControl",
+    "Type"
+  ],
+  "AdvisorToolResultBlockParamContentUnion": [
+    "OfRequestAdvisorToolResultError",
+    "OfRequestAdvisorResultBlock",
+    "OfRequestAdvisorRedactedResultBlock"
+  ],
+  "AdvisorToolResultErrorParam": [
+    "ErrorCode",
+    "Type"
+  ],
+  "AgentArchiveParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "AgentGetParams": [
+    "Version",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "AgentListParams": [
+    "CreatedAtGte",
+    "CreatedAtLte",
+    "IncludeArchived",
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "AgentNewParams": [
+    "Model",
+    "Name",
+    "Description",
+    "System",
+    "WorkspaceID",
+    "MCPServers",
+    "Metadata",
+    "Multiagent",
+    "Skills",
+    "Tools",
+    "Betas"
+  ],
+  "AgentNewParamsToolUnion": [
+    "OfAgentToolset20260401",
+    "OfMCPToolset",
+    "OfCustom"
+  ],
+  "AgentService": [
+    "Options",
+    "Versions"
+  ],
+  "AgentUpdateParams": [
+    "Description",
+    "System",
+    "Name",
+    "Version",
+    "WorkspaceID",
+    "MCPServers",
+    "Metadata",
+    "Skills",
+    "Tools",
+    "Model",
+    "Multiagent",
+    "Betas"
+  ],
+  "AgentUpdateParamsToolUnion": [
+    "OfAgentToolset20260401",
+    "OfMCPToolset",
+    "OfCustom"
+  ],
+  "AgentVersionListParams": [
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "AgentVersionService": [
+    "Options"
+  ],
+  "Base64ImageSourceParam": [
+    "Data",
+    "MediaType",
+    "Type"
+  ],
+  "Base64PDFSourceParam": [
+    "Data",
+    "MediaType",
+    "Type"
+  ],
+  "BashCodeExecutionOutputBlockParam": [
+    "FileID",
+    "Type"
+  ],
+  "BashCodeExecutionResultBlockParam": [
+    "Content",
+    "ReturnCode",
+    "Stderr",
+    "Stdout",
+    "Type"
+  ],
+  "BashCodeExecutionToolResultBlockParam": [
+    "Content",
+    "ToolUseID",
+    "CacheControl",
+    "Type"
+  ],
+  "BashCodeExecutionToolResultBlockParamContentUnion": [
+    "OfRequestBashCodeExecutionToolResultError",
+    "OfRequestBashCodeExecutionResultBlock"
+  ],
+  "BashCodeExecutionToolResultErrorParam": [
+    "ErrorCode",
+    "Type"
+  ],
+  "BrowserStateBlockParam": [
+    "Tabs",
+    "StateChanges",
+    "CacheControl",
+    "Type"
+  ],
+  "BrowserStateChangeDownloadCompletedParam": [
+    "DownloadID",
+    "URL",
+    "Path",
+    "SizeBytes",
+    "Type"
+  ],
+  "BrowserStateChangeDownloadFailedParam": [
+    "DownloadID",
+    "URL",
+    "Error",
+    "Type"
+  ],
+  "BrowserStateChangeDownloadStartedParam": [
+    "DownloadID",
+    "URL",
+    "Type"
+  ],
+  "BrowserStateChangeTabOpenedParam": [
+    "TabID",
+    "Type"
+  ],
+  "BrowserStateChangeUnionParam": [
+    "OfTabOpened",
+    "OfDownloadStarted",
+    "OfDownloadCompleted",
+    "OfDownloadFailed"
+  ],
+  "BrowserStateTabEntryParam": [
+    "TabID",
+    "Title",
+    "URL",
+    "Active"
+  ],
+  "CacheControlEphemeralParam": [
+    "TTL",
+    "Type"
+  ],
+  "CapabilitySupport": [
+    "Supported",
+    "JSON"
+  ],
+  "CitationCharLocationParam": [
+    "DocumentTitle",
+    "CitedText",
+    "DocumentIndex",
+    "EndCharIndex",
+    "StartCharIndex",
+    "Type"
+  ],
+  "CitationContentBlockLocationParam": [
+    "DocumentTitle",
+    "CitedText",
+    "DocumentIndex",
+    "EndBlockIndex",
+    "StartBlockIndex",
+    "Type"
+  ],
+  "CitationPageLocationParam": [
+    "DocumentTitle",
+    "CitedText",
+    "DocumentIndex",
+    "EndPageNumber",
+    "StartPageNumber",
+    "Type"
+  ],
+  "CitationSearchResultLocationParam": [
+    "Title",
+    "CitedText",
+    "EndBlockIndex",
+    "SearchResultIndex",
+    "Source",
+    "StartBlockIndex",
+    "Type"
+  ],
+  "CitationWebSearchResultLocationParam": [
+    "Title",
+    "CitedText",
+    "EncryptedIndex",
+    "URL",
+    "Type"
+  ],
+  "CitationsConfigParam": [
+    "Enabled"
+  ],
+  "CloudConfig": [
+    "Networking",
+    "Packages",
+    "Type",
+    "JSON"
+  ],
+  "CloudConfigNetworkingUnion": [
+    "Type",
+    "AllowMCPServers",
+    "AllowPackageManagers",
+    "AllowedHosts",
+    "JSON"
+  ],
+  "CloudConfigParams": [
+    "Networking",
+    "Packages",
+    "Type"
+  ],
+  "CloudConfigParamsNetworkingUnion": [
+    "OfUnrestricted",
+    "OfLimited"
+  ],
+  "CodeExecutionOutputBlockParam": [
+    "FileID",
+    "Type"
+  ],
+  "CodeExecutionResultBlockParam": [
+    "Content",
+    "ReturnCode",
+    "Stderr",
+    "Stdout",
+    "Type"
+  ],
+  "CodeExecutionToolResultBlockParam": [
+    "Content",
+    "ToolUseID",
+    "CacheControl",
+    "Type"
+  ],
+  "CodeExecutionToolResultBlockParamContentUnion": [
+    "OfError",
+    "OfResultBlock",
+    "OfRequestEncryptedCodeExecutionResultBlock"
+  ],
+  "CodeExecutionToolResultErrorParam": [
+    "ErrorCode",
+    "Type"
+  ],
+  "CompactionBlockParam": [
+    "Content",
+    "EncryptedContent",
+    "CacheControl",
+    "Type"
+  ],
+  "ContainerUploadBlockParam": [
+    "FileID",
+    "CacheControl",
+    "Type"
+  ],
+  "ContentBlockParamUnion": [
+    "OfText",
+    "OfImage",
+    "OfDocument",
+    "OfSearchResult",
+    "OfThinking",
+    "OfRedactedThinking",
+    "OfToolUse",
+    "OfToolResult",
+    "OfServerToolUse",
+    "OfWebSearchToolResult",
+    "OfWebFetchToolResult",
+    "OfAdvisorToolResult",
+    "OfCodeExecutionToolResult",
+    "OfBashCodeExecutionToolResult",
+    "OfTextEditorCodeExecutionToolResult",
+    "OfToolSearchToolResult",
+    "OfMCPToolUse",
+    "OfMCPToolResult",
+    "OfContainerUpload",
+    "OfCompaction",
+    "OfToolAddition",
+    "OfToolRemoval",
+    "OfFallback"
+  ],
+  "ContentBlockSourceContentUnionParam": [
+    "OfString",
+    "OfContentBlockSourceContent"
+  ],
+  "ContentBlockSourceParam": [
+    "Content",
+    "Type"
+  ],
+  "ContextManagementCapability": [
+    "ClearThinking20251015",
+    "ClearToolUses20250919",
+    "Compact20260112",
+    "Supported",
+    "JSON"
+  ],
+  "DeletedFile": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "DeletedSkill": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "DeletedSkillVersion": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "DeploymentArchiveParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "DeploymentGetParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "DeploymentListParams": [
+    "AgentID",
+    "CreatedAtGte",
+    "CreatedAtLte",
+    "IncludeArchived",
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Status",
+    "Betas"
+  ],
+  "DeploymentNewParams": [
+    "Agent",
+    "EnvironmentID",
+    "InitialEvents",
+    "Name",
+    "Description",
+    "WorkspaceID",
+    "Budget",
+    "Metadata",
+    "Resources",
+    "Schedule",
+    "VaultIDs",
+    "Betas"
+  ],
+  "DeploymentNewParamsAgentUnion": [
+    "OfString",
+    "OfManagedAgentsAgents"
+  ],
+  "DeploymentNewParamsResourceUnion": [
+    "OfGitHubRepository",
+    "OfFile",
+    "OfMemoryStore"
+  ],
+  "DeploymentPauseParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "DeploymentRunGetParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "DeploymentRunListParams": [
+    "CreatedAtGt",
+    "CreatedAtGte",
+    "CreatedAtLt",
+    "CreatedAtLte",
+    "DeploymentID",
+    "HasError",
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "TriggerType",
+    "Betas"
+  ],
+  "DeploymentRunParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "DeploymentRunService": [
+    "Options"
+  ],
+  "DeploymentService": [
+    "Options"
+  ],
+  "DeploymentUnpauseParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "DeploymentUpdateParams": [
+    "Description",
+    "EnvironmentID",
+    "Name",
+    "WorkspaceID",
+    "Metadata",
+    "Resources",
+    "VaultIDs",
+    "Agent",
+    "Budget",
+    "InitialEvents",
+    "Schedule",
+    "Betas"
+  ],
+  "DeploymentUpdateParamsAgentUnion": [
+    "OfString",
+    "OfManagedAgentsAgents"
+  ],
+  "DeploymentUpdateParamsResourceUnion": [
+    "OfGitHubRepository",
+    "OfFile",
+    "OfMemoryStore"
+  ],
+  "DirectCallerParam": [
+    "Type"
+  ],
+  "Dream": [
+    "ID",
+    "ArchivedAt",
+    "CreatedAt",
+    "EndedAt",
+    "Error",
+    "Inputs",
+    "Instructions",
+    "Model",
+    "OutputBehavior",
+    "Outputs",
+    "SessionID",
+    "Status",
+    "Type",
+    "Usage",
+    "JSON"
+  ],
+  "DreamArchiveParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "DreamCancelParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "DreamError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "DreamGetParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "DreamInputUnion": [
+    "MemoryStoreID",
+    "Type",
+    "SessionIDs",
+    "JSON"
+  ],
+  "DreamInputUnionParam": [
+    "OfMemoryStore",
+    "OfSessions"
+  ],
+  "DreamListParams": [
+    "CreatedAtGt",
+    "CreatedAtLt",
+    "IncludeArchived",
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Statuses",
+    "Betas"
+  ],
+  "DreamMemoryStoreInput": [
+    "MemoryStoreID",
+    "Type",
+    "JSON"
+  ],
+  "DreamMemoryStoreInputParam": [
+    "MemoryStoreID",
+    "Type"
+  ],
+  "DreamModelConfig": [
+    "ID",
+    "Speed",
+    "JSON"
+  ],
+  "DreamModelConfigParam": [
+    "ID",
+    "Speed"
+  ],
+  "DreamNewParams": [
+    "Inputs",
+    "Model",
+    "Instructions",
+    "WorkspaceID",
+    "OutputBehavior",
+    "Betas"
+  ],
+  "DreamNewParamsModelUnion": [
+    "OfString",
+    "OfDreamModelConfig"
+  ],
+  "DreamOutput": [
+    "MemoryStoreID",
+    "Type",
+    "JSON"
+  ],
+  "DreamService": [
+    "Options"
+  ],
+  "DreamSessionsInput": [
+    "SessionIDs",
+    "Type",
+    "JSON"
+  ],
+  "DreamSessionsInputParam": [
+    "SessionIDs",
+    "Type"
+  ],
+  "DreamUsage": [
+    "CacheCreationInputTokens",
+    "CacheReadInputTokens",
+    "InputTokens",
+    "OutputTokens",
+    "JSON"
+  ],
+  "EffortCapability": [
+    "High",
+    "Low",
+    "Max",
+    "Medium",
+    "Supported",
+    "Xhigh",
+    "JSON"
+  ],
+  "EncryptedCodeExecutionResultBlockParam": [
+    "Content",
+    "EncryptedStdout",
+    "ReturnCode",
+    "Stderr",
+    "Type"
+  ],
+  "Environment": [
+    "ID",
+    "ArchivedAt",
+    "Config",
+    "CreatedAt",
+    "Description",
+    "Metadata",
+    "Name",
+    "Type",
+    "UpdatedAt",
+    "Scope",
+    "JSON"
+  ],
+  "EnvironmentArchiveParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "EnvironmentConfigUnion": [
+    "Networking",
+    "Packages",
+    "Type",
+    "JSON"
+  ],
+  "EnvironmentDeleteParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "EnvironmentDeleteResponse": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "EnvironmentGetParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "EnvironmentListParams": [
+    "Page",
+    "IncludeArchived",
+    "Limit",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "EnvironmentNewParams": [
+    "Name",
+    "Description",
+    "WorkspaceID",
+    "Config",
+    "Scope",
+    "Metadata",
+    "Betas"
+  ],
+  "EnvironmentNewParamsConfigUnion": [
+    "OfCloud",
+    "OfSelfHosted"
+  ],
+  "EnvironmentService": [
+    "Options",
+    "Work"
+  ],
+  "EnvironmentUpdateParams": [
+    "Description",
+    "Name",
+    "WorkspaceID",
+    "Config",
+    "Scope",
+    "Metadata",
+    "Betas"
+  ],
+  "EnvironmentUpdateParamsConfigUnion": [
+    "OfCloud",
+    "OfSelfHosted"
+  ],
+  "EnvironmentWorkAckParams": [
+    "EnvironmentID",
+    "Betas"
+  ],
+  "EnvironmentWorkGetParams": [
+    "EnvironmentID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "EnvironmentWorkHeartbeatParams": [
+    "EnvironmentID",
+    "DesiredTTLSeconds",
+    "ExpectedLastHeartbeat",
+    "Betas"
+  ],
+  "EnvironmentWorkListParams": [
+    "Page",
+    "Limit",
+    "Betas"
+  ],
+  "EnvironmentWorkPollParams": [
+    "BlockMs",
+    "ReclaimOlderThanMs",
+    "QoderWorkerID",
+    "Betas"
+  ],
+  "EnvironmentWorkService": [
+    "Options"
+  ],
+  "EnvironmentWorkStatsParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "EnvironmentWorkStopParams": [
+    "EnvironmentID",
+    "SelfHostedWorkStopRequest",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "EnvironmentWorkUpdateParams": [
+    "EnvironmentID",
+    "SelfHostedWorkUpdateRequest",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "FallbackBlockParam": [
+    "From",
+    "To",
+    "Trigger",
+    "Type"
+  ],
+  "FallbackInfoParam": [
+    "Model"
+  ],
+  "FileDeleteParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "FileDocumentSourceParam": [
+    "FileID",
+    "Type"
+  ],
+  "FileDownloadParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "FileGetMetadataParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "FileImageSourceParam": [
+    "FileID",
+    "Type"
+  ],
+  "FileListParams": [
+    "Page",
+    "Limit",
+    "ScopeID",
+    "WorkspaceID",
+    "IDs",
+    "Betas"
+  ],
+  "FileMetadata": [
+    "ID",
+    "CreatedAt",
+    "Filename",
+    "MimeType",
+    "SizeBytes",
+    "Type",
+    "Downloadable",
+    "ExpiresAt",
+    "Scope",
+    "JSON"
+  ],
+  "FileScope": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "FileService": [
+    "Options"
+  ],
+  "FileUploadParams": [
+    "File",
+    "ExpiresInSeconds",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "HealthCheckWorkData": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "ImageBlockParam": [
+    "Source",
+    "CacheControl",
+    "Transformations",
+    "Type"
+  ],
+  "ImageBlockParamSourceUnion": [
+    "OfBase64",
+    "OfURL",
+    "OfFile"
+  ],
+  "ImageTransformationsParam": [
+    "OversizedImage"
+  ],
+  "LimitedNetwork": [
+    "AllowMCPServers",
+    "AllowPackageManagers",
+    "AllowedHosts",
+    "Type",
+    "JSON"
+  ],
+  "LimitedNetworkParams": [
+    "AllowMCPServers",
+    "AllowPackageManagers",
+    "AllowedHosts",
+    "Type"
+  ],
+  "MCPToolUseBlockParam": [
+    "ID",
+    "Input",
+    "Name",
+    "ServerName",
+    "CacheControl",
+    "Type"
+  ],
+  "ManagedAgentsAPIActor": [
+    "APIKeyID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsActorUnion": [
+    "SessionID",
+    "Type",
+    "APIKeyID",
+    "UserID",
+    "ServiceAccountID",
+    "JSON"
+  ],
+  "ManagedAgentsAdvisor": [
+    "Model",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAdvisorParams": [
+    "Model",
+    "Type"
+  ],
+  "ManagedAgentsAgent": [
+    "ID",
+    "ArchivedAt",
+    "CreatedAt",
+    "Description",
+    "MCPServers",
+    "Metadata",
+    "Model",
+    "Multiagent",
+    "Name",
+    "Skills",
+    "System",
+    "Tools",
+    "Type",
+    "UpdatedAt",
+    "Version",
+    "JSON"
+  ],
+  "ManagedAgentsAgentArchivedDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentArchivedRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentCustomToolUseEvent": [
+    "ID",
+    "Input",
+    "Name",
+    "ProcessedAt",
+    "Type",
+    "SessionThreadID",
+    "JSON"
+  ],
+  "ManagedAgentsAgentMCPToolResultEvent": [
+    "ID",
+    "MCPToolUseID",
+    "ProcessedAt",
+    "Type",
+    "Content",
+    "IsError",
+    "JSON"
+  ],
+  "ManagedAgentsAgentMCPToolResultEventContentUnion": [
+    "Text",
+    "Type",
+    "Source",
+    "Context",
+    "Title",
+    "Citations",
+    "Content",
+    "JSON"
+  ],
+  "ManagedAgentsAgentMCPToolResultEventContentUnionSource": [
+    "OfString",
+    "Data",
+    "MediaType",
+    "Type",
+    "URL",
+    "FileID",
+    "JSON"
+  ],
+  "ManagedAgentsAgentMCPToolUseEvent": [
+    "ID",
+    "Input",
+    "MCPServerName",
+    "Name",
+    "ProcessedAt",
+    "Type",
+    "EvaluatedPermission",
+    "SessionThreadID",
+    "JSON"
+  ],
+  "ManagedAgentsAgentMessageEvent": [
+    "ID",
+    "Content",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentMessageEventContentUnion": [
+    "Text",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentMessagePreview": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentParams": [
+    "ID",
+    "Type",
+    "Version"
+  ],
+  "ManagedAgentsAgentReference": [
+    "ID",
+    "Type",
+    "Version",
+    "JSON"
+  ],
+  "ManagedAgentsAgentSkillUnion": [
+    "SkillID",
+    "Type",
+    "Version",
+    "JSON"
+  ],
+  "ManagedAgentsAgentThinkingEvent": [
+    "ID",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentThinkingPreview": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentThreadContextCompactedEvent": [
+    "ID",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentThreadMessageReceivedEvent": [
+    "ID",
+    "Content",
+    "FromSessionThreadID",
+    "ProcessedAt",
+    "Type",
+    "FromAgentName",
+    "JSON"
+  ],
+  "ManagedAgentsAgentThreadMessageReceivedEventContentUnion": [
+    "Text",
+    "Type",
+    "Source",
+    "Context",
+    "Title",
+    "JSON"
+  ],
+  "ManagedAgentsAgentThreadMessageReceivedEventContentUnionSource": [
+    "Data",
+    "MediaType",
+    "Type",
+    "URL",
+    "FileID",
+    "JSON"
+  ],
+  "ManagedAgentsAgentThreadMessageSentEvent": [
+    "ID",
+    "Content",
+    "ProcessedAt",
+    "ToSessionThreadID",
+    "Type",
+    "ToAgentName",
+    "JSON"
+  ],
+  "ManagedAgentsAgentThreadMessageSentEventContentUnion": [
+    "Text",
+    "Type",
+    "Source",
+    "Context",
+    "Title",
+    "JSON"
+  ],
+  "ManagedAgentsAgentThreadMessageSentEventContentUnionSource": [
+    "Data",
+    "MediaType",
+    "Type",
+    "URL",
+    "FileID",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolConfigParamsUnion": [
+    "OfBash",
+    "OfEdit",
+    "OfRead",
+    "OfWrite",
+    "OfGlob",
+    "OfGrep",
+    "OfWebFetch",
+    "OfWebSearch"
+  ],
+  "ManagedAgentsAgentToolConfigUnion": [
+    "Enabled",
+    "Name",
+    "PermissionPolicy",
+    "Type",
+    "AllowedDomains",
+    "BlockedDomains",
+    "MaxContentTokens",
+    "UserLocation",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolConfigUnionPermissionPolicy": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolResultEvent": [
+    "ID",
+    "ProcessedAt",
+    "ToolUseID",
+    "Type",
+    "Content",
+    "IsError",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolResultEventContentUnion": [
+    "Text",
+    "Type",
+    "Source",
+    "Context",
+    "Title",
+    "Citations",
+    "Content",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolResultEventContentUnionSource": [
+    "OfString",
+    "Data",
+    "MediaType",
+    "Type",
+    "URL",
+    "FileID",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolUnion": [
+    "Configs",
+    "DefaultConfig",
+    "Type",
+    "MCPServerName",
+    "Description",
+    "InputSchema",
+    "Name",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolUnionConfigs": [
+    "OfManagedAgentsAgentToolConfigArray",
+    "OfManagedAgentsMCPToolConfigArray",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolUnionDefaultConfig": [
+    "Enabled",
+    "PermissionPolicy",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolUnionDefaultConfigPermissionPolicy": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolUseEvent": [
+    "ID",
+    "Input",
+    "Name",
+    "ProcessedAt",
+    "Type",
+    "EvaluatedPermission",
+    "SessionThreadID",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolset20260401": [
+    "Configs",
+    "DefaultConfig",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolset20260401BashInput": [
+    "Command",
+    "Restart",
+    "TimeoutMs",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolset20260401EditInput": [
+    "FilePath",
+    "NewString",
+    "OldString",
+    "ReplaceAll",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolset20260401GlobInput": [
+    "Pattern",
+    "Path",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolset20260401GrepInput": [
+    "Pattern",
+    "Path",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolset20260401Params": [
+    "Type",
+    "Configs",
+    "DefaultConfig"
+  ],
+  "ManagedAgentsAgentToolset20260401ReadInput": [
+    "FilePath",
+    "ViewRange",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolset20260401WriteInput": [
+    "Content",
+    "FilePath",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolsetDefaultConfig": [
+    "Enabled",
+    "PermissionPolicy",
+    "JSON"
+  ],
+  "ManagedAgentsAgentToolsetDefaultConfigParams": [
+    "Enabled",
+    "PermissionPolicy"
+  ],
+  "ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion": [
+    "OfAlwaysAllow",
+    "OfAlwaysAsk"
+  ],
+  "ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAgentWithOverridesParams": [
+    "ID",
+    "Type",
+    "System",
+    "Version",
+    "MCPServers",
+    "Model",
+    "Skills",
+    "Tools"
+  ],
+  "ManagedAgentsAgentWithOverridesParamsToolUnion": [
+    "OfAgentToolset20260401",
+    "OfMCPToolset",
+    "OfCustom"
+  ],
+  "ManagedAgentsAlwaysAllowPolicy": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAlwaysAllowPolicyParam": [
+    "Type"
+  ],
+  "ManagedAgentsAlwaysAskPolicy": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsAlwaysAskPolicyParam": [
+    "Type"
+  ],
+  "ManagedAgentsQoderSkill": [
+    "SkillID",
+    "Type",
+    "Version",
+    "JSON"
+  ],
+  "ManagedAgentsQoderSkillParams": [
+    "SkillID",
+    "Type",
+    "Version"
+  ],
+  "ManagedAgentsBase64DocumentSource": [
+    "Data",
+    "MediaType",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsBase64DocumentSourceParam": [
+    "Data",
+    "MediaType",
+    "Type"
+  ],
+  "ManagedAgentsBase64ImageSource": [
+    "Data",
+    "MediaType",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsBase64ImageSourceParam": [
+    "Data",
+    "MediaType",
+    "Type"
+  ],
+  "ManagedAgentsBashToolConfig": [
+    "Enabled",
+    "Name",
+    "PermissionPolicy",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsBashToolConfigParams": [
+    "Enabled",
+    "PermissionPolicy",
+    "Type",
+    "Name"
+  ],
+  "ManagedAgentsBashToolConfigParamsPermissionPolicyUnion": [
+    "OfAlwaysAllow",
+    "OfAlwaysAsk"
+  ],
+  "ManagedAgentsBashToolConfigPermissionPolicyUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsBillingError": [
+    "Message",
+    "RetryStatus",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsBillingErrorRetryStatusUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsBranchCheckout": [
+    "Name",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsBranchCheckoutParam": [
+    "Name",
+    "Type"
+  ],
+  "ManagedAgentsBudgetLimit": [
+    "MaxListCost",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsBudgetLimitParam": [
+    "MaxListCost",
+    "Type"
+  ],
+  "ManagedAgentsCacheCreationUsage": [
+    "Ephemeral1hInputTokens",
+    "Ephemeral5mInputTokens",
+    "JSON"
+  ],
+  "ManagedAgentsCommitCheckout": [
+    "Sha",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsCommitCheckoutParam": [
+    "Sha",
+    "Type"
+  ],
+  "ManagedAgentsCredential": [
+    "ID",
+    "ArchivedAt",
+    "Auth",
+    "CreatedAt",
+    "Metadata",
+    "Type",
+    "UpdatedAt",
+    "VaultID",
+    "DisplayName",
+    "JSON"
+  ],
+  "ManagedAgentsCredentialAuthUnion": [
+    "MCPServerURL",
+    "Type",
+    "ExpiresAt",
+    "Refresh",
+    "InjectionLocation",
+    "Networking",
+    "SecretName",
+    "JSON"
+  ],
+  "ManagedAgentsCredentialHostUnreachableError": [
+    "CredentialID",
+    "Message",
+    "RetryStatus",
+    "Type",
+    "VaultID",
+    "JSON"
+  ],
+  "ManagedAgentsCredentialHostUnreachableErrorRetryStatusUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsCredentialNetworkingParamsUnion": [
+    "OfUnrestricted",
+    "OfLimited"
+  ],
+  "ManagedAgentsCredentialValidation": [
+    "CredentialID",
+    "HasRefreshToken",
+    "MCPProbe",
+    "Refresh",
+    "Status",
+    "Type",
+    "ValidatedAt",
+    "VaultID",
+    "JSON"
+  ],
+  "ManagedAgentsCustomSkill": [
+    "SkillID",
+    "Type",
+    "Version",
+    "JSON"
+  ],
+  "ManagedAgentsCustomSkillParams": [
+    "SkillID",
+    "Type",
+    "Version"
+  ],
+  "ManagedAgentsCustomTool": [
+    "Description",
+    "InputSchema",
+    "Name",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsCustomToolInputSchema": [
+    "Type",
+    "Properties",
+    "Required",
+    "ExtraFields",
+    "JSON"
+  ],
+  "ManagedAgentsCustomToolInputSchemaParam": [
+    "Properties",
+    "Required",
+    "Type",
+    "ExtraFields"
+  ],
+  "ManagedAgentsCustomToolParams": [
+    "Description",
+    "InputSchema",
+    "Name",
+    "Type"
+  ],
+  "ManagedAgentsDeleteSessionResource": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeletedCredential": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeletedMemory": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeletedMemoryStore": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeletedSession": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeletedVault": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeltaContent": [
+    "Content",
+    "Type",
+    "Index",
+    "JSON"
+  ],
+  "ManagedAgentsDeltaEvent": [
+    "Delta",
+    "EventID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeployment": [
+    "ID",
+    "Agent",
+    "ArchivedAt",
+    "CreatedAt",
+    "Description",
+    "EnvironmentID",
+    "InitialEvents",
+    "Metadata",
+    "Name",
+    "PausedReason",
+    "Resources",
+    "Schedule",
+    "Status",
+    "Type",
+    "UpdatedAt",
+    "VaultIDs",
+    "Budget",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentInitialEventParamsUnion": [
+    "OfUserMessage",
+    "OfUserDefineOutcome",
+    "OfSystemMessage"
+  ],
+  "ManagedAgentsDeploymentInitialEventUnion": [
+    "Content",
+    "Type",
+    "Description",
+    "Rubric",
+    "MaxIterations",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentInitialEventUnionContent": [
+    "OfManagedAgentsDeploymentUserMessageEventContentArray",
+    "OfManagedAgentsSystemContentBlockArray",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentPausedReasonErrorUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentPausedReasonUnion": [
+    "Type",
+    "Error",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentRun": [
+    "ID",
+    "Agent",
+    "CreatedAt",
+    "DeploymentID",
+    "Error",
+    "SessionID",
+    "TriggerContext",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentRunErrorUnion": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentSystemMessageEvent": [
+    "Content",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentUserDefineOutcomeEvent": [
+    "Description",
+    "Rubric",
+    "Type",
+    "MaxIterations",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentUserDefineOutcomeEventRubricUnion": [
+    "FileID",
+    "Type",
+    "Content",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentUserMessageEvent": [
+    "Content",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentUserMessageEventContentUnion": [
+    "Text",
+    "Type",
+    "Source",
+    "Context",
+    "Title",
+    "JSON"
+  ],
+  "ManagedAgentsDeploymentUserMessageEventContentUnionSource": [
+    "Data",
+    "MediaType",
+    "Type",
+    "URL",
+    "FileID",
+    "JSON"
+  ],
+  "ManagedAgentsDocumentBlock": [
+    "Source",
+    "Type",
+    "Context",
+    "Title",
+    "JSON"
+  ],
+  "ManagedAgentsDocumentBlockParam": [
+    "Source",
+    "Type",
+    "Context",
+    "Title"
+  ],
+  "ManagedAgentsDocumentBlockSourceUnion": [
+    "Data",
+    "MediaType",
+    "Type",
+    "URL",
+    "FileID",
+    "JSON"
+  ],
+  "ManagedAgentsDocumentBlockSourceUnionParam": [
+    "OfBase64",
+    "OfText",
+    "OfURL",
+    "OfFile"
+  ],
+  "ManagedAgentsEditToolConfig": [
+    "Enabled",
+    "Name",
+    "PermissionPolicy",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEditToolConfigParams": [
+    "Enabled",
+    "PermissionPolicy",
+    "Type",
+    "Name"
+  ],
+  "ManagedAgentsEditToolConfigParamsPermissionPolicyUnion": [
+    "OfAlwaysAllow",
+    "OfAlwaysAsk"
+  ],
+  "ManagedAgentsEditToolConfigPermissionPolicyUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEffortHigh": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEffortHighParam": [
+    "Type"
+  ],
+  "ManagedAgentsEffortLow": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEffortLowParam": [
+    "Type"
+  ],
+  "ManagedAgentsEffortMax": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEffortMaxParam": [
+    "Type"
+  ],
+  "ManagedAgentsEffortMedium": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEffortMediumParam": [
+    "Type"
+  ],
+  "ManagedAgentsEffortXhigh": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEffortXhighParam": [
+    "Type"
+  ],
+  "ManagedAgentsEnvironmentArchivedDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEnvironmentArchivedRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEnvironmentNotFoundRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEnvironmentVariableAuthResponse": [
+    "InjectionLocation",
+    "Networking",
+    "SecretName",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEnvironmentVariableAuthResponseNetworkingUnion": [
+    "Type",
+    "AllowedHosts",
+    "JSON"
+  ],
+  "ManagedAgentsEnvironmentVariableCreateParams": [
+    "Networking",
+    "SecretName",
+    "SecretValue",
+    "Type",
+    "InjectionLocation"
+  ],
+  "ManagedAgentsEnvironmentVariableUpdateParams": [
+    "Type",
+    "SecretValue",
+    "InjectionLocation",
+    "Networking"
+  ],
+  "ManagedAgentsErrorDeploymentPausedReason": [
+    "Error",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsEventParamsUnion": [
+    "OfUserMessage",
+    "OfUserInterrupt",
+    "OfUserToolConfirmation",
+    "OfUserCustomToolResult",
+    "OfUserDefineOutcome",
+    "OfUserToolResult",
+    "OfSystemMessage"
+  ],
+  "ManagedAgentsFileDocumentSource": [
+    "FileID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsFileDocumentSourceParam": [
+    "FileID",
+    "Type"
+  ],
+  "ManagedAgentsFileImageSource": [
+    "FileID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsFileImageSourceParam": [
+    "FileID",
+    "Type"
+  ],
+  "ManagedAgentsFileNotFoundDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsFileNotFoundRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsFileResource": [
+    "ID",
+    "CreatedAt",
+    "FileID",
+    "MountPath",
+    "Type",
+    "UpdatedAt",
+    "JSON"
+  ],
+  "ManagedAgentsFileResourceConfig": [
+    "FileID",
+    "Type",
+    "MountPath",
+    "JSON"
+  ],
+  "ManagedAgentsFileResourceParams": [
+    "FileID",
+    "Type",
+    "MountPath"
+  ],
+  "ManagedAgentsFileRubric": [
+    "FileID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsFileRubricParams": [
+    "FileID",
+    "Type"
+  ],
+  "ManagedAgentsGitHubRepositoryResource": [
+    "ID",
+    "CreatedAt",
+    "MountPath",
+    "Type",
+    "UpdatedAt",
+    "URL",
+    "Checkout",
+    "JSON"
+  ],
+  "ManagedAgentsGitHubRepositoryResourceCheckoutUnion": [
+    "Name",
+    "Type",
+    "Sha",
+    "JSON"
+  ],
+  "ManagedAgentsGitHubRepositoryResourceConfig": [
+    "Type",
+    "URL",
+    "Checkout",
+    "MountPath",
+    "JSON"
+  ],
+  "ManagedAgentsGitHubRepositoryResourceConfigCheckoutUnion": [
+    "Name",
+    "Type",
+    "Sha",
+    "JSON"
+  ],
+  "ManagedAgentsGitHubRepositoryResourceParams": [
+    "AuthorizationToken",
+    "Type",
+    "URL",
+    "MountPath",
+    "Checkout"
+  ],
+  "ManagedAgentsGitHubRepositoryResourceParamsCheckoutUnion": [
+    "OfBranch",
+    "OfCommit"
+  ],
+  "ManagedAgentsGlobToolConfig": [
+    "Enabled",
+    "Name",
+    "PermissionPolicy",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsGlobToolConfigParams": [
+    "Enabled",
+    "PermissionPolicy",
+    "Type",
+    "Name"
+  ],
+  "ManagedAgentsGlobToolConfigParamsPermissionPolicyUnion": [
+    "OfAlwaysAllow",
+    "OfAlwaysAsk"
+  ],
+  "ManagedAgentsGlobToolConfigPermissionPolicyUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsGrepToolConfig": [
+    "Enabled",
+    "Name",
+    "PermissionPolicy",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsGrepToolConfigParams": [
+    "Enabled",
+    "PermissionPolicy",
+    "Type",
+    "Name"
+  ],
+  "ManagedAgentsGrepToolConfigParamsPermissionPolicyUnion": [
+    "OfAlwaysAllow",
+    "OfAlwaysAsk"
+  ],
+  "ManagedAgentsGrepToolConfigPermissionPolicyUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsImageBlock": [
+    "Source",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsImageBlockParam": [
+    "Source",
+    "Type"
+  ],
+  "ManagedAgentsImageBlockSourceUnion": [
+    "Data",
+    "MediaType",
+    "Type",
+    "URL",
+    "FileID",
+    "JSON"
+  ],
+  "ManagedAgentsImageBlockSourceUnionParam": [
+    "OfBase64",
+    "OfURL",
+    "OfFile"
+  ],
+  "ManagedAgentsInjectionLocationParams": [
+    "Body",
+    "Header"
+  ],
+  "ManagedAgentsInjectionLocationResponse": [
+    "Body",
+    "Header",
+    "JSON"
+  ],
+  "ManagedAgentsInjectionLocationUpdateParams": [
+    "Body",
+    "Header"
+  ],
+  "ManagedAgentsLimitedCredentialNetworkingParams": [
+    "AllowedHosts",
+    "Type"
+  ],
+  "ManagedAgentsLimitedCredentialNetworkingResponse": [
+    "AllowedHosts",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMCPAuthenticationFailedError": [
+    "MCPServerName",
+    "Message",
+    "RetryStatus",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMCPAuthenticationFailedErrorRetryStatusUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMCPConnectionFailedError": [
+    "MCPServerName",
+    "Message",
+    "RetryStatus",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMCPConnectionFailedErrorRetryStatusUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMCPEgressBlockedDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMCPEgressBlockedRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMCPOAuthAuthResponse": [
+    "MCPServerURL",
+    "Type",
+    "ExpiresAt",
+    "Refresh",
+    "JSON"
+  ],
+  "ManagedAgentsMCPOAuthCreateParams": [
+    "AccessToken",
+    "MCPServerURL",
+    "Type",
+    "ExpiresAt",
+    "Refresh"
+  ],
+  "ManagedAgentsMCPOAuthRefreshParams": [
+    "ClientID",
+    "RefreshToken",
+    "TokenEndpoint",
+    "TokenEndpointAuth",
+    "Resource",
+    "Scope"
+  ],
+  "ManagedAgentsMCPOAuthRefreshParamsTokenEndpointAuthUnion": [
+    "OfNone",
+    "OfClientSecretBasic",
+    "OfClientSecretPost"
+  ],
+  "ManagedAgentsMCPOAuthRefreshResponse": [
+    "ClientID",
+    "TokenEndpoint",
+    "TokenEndpointAuth",
+    "Resource",
+    "Scope",
+    "JSON"
+  ],
+  "ManagedAgentsMCPOAuthRefreshResponseTokenEndpointAuthUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMCPOAuthRefreshUpdateParams": [
+    "RefreshToken",
+    "Scope",
+    "TokenEndpointAuth"
+  ],
+  "ManagedAgentsMCPOAuthRefreshUpdateParamsTokenEndpointAuthUnion": [
+    "OfClientSecretBasic",
+    "OfClientSecretPost"
+  ],
+  "ManagedAgentsMCPOAuthUpdateParams": [
+    "Type",
+    "AccessToken",
+    "ExpiresAt",
+    "Refresh"
+  ],
+  "ManagedAgentsMCPProbe": [
+    "HTTPResponse",
+    "Method",
+    "JSON"
+  ],
+  "ManagedAgentsMCPServerURLDefinition": [
+    "Name",
+    "Type",
+    "URL",
+    "JSON"
+  ],
+  "ManagedAgentsMCPToolConfig": [
+    "Enabled",
+    "Name",
+    "PermissionPolicy",
+    "JSON"
+  ],
+  "ManagedAgentsMCPToolConfigParams": [
+    "Name",
+    "Enabled",
+    "PermissionPolicy"
+  ],
+  "ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion": [
+    "OfAlwaysAllow",
+    "OfAlwaysAsk"
+  ],
+  "ManagedAgentsMCPToolConfigPermissionPolicyUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMCPToolset": [
+    "Configs",
+    "DefaultConfig",
+    "MCPServerName",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMCPToolsetDefaultConfig": [
+    "Enabled",
+    "PermissionPolicy",
+    "JSON"
+  ],
+  "ManagedAgentsMCPToolsetDefaultConfigParams": [
+    "Enabled",
+    "PermissionPolicy"
+  ],
+  "ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion": [
+    "OfAlwaysAllow",
+    "OfAlwaysAsk"
+  ],
+  "ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMCPToolsetParams": [
+    "MCPServerName",
+    "Type",
+    "Configs",
+    "DefaultConfig"
+  ],
+  "ManagedAgentsManualDeploymentPausedReason": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsManualTriggerContext": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMemory": [
+    "ID",
+    "ContentSha256",
+    "ContentSizeBytes",
+    "CreatedAt",
+    "MemoryStoreID",
+    "MemoryVersionID",
+    "Path",
+    "Type",
+    "UpdatedAt",
+    "Content",
+    "JSON"
+  ],
+  "ManagedAgentsMemoryListItemUnion": [
+    "ID",
+    "ContentSha256",
+    "ContentSizeBytes",
+    "CreatedAt",
+    "MemoryStoreID",
+    "MemoryVersionID",
+    "Path",
+    "Type",
+    "UpdatedAt",
+    "Content",
+    "JSON"
+  ],
+  "ManagedAgentsMemoryPrefix": [
+    "Path",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMemoryStore": [
+    "ID",
+    "CreatedAt",
+    "Name",
+    "Type",
+    "UpdatedAt",
+    "ArchivedAt",
+    "Description",
+    "Metadata",
+    "JSON"
+  ],
+  "ManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMemoryStoreArchivedRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMemoryStoreResource": [
+    "MemoryStoreID",
+    "Type",
+    "Access",
+    "Description",
+    "Instructions",
+    "MountPath",
+    "Name",
+    "JSON"
+  ],
+  "ManagedAgentsMemoryStoreResourceConfig": [
+    "MemoryStoreID",
+    "Type",
+    "Access",
+    "Instructions",
+    "JSON"
+  ],
+  "ManagedAgentsMemoryStoreResourceParam": [
+    "MemoryStoreID",
+    "Type",
+    "Instructions",
+    "Access"
+  ],
+  "ManagedAgentsMemoryVersion": [
+    "ID",
+    "CreatedAt",
+    "MemoryID",
+    "MemoryStoreID",
+    "Operation",
+    "Type",
+    "Content",
+    "ContentSha256",
+    "ContentSizeBytes",
+    "CreatedBy",
+    "Path",
+    "RedactedAt",
+    "RedactedBy",
+    "JSON"
+  ],
+  "ManagedAgentsModelConfig": [
+    "ID",
+    "Effort",
+    "InferenceGeo",
+    "Speed",
+    "JSON"
+  ],
+  "ManagedAgentsModelConfigEffortUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsModelConfigParams": [
+    "ID",
+    "InferenceGeo",
+    "Effort",
+    "Speed"
+  ],
+  "ManagedAgentsModelConfigParamsEffortUnion": [
+    "OfManagedAgentsModelConfigsEffortManagedAgentsEffortLevel",
+    "OfManagedAgentsEffortLow",
+    "OfManagedAgentsEffortMedium",
+    "OfManagedAgentsEffortHigh",
+    "OfManagedAgentsEffortXhigh",
+    "OfManagedAgentsEffortMax"
+  ],
+  "ManagedAgentsModelOverloadedError": [
+    "Message",
+    "RetryStatus",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsModelOverloadedErrorRetryStatusUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsModelRateLimitedError": [
+    "Message",
+    "RetryStatus",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsModelRateLimitedErrorRetryStatusUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsModelRequestFailedError": [
+    "Message",
+    "RetryStatus",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsModelRequestFailedErrorRetryStatusUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMultiagent": [
+    "Agents",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsMultiagentAgentUnion": [
+    "ID",
+    "Type",
+    "Version",
+    "Model",
+    "JSON"
+  ],
+  "ManagedAgentsMultiagentParams": [
+    "Agents",
+    "Type"
+  ],
+  "ManagedAgentsMultiagentRosterEntryParamsUnion": [
+    "OfString",
+    "OfManagedAgentsAgents",
+    "OfManagedAgentsMultiagentSelfs",
+    "OfManagedAgentsAdvisors"
+  ],
+  "ManagedAgentsMultiagentSelfParams": [
+    "Type"
+  ],
+  "ManagedAgentsOrganizationDisabledDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsOrganizationDisabledRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsOutcomeEvaluationResource": [
+    "CompletedAt",
+    "Description",
+    "Explanation",
+    "Iteration",
+    "OutcomeID",
+    "Result",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsPlainTextDocumentSource": [
+    "Data",
+    "MediaType",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsPlainTextDocumentSourceParam": [
+    "Data",
+    "MediaType",
+    "Type"
+  ],
+  "ManagedAgentsPreconditionParam": [
+    "Type",
+    "ContentSha256"
+  ],
+  "ManagedAgentsReadToolConfig": [
+    "Enabled",
+    "Name",
+    "PermissionPolicy",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsReadToolConfigParams": [
+    "Enabled",
+    "PermissionPolicy",
+    "Type",
+    "Name"
+  ],
+  "ManagedAgentsReadToolConfigParamsPermissionPolicyUnion": [
+    "OfAlwaysAllow",
+    "OfAlwaysAsk"
+  ],
+  "ManagedAgentsReadToolConfigPermissionPolicyUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsRedactedBlock": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsRedactedBlockParam": [
+    "Type"
+  ],
+  "ManagedAgentsRefreshHTTPResponse": [
+    "Body",
+    "BodyTruncated",
+    "ContentType",
+    "StatusCode",
+    "JSON"
+  ],
+  "ManagedAgentsRefreshObject": [
+    "HTTPResponse",
+    "Status",
+    "JSON"
+  ],
+  "ManagedAgentsRetryStatusExhausted": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsRetryStatusRetrying": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsRetryStatusTerminal": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSchedule": [
+    "Expression",
+    "Timezone",
+    "Type",
+    "LastRunAt",
+    "UpcomingRunsAt",
+    "JSON"
+  ],
+  "ManagedAgentsScheduleParams": [
+    "Expression",
+    "Timezone",
+    "Type"
+  ],
+  "ManagedAgentsScheduleTriggerContext": [
+    "ScheduledAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSearchResultBlock": [
+    "Citations",
+    "Content",
+    "Source",
+    "Title",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSearchResultBlockParam": [
+    "Citations",
+    "Content",
+    "Source",
+    "Title",
+    "Type"
+  ],
+  "ManagedAgentsSearchResultCitations": [
+    "Enabled",
+    "JSON"
+  ],
+  "ManagedAgentsSearchResultCitationsParam": [
+    "Enabled"
+  ],
+  "ManagedAgentsSearchResultContent": [
+    "Text",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSearchResultContentParam": [
+    "Text",
+    "Type"
+  ],
+  "ManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSelfHostedResourcesUnsupportedRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSendSessionEvents": [
+    "Data",
+    "JSON"
+  ],
+  "ManagedAgentsSendSessionEventsDataUnion": [
+    "ID",
+    "Content",
+    "Type",
+    "ProcessedAt",
+    "SessionThreadID",
+    "Result",
+    "ToolUseID",
+    "DenyMessage",
+    "CustomToolUseID",
+    "IsError",
+    "Description",
+    "MaxIterations",
+    "OutcomeID",
+    "Rubric",
+    "JSON"
+  ],
+  "ManagedAgentsSendSessionEventsDataUnionContent": [
+    "OfManagedAgentsUserMessageEventContentArray",
+    "OfManagedAgentsUserCustomToolResultEventContentArray",
+    "OfManagedAgentsUserToolResultEventContentArray",
+    "OfManagedAgentsSystemContentBlockArray",
+    "JSON"
+  ],
+  "ManagedAgentsServerToolUsage": [
+    "WebFetchRequests",
+    "WebSearchRequests",
+    "JSON"
+  ],
+  "ManagedAgentsServiceAccountActor": [
+    "ServiceAccountID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSession": [
+    "ID",
+    "Agent",
+    "ArchivedAt",
+    "Budget",
+    "CreatedAt",
+    "EnvironmentID",
+    "Metadata",
+    "OutcomeEvaluations",
+    "Resources",
+    "Stats",
+    "Status",
+    "Title",
+    "Type",
+    "UpdatedAt",
+    "Usage",
+    "VaultIDs",
+    "DeploymentID",
+    "JSON"
+  ],
+  "ManagedAgentsSessionActor": [
+    "SessionID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionAgent": [
+    "ID",
+    "Description",
+    "MCPServers",
+    "Model",
+    "Multiagent",
+    "Name",
+    "Skills",
+    "System",
+    "Tools",
+    "Type",
+    "Version",
+    "JSON"
+  ],
+  "ManagedAgentsSessionAgentSkillUnion": [
+    "SkillID",
+    "Type",
+    "Version",
+    "JSON"
+  ],
+  "ManagedAgentsSessionAgentToolUnion": [
+    "Configs",
+    "DefaultConfig",
+    "Type",
+    "MCPServerName",
+    "Description",
+    "InputSchema",
+    "Name",
+    "JSON"
+  ],
+  "ManagedAgentsSessionAgentToolUnionConfigs": [
+    "OfManagedAgentsAgentToolConfigArray",
+    "OfManagedAgentsMCPToolConfigArray",
+    "JSON"
+  ],
+  "ManagedAgentsSessionAgentToolUnionDefaultConfig": [
+    "Enabled",
+    "PermissionPolicy",
+    "JSON"
+  ],
+  "ManagedAgentsSessionAgentToolUnionDefaultConfigPermissionPolicy": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionAgentUpdateParam": [
+    "MCPServers",
+    "Tools"
+  ],
+  "ManagedAgentsSessionAgentUpdateToolUnionParam": [
+    "OfAgentToolset20260401",
+    "OfMCPToolset",
+    "OfCustom"
+  ],
+  "ManagedAgentsSessionBudgetReached": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionCreationRejectedRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionDeletedEvent": [
+    "ID",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionEndTurn": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionErrorEvent": [
+    "ID",
+    "Error",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionErrorEventErrorUnion": [
+    "Message",
+    "RetryStatus",
+    "Type",
+    "MCPServerName",
+    "CredentialID",
+    "VaultID",
+    "JSON"
+  ],
+  "ManagedAgentsSessionErrorEventErrorUnionRetryStatus": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionEventUnion": [
+    "ID",
+    "Content",
+    "Type",
+    "ProcessedAt",
+    "SessionThreadID",
+    "Result",
+    "ToolUseID",
+    "DenyMessage",
+    "CustomToolUseID",
+    "IsError",
+    "Input",
+    "Name",
+    "MCPServerName",
+    "EvaluatedPermission",
+    "MCPToolUseID",
+    "FromSessionThreadID",
+    "FromAgentName",
+    "ToSessionThreadID",
+    "ToAgentName",
+    "Error",
+    "StopReason",
+    "AgentName",
+    "Iteration",
+    "OutcomeID",
+    "Explanation",
+    "OutcomeEvaluationStartID",
+    "Usage",
+    "ModelRequestStartID",
+    "ModelUsage",
+    "Description",
+    "MaxIterations",
+    "Rubric",
+    "Agent",
+    "Budget",
+    "Metadata",
+    "Title",
+    "JSON"
+  ],
+  "ManagedAgentsSessionEventUnionContent": [
+    "OfManagedAgentsUserMessageEventContentArray",
+    "OfManagedAgentsUserCustomToolResultEventContentArray",
+    "OfManagedAgentsAgentMessageEventContentArray",
+    "OfManagedAgentsAgentMCPToolResultEventContentArray",
+    "OfManagedAgentsAgentToolResultEventContentArray",
+    "OfManagedAgentsAgentThreadMessageReceivedEventContentArray",
+    "OfManagedAgentsAgentThreadMessageSentEventContentArray",
+    "OfManagedAgentsUserToolResultEventContentArray",
+    "OfManagedAgentsSystemContentBlockArray",
+    "JSON"
+  ],
+  "ManagedAgentsSessionEventUnionStopReason": [
+    "Type",
+    "EventIDs",
+    "JSON"
+  ],
+  "ManagedAgentsSessionEventUnionUsage": [
+    "CacheCreationInputTokens",
+    "CacheReadInputTokens",
+    "InputTokens",
+    "OutputTokens",
+    "Speed",
+    "ActiveSeconds",
+    "CacheCreation",
+    "ListCost",
+    "ServerToolUse",
+    "JSON"
+  ],
+  "ManagedAgentsSessionMultiagentCoordinator": [
+    "Agents",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionMultiagentCoordinatorAgentUnion": [
+    "ID",
+    "Description",
+    "MCPServers",
+    "Model",
+    "Name",
+    "Skills",
+    "System",
+    "Tools",
+    "Type",
+    "Version",
+    "JSON"
+  ],
+  "ManagedAgentsSessionMultiagentCoordinatorAgentUnionModel": [
+    "OfString",
+    "ID",
+    "Effort",
+    "InferenceGeo",
+    "Speed",
+    "JSON"
+  ],
+  "ManagedAgentsSessionRateLimitedRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionRequiresAction": [
+    "EventIDs",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionResourceConfigUnion": [
+    "Type",
+    "URL",
+    "Checkout",
+    "MountPath",
+    "FileID",
+    "MemoryStoreID",
+    "Access",
+    "Instructions",
+    "JSON"
+  ],
+  "ManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionResourceNotFoundRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionResourceUnion": [
+    "ID",
+    "CreatedAt",
+    "MountPath",
+    "Type",
+    "UpdatedAt",
+    "URL",
+    "Checkout",
+    "FileID",
+    "MemoryStoreID",
+    "Access",
+    "Description",
+    "Instructions",
+    "Name",
+    "JSON"
+  ],
+  "ManagedAgentsSessionRetriesExhausted": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionStats": [
+    "ActiveSeconds",
+    "DurationSeconds",
+    "JSON"
+  ],
+  "ManagedAgentsSessionStatusIdleEvent": [
+    "ID",
+    "ProcessedAt",
+    "StopReason",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionStatusIdleEventStopReasonUnion": [
+    "Type",
+    "EventIDs",
+    "JSON"
+  ],
+  "ManagedAgentsSessionStatusRescheduledEvent": [
+    "ID",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionStatusRunningEvent": [
+    "ID",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionStatusTerminatedEvent": [
+    "ID",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThread": [
+    "ID",
+    "Agent",
+    "ArchivedAt",
+    "CreatedAt",
+    "ParentThreadID",
+    "SessionID",
+    "Stats",
+    "Status",
+    "Type",
+    "UpdatedAt",
+    "Usage",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadAgent": [
+    "ID",
+    "Description",
+    "MCPServers",
+    "Model",
+    "Name",
+    "Skills",
+    "System",
+    "Tools",
+    "Type",
+    "Version",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadAgentSkillUnion": [
+    "SkillID",
+    "Type",
+    "Version",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadAgentToolUnion": [
+    "Configs",
+    "DefaultConfig",
+    "Type",
+    "MCPServerName",
+    "Description",
+    "InputSchema",
+    "Name",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadAgentToolUnionConfigs": [
+    "OfManagedAgentsAgentToolConfigArray",
+    "OfManagedAgentsMCPToolConfigArray",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadAgentToolUnionDefaultConfig": [
+    "Enabled",
+    "PermissionPolicy",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadAgentToolUnionDefaultConfigPermissionPolicy": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadAgentUnion": [
+    "ID",
+    "Description",
+    "MCPServers",
+    "Model",
+    "Name",
+    "Skills",
+    "System",
+    "Tools",
+    "Type",
+    "Version",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadAgentUnionModel": [
+    "OfString",
+    "ID",
+    "Effort",
+    "InferenceGeo",
+    "Speed",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadCreatedEvent": [
+    "ID",
+    "AgentName",
+    "ProcessedAt",
+    "SessionThreadID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadStats": [
+    "ActiveSeconds",
+    "DurationSeconds",
+    "StartupSeconds",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadStatusIdleEvent": [
+    "ID",
+    "AgentName",
+    "ProcessedAt",
+    "SessionThreadID",
+    "StopReason",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadStatusIdleEventStopReasonUnion": [
+    "Type",
+    "EventIDs",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadStatusRescheduledEvent": [
+    "ID",
+    "AgentName",
+    "ProcessedAt",
+    "SessionThreadID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadStatusRunningEvent": [
+    "ID",
+    "AgentName",
+    "ProcessedAt",
+    "SessionThreadID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadStatusTerminatedEvent": [
+    "ID",
+    "AgentName",
+    "ProcessedAt",
+    "SessionThreadID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSessionThreadUsage": [
+    "ActiveSeconds",
+    "CacheCreation",
+    "CacheReadInputTokens",
+    "InputTokens",
+    "ListCost",
+    "OutputTokens",
+    "ServerToolUse",
+    "JSON"
+  ],
+  "ManagedAgentsSessionUpdatedEvent": [
+    "ID",
+    "ProcessedAt",
+    "Type",
+    "Agent",
+    "Budget",
+    "Metadata",
+    "Title",
+    "JSON"
+  ],
+  "ManagedAgentsSessionUsage": [
+    "ActiveSeconds",
+    "CacheCreation",
+    "CacheReadInputTokens",
+    "InputTokens",
+    "ListCost",
+    "OutputTokens",
+    "ServerToolUse",
+    "JSON"
+  ],
+  "ManagedAgentsSessionUsageEvent": [
+    "ID",
+    "ProcessedAt",
+    "Type",
+    "Usage",
+    "Budget",
+    "JSON"
+  ],
+  "ManagedAgentsSessionUsageSnapshot": [
+    "ActiveSeconds",
+    "CacheCreation",
+    "CacheReadInputTokens",
+    "InputTokens",
+    "ListCost",
+    "OutputTokens",
+    "ServerToolUse",
+    "JSON"
+  ],
+  "ManagedAgentsSkillNotFoundDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSkillNotFoundRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSkillParamsUnion": [
+    "OfQoder",
+    "OfCustom"
+  ],
+  "ManagedAgentsSpanModelRequestEndEvent": [
+    "ID",
+    "IsError",
+    "ModelRequestStartID",
+    "ModelUsage",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSpanModelRequestStartEvent": [
+    "ID",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSpanModelUsage": [
+    "CacheCreationInputTokens",
+    "CacheReadInputTokens",
+    "InputTokens",
+    "OutputTokens",
+    "Speed",
+    "JSON"
+  ],
+  "ManagedAgentsSpanOutcomeEvaluationEndEvent": [
+    "ID",
+    "Explanation",
+    "Iteration",
+    "OutcomeEvaluationStartID",
+    "OutcomeID",
+    "ProcessedAt",
+    "Result",
+    "Type",
+    "Usage",
+    "JSON"
+  ],
+  "ManagedAgentsSpanOutcomeEvaluationOngoingEvent": [
+    "ID",
+    "Iteration",
+    "OutcomeID",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSpanOutcomeEvaluationStartEvent": [
+    "ID",
+    "Iteration",
+    "OutcomeID",
+    "ProcessedAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsStartEvent": [
+    "Event",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsStartEventPreviewUnion": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsStaticBearerAuthResponse": [
+    "MCPServerURL",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsStaticBearerCreateParams": [
+    "Token",
+    "MCPServerURL",
+    "Type"
+  ],
+  "ManagedAgentsStaticBearerUpdateParams": [
+    "Type",
+    "Token"
+  ],
+  "ManagedAgentsStreamSessionEventsUnion": [
+    "ID",
+    "Content",
+    "Type",
+    "ProcessedAt",
+    "SessionThreadID",
+    "Result",
+    "ToolUseID",
+    "DenyMessage",
+    "CustomToolUseID",
+    "IsError",
+    "Input",
+    "Name",
+    "MCPServerName",
+    "EvaluatedPermission",
+    "MCPToolUseID",
+    "FromSessionThreadID",
+    "FromAgentName",
+    "ToSessionThreadID",
+    "ToAgentName",
+    "Error",
+    "StopReason",
+    "AgentName",
+    "Iteration",
+    "OutcomeID",
+    "Explanation",
+    "OutcomeEvaluationStartID",
+    "Usage",
+    "ModelRequestStartID",
+    "ModelUsage",
+    "Description",
+    "MaxIterations",
+    "Rubric",
+    "Agent",
+    "Budget",
+    "Metadata",
+    "Title",
+    "Event",
+    "Delta",
+    "EventID",
+    "JSON"
+  ],
+  "ManagedAgentsStreamSessionEventsUnionContent": [
+    "OfManagedAgentsUserMessageEventContentArray",
+    "OfManagedAgentsUserCustomToolResultEventContentArray",
+    "OfManagedAgentsAgentMessageEventContentArray",
+    "OfManagedAgentsAgentMCPToolResultEventContentArray",
+    "OfManagedAgentsAgentToolResultEventContentArray",
+    "OfManagedAgentsAgentThreadMessageReceivedEventContentArray",
+    "OfManagedAgentsAgentThreadMessageSentEventContentArray",
+    "OfManagedAgentsUserToolResultEventContentArray",
+    "OfManagedAgentsSystemContentBlockArray",
+    "JSON"
+  ],
+  "ManagedAgentsStreamSessionEventsUnionStopReason": [
+    "Type",
+    "EventIDs",
+    "JSON"
+  ],
+  "ManagedAgentsStreamSessionEventsUnionUsage": [
+    "CacheCreationInputTokens",
+    "CacheReadInputTokens",
+    "InputTokens",
+    "OutputTokens",
+    "Speed",
+    "ActiveSeconds",
+    "CacheCreation",
+    "ListCost",
+    "ServerToolUse",
+    "JSON"
+  ],
+  "ManagedAgentsStreamSessionThreadEventsUnion": [
+    "ID",
+    "Content",
+    "Type",
+    "ProcessedAt",
+    "SessionThreadID",
+    "Result",
+    "ToolUseID",
+    "DenyMessage",
+    "CustomToolUseID",
+    "IsError",
+    "Input",
+    "Name",
+    "MCPServerName",
+    "EvaluatedPermission",
+    "MCPToolUseID",
+    "FromSessionThreadID",
+    "FromAgentName",
+    "ToSessionThreadID",
+    "ToAgentName",
+    "Error",
+    "StopReason",
+    "AgentName",
+    "Iteration",
+    "OutcomeID",
+    "Explanation",
+    "OutcomeEvaluationStartID",
+    "Usage",
+    "ModelRequestStartID",
+    "ModelUsage",
+    "Description",
+    "MaxIterations",
+    "Rubric",
+    "Agent",
+    "Budget",
+    "Metadata",
+    "Title",
+    "Event",
+    "Delta",
+    "EventID",
+    "JSON"
+  ],
+  "ManagedAgentsStreamSessionThreadEventsUnionContent": [
+    "OfManagedAgentsUserMessageEventContentArray",
+    "OfManagedAgentsUserCustomToolResultEventContentArray",
+    "OfManagedAgentsAgentMessageEventContentArray",
+    "OfManagedAgentsAgentMCPToolResultEventContentArray",
+    "OfManagedAgentsAgentToolResultEventContentArray",
+    "OfManagedAgentsAgentThreadMessageReceivedEventContentArray",
+    "OfManagedAgentsAgentThreadMessageSentEventContentArray",
+    "OfManagedAgentsUserToolResultEventContentArray",
+    "OfManagedAgentsSystemContentBlockArray",
+    "JSON"
+  ],
+  "ManagedAgentsStreamSessionThreadEventsUnionStopReason": [
+    "Type",
+    "EventIDs",
+    "JSON"
+  ],
+  "ManagedAgentsStreamSessionThreadEventsUnionUsage": [
+    "CacheCreationInputTokens",
+    "CacheReadInputTokens",
+    "InputTokens",
+    "OutputTokens",
+    "Speed",
+    "ActiveSeconds",
+    "CacheCreation",
+    "ListCost",
+    "ServerToolUse",
+    "JSON"
+  ],
+  "ManagedAgentsSystemContentBlock": [
+    "Text",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsSystemContentBlockParam": [
+    "Text",
+    "Type"
+  ],
+  "ManagedAgentsSystemMessageEvent": [
+    "ID",
+    "Content",
+    "Type",
+    "ProcessedAt",
+    "JSON"
+  ],
+  "ManagedAgentsSystemMessageEventParams": [
+    "Content",
+    "Type"
+  ],
+  "ManagedAgentsTextBlock": [
+    "Text",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsTextBlockParam": [
+    "Text",
+    "Type"
+  ],
+  "ManagedAgentsTextRubric": [
+    "Content",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsTextRubricParams": [
+    "Content",
+    "Type"
+  ],
+  "ManagedAgentsTokenEndpointAuthBasicParam": [
+    "ClientSecret",
+    "Type"
+  ],
+  "ManagedAgentsTokenEndpointAuthBasicResponse": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsTokenEndpointAuthBasicUpdateParam": [
+    "Type",
+    "ClientSecret"
+  ],
+  "ManagedAgentsTokenEndpointAuthNoneParam": [
+    "Type"
+  ],
+  "ManagedAgentsTokenEndpointAuthNoneResponse": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsTokenEndpointAuthPostParam": [
+    "ClientSecret",
+    "Type"
+  ],
+  "ManagedAgentsTokenEndpointAuthPostResponse": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsTokenEndpointAuthPostUpdateParam": [
+    "Type",
+    "ClientSecret"
+  ],
+  "ManagedAgentsTriggerContextUnion": [
+    "ScheduledAt",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsURLDocumentSource": [
+    "Type",
+    "URL",
+    "JSON"
+  ],
+  "ManagedAgentsURLDocumentSourceParam": [
+    "Type",
+    "URL"
+  ],
+  "ManagedAgentsURLImageSource": [
+    "Type",
+    "URL",
+    "JSON"
+  ],
+  "ManagedAgentsURLImageSourceParam": [
+    "Type",
+    "URL"
+  ],
+  "ManagedAgentsURLMCPServerParams": [
+    "Name",
+    "Type",
+    "URL"
+  ],
+  "ManagedAgentsUnknownDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsUnknownError": [
+    "Message",
+    "RetryStatus",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsUnknownErrorRetryStatusUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsUnknownRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsUnrestrictedCredentialNetworkingParams": [
+    "Type"
+  ],
+  "ManagedAgentsUnrestrictedCredentialNetworkingResponse": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsUserActor": [
+    "Type",
+    "UserID",
+    "JSON"
+  ],
+  "ManagedAgentsUserCustomToolResultEvent": [
+    "ID",
+    "CustomToolUseID",
+    "Type",
+    "Content",
+    "IsError",
+    "ProcessedAt",
+    "SessionThreadID",
+    "JSON"
+  ],
+  "ManagedAgentsUserCustomToolResultEventContentUnion": [
+    "Text",
+    "Type",
+    "Source",
+    "Context",
+    "Title",
+    "Citations",
+    "Content",
+    "JSON"
+  ],
+  "ManagedAgentsUserCustomToolResultEventContentUnionSource": [
+    "OfString",
+    "Data",
+    "MediaType",
+    "Type",
+    "URL",
+    "FileID",
+    "JSON"
+  ],
+  "ManagedAgentsUserCustomToolResultEventParams": [
+    "CustomToolUseID",
+    "Type",
+    "IsError",
+    "Content"
+  ],
+  "ManagedAgentsUserCustomToolResultEventParamsContentUnion": [
+    "OfText",
+    "OfImage",
+    "OfDocument",
+    "OfSearchResult"
+  ],
+  "ManagedAgentsUserDefineOutcomeEvent": [
+    "ID",
+    "Description",
+    "MaxIterations",
+    "OutcomeID",
+    "ProcessedAt",
+    "Rubric",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsUserDefineOutcomeEventParams": [
+    "Description",
+    "Rubric",
+    "Type",
+    "MaxIterations"
+  ],
+  "ManagedAgentsUserDefineOutcomeEventParamsRubricUnion": [
+    "OfFile",
+    "OfText"
+  ],
+  "ManagedAgentsUserDefineOutcomeEventRubricUnion": [
+    "FileID",
+    "Type",
+    "Content",
+    "JSON"
+  ],
+  "ManagedAgentsUserInterruptEvent": [
+    "ID",
+    "Type",
+    "ProcessedAt",
+    "SessionThreadID",
+    "JSON"
+  ],
+  "ManagedAgentsUserInterruptEventParams": [
+    "Type",
+    "SessionThreadID"
+  ],
+  "ManagedAgentsUserLocation": [
+    "Type",
+    "City",
+    "Country",
+    "Region",
+    "Timezone",
+    "JSON"
+  ],
+  "ManagedAgentsUserLocationParam": [
+    "City",
+    "Country",
+    "Region",
+    "Timezone",
+    "Type"
+  ],
+  "ManagedAgentsUserMessageEvent": [
+    "ID",
+    "Content",
+    "Type",
+    "ProcessedAt",
+    "JSON"
+  ],
+  "ManagedAgentsUserMessageEventContentUnion": [
+    "Text",
+    "Type",
+    "Source",
+    "Context",
+    "Title",
+    "JSON"
+  ],
+  "ManagedAgentsUserMessageEventContentUnionSource": [
+    "Data",
+    "MediaType",
+    "Type",
+    "URL",
+    "FileID",
+    "JSON"
+  ],
+  "ManagedAgentsUserMessageEventParams": [
+    "Content",
+    "Type"
+  ],
+  "ManagedAgentsUserMessageEventParamsContentUnion": [
+    "OfText",
+    "OfImage",
+    "OfDocument",
+    "OfRedacted"
+  ],
+  "ManagedAgentsUserToolConfirmationEvent": [
+    "ID",
+    "Result",
+    "ToolUseID",
+    "Type",
+    "DenyMessage",
+    "ProcessedAt",
+    "SessionThreadID",
+    "JSON"
+  ],
+  "ManagedAgentsUserToolConfirmationEventParams": [
+    "Result",
+    "ToolUseID",
+    "Type",
+    "DenyMessage"
+  ],
+  "ManagedAgentsUserToolResultEvent": [
+    "ID",
+    "ToolUseID",
+    "Type",
+    "Content",
+    "IsError",
+    "ProcessedAt",
+    "SessionThreadID",
+    "JSON"
+  ],
+  "ManagedAgentsUserToolResultEventContentUnion": [
+    "Text",
+    "Type",
+    "Source",
+    "Context",
+    "Title",
+    "Citations",
+    "Content",
+    "JSON"
+  ],
+  "ManagedAgentsUserToolResultEventContentUnionSource": [
+    "OfString",
+    "Data",
+    "MediaType",
+    "Type",
+    "URL",
+    "FileID",
+    "JSON"
+  ],
+  "ManagedAgentsUserToolResultEventParams": [
+    "ToolUseID",
+    "Type",
+    "IsError",
+    "Content"
+  ],
+  "ManagedAgentsUserToolResultEventParamsContentUnion": [
+    "OfText",
+    "OfImage",
+    "OfDocument",
+    "OfSearchResult"
+  ],
+  "ManagedAgentsVault": [
+    "ID",
+    "ArchivedAt",
+    "CreatedAt",
+    "DisplayName",
+    "Metadata",
+    "Type",
+    "UpdatedAt",
+    "JSON"
+  ],
+  "ManagedAgentsVaultArchivedDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsVaultArchivedRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsVaultNotFoundDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsVaultNotFoundRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsWebFetchToolConfig": [
+    "Enabled",
+    "Name",
+    "PermissionPolicy",
+    "Type",
+    "AllowedDomains",
+    "BlockedDomains",
+    "MaxContentTokens",
+    "JSON"
+  ],
+  "ManagedAgentsWebFetchToolConfigParams": [
+    "Enabled",
+    "MaxContentTokens",
+    "PermissionPolicy",
+    "AllowedDomains",
+    "BlockedDomains",
+    "Type",
+    "Name"
+  ],
+  "ManagedAgentsWebFetchToolConfigParamsPermissionPolicyUnion": [
+    "OfAlwaysAllow",
+    "OfAlwaysAsk"
+  ],
+  "ManagedAgentsWebFetchToolConfigPermissionPolicyUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsWebSearchToolConfig": [
+    "Enabled",
+    "Name",
+    "PermissionPolicy",
+    "Type",
+    "AllowedDomains",
+    "BlockedDomains",
+    "UserLocation",
+    "JSON"
+  ],
+  "ManagedAgentsWebSearchToolConfigParams": [
+    "Enabled",
+    "PermissionPolicy",
+    "AllowedDomains",
+    "BlockedDomains",
+    "Type",
+    "UserLocation",
+    "Name"
+  ],
+  "ManagedAgentsWebSearchToolConfigParamsPermissionPolicyUnion": [
+    "OfAlwaysAllow",
+    "OfAlwaysAsk"
+  ],
+  "ManagedAgentsWebSearchToolConfigPermissionPolicyUnion": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsWorkspaceArchivedDeploymentPausedReasonError": [
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsWorkspaceArchivedRunError": [
+    "Message",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsWriteToolConfig": [
+    "Enabled",
+    "Name",
+    "PermissionPolicy",
+    "Type",
+    "JSON"
+  ],
+  "ManagedAgentsWriteToolConfigParams": [
+    "Enabled",
+    "PermissionPolicy",
+    "Type",
+    "Name"
+  ],
+  "ManagedAgentsWriteToolConfigParamsPermissionPolicyUnion": [
+    "OfAlwaysAllow",
+    "OfAlwaysAsk"
+  ],
+  "ManagedAgentsWriteToolConfigPermissionPolicyUnion": [
+    "Type",
+    "JSON"
+  ],
+  "MemoryStoreArchiveParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "MemoryStoreDeleteParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "MemoryStoreGetParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "MemoryStoreListParams": [
+    "CreatedAtGte",
+    "CreatedAtLte",
+    "IncludeArchived",
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "MemoryStoreMemoryDeleteParams": [
+    "MemoryStoreID",
+    "ExpectedContentSha256",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "MemoryStoreMemoryGetParams": [
+    "MemoryStoreID",
+    "WorkspaceID",
+    "View",
+    "Betas"
+  ],
+  "MemoryStoreMemoryListParams": [
+    "Depth",
+    "Limit",
+    "Page",
+    "PathPrefix",
+    "WorkspaceID",
+    "View",
+    "Betas"
+  ],
+  "MemoryStoreMemoryNewParams": [
+    "Content",
+    "Path",
+    "WorkspaceID",
+    "View",
+    "Betas"
+  ],
+  "MemoryStoreMemoryService": [
+    "Options"
+  ],
+  "MemoryStoreMemoryUpdateParams": [
+    "MemoryStoreID",
+    "Content",
+    "Path",
+    "WorkspaceID",
+    "View",
+    "Precondition",
+    "Betas"
+  ],
+  "MemoryStoreMemoryVersionGetParams": [
+    "MemoryStoreID",
+    "WorkspaceID",
+    "View",
+    "Betas"
+  ],
+  "MemoryStoreMemoryVersionListParams": [
+    "APIKeyID",
+    "CreatedAtGte",
+    "CreatedAtLte",
+    "Limit",
+    "MemoryID",
+    "Page",
+    "ServiceAccountID",
+    "SessionID",
+    "WorkspaceID",
+    "Operation",
+    "View",
+    "Betas"
+  ],
+  "MemoryStoreMemoryVersionRedactParams": [
+    "MemoryStoreID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "MemoryStoreMemoryVersionService": [
+    "Options"
+  ],
+  "MemoryStoreNewParams": [
+    "Name",
+    "Description",
+    "WorkspaceID",
+    "Metadata",
+    "Betas"
+  ],
+  "MemoryStoreService": [
+    "Options",
+    "Memories",
+    "MemoryVersions"
+  ],
+  "MemoryStoreUpdateParams": [
+    "Description",
+    "Name",
+    "WorkspaceID",
+    "Metadata",
+    "Betas"
+  ],
+  "ModelCapabilities": [
+    "Batch",
+    "Citations",
+    "CodeExecution",
+    "ContextManagement",
+    "Effort",
+    "ImageInput",
+    "PDFInput",
+    "StructuredOutputs",
+    "Thinking",
+    "JSON"
+  ],
+  "ModelInfo": [
+    "ID",
+    "AllowedFallbackModels",
+    "Capabilities",
+    "CreatedAt",
+    "DisplayName",
+    "MaxInputTokens",
+    "MaxTokens",
+    "Type",
+    "JSON"
+  ],
+  "ModelListParams": [
+    "AfterID",
+    "BeforeID",
+    "Limit",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "ModelService": [
+    "Options"
+  ],
+  "MonetaryAmount": [
+    "Amount",
+    "Currency",
+    "JSON"
+  ],
+  "MonetaryAmountParam": [
+    "Amount",
+    "Currency"
+  ],
+  "OutputBehaviorCreateNew": [
+    "Type",
+    "JSON"
+  ],
+  "OutputBehaviorCreateNewParam": [
+    "Type"
+  ],
+  "OutputBehaviorUnion": [
+    "Type",
+    "MemoryStoreID",
+    "JSON"
+  ],
+  "OutputBehaviorUnionParam": [
+    "OfCreateNew",
+    "OfUpdateExisting"
+  ],
+  "OutputBehaviorUpdateExisting": [
+    "MemoryStoreID",
+    "Type",
+    "JSON"
+  ],
+  "OutputBehaviorUpdateExistingParam": [
+    "MemoryStoreID",
+    "Type"
+  ],
+  "Packages": [
+    "Apt",
+    "Cargo",
+    "Gem",
+    "Go",
+    "Npm",
+    "Pip",
+    "Type",
+    "JSON"
+  ],
+  "PackagesParams": [
+    "Apt",
+    "Cargo",
+    "Gem",
+    "Go",
+    "Npm",
+    "Pip",
+    "Type"
+  ],
+  "PlainTextSourceParam": [
+    "Data",
+    "MediaType",
+    "Type"
+  ],
+  "RedactedThinkingBlockParam": [
+    "Data",
+    "Type"
+  ],
+  "RequestDocumentBlockParam": [
+    "Source",
+    "Context",
+    "Title",
+    "CacheControl",
+    "Citations",
+    "Type"
+  ],
+  "RequestDocumentBlockSourceUnionParam": [
+    "OfBase64",
+    "OfText",
+    "OfContent",
+    "OfURL",
+    "OfFile"
+  ],
+  "RequestMCPToolResultBlockParam": [
+    "ToolUseID",
+    "IsError",
+    "CacheControl",
+    "Content",
+    "Type"
+  ],
+  "RequestMCPToolResultBlockParamContentUnion": [
+    "OfString",
+    "OfMCPToolResultBlockContent"
+  ],
+  "RequestToolAdditionBlockParam": [
+    "Tool",
+    "CacheControl",
+    "Type"
+  ],
+  "RequestToolAdditionBlockToolUnionParam": [
+    "OfToolReference",
+    "OfMCPToolReference",
+    "OfMCPToolsetReference"
+  ],
+  "RequestToolRemovalBlockParam": [
+    "Tool",
+    "CacheControl",
+    "Type"
+  ],
+  "RequestToolRemovalBlockToolUnionParam": [
+    "OfToolReference",
+    "OfMCPToolReference",
+    "OfMCPToolsetReference"
+  ],
+  "SearchResultBlockParam": [
+    "Content",
+    "Source",
+    "Title",
+    "CacheControl",
+    "Citations",
+    "Type"
+  ],
+  "SelfHostedConfig": [
+    "Type",
+    "JSON"
+  ],
+  "SelfHostedConfigParams": [
+    "Type"
+  ],
+  "SelfHostedWork": [
+    "ID",
+    "AcknowledgedAt",
+    "CreatedAt",
+    "Data",
+    "EnvironmentID",
+    "LatestHeartbeatAt",
+    "Metadata",
+    "Secret",
+    "StartedAt",
+    "State",
+    "StopRequestedAt",
+    "StoppedAt",
+    "Type",
+    "JSON"
+  ],
+  "SelfHostedWorkHeartbeatResponse": [
+    "LastHeartbeat",
+    "LeaseExtended",
+    "State",
+    "TTLSeconds",
+    "Type",
+    "JSON"
+  ],
+  "SelfHostedWorkListResponse": [
+    "Data",
+    "NextPage",
+    "JSON"
+  ],
+  "SelfHostedWorkQueueStats": [
+    "Depth",
+    "OldestQueuedAt",
+    "Pending",
+    "Type",
+    "WorkersPolling",
+    "JSON"
+  ],
+  "SelfHostedWorkStopRequestParam": [
+    "Force"
+  ],
+  "SelfHostedWorkUpdateRequestParam": [
+    "Metadata"
+  ],
+  "ServerToolCaller20260120Param": [
+    "ToolID",
+    "Type"
+  ],
+  "ServerToolCallerParam": [
+    "ToolID",
+    "Type"
+  ],
+  "ServerToolUseBlockParam": [
+    "ID",
+    "Input",
+    "Name",
+    "CacheControl",
+    "Caller",
+    "Type"
+  ],
+  "ServerToolUseBlockParamCallerUnion": [
+    "OfDirect",
+    "OfCodeExecution20250825",
+    "OfCodeExecution20260120"
+  ],
+  "SessionArchiveParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionDeleteParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionEventListParams": [
+    "CreatedAtGt",
+    "CreatedAtGte",
+    "CreatedAtLt",
+    "CreatedAtLte",
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Order",
+    "Types",
+    "Betas"
+  ],
+  "SessionEventSendParams": [
+    "Events",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionEventService": [
+    "Options"
+  ],
+  "SessionEventStreamParams": [
+    "WorkspaceID",
+    "EventDeltas",
+    "Betas"
+  ],
+  "SessionGetParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionListParams": [
+    "AgentID",
+    "AgentVersion",
+    "CreatedAtGt",
+    "CreatedAtGte",
+    "CreatedAtLt",
+    "CreatedAtLte",
+    "DeploymentID",
+    "IncludeArchived",
+    "Limit",
+    "MemoryStoreID",
+    "Page",
+    "WorkspaceID",
+    "Order",
+    "Statuses",
+    "Betas"
+  ],
+  "SessionNewParams": [
+    "Agent",
+    "EnvironmentID",
+    "Title",
+    "WorkspaceID",
+    "Budget",
+    "InitialEvents",
+    "Metadata",
+    "Resources",
+    "VaultIDs",
+    "Betas"
+  ],
+  "SessionNewParamsAgentUnion": [
+    "OfString",
+    "OfManagedAgentsAgents",
+    "OfManagedAgentsAgentWithOverridess"
+  ],
+  "SessionNewParamsInitialEventUnion": [
+    "OfUserMessage",
+    "OfUserDefineOutcome"
+  ],
+  "SessionNewParamsResourceUnion": [
+    "OfGitHubRepository",
+    "OfFile",
+    "OfMemoryStore"
+  ],
+  "SessionResourceAddParams": [
+    "ManagedAgentsFileResourceParams",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionResourceDeleteParams": [
+    "SessionID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionResourceGetParams": [
+    "SessionID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionResourceGetResponseUnion": [
+    "ID",
+    "CreatedAt",
+    "MountPath",
+    "Type",
+    "UpdatedAt",
+    "URL",
+    "Checkout",
+    "FileID",
+    "MemoryStoreID",
+    "Access",
+    "Description",
+    "Instructions",
+    "Name",
+    "JSON"
+  ],
+  "SessionResourceListParams": [
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionResourceService": [
+    "Options"
+  ],
+  "SessionResourceUpdateParams": [
+    "SessionID",
+    "AuthorizationToken",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionResourceUpdateResponseUnion": [
+    "ID",
+    "CreatedAt",
+    "MountPath",
+    "Type",
+    "UpdatedAt",
+    "URL",
+    "Checkout",
+    "FileID",
+    "MemoryStoreID",
+    "Access",
+    "Description",
+    "Instructions",
+    "Name",
+    "JSON"
+  ],
+  "SessionService": [
+    "Options",
+    "Events",
+    "Resources",
+    "Threads"
+  ],
+  "SessionThreadArchiveParams": [
+    "SessionID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionThreadEventListParams": [
+    "SessionID",
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionThreadEventService": [
+    "Options"
+  ],
+  "SessionThreadEventStreamParams": [
+    "SessionID",
+    "WorkspaceID",
+    "EventDeltas",
+    "Betas"
+  ],
+  "SessionThreadGetParams": [
+    "SessionID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionThreadListParams": [
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SessionThreadService": [
+    "Options",
+    "Events"
+  ],
+  "SessionUpdateParams": [
+    "Title",
+    "WorkspaceID",
+    "Metadata",
+    "Agent",
+    "Budget",
+    "VaultIDs",
+    "Betas"
+  ],
+  "SessionWorkData": [
+    "ID",
+    "Type",
+    "JSON"
+  ],
+  "Skill": [
+    "ID",
+    "CreatedAt",
+    "DisplayName",
+    "LatestVersionID",
+    "Source",
+    "Type",
+    "UpdatedAt",
+    "JSON"
+  ],
+  "SkillDeleteParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SkillGetParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SkillListParams": [
+    "Page",
+    "Source",
+    "Limit",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SkillNewParams": [
+    "Files",
+    "DisplayName",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SkillService": [
+    "Options",
+    "Versions"
+  ],
+  "SkillSource": [
+    "Type",
+    "JSON"
+  ],
+  "SkillVersion": [
+    "ID",
+    "CreatedAt",
+    "Description",
+    "Name",
+    "SkillID",
+    "Type",
+    "JSON"
+  ],
+  "SkillVersionDeleteParams": [
+    "SkillID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SkillVersionDownloadParams": [
+    "SkillID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SkillVersionGetParams": [
+    "SkillID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SkillVersionListParams": [
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SkillVersionNewParams": [
+    "Files",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "SkillVersionService": [
+    "Options"
+  ],
+  "TextBlockParam": [
+    "Text",
+    "Citations",
+    "CacheControl",
+    "Type"
+  ],
+  "TextCitationParamUnion": [
+    "OfCharLocation",
+    "OfPageLocation",
+    "OfContentBlockLocation",
+    "OfWebSearchResultLocation",
+    "OfSearchResultLocation"
+  ],
+  "TextEditorCodeExecutionCreateResultBlockParam": [
+    "IsFileUpdate",
+    "Type"
+  ],
+  "TextEditorCodeExecutionStrReplaceResultBlockParam": [
+    "NewLines",
+    "NewStart",
+    "OldLines",
+    "OldStart",
+    "Lines",
+    "Type"
+  ],
+  "TextEditorCodeExecutionToolResultBlockParam": [
+    "Content",
+    "ToolUseID",
+    "CacheControl",
+    "Type"
+  ],
+  "TextEditorCodeExecutionToolResultBlockParamContentUnion": [
+    "OfRequestTextEditorCodeExecutionToolResultError",
+    "OfRequestTextEditorCodeExecutionViewResultBlock",
+    "OfRequestTextEditorCodeExecutionCreateResultBlock",
+    "OfRequestTextEditorCodeExecutionStrReplaceResultBlock"
+  ],
+  "TextEditorCodeExecutionToolResultErrorParam": [
+    "ErrorCode",
+    "ErrorMessage",
+    "Type"
+  ],
+  "TextEditorCodeExecutionViewResultBlockParam": [
+    "Content",
+    "FileType",
+    "NumLines",
+    "StartLine",
+    "TotalLines",
+    "Type"
+  ],
+  "ThinkingBlockParam": [
+    "Signature",
+    "Thinking",
+    "Type"
+  ],
+  "ThinkingCapability": [
+    "Supported",
+    "Types",
+    "JSON"
+  ],
+  "ThinkingTypes": [
+    "Adaptive",
+    "Enabled",
+    "JSON"
+  ],
+  "ToolChangeMCPToolReferenceParam": [
+    "Name",
+    "ServerName",
+    "Type"
+  ],
+  "ToolChangeMCPToolsetReferenceParam": [
+    "ServerName",
+    "Type"
+  ],
+  "ToolChangeToolReferenceParam": [
+    "Name",
+    "Type"
+  ],
+  "ToolReferenceBlockParam": [
+    "ToolName",
+    "CacheControl",
+    "Type"
+  ],
+  "ToolResultBlockParam": [
+    "ToolUseID",
+    "ToolsetName",
+    "IsError",
+    "CacheControl",
+    "Content",
+    "Type"
+  ],
+  "ToolResultBlockParamContentUnion": [
+    "OfText",
+    "OfImage",
+    "OfSearchResult",
+    "OfDocument",
+    "OfToolReference",
+    "OfBrowserState"
+  ],
+  "ToolSearchToolResultBlockParam": [
+    "Content",
+    "ToolUseID",
+    "CacheControl",
+    "Type"
+  ],
+  "ToolSearchToolResultBlockParamContentUnion": [
+    "OfRequestToolSearchToolResultError",
+    "OfRequestToolSearchToolSearchResultBlock"
+  ],
+  "ToolSearchToolResultErrorParam": [
+    "ErrorCode",
+    "ErrorMessage",
+    "Type"
+  ],
+  "ToolSearchToolSearchResultBlockParam": [
+    "ToolReferences",
+    "Type"
+  ],
+  "ToolUseBlockParam": [
+    "ID",
+    "Input",
+    "Name",
+    "ToolsetName",
+    "CacheControl",
+    "Caller",
+    "Type"
+  ],
+  "ToolUseBlockParamCallerUnion": [
+    "OfDirect",
+    "OfCodeExecution20250825",
+    "OfCodeExecution20260120"
+  ],
+  "URLImageSourceParam": [
+    "URL",
+    "Type"
+  ],
+  "URLPDFSourceParam": [
+    "URL",
+    "Type"
+  ],
+  "UnrestrictedNetwork": [
+    "Type",
+    "JSON"
+  ],
+  "UnrestrictedNetworkParam": [
+    "Type"
+  ],
+  "VaultArchiveParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "VaultCredentialArchiveParams": [
+    "VaultID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "VaultCredentialDeleteParams": [
+    "VaultID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "VaultCredentialGetParams": [
+    "VaultID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "VaultCredentialListParams": [
+    "IncludeArchived",
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "VaultCredentialMCPOAuthValidateParams": [
+    "VaultID",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "VaultCredentialNewParams": [
+    "Auth",
+    "DisplayName",
+    "WorkspaceID",
+    "Metadata",
+    "Betas"
+  ],
+  "VaultCredentialNewParamsAuthUnion": [
+    "OfMCPOAuth",
+    "OfStaticBearer",
+    "OfEnvironmentVariable"
+  ],
+  "VaultCredentialService": [
+    "Options"
+  ],
+  "VaultCredentialUpdateParams": [
+    "VaultID",
+    "DisplayName",
+    "WorkspaceID",
+    "Metadata",
+    "Auth",
+    "Betas"
+  ],
+  "VaultCredentialUpdateParamsAuthUnion": [
+    "OfMCPOAuth",
+    "OfStaticBearer",
+    "OfEnvironmentVariable"
+  ],
+  "VaultDeleteParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "VaultGetParams": [
+    "WorkspaceID",
+    "Betas"
+  ],
+  "VaultListParams": [
+    "IncludeArchived",
+    "Limit",
+    "Page",
+    "WorkspaceID",
+    "Betas"
+  ],
+  "VaultNewParams": [
+    "DisplayName",
+    "WorkspaceID",
+    "Metadata",
+    "Betas"
+  ],
+  "VaultService": [
+    "Options",
+    "Credentials"
+  ],
+  "WebFetchBlockParam": [
+    "Content",
+    "URL",
+    "RetrievedAt",
+    "Type"
+  ],
+  "WebFetchToolResultBlockParam": [
+    "Content",
+    "ToolUseID",
+    "CacheControl",
+    "Caller",
+    "Type"
+  ],
+  "WebFetchToolResultBlockParamCallerUnion": [
+    "OfDirect",
+    "OfCodeExecution20250825",
+    "OfCodeExecution20260120"
+  ],
+  "WebFetchToolResultBlockParamContentUnion": [
+    "OfRequestWebFetchToolResultError",
+    "OfRequestWebFetchResultBlock"
+  ],
+  "WebFetchToolResultErrorBlockParam": [
+    "ErrorCode",
+    "Type"
+  ],
+  "WebSearchResultBlockParam": [
+    "EncryptedContent",
+    "Title",
+    "URL",
+    "PageAge",
+    "Type"
+  ],
+  "WebSearchToolRequestErrorParam": [
+    "ErrorCode",
+    "Type"
+  ],
+  "WebSearchToolResultBlockParam": [
+    "Content",
+    "ToolUseID",
+    "CacheControl",
+    "Caller",
+    "Type"
+  ],
+  "WebSearchToolResultBlockParamCallerUnion": [
+    "OfDirect",
+    "OfCodeExecution20250825",
+    "OfCodeExecution20260120"
+  ],
+  "WebSearchToolResultBlockParamContentUnion": [
+    "OfResultBlock",
+    "OfError"
+  ]
+}

@@ -1,0 +1,368 @@
+[
+  {
+    "service": "AgentService",
+    "method": "New",
+    "doc": "agents/create.md",
+    "case": 1,
+    "body": {
+      "name": "doc-test-agent",
+      "model": "ultimate",
+      "system": "You are a documentation testing assistant.",
+      "tools": [
+        {
+          "type": "agent_toolset_20260401",
+          "enabled_tools": [
+            "Bash",
+            "Read",
+            "Write",
+            "Edit",
+            "Glob",
+            "Grep",
+            "WebFetch",
+            "WebSearch"
+          ]
+        }
+      ],
+      "mcp_servers": [
+        {
+          "type": "url",
+          "name": "weather-service",
+          "url": "https://mcp.example.com/mcp"
+        }
+      ]
+    }
+  },
+  {
+    "service": "AgentService",
+    "method": "New",
+    "doc": "agents/create.md",
+    "case": 2,
+    "body": {
+      "name": "doc-test-agent-tuned",
+      "model": {
+        "id": "ultimate",
+        "effort": "high",
+        "context_window": 400000
+      },
+      "system": "You are a documentation testing assistant."
+    }
+  },
+  {
+    "service": "AgentService",
+    "method": "Update",
+    "doc": "agents/update.md",
+    "case": 1,
+    "body": {
+      "name": "doc-test-agent-updated",
+      "model": "ultimate",
+      "system": "You are an updated documentation testing assistant.",
+      "description": "Used for API documentation testing",
+      "version": 1
+    }
+  },
+  {
+    "service": "DeploymentService",
+    "method": "Update",
+    "doc": "deployments/update.md",
+    "case": 1,
+    "body": {
+      "name": "api-doc-verification-deployment-v2",
+      "schedule": {
+        "type": "cron",
+        "expression": "30 9 * * 1-5",
+        "timezone": "Asia/Shanghai"
+      }
+    }
+  },
+  {
+    "service": "SessionEventService",
+    "method": "Send",
+    "doc": "sessions/send-event.md",
+    "case": 1,
+    "body": {
+      "events": [
+        {
+          "type": "user.message",
+          "content": [
+            {
+              "type": "text",
+              "text": "Help me analyze the performance of this code."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "service": "VaultService",
+    "method": "New",
+    "doc": "vaults/create.md",
+    "case": 1,
+    "body": {
+      "display_name": "my-mcp-vault",
+      "metadata": {
+        "team": "docs"
+      }
+    }
+  },
+  {
+    "service": "MemoryStoreService",
+    "method": "New",
+    "doc": "memory-stores/create.md",
+    "case": 1,
+    "body": {
+      "name": "project-alpha-memory",
+      "description": "Agent knowledge base for project Alpha",
+      "metadata": {
+        "team": "backend"
+      }
+    }
+  },
+  {
+    "service": "MemoryStoreService",
+    "method": "Update",
+    "doc": "memory-stores/update.md",
+    "case": 1,
+    "body": {
+      "name": "project-alpha-memory-v2",
+      "metadata": {
+        "team": null,
+        "env": "production"
+      }
+    }
+  },
+  {
+    "service": "SessionResourceService",
+    "method": "Update",
+    "doc": "sessions/update-resource.md",
+    "case": 1,
+    "body": {
+      "authorization_token": "ghp_newtoken"
+    }
+  },
+  {
+    "service": "SessionResourceService",
+    "method": "Add",
+    "doc": "sessions/add-resource.md",
+    "case": 1,
+    "body": {
+      "type": "file",
+      "file_id": "file_abc123def456",
+      "mount_path": "/data/inputs/spec.md"
+    }
+  },
+  {
+    "service": "MemoryStoreMemoryService",
+    "method": "New",
+    "doc": "memory-stores/create-memory.md",
+    "case": 1,
+    "body": {
+      "path": "decisions/arch-choice.md",
+      "content": "# Architecture Decision\n\nChose microservices."
+    }
+  },
+  {
+    "service": "MemoryStoreMemoryService",
+    "method": "Update",
+    "doc": "memory-stores/update-memory.md",
+    "case": 1,
+    "body": {
+      "content": "# Updated content",
+      "content_sha256": "a1b2c3..."
+    }
+  },
+  {
+    "service": "EnvironmentService",
+    "method": "New",
+    "doc": "environments/create.md",
+    "case": 1,
+    "body": {
+      "name": "doc-test-env",
+      "config": {
+        "type": "cloud",
+        "packages": {
+          "apt": [
+            "curl"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "service": "EnvironmentService",
+    "method": "New",
+    "doc": "environments/create.md",
+    "case": 2,
+    "body": {
+      "name": "doc-test-env-with-setup",
+      "config": {
+        "type": "cloud",
+        "packages": {
+          "npm": [
+            "pnpm@9"
+          ]
+        },
+        "setup_script": "set -euo pipefail\n[ -d /data/workspace/repo/.git ] || git clone https://github.com/me/repo /data/workspace/repo\ncd /data/workspace/repo && pnpm install --frozen-lockfile"
+      }
+    }
+  },
+  {
+    "service": "EnvironmentService",
+    "method": "Update",
+    "doc": "environments/update.md",
+    "case": 1,
+    "body": {
+      "description": "Environment used for API documentation testing"
+    }
+  },
+  {
+    "service": "EnvironmentWorkService",
+    "method": "Update",
+    "doc": "environments/work/update-metadata.md",
+    "case": 1,
+    "body": {
+      "metadata": {
+        "worker": "byoc-worker-01",
+        "obsolete_key": null
+      }
+    }
+  },
+  {
+    "service": "EnvironmentWorkService",
+    "method": "Stop",
+    "doc": "environments/work/stop.md",
+    "case": 1,
+    "body": {}
+  },
+  {
+    "service": "EnvironmentWorkService",
+    "method": "Stop",
+    "doc": "environments/work/stop.md",
+    "case": 2,
+    "body": {
+      "force": true
+    }
+  },
+  {
+    "service": "DreamService",
+    "method": "New",
+    "doc": "dreams/create.md",
+    "case": 1,
+    "body": {
+      "inputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "memstore_019e5cdb9c3f71c3b6505eba937a40b4"
+        },
+        {
+          "type": "sessions",
+          "session_ids": [
+            "sess_019e7a1b2c3d4e5f6a7b8c9d0e1f2a3b"
+          ]
+        }
+      ],
+      "model": "auto",
+      "instructions": "Focus on user preferences for code style"
+    }
+  },
+  {
+    "service": "VaultCredentialService",
+    "method": "New",
+    "doc": "vaults/create-credential.md",
+    "case": 1,
+    "body": {
+      "auth": {
+        "type": "static_bearer",
+        "mcp_server_url": "https://example.com/mcp-stream",
+        "token": "your-access-token"
+      },
+      "metadata": {
+        "team": "docs"
+      }
+    }
+  },
+  {
+    "service": "VaultCredentialService",
+    "method": "New",
+    "doc": "vaults/create-credential.md",
+    "case": 2,
+    "body": {
+      "auth": {
+        "type": "mcp_oauth",
+        "mcp_server_url": "https://mcp.example.com/mcp",
+        "access_token": "oauth-access-token",
+        "expires_at": "2026-08-16T08:00:00Z",
+        "refresh": {
+          "client_id": "oauth-client-id",
+          "refresh_token": "oauth-refresh-token",
+          "token_endpoint": "https://auth.example.com/oauth/token",
+          "token_endpoint_auth": {
+            "type": "client_secret_basic",
+            "client_secret": "oauth-client-secret"
+          },
+          "resource": "https://mcp.example.com/mcp",
+          "scope": "mcp.read mcp.write"
+        }
+      },
+      "metadata": {
+        "team": "docs"
+      }
+    }
+  },
+  {
+    "service": "SessionService",
+    "method": "New",
+    "doc": "sessions/create.md",
+    "case": 1,
+    "body": {
+      "agent": {
+        "id": "agent_019e390add9f7bac9b6cc806db46fcbd",
+        "type": "agent",
+        "version": 2
+      },
+      "environment_id": "env_019e2590d33f711fabf42f2857cecd8a",
+      "title": "Code review session",
+      "metadata": {
+        "purpose": "review"
+      },
+      "environment_variables": {
+        "FEATURE_FLAG": "on",
+        "LOG_LEVEL": "debug"
+      },
+      "resources": [
+        {
+          "type": "github_repository",
+          "url": "https://github.com/your-org/your-repo",
+          "mount_path": "/data/workspace/your-repo",
+          "authorization_token": "ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        {
+          "type": "memory_store",
+          "memory_store_id": "memstore_019eed05b61e78cea61bfd366e072878",
+          "access": "read_write",
+          "instructions": "Use this memory for long-lived project context."
+        }
+      ],
+      "vault_ids": [
+        "vault_019eed0519807975983d0ffc4b4b4c79"
+      ]
+    }
+  },
+  {
+    "service": "SessionService",
+    "method": "Update",
+    "doc": "sessions/update.md",
+    "case": 1,
+    "body": {
+      "title": "New title",
+      "metadata": {
+        "priority": "high",
+        "old_key": null
+      },
+      "agent": {
+        "tools": [],
+        "mcp_servers": []
+      }
+    }
+  }
+]

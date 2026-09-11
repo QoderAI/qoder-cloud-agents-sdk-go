@@ -1,0 +1,3158 @@
+[
+  {
+    "operation_id": "listTemplates",
+    "service": "TemplateService",
+    "entry": "Templates",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "type": "template",
+          "id": "tmpl_support",
+          "name": "Support assistant",
+          "description": "Handles customer support requests",
+          "status": "active",
+          "created_at": "2026-06-18T10:00:00Z",
+          "updated_at": "2026-06-18T10:00:00Z"
+        }
+      ],
+      "first_id": "tmpl_support",
+      "last_id": "tmpl_support",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createTemplate",
+    "service": "TemplateService",
+    "entry": "Templates",
+    "name": "New",
+    "response": {
+      "type": "template",
+      "id": "tmpl_support",
+      "name": "Support assistant",
+      "description": "Handles customer support requests",
+      "status": "active",
+      "model": {
+        "id": "ultimate",
+        "effort": "high",
+        "context_window": 400000
+      },
+      "system": "You are a helpful support assistant.",
+      "tools": [
+        {
+          "type": "agent_toolset_20260401"
+        }
+      ],
+      "mcp_servers": [],
+      "skills": [],
+      "multiagent": {
+        "type": "coordinator",
+        "agents": [
+          {
+            "type": "agent",
+            "template_id": "tmpl_research",
+            "name": "Research Agent"
+          },
+          {
+            "type": "self"
+          }
+        ]
+      },
+      "environment_id": "env_xxx",
+      "vaults": {
+        "vault_019f18f2761b": {
+          "enabled": true
+        }
+      },
+      "files": {},
+      "github_repositories": {
+        "source": {
+          "url": "https://github.com/acme/support-agent",
+          "mount_path": "/data/workspace/support-agent"
+        }
+      },
+      "environment_variables": {
+        "BASE_MODE": "support"
+      },
+      "metadata": {},
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getTemplate",
+    "service": "TemplateService",
+    "entry": "Templates",
+    "name": "Get",
+    "response": {
+      "type": "template",
+      "id": "tmpl_support",
+      "name": "Support assistant",
+      "description": "Handles customer support requests",
+      "status": "active",
+      "model": "ultimate",
+      "system": "You are a helpful support assistant.",
+      "tools": [],
+      "mcp_servers": [],
+      "skills": [],
+      "environment_id": "env_support",
+      "vaults": {
+        "vault_019f18f2761b": {
+          "enabled": true
+        }
+      },
+      "files": {},
+      "github_repositories": {
+        "source": {
+          "url": "https://github.com/acme/support-agent",
+          "mount_path": "/data/workspace/support-agent"
+        }
+      },
+      "environment_variables": {
+        "BASE_MODE": "support"
+      },
+      "metadata": {},
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "updateTemplate",
+    "service": "TemplateService",
+    "entry": "Templates",
+    "name": "Update",
+    "response": {
+      "type": "template",
+      "id": "tmpl_support",
+      "name": "Support assistant v2",
+      "description": "Handles customer support requests",
+      "status": "active",
+      "model": {
+        "id": "ultimate",
+        "effort": "high",
+        "context_window": 400000
+      },
+      "system": "You are a helpful support assistant.",
+      "tools": [
+        {
+          "type": "agent_toolset_20260401"
+        }
+      ],
+      "mcp_servers": [],
+      "skills": [],
+      "multiagent": {
+        "type": "coordinator",
+        "agents": [
+          {
+            "type": "agent",
+            "template_id": "tmpl_research_v2",
+            "name": "Research Agent"
+          },
+          {
+            "type": "self"
+          }
+        ]
+      },
+      "environment_id": "env_support_v2",
+      "vaults": {
+        "vault_019f18f2761b": {
+          "enabled": true
+        },
+        "vault_019f18f2762c": {
+          "enabled": true
+        }
+      },
+      "files": {},
+      "github_repositories": {
+        "source": {
+          "url": "https://github.com/acme/support-agent",
+          "mount_path": "/data/workspace/support-agent"
+        }
+      },
+      "environment_variables": {
+        "BASE_MODE": "support_v2"
+      },
+      "metadata": {},
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:30:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "archiveTemplate",
+    "service": "TemplateService",
+    "entry": "Templates",
+    "name": "Archive",
+    "response": {
+      "type": "template",
+      "id": "tmpl_support",
+      "name": "Support assistant",
+      "description": "Handles customer support requests",
+      "status": "archived",
+      "model": "ultimate",
+      "system": "You are a helpful support assistant.",
+      "tools": [],
+      "mcp_servers": [],
+      "skills": [],
+      "environment_id": "env_support",
+      "vaults": {
+        "vault_019f18f2761b": {
+          "enabled": true
+        }
+      },
+      "files": {},
+      "environment_variables": {
+        "BASE_MODE": "support"
+      },
+      "metadata": {},
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:30:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "cloneTemplate",
+    "service": "TemplateService",
+    "entry": "Templates",
+    "name": "Clone",
+    "response": {
+      "type": "template",
+      "id": "tmpl_019eYYYY",
+      "name": "Support assistant copy",
+      "description": "Cloned from Support assistant",
+      "status": "active",
+      "model": "ultimate",
+      "system": "You are a helpful support assistant.",
+      "tools": [],
+      "mcp_servers": [],
+      "skills": [],
+      "environment_id": "env_support",
+      "vaults": {
+        "vault_019f18f2761b": {
+          "enabled": true
+        }
+      },
+      "files": {},
+      "environment_variables": {
+        "BASE_MODE": "support"
+      },
+      "metadata": {},
+      "created_at": "2026-06-18T10:31:00Z",
+      "updated_at": "2026-06-18T10:31:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listIdentities",
+    "service": "IdentityService",
+    "entry": "Identities",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "idn_019eabc123",
+          "external_id": "user_456",
+          "name": "Example User",
+          "identity_type": "normal",
+          "enabled": true,
+          "metadata": {},
+          "created_at": "2026-06-18T10:00:00Z",
+          "updated_at": "2026-06-18T10:00:00Z"
+        }
+      ],
+      "first_id": "idn_019eabc123",
+      "last_id": "idn_019eabc123",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createIdentity",
+    "service": "IdentityService",
+    "entry": "Identities",
+    "name": "New",
+    "response": {
+      "id": "idn_019eabc123",
+      "external_id": "user_456",
+      "name": "Example User",
+      "identity_type": "normal",
+      "enabled": true,
+      "metadata": {
+        "channel": "web"
+      },
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "ensureAdminIdentity",
+    "service": "IdentityService",
+    "entry": "Identities",
+    "name": "EnsureAdmin",
+    "response": {
+      "id": "idn_admin",
+      "external_id": "__qca_admin_identity__",
+      "name": "QCA Console Admin",
+      "identity_type": "admin",
+      "enabled": true,
+      "metadata": {},
+      "created_at": "2026-07-14T10:00:00Z",
+      "updated_at": "2026-07-14T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getIdentityStats",
+    "service": "IdentityService",
+    "entry": "Identities",
+    "name": "Stats",
+    "response": {
+      "total_identities": 12,
+      "active_identities": 8,
+      "total_agents": 5,
+      "total_sessions": 126
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getIdentity",
+    "service": "IdentityService",
+    "entry": "Identities",
+    "name": "Get",
+    "response": {
+      "id": "idn_019eabc123",
+      "external_id": "user_456",
+      "name": "Example User",
+      "identity_type": "normal",
+      "enabled": true,
+      "metadata": {
+        "channel": "web"
+      },
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "updateIdentity",
+    "service": "IdentityService",
+    "entry": "Identities",
+    "name": "Update",
+    "response": {
+      "id": "idn_019eabc123",
+      "external_id": "user_456",
+      "name": "Example User",
+      "enabled": false,
+      "metadata": {
+        "channel": "app"
+      },
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:30:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "deleteIdentity",
+    "service": "IdentityService",
+    "entry": "Identities",
+    "name": "Delete",
+    "response": {
+      "id": "idn_019eabc123",
+      "deleted": true
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listIdentityAgents",
+    "service": "IdentityService",
+    "entry": "Identities",
+    "name": "ListTemplates",
+    "response": {
+      "data": [
+        {
+          "template_id": "tmpl_support",
+          "template_name": "Support assistant",
+          "session_count": 8,
+          "last_active_at": "2026-07-14T10:30:00Z"
+        }
+      ]
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "clearIdentity",
+    "service": "IdentityService",
+    "entry": "Identities",
+    "name": "Clear",
+    "response": {
+      "identity_id": "idn_019eabc123",
+      "status": "completed",
+      "completed_at": "2026-07-13T08:00:00Z",
+      "summary": {
+        "identity_configs_archived": 1,
+        "resource_bindings_archived": 2,
+        "identity_owned_resources_archived": 1,
+        "schedules_archived": 1,
+        "schedule_runs_skipped": 2,
+        "sessions_archived": 3
+      }
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "disableIdentity",
+    "service": "IdentityService",
+    "entry": "Identities",
+    "name": "Disable",
+    "response": {
+      "id": "idn_019eabc123",
+      "enabled": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "enableIdentity",
+    "service": "IdentityService",
+    "entry": "Identities",
+    "name": "Enable",
+    "response": {
+      "id": "idn_019eabc123",
+      "enabled": true
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listIdentityConfigs",
+    "service": "IdentityConfigService",
+    "entry": "Identities.Configs",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "type": "config",
+          "id": "cfg_support",
+          "identity_id": "idn_019eabc123",
+          "template_id": "tmpl_support",
+          "name": "CRM profile",
+          "status": "active",
+          "effective_hash": "sha256:...",
+          "created_at": "2026-06-18T10:00:00Z",
+          "updated_at": "2026-06-18T10:00:00Z"
+        }
+      ],
+      "first_id": "cfg_support",
+      "last_id": "cfg_support",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getIdentityConfig",
+    "service": "IdentityConfigService",
+    "entry": "Identities.Configs",
+    "name": "Get",
+    "response": {
+      "type": "config",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_support",
+      "name": "CRM profile",
+      "status": "active",
+      "identity_config": {
+        "system": {
+          "mode": "append",
+          "content": "Prefer CRM data when answering."
+        },
+        "skills": {
+          "skill_019f18f2749e": {
+            "enabled": true
+          }
+        },
+        "environment_variables": {
+          "CRM_REGION": {
+            "op": "set",
+            "value": "cn-shanghai"
+          },
+          "LEGACY_CRM_MODE": {
+            "op": "unset"
+          }
+        },
+        "github_repositories": {
+          "source": {
+            "mount_path": "/data/workspace/support-agent"
+          },
+          "legacy": {
+            "enabled": false
+          }
+        }
+      },
+      "metadata": {},
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "upsertIdentityConfig",
+    "service": "IdentityConfigService",
+    "entry": "Identities.Configs",
+    "name": "Upsert",
+    "response": {
+      "type": "config",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_support",
+      "name": "CRM profile",
+      "status": "active",
+      "effective_hash": "sha256:...",
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getEffectiveConfig",
+    "service": "IdentityConfigService",
+    "entry": "Identities.Configs",
+    "name": "GetEffective",
+    "response": {
+      "type": "effective_spec",
+      "id": "config_123",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_support",
+      "agent_effective_hash": "sha256:...",
+      "session_effective_hash": "sha256:...",
+      "effective_hash": "sha256:...",
+      "agent": {
+        "model": "ultimate",
+        "system": "You are a support assistant.\nPrefer CRM data when answering.",
+        "tools": [
+          {
+            "type": "agent_toolset_20260401",
+            "configs": [
+              {
+                "name": "Read",
+                "enabled": true
+              },
+              {
+                "name": "Grep",
+                "enabled": true
+              },
+              {
+                "name": "WebSearch",
+                "enabled": false
+              }
+            ]
+          }
+        ],
+        "mcp_servers": [],
+        "skills": []
+      },
+      "session": {
+        "environment_id": "env_support",
+        "environment_variables": {
+          "BASE_MODE": "identity",
+          "USER_MODE": "enabled"
+        },
+        "vault_ids": [
+          "vault_019f18f2761b"
+        ],
+        "resources": [
+          {
+            "type": "file",
+            "file_id": "file_019eXXXX"
+          },
+          {
+            "type": "github_repository",
+            "url": "https://github.com/acme/support-agent",
+            "mount_path": "/data/workspace/support-agent"
+          }
+        ]
+      }
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listMemoryStoreMounts",
+    "service": "IdentityMemoryStoreService",
+    "entry": "Identities.MemoryStores",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "memory_store_id": "memstore_00mc7mtpughs0h0b7vll",
+          "identity_id": "idn_63ee28747a35cff93771c491",
+          "template_id": "tmpl_eb3377fb74ad413e17b3d755",
+          "access": "read_write",
+          "system_managed": true,
+          "name": "System Default Memory",
+          "status": "active",
+          "entry_count": 3,
+          "created_at": "2026-08-14T09:50:14Z"
+        },
+        {
+          "memory_store_id": "memstore_00mc7mukn7lkxr454tjd",
+          "identity_id": "idn_63ee28747a35cff93771c491",
+          "template_id": "tmpl_eb3377fb74ad413e17b3d755",
+          "access": "read_only",
+          "system_managed": false,
+          "name": "team-a",
+          "status": "active",
+          "entry_count": 12,
+          "created_at": "2026-08-14T10:00:00Z"
+        }
+      ],
+      "first_id": "memstore_00mc7mtpughs0h0b7vll",
+      "last_id": "memstore_00mc7mukn7lkxr454tjd",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "mountMemoryStore",
+    "service": "IdentityMemoryStoreService",
+    "entry": "Identities.MemoryStores",
+    "name": "Mount",
+    "response": {
+      "memory_store_id": "memstore_00mc7mukn7lkxr454tjd",
+      "identity_id": "idn_63ee28747a35cff93771c491",
+      "template_id": "tmpl_eb3377fb74ad413e17b3d755",
+      "access": "read_only",
+      "system_managed": false,
+      "name": "team-a",
+      "status": "active",
+      "entry_count": 12,
+      "created_at": "2026-08-14T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "detachMemoryStore",
+    "service": "IdentityMemoryStoreService",
+    "entry": "Identities.MemoryStores",
+    "name": "Detach",
+    "response": {
+      "id": "memstore_00mc7mukn7lkxr454tjd",
+      "type": "memory_store_binding_deleted",
+      "deleted": true
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listSessions",
+    "service": "SessionService",
+    "entry": "Sessions",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "sess_xxx",
+          "type": "session",
+          "identity_id": "idn_xxx",
+          "template": {
+            "id": "tmpl_support",
+            "type": "template",
+            "name": "Support assistant",
+            "model": "ultimate",
+            "version": 3
+          },
+          "source_type": "im",
+          "status": "idle",
+          "title": "Customer support session",
+          "metadata": {
+            "source": "dingtalk"
+          },
+          "config": {
+            "environment_variables": {
+              "API_KEY": "sk-xxx"
+            }
+          },
+          "resources": [
+            {
+              "id": "sesr_xxx",
+              "type": "file",
+              "file_id": "file_xxx",
+              "mount_path": "/data/workspace/spec.md",
+              "created_at": "2026-06-23T05:53:19Z",
+              "updated_at": "2026-06-23T05:53:38Z"
+            }
+          ],
+          "stats": {
+            "active_seconds": 30,
+            "duration_seconds": 3600
+          },
+          "usage": {
+            "total_credits": 12.5
+          },
+          "archived_at": null,
+          "created_at": "2026-06-22T10:00:00Z",
+          "updated_at": "2026-06-22T11:00:00Z"
+        }
+      ],
+      "first_id": "sess_xxx",
+      "last_id": "sess_xxx",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createSession",
+    "service": "SessionService",
+    "entry": "Sessions",
+    "name": "New",
+    "response": {
+      "id": "sess_xxx",
+      "type": "session",
+      "identity_id": "idn_xxx",
+      "template": {
+        "id": "tmpl_support",
+        "type": "template",
+        "name": "Support assistant",
+        "model": "ultimate",
+        "version": 3
+      },
+      "source_type": "api",
+      "status": "idle",
+      "title": "Customer support session",
+      "metadata": {
+        "source": "web"
+      },
+      "config": {
+        "environment_variables": {
+          "API_KEY": "sk-xxx"
+        }
+      },
+      "stats": {
+        "active_seconds": 0,
+        "duration_seconds": 0
+      },
+      "usage": {
+        "total_credits": 0
+      },
+      "archived_at": null,
+      "created_at": "2026-06-22T10:00:00Z",
+      "updated_at": "2026-06-22T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getSession",
+    "service": "SessionService",
+    "entry": "Sessions",
+    "name": "Get",
+    "response": {
+      "id": "sess_xxx",
+      "type": "session",
+      "identity_id": "idn_xxx",
+      "template": {
+        "id": "tmpl_support",
+        "type": "template",
+        "name": "Support assistant",
+        "model": "ultimate",
+        "version": 3
+      },
+      "source_type": "api",
+      "status": "running",
+      "title": "Customer support session",
+      "metadata": {
+        "source": "web"
+      },
+      "config": {
+        "environment_variables": {
+          "API_KEY": "sk-xxx"
+        }
+      },
+      "resources": [
+        {
+          "id": "sesr_xxx",
+          "type": "file",
+          "file_id": "file_xxx",
+          "mount_path": "/data/workspace/spec.md",
+          "created_at": "2026-06-23T05:53:19Z",
+          "updated_at": "2026-06-23T05:53:38Z"
+        }
+      ],
+      "stats": {
+        "active_seconds": 30,
+        "duration_seconds": 3600
+      },
+      "usage": {
+        "total_credits": 12.5
+      },
+      "archived_at": null,
+      "created_at": "2026-06-22T10:00:00Z",
+      "updated_at": "2026-06-22T11:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "updateSession",
+    "service": "SessionService",
+    "entry": "Sessions",
+    "name": "Update",
+    "response": {
+      "id": "sess_xxx",
+      "type": "session",
+      "identity_id": "idn_xxx",
+      "template": {
+        "id": "tmpl_support",
+        "type": "template",
+        "name": "Support assistant",
+        "model": "ultimate",
+        "version": 3
+      },
+      "source_type": "api",
+      "status": "idle",
+      "title": "Updated session title",
+      "metadata": {
+        "source": "mobile",
+        "biz_id": "ticket_123"
+      },
+      "config": {
+        "environment_variables": {
+          "API_KEY": "sk-xxx",
+          "REGION": "cn-hangzhou"
+        }
+      },
+      "stats": {
+        "active_seconds": 30,
+        "duration_seconds": 3600
+      },
+      "usage": {
+        "total_credits": 12.7
+      },
+      "archived_at": null,
+      "created_at": "2026-06-22T10:00:00Z",
+      "updated_at": "2026-06-22T12:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "archiveSession",
+    "service": "SessionService",
+    "entry": "Sessions",
+    "name": "Archive",
+    "response": {
+      "id": "sess_xxx",
+      "type": "session",
+      "identity_id": "idn_xxx",
+      "template": {
+        "id": "tmpl_support",
+        "type": "template",
+        "name": "Support assistant",
+        "model": "ultimate",
+        "version": 3
+      },
+      "source_type": "api",
+      "status": "idle",
+      "title": "Customer support session",
+      "metadata": {},
+      "config": {
+        "environment_variables": {
+          "API_KEY": "sk-xxx"
+        }
+      },
+      "stats": {
+        "active_seconds": 0,
+        "duration_seconds": 0
+      },
+      "usage": {
+        "total_credits": 13.0
+      },
+      "archived_at": "2026-06-22T12:00:00Z",
+      "created_at": "2026-06-22T10:00:00Z",
+      "updated_at": "2026-06-22T12:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "cancelSession",
+    "service": "SessionService",
+    "entry": "Sessions",
+    "name": "Cancel",
+    "response": {
+      "id": "sess_xxx",
+      "type": "session",
+      "status": "canceling"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listSessionEvents",
+    "service": "SessionEventService",
+    "entry": "Sessions.Events",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "evt_xxx",
+          "type": "agent.message",
+          "session_id": "sess_xxx",
+          "content": [
+            {
+              "type": "text",
+              "text": "Here is the analysis result."
+            }
+          ],
+          "processed_at": "2026-06-22T11:00:03Z"
+        }
+      ],
+      "first_id": "evt_xxx",
+      "last_id": "evt_xxx",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "sendSessionEvents",
+    "service": "SessionEventService",
+    "entry": "Sessions.Events",
+    "name": "Send",
+    "response": {
+      "data": [
+        {
+          "id": "evt_xxx",
+          "type": "user.message",
+          "session_id": "sess_xxx",
+          "content": [
+            {
+              "type": "text",
+              "text": "Continue the analysis."
+            }
+          ],
+          "processed_at": "2026-06-22T11:00:00Z"
+        }
+      ]
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "streamSessionEvents",
+    "service": "SessionEventService",
+    "entry": "Sessions.Events",
+    "name": "StreamEvents",
+    "response": {},
+    "stream": true,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "addSessionResource",
+    "service": "SessionResourceService",
+    "entry": "Sessions.Resources",
+    "name": "Add",
+    "response": {
+      "id": "sesr_0e4323e8f47ba34853f5409e",
+      "type": "file",
+      "file_id": "file_019e6a18dc09abcd",
+      "mount_path": "/data/workspace/spec.md",
+      "created_at": "2026-06-23T05:53:19Z",
+      "updated_at": "2026-06-23T05:53:38Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listSessionThreads",
+    "service": "SessionThreadService",
+    "entry": "Sessions.Threads",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "sthr_xxx",
+          "type": "session_thread",
+          "session_id": "sess_xxx",
+          "template_id": "tmpl_support",
+          "role": "coordinator",
+          "status": "idle",
+          "stop_reason": {
+            "type": "end_turn"
+          },
+          "created_at": "2026-06-22T10:00:00Z",
+          "updated_at": "2026-06-22T10:05:00Z"
+        }
+      ],
+      "first_id": "sthr_xxx",
+      "last_id": "sthr_xxx",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getSessionThread",
+    "service": "SessionThreadService",
+    "entry": "Sessions.Threads",
+    "name": "Get",
+    "response": {
+      "id": "sthr_child_xxx",
+      "type": "session_thread",
+      "session_id": "sess_xxx",
+      "parent_thread_id": "sthr_coordinator_xxx",
+      "template_id": "tmpl_worker",
+      "name": "research",
+      "role": "child",
+      "status": "idle",
+      "stop_reason": {
+        "type": "end_turn"
+      },
+      "created_by_tool_use_id": "toolu_xxx",
+      "created_at": "2026-06-22T11:00:00Z",
+      "updated_at": "2026-06-22T11:05:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "archiveSessionThread",
+    "service": "SessionThreadService",
+    "entry": "Sessions.Threads",
+    "name": "Archive",
+    "response": {
+      "id": "sthr_child_xxx",
+      "type": "session_thread",
+      "session_id": "sess_xxx",
+      "parent_thread_id": "sthr_coordinator_xxx",
+      "template_id": "tmpl_worker",
+      "name": "research",
+      "role": "child",
+      "status": "archived",
+      "stop_reason": {
+        "type": "archive"
+      },
+      "created_by_tool_use_id": "toolu_xxx",
+      "archived_at": "2026-06-22T12:00:00Z",
+      "created_at": "2026-06-22T11:00:00Z",
+      "updated_at": "2026-06-22T12:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listSessionThreadEvents",
+    "service": "SessionThreadEventService",
+    "entry": "Sessions.Threads.Events",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "evt_xxx",
+          "type": "agent.message",
+          "session_id": "sess_xxx",
+          "content": [
+            {
+              "type": "text",
+              "text": "子任务执行完成。"
+            }
+          ],
+          "processed_at": "2026-06-22T11:05:00Z"
+        }
+      ],
+      "first_id": "evt_xxx",
+      "last_id": "evt_xxx",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "streamSessionThreadEvents",
+    "service": "SessionThreadEventService",
+    "entry": "Sessions.Threads.Events",
+    "name": "StreamEvents",
+    "response": {},
+    "stream": true,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listSchedules",
+    "service": "ScheduleService",
+    "entry": "Schedules",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "sched_019f00112233445566778899aabbccdd",
+          "identity_id": "idn_019eabc123",
+          "template_id": "tmpl_support",
+          "name": "Daily tech brief",
+          "description": "Generate a daily technology news summary",
+          "status": "active",
+          "initial_events": [
+            {
+              "type": "user.message",
+              "content": "Summarize current technology news in five bullet points."
+            }
+          ],
+          "execution": {
+            "session_mode": "new_session",
+            "max_concurrent_runs": 1,
+            "max_attempts": 2,
+            "timeout_ms": 300000
+          },
+          "trigger_policy": {
+            "type": "cron",
+            "expression": "0 9 * * *",
+            "timezone": "Asia/Shanghai",
+            "upcoming_runs_at": [
+              "2026-06-23T01:00:00Z"
+            ]
+          },
+          "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+          "sinks": [
+            {
+              "type": "im_channel",
+              "channel_id": "channel_xxx",
+              "target": {
+                "type": "user",
+                "external_id": "536769"
+              }
+            }
+          ],
+          "metadata": {},
+          "created_at": "2026-06-22T10:00:00Z",
+          "updated_at": "2026-06-22T10:00:00Z"
+        }
+      ],
+      "first_id": "sched_019f00112233445566778899aabbccdd",
+      "last_id": "sched_019f00112233445566778899aabbccdd",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createSchedule",
+    "service": "ScheduleService",
+    "entry": "Schedules",
+    "name": "New",
+    "response": {
+      "id": "sched_019f00112233445566778899aabbccdd",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_support",
+      "name": "Daily tech brief",
+      "description": "Generate a daily technology news summary",
+      "status": "active",
+      "initial_events": [
+        {
+          "type": "user.message",
+          "content": "Summarize current technology news in five bullet points."
+        }
+      ],
+      "execution": {
+        "session_mode": "new_session",
+        "max_concurrent_runs": 1,
+        "max_attempts": 2,
+        "timeout_ms": 300000
+      },
+      "trigger_policy": {
+        "type": "cron",
+        "expression": "0 9 * * *",
+        "timezone": "Asia/Shanghai",
+        "upcoming_runs_at": [
+          "2026-06-23T01:00:00Z"
+        ]
+      },
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "sinks": [
+        {
+          "type": "im_channel",
+          "channel_id": "channel_xxx",
+          "target": {
+            "type": "user",
+            "external_id": "536769"
+          }
+        }
+      ],
+      "metadata": {},
+      "created_at": "2026-06-22T10:00:00Z",
+      "updated_at": "2026-06-22T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "archiveSchedules",
+    "service": "ScheduleService",
+    "entry": "Schedules",
+    "name": "ArchiveMany",
+    "response": {
+      "archived_count": 2
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getSchedule",
+    "service": "ScheduleService",
+    "entry": "Schedules",
+    "name": "Get",
+    "response": {
+      "id": "sched_019f00112233445566778899aabbccdd",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_support",
+      "name": "Daily tech brief",
+      "description": "Generate a daily technology news summary",
+      "status": "active",
+      "initial_events": [
+        {
+          "type": "user.message",
+          "content": "Summarize current technology news in five bullet points."
+        }
+      ],
+      "execution": {
+        "session_mode": "new_session",
+        "max_concurrent_runs": 1,
+        "max_attempts": 2,
+        "timeout_ms": 300000
+      },
+      "trigger_policy": {
+        "type": "cron",
+        "expression": "0 9 * * *",
+        "timezone": "Asia/Shanghai",
+        "upcoming_runs_at": [
+          "2026-06-23T01:00:00Z"
+        ]
+      },
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "sinks": [
+        {
+          "type": "im_channel",
+          "channel_id": "channel_xxx",
+          "target": {
+            "type": "user",
+            "external_id": "536769"
+          }
+        }
+      ],
+      "metadata": {},
+      "created_at": "2026-06-22T10:00:00Z",
+      "updated_at": "2026-06-22T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "updateSchedule",
+    "service": "ScheduleService",
+    "entry": "Schedules",
+    "name": "Update",
+    "response": {
+      "id": "sched_019f00112233445566778899aabbccdd",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_support",
+      "name": "Weekday tech brief",
+      "description": "Generate a daily technology news summary",
+      "status": "active",
+      "initial_events": [
+        {
+          "type": "user.message",
+          "content": "Summarize current technology news in five bullet points."
+        }
+      ],
+      "execution": {
+        "session_mode": "new_session",
+        "max_concurrent_runs": 1,
+        "max_attempts": 2,
+        "timeout_ms": 300000
+      },
+      "trigger_policy": {
+        "type": "cron",
+        "expression": "0 9 * * 1-5",
+        "timezone": "Asia/Shanghai",
+        "upcoming_runs_at": [
+          "2026-06-23T01:00:00Z"
+        ]
+      },
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "sinks": [
+        {
+          "type": "im_channel",
+          "channel_id": "channel_xxx",
+          "target": {
+            "type": "user",
+            "external_id": "536769"
+          }
+        }
+      ],
+      "metadata": {},
+      "created_at": "2026-06-22T10:00:00Z",
+      "updated_at": "2026-06-22T10:30:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "archiveSchedule",
+    "service": "ScheduleService",
+    "entry": "Schedules",
+    "name": "Archive",
+    "response": {
+      "id": "sched_019f00112233445566778899aabbccdd",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_support",
+      "name": "Daily tech brief",
+      "description": "Generate a daily technology news summary",
+      "status": "active",
+      "initial_events": [
+        {
+          "type": "user.message",
+          "content": "Summarize current technology news in five bullet points."
+        }
+      ],
+      "execution": {
+        "session_mode": "new_session",
+        "max_concurrent_runs": 1,
+        "max_attempts": 1,
+        "timeout_ms": 300000
+      },
+      "trigger_policy": {
+        "type": "cron",
+        "expression": "0 9 * * *",
+        "timezone": "Asia/Shanghai",
+        "upcoming_runs_at": [
+          "2026-06-23T01:00:00Z"
+        ]
+      },
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "sinks": [],
+      "metadata": {},
+      "archived_at": "2026-06-22T12:00:00Z",
+      "created_at": "2026-06-22T10:00:00Z",
+      "updated_at": "2026-06-22T12:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "pauseSchedule",
+    "service": "ScheduleService",
+    "entry": "Schedules",
+    "name": "Pause",
+    "response": {
+      "id": "sched_019f00112233445566778899aabbccdd",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_support",
+      "name": "Daily tech brief",
+      "description": "Generate a daily technology news summary",
+      "status": "paused",
+      "paused_reason": {
+        "type": "manual"
+      },
+      "initial_events": [
+        {
+          "type": "user.message",
+          "content": "Summarize current technology news in five bullet points."
+        }
+      ],
+      "execution": {
+        "session_mode": "new_session",
+        "max_concurrent_runs": 1,
+        "max_attempts": 1,
+        "timeout_ms": 300000
+      },
+      "trigger_policy": {
+        "type": "cron",
+        "expression": "0 9 * * *",
+        "timezone": "Asia/Shanghai",
+        "upcoming_runs_at": [
+          "2026-06-23T01:00:00Z"
+        ]
+      },
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "sinks": [],
+      "metadata": {},
+      "created_at": "2026-06-22T10:00:00Z",
+      "updated_at": "2026-06-22T12:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "runSchedule",
+    "service": "ScheduleService",
+    "entry": "Schedules",
+    "name": "Run",
+    "response": {
+      "id": "srun_019f00112233445566778899aabbccdd",
+      "schedule_id": "sched_019f00112233445566778899aabbccdd",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_support",
+      "status": "pending",
+      "trigger_context": {
+        "type": "manual"
+      },
+      "push_status": "skipped",
+      "push_finished_at": "2026-06-22T01:00:21Z",
+      "attempt": 1,
+      "triggered_at": "2026-06-22T12:00:00Z",
+      "created_at": "2026-06-22T12:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "unpauseSchedule",
+    "service": "ScheduleService",
+    "entry": "Schedules",
+    "name": "Unpause",
+    "response": {
+      "id": "sched_019f00112233445566778899aabbccdd",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_support",
+      "name": "Daily tech brief",
+      "description": "Generate a daily technology news summary",
+      "status": "active",
+      "initial_events": [
+        {
+          "type": "user.message",
+          "content": "Summarize current technology news in five bullet points."
+        }
+      ],
+      "execution": {
+        "session_mode": "new_session",
+        "max_concurrent_runs": 1,
+        "max_attempts": 1,
+        "timeout_ms": 300000
+      },
+      "trigger_policy": {
+        "type": "cron",
+        "expression": "0 9 * * *",
+        "timezone": "Asia/Shanghai",
+        "upcoming_runs_at": [
+          "2026-06-23T01:00:00Z"
+        ]
+      },
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "sinks": [],
+      "metadata": {},
+      "created_at": "2026-06-22T10:00:00Z",
+      "updated_at": "2026-06-22T12:10:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listScheduleRuns",
+    "service": "ScheduleRunService",
+    "entry": "ScheduleRuns",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "srun_019f00112233445566778899aabbccdd",
+          "schedule_id": "sched_019f00112233445566778899aabbccdd",
+          "identity_id": "idn_019eabc123",
+          "template_id": "tmpl_support",
+          "session_id": "sess_019ec55a68b37e1e8d660691af161ab4",
+          "status": "completed",
+          "trigger_context": {
+            "type": "schedule",
+            "scheduled_at": "2026-06-22T01:00:00Z"
+          },
+          "result_payload": "Today's technology highlights: ...",
+          "push_sink": "im_channel",
+          "push_status": "succeeded",
+          "push_finished_at": "2026-06-22T01:00:21Z",
+          "attempt": 2,
+          "triggered_at": "2026-06-22T01:00:00Z",
+          "started_at": "2026-06-22T01:00:03Z",
+          "completed_at": "2026-06-22T01:00:20Z",
+          "duration_ms": 17000,
+          "created_at": "2026-06-22T01:00:00Z"
+        }
+      ],
+      "first_id": "srun_019f00112233445566778899aabbccdd",
+      "last_id": "srun_019f00112233445566778899aabbccdd",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getScheduleRun",
+    "service": "ScheduleRunService",
+    "entry": "ScheduleRuns",
+    "name": "Get",
+    "response": {
+      "id": "srun_019f00112233445566778899aabbccdd",
+      "schedule_id": "sched_019f00112233445566778899aabbccdd",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_support",
+      "session_id": "sess_019ec55a68b37e1e8d660691af161ab4",
+      "status": "completed",
+      "trigger_context": {
+        "type": "schedule",
+        "scheduled_at": "2026-06-22T01:00:00Z"
+      },
+      "result_payload": "Today's technology highlights: ...",
+      "push_sink": "im_channel",
+      "push_status": "succeeded",
+      "push_finished_at": "2026-06-22T01:00:21Z",
+      "attempt": 2,
+      "triggered_at": "2026-06-22T01:00:00Z",
+      "started_at": "2026-06-22T01:00:03Z",
+      "completed_at": "2026-06-22T01:00:20Z",
+      "duration_ms": 17000,
+      "created_at": "2026-06-22T01:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listBatches",
+    "service": "BatchService",
+    "entry": "Batches",
+    "name": "List",
+    "response": {
+      "object": "list",
+      "data": [
+        {
+          "id": "batch_completed001",
+          "object": "batch",
+          "status": "completed",
+          "input_file_id": "file_input001",
+          "output_file_id": "file_output001",
+          "completion_window": "24h",
+          "created_at": "2026-07-07T07:25:01Z",
+          "expires_at": "2026-07-08T07:25:01Z",
+          "request_counts": {
+            "total": 30,
+            "pending": 0,
+            "running": 0,
+            "completed": 30,
+            "failed": 0,
+            "cancelled": 0,
+            "expired": 0
+          },
+          "usage": {
+            "total_credits": 48.25
+          }
+        },
+        {
+          "id": "batch_processing001",
+          "object": "batch",
+          "status": "processing",
+          "input_file_id": "file_input002",
+          "completion_window": "24h",
+          "created_at": "2026-07-06T11:59:02Z",
+          "expires_at": "2026-07-07T11:59:02Z",
+          "request_counts": {
+            "total": 50,
+            "pending": 20,
+            "running": 5,
+            "completed": 25,
+            "failed": 0,
+            "cancelled": 0,
+            "expired": 0
+          },
+          "usage": {
+            "total_credits": 12.5
+          }
+        }
+      ],
+      "has_more": true,
+      "first_id": "batch_completed001",
+      "last_id": "batch_processing001"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createBatch",
+    "service": "BatchService",
+    "entry": "Batches",
+    "name": "New",
+    "response": {
+      "id": "batch_example001",
+      "object": "batch",
+      "status": "validating",
+      "input_file_id": "file_input001",
+      "completion_window": "24h",
+      "created_at": "2026-07-07T07:25:01Z",
+      "expires_at": "2026-07-08T07:25:01Z",
+      "request_counts": {
+        "total": 0,
+        "pending": 0,
+        "running": 0,
+        "completed": 0,
+        "failed": 0,
+        "cancelled": 0,
+        "expired": 0
+      },
+      "usage": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getBatch",
+    "service": "BatchService",
+    "entry": "Batches",
+    "name": "Get",
+    "response": {
+      "id": "batch_completed001",
+      "object": "batch",
+      "status": "completed",
+      "input_file_id": "file_input001",
+      "output_file_id": "file_output001",
+      "completion_window": "24h",
+      "created_at": "2026-07-07T07:25:01Z",
+      "expires_at": "2026-07-08T07:25:01Z",
+      "request_counts": {
+        "total": 30,
+        "pending": 0,
+        "running": 0,
+        "completed": 30,
+        "failed": 0,
+        "cancelled": 0,
+        "expired": 0
+      },
+      "usage": {
+        "total_credits": 5.28
+      }
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "cancelBatch",
+    "service": "BatchService",
+    "entry": "Batches",
+    "name": "Cancel",
+    "response": {
+      "id": "batch_processing001",
+      "object": "batch",
+      "status": "cancelling",
+      "input_file_id": "file_input002",
+      "completion_window": "24h",
+      "created_at": "2026-07-06T11:59:02Z",
+      "expires_at": "2026-07-07T11:59:02Z",
+      "request_counts": {
+        "total": 10,
+        "pending": 0,
+        "running": 3,
+        "completed": 7,
+        "failed": 0,
+        "cancelled": 0,
+        "expired": 0
+      },
+      "usage": {
+        "total_credits": 12.5
+      }
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getBatchError",
+    "service": "BatchService",
+    "entry": "Batches",
+    "name": "GetError",
+    "response": {
+      "url": "https://cloud-agents-storage.oss-cn-beijing.aliyuncs.com/files%2F<user_id>%2F<file_id>%2Fcontent?Expires=1783685162&OSSAccessKeyId=<ak>&Signature=<sig>&response-content-disposition=attachment%3B%20filename%3Dbatch-batch_failed001-error.jsonl",
+      "expires_at": "2026-07-10T12:06:02Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getBatchOutput",
+    "service": "BatchService",
+    "entry": "Batches",
+    "name": "GetOutput",
+    "response": {
+      "url": "https://cloud-agents-storage.oss-cn-beijing.aliyuncs.com/files%2F<user_id>%2F<file_id>%2Fcontent?Expires=1783685162&OSSAccessKeyId=<ak>&Signature=<sig>&response-content-disposition=attachment%3B%20filename%3Dbatch-batch_completed001-output.jsonl",
+      "expires_at": "2026-07-10T12:06:02Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listBatchTasks",
+    "service": "BatchTaskService",
+    "entry": "Batches.Tasks",
+    "name": "List",
+    "response": {
+      "object": "list",
+      "data": [
+        {
+          "custom_id": "task-001",
+          "status": "completed",
+          "started_at": "2026-08-06T14:01:03Z",
+          "completed_at": "2026-08-06T14:03:41Z",
+          "output_summary": "report generated",
+          "usage": {
+            "total_credits": 2.75
+          },
+          "artifacts": [
+            {
+              "file_id": "file_abc",
+              "name": "report.xlsx",
+              "size": 20480,
+              "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            }
+          ]
+        },
+        {
+          "custom_id": "task-002",
+          "status": "failed",
+          "started_at": "2026-08-06T14:01:03Z",
+          "completed_at": "2026-08-06T14:01:20Z",
+          "error": {
+            "code": "session_error",
+            "message": "sandbox terminated unexpectedly"
+          },
+          "usage": {
+            "total_credits": 0.5
+          },
+          "artifacts": []
+        }
+      ],
+      "has_more": true,
+      "first_id": "task-001",
+      "last_id": "task-002"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listChannels",
+    "service": "ChannelService",
+    "entry": "Channels",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "channel_019eabc123",
+          "type": "channel",
+          "identity_id": "idn_019eabc123",
+          "identity_resolution": {
+            "mode": "fixed"
+          },
+          "template_id": "tmpl_support",
+          "channel_type": "feishu",
+          "name": "Support Feishu channel",
+          "enabled": true,
+          "binding_status": "bound",
+          "channel_config": {
+            "response_options": {
+              "include_tool_calls": false,
+              "include_thinking": false
+            }
+          },
+          "created_at": "2026-06-18T10:00:00Z",
+          "updated_at": "2026-06-18T10:00:00Z"
+        }
+      ],
+      "first_id": "channel_019eabc123",
+      "last_id": "channel_019eabc123",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createChannel",
+    "service": "ChannelService",
+    "entry": "Channels",
+    "name": "New",
+    "response": {
+      "id": "channel_019eabc123",
+      "type": "channel",
+      "identity_id": "idn_019eabc123",
+      "identity_resolution": {
+        "mode": "fixed"
+      },
+      "template_id": "tmpl_support",
+      "channel_type": "feishu",
+      "name": "Support Feishu channel",
+      "enabled": true,
+      "binding_status": "bound",
+      "channel_config": {
+        "response_options": {
+          "include_tool_calls": false,
+          "include_thinking": false
+        }
+      },
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getChannel",
+    "service": "ChannelService",
+    "entry": "Channels",
+    "name": "Get",
+    "response": {
+      "id": "channel_019eabc123",
+      "type": "channel",
+      "identity_id": "idn_019eabc123",
+      "identity_resolution": {
+        "mode": "fixed"
+      },
+      "template_id": "tmpl_support",
+      "channel_type": "feishu",
+      "name": "Support Feishu channel",
+      "enabled": true,
+      "binding_status": "bound",
+      "channel_config": {
+        "response_options": {
+          "include_tool_calls": false,
+          "include_thinking": false
+        }
+      },
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "updateChannel",
+    "service": "ChannelService",
+    "entry": "Channels",
+    "name": "Update",
+    "response": {
+      "id": "channel_019eabc123",
+      "type": "channel",
+      "identity_id": "idn_019eabc123",
+      "identity_resolution": {
+        "mode": "fixed"
+      },
+      "template_id": "tmpl_support",
+      "channel_type": "feishu",
+      "name": "Support Feishu channel",
+      "enabled": false,
+      "binding_status": "bound",
+      "channel_config": {
+        "response_options": {
+          "include_tool_calls": true,
+          "include_thinking": false
+        }
+      },
+      "created_at": "2026-06-18T10:00:00Z",
+      "updated_at": "2026-06-18T10:30:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "deleteChannel",
+    "service": "ChannelService",
+    "entry": "Channels",
+    "name": "Delete",
+    "response": {
+      "id": "channel_019eabc123",
+      "deleted": true
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createChannelQrSession",
+    "service": "ChannelQRSessionService",
+    "entry": "Channels.QRSessions",
+    "name": "New",
+    "response": {
+      "session_key": "qr-a1b2c3d4",
+      "channel_id": "channel_dingtalk_001",
+      "channel_type": "dingtalk",
+      "status": "waiting",
+      "qr_code_content": "https://login.dingtalk.com/oauth2/...",
+      "qr_code_image_base64": "data:image/png;base64,...",
+      "expires_at": "2026-06-18T10:05:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getChannelQrSession",
+    "service": "ChannelQRSessionService",
+    "entry": "Channels.QRSessions",
+    "name": "Get",
+    "response": {
+      "session_key": "qr-a1b2c3d4",
+      "channel_id": "channel_dingtalk_001",
+      "channel_type": "dingtalk",
+      "status": "confirmed",
+      "expires_at": "2026-06-18T10:05:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "pairChannel",
+    "service": "ChannelPairingService",
+    "entry": "ChannelPairings",
+    "name": "New",
+    "response": {
+      "id": "pair_019eabc123",
+      "type": "channel_pairing",
+      "channel_id": "channel_019eabc123",
+      "identity_id": "idn_019eabc123",
+      "template_id": "tmpl_workspace_dev",
+      "status": "active",
+      "paired_at": "2026-07-16T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "unpairChannel",
+    "service": "ChannelPairingService",
+    "entry": "ChannelPairings",
+    "name": "Delete",
+    "response": {
+      "id": "pair_019eabc123",
+      "deleted": true
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listEnvironment",
+    "service": "EnvironmentService",
+    "entry": "Environments",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "env_xxx",
+          "type": "environment",
+          "name": "dev-env",
+          "description": "Development environment",
+          "config": {
+            "type": "cloud"
+          },
+          "metadata": {
+            "source": "console"
+          },
+          "created_at": "2026-07-23T10:00:00Z",
+          "updated_at": "2026-07-23T10:00:00Z",
+          "identity_id": null
+        }
+      ],
+      "first_id": "env_xxx",
+      "last_id": "env_xxx",
+      "has_more": false,
+      "next_page": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createEnvironment",
+    "service": "EnvironmentService",
+    "entry": "Environments",
+    "name": "New",
+    "response": {
+      "id": "env_xxx",
+      "type": "environment",
+      "name": "dev-env",
+      "description": "Development environment",
+      "config": {
+        "type": "cloud",
+        "packages": {
+          "type": "packages",
+          "apt": [],
+          "cargo": [],
+          "gem": [],
+          "go": [],
+          "npm": [],
+          "pip": []
+        }
+      },
+      "metadata": {
+        "source": "console"
+      },
+      "archived_at": null,
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T10:00:00Z",
+      "identity_id": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getEnvironment",
+    "service": "EnvironmentService",
+    "entry": "Environments",
+    "name": "Get",
+    "response": {
+      "id": "env_xxx",
+      "type": "environment",
+      "name": "dev-env",
+      "description": "Development environment",
+      "config": {
+        "type": "cloud"
+      },
+      "metadata": {
+        "source": "console"
+      },
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T10:00:00Z",
+      "identity_id": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "updateEnvironment",
+    "service": "EnvironmentService",
+    "entry": "Environments",
+    "name": "Update",
+    "response": {
+      "id": "env_xxx",
+      "type": "environment",
+      "name": "dev-env",
+      "description": "Development environment",
+      "config": {
+        "type": "cloud"
+      },
+      "metadata": {
+        "source": "console"
+      },
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T10:00:00Z",
+      "identity_id": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "deleteEnvironment",
+    "service": "EnvironmentService",
+    "entry": "Environments",
+    "name": "Delete",
+    "response": {},
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": true
+  },
+  {
+    "operation_id": "listFile",
+    "service": "FileService",
+    "entry": "Files",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "file_xxx",
+          "type": "file",
+          "filename": "report.pdf",
+          "size_bytes": 1024,
+          "mime_type": "application/pdf",
+          "created_at": "2026-07-23T10:00:00Z",
+          "updated_at": "2026-07-23T10:00:00Z",
+          "downloadable": true,
+          "scope": null,
+          "metadata": {
+            "source": "console"
+          },
+          "identity_id": null
+        }
+      ],
+      "first_id": "file_xxx",
+      "last_id": "file_xxx",
+      "has_more": false,
+      "next_page": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "uploadFile",
+    "service": "FileService",
+    "entry": "Files",
+    "name": "Upload",
+    "response": {
+      "id": "file_xxx",
+      "type": "file",
+      "filename": "report.pdf",
+      "size_bytes": 1024,
+      "mime_type": "application/pdf",
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T10:00:00Z",
+      "downloadable": false,
+      "scope": null,
+      "metadata": {
+        "source": "console"
+      },
+      "identity_id": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getFile",
+    "service": "FileService",
+    "entry": "Files",
+    "name": "GetMetadata",
+    "response": {
+      "id": "file_xxx",
+      "type": "file",
+      "filename": "report.pdf",
+      "size_bytes": 1024,
+      "mime_type": "application/pdf",
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T10:00:00Z",
+      "downloadable": true,
+      "scope": null,
+      "metadata": {
+        "source": "console"
+      },
+      "identity_id": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "deleteFile",
+    "service": "FileService",
+    "entry": "Files",
+    "name": "Delete",
+    "response": {},
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": true
+  },
+  {
+    "operation_id": "downloadFile",
+    "service": "FileService",
+    "entry": "Files",
+    "name": "Download",
+    "response": {
+      "url": "https://example.com/signed-url",
+      "expires_at": "2026-07-23T12:00:00Z"
+    },
+    "stream": false,
+    "download": true,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listSkill",
+    "service": "SkillService",
+    "entry": "Skills",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "skill_xxx",
+          "type": "skill",
+          "display_title": "customer-reply",
+          "description": "Customer reply skill",
+          "source": "custom",
+          "latest_version": "1759178010641129",
+          "metadata": {
+            "source": "console"
+          },
+          "created_at": "2026-07-23T10:00:00Z",
+          "updated_at": "2026-07-23T10:00:00Z",
+          "identity_id": null,
+          "icon_url": null,
+          "binding_info": {
+            "agent_template_count": 0
+          }
+        }
+      ],
+      "first_id": "skill_xxx",
+      "last_id": "skill_xxx",
+      "has_more": false,
+      "next_page": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createSkill",
+    "service": "SkillService",
+    "entry": "Skills",
+    "name": "New",
+    "response": {
+      "id": "skill_test",
+      "type": "skill",
+      "display_title": "test"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getSkill",
+    "service": "SkillService",
+    "entry": "Skills",
+    "name": "Get",
+    "response": {
+      "id": "skill_xxx",
+      "type": "skill",
+      "display_title": "customer-reply",
+      "description": "Customer reply skill",
+      "source": "custom",
+      "latest_version": "1759178010641129",
+      "metadata": {
+        "source": "console"
+      },
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T10:00:00Z",
+      "identity_id": null,
+      "icon_url": null,
+      "binding_info": {
+        "agent_template_count": 0
+      }
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "updateSkill",
+    "service": "SkillService",
+    "entry": "Skills",
+    "name": "Update",
+    "response": {
+      "id": "skill_xxx",
+      "type": "skill",
+      "display_title": "customer-reply",
+      "description": "Updated customer reply skill",
+      "source": "custom",
+      "latest_version": "1759178010641129",
+      "metadata": {
+        "source": "console"
+      },
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T11:00:00Z",
+      "identity_id": null,
+      "icon_url": null,
+      "binding_info": {
+        "agent_template_count": 0
+      }
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "deleteSkill",
+    "service": "SkillService",
+    "entry": "Skills",
+    "name": "Delete",
+    "response": {},
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": true
+  },
+  {
+    "operation_id": "listSkillVersion",
+    "service": "SkillVersionService",
+    "entry": "Skills.Versions",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "skillver_xxx",
+          "skill_id": "skill_xxx",
+          "version": "1786973491821648",
+          "name": "customer-reply",
+          "description": "Customer reply skill",
+          "directory": "customer-reply",
+          "content_size": 2607,
+          "content_sha256": "9de8ae3a296bc6198cd080f5ce31d523a34fd0a52e2e64365055fa79a0d3383d",
+          "status": "active",
+          "created_at": "2026-08-17T13:31:31.917881Z",
+          "metadata": {}
+        }
+      ],
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createSkillVersion",
+    "service": "SkillVersionService",
+    "entry": "Skills.Versions",
+    "name": "New",
+    "response": {
+      "id": "skillver_test",
+      "skill_id": "skill_test",
+      "version": "123"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getSkillVersion",
+    "service": "SkillVersionService",
+    "entry": "Skills.Versions",
+    "name": "Get",
+    "response": {
+      "id": "skillver_xxx",
+      "skill_id": "skill_xxx",
+      "version": "1786973491821648",
+      "name": "customer-reply",
+      "description": "Customer reply skill",
+      "directory": "customer-reply",
+      "content_size": 2607,
+      "content_sha256": "9de8ae3a296bc6198cd080f5ce31d523a34fd0a52e2e64365055fa79a0d3383d",
+      "status": "active",
+      "created_at": "2026-08-17T13:31:31.917881Z",
+      "metadata": {}
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "deleteSkillVersion",
+    "service": "SkillVersionService",
+    "entry": "Skills.Versions",
+    "name": "Delete",
+    "response": {
+      "id": "1786973491821648",
+      "type": "skill_version_deleted",
+      "deleted": true
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "downloadSkillVersion",
+    "service": "SkillVersionService",
+    "entry": "Skills.Versions",
+    "name": "Download",
+    "response": {},
+    "stream": false,
+    "download": false,
+    "raw": true,
+    "empty": false
+  },
+  {
+    "operation_id": "listVault",
+    "service": "VaultService",
+    "entry": "Vaults",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "vault_xxx",
+          "type": "vault",
+          "display_name": "mcp-vault",
+          "metadata": {
+            "source": "console"
+          },
+          "created_at": "2026-07-23T10:00:00Z",
+          "updated_at": "2026-07-23T10:00:00Z",
+          "identity_id": null
+        }
+      ],
+      "first_id": "vault_xxx",
+      "last_id": "vault_xxx",
+      "has_more": false,
+      "next_page": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createVault",
+    "service": "VaultService",
+    "entry": "Vaults",
+    "name": "New",
+    "response": {
+      "id": "vault_xxx",
+      "type": "vault",
+      "display_name": "mcp-vault",
+      "metadata": {
+        "source": "console"
+      },
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T10:00:00Z",
+      "identity_id": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getVault",
+    "service": "VaultService",
+    "entry": "Vaults",
+    "name": "Get",
+    "response": {
+      "id": "vault_xxx",
+      "type": "vault",
+      "display_name": "mcp-vault",
+      "metadata": {
+        "source": "console"
+      },
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T10:00:00Z",
+      "identity_id": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "deleteVault",
+    "service": "VaultService",
+    "entry": "Vaults",
+    "name": "Delete",
+    "response": {},
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": true
+  },
+  {
+    "operation_id": "listVaultCredential",
+    "service": "VaultCredentialService",
+    "entry": "Vaults.Credentials",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "vcred_xxx",
+          "type": "vault_credential",
+          "vault_id": "vault_xxx",
+          "auth": {
+            "type": "static_bearer",
+            "mcp_server_url": "https://mcp.example.com"
+          },
+          "display_name": "",
+          "metadata": {
+            "source": "console"
+          },
+          "created_at": "2026-07-23T10:00:00Z",
+          "updated_at": "2026-07-23T10:00:00Z"
+        }
+      ],
+      "first_id": "vcred_xxx",
+      "last_id": "vcred_xxx",
+      "has_more": false,
+      "next_page": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createVaultCredential",
+    "service": "VaultCredentialService",
+    "entry": "Vaults.Credentials",
+    "name": "New",
+    "response": {
+      "id": "vcred_xxx",
+      "type": "vault_credential",
+      "vault_id": "vault_xxx",
+      "auth": {
+        "type": "static_bearer",
+        "mcp_server_url": "https://mcp.example.com"
+      },
+      "display_name": "",
+      "metadata": {
+        "source": "console"
+      },
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getVaultCredential",
+    "service": "VaultCredentialService",
+    "entry": "Vaults.Credentials",
+    "name": "Get",
+    "response": {
+      "id": "vcred_xxx",
+      "type": "vault_credential",
+      "vault_id": "vault_xxx",
+      "auth": {
+        "type": "static_bearer",
+        "mcp_server_url": "https://mcp.example.com"
+      },
+      "display_name": "",
+      "metadata": {
+        "source": "console"
+      },
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "deleteVaultCredential",
+    "service": "VaultCredentialService",
+    "entry": "Vaults.Credentials",
+    "name": "Delete",
+    "response": {},
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": true
+  },
+  {
+    "operation_id": "listMemoryStore",
+    "service": "MemoryStoreService",
+    "entry": "MemoryStores",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "memstore_00mc7mukn7lkxr454tjd",
+          "type": "memory_store",
+          "name": "project-alpha-memory",
+          "description": "Alpha 项目的 Agent 知识库",
+          "status": "active",
+          "entry_count": 12,
+          "total_size": 4096,
+          "metadata": {
+            "created_by": "forward",
+            "team": "backend"
+          },
+          "system_managed": false,
+          "identity_id": null,
+          "created_at": "2026-08-14T10:00:00Z",
+          "updated_at": "2026-08-14T10:00:00Z",
+          "archived_at": null,
+          "binding_info": {
+            "identity_template_count": 1
+          }
+        }
+      ],
+      "first_id": "memstore_00mc7mukn7lkxr454tjd",
+      "last_id": "memstore_00mc7mukn7lkxr454tjd",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createMemoryStore",
+    "service": "MemoryStoreService",
+    "entry": "MemoryStores",
+    "name": "New",
+    "response": {
+      "id": "memstore_00mc7mukn7lkxr454tjd",
+      "type": "memory_store",
+      "name": "project-alpha-memory",
+      "description": "Alpha 项目的 Agent 知识库",
+      "status": "active",
+      "entry_count": 0,
+      "total_size": 0,
+      "metadata": {
+        "team": "backend",
+        "created_by": "forward"
+      },
+      "system_managed": false,
+      "identity_id": null,
+      "created_at": "2026-08-14T10:00:00Z",
+      "updated_at": "2026-08-14T10:00:00Z",
+      "archived_at": null,
+      "binding_info": {
+        "identity_template_count": 0
+      }
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getMemoryStore",
+    "service": "MemoryStoreService",
+    "entry": "MemoryStores",
+    "name": "Get",
+    "response": {
+      "id": "memstore_00mc7mukn7lkxr454tjd",
+      "type": "memory_store",
+      "name": "project-alpha-memory",
+      "description": "Alpha 项目的 Agent 知识库",
+      "status": "active",
+      "entry_count": 12,
+      "total_size": 4096,
+      "metadata": {
+        "created_by": "forward",
+        "team": "backend"
+      },
+      "system_managed": false,
+      "identity_id": null,
+      "created_at": "2026-08-14T10:00:00Z",
+      "updated_at": "2026-08-14T10:00:00Z",
+      "archived_at": null,
+      "binding_info": {
+        "identity_template_count": 1
+      }
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "updateMemoryStore",
+    "service": "MemoryStoreService",
+    "entry": "MemoryStores",
+    "name": "Update",
+    "response": {
+      "id": "memstore_00mc7mukn7lkxr454tjd",
+      "type": "memory_store",
+      "name": "project-alpha-memory",
+      "description": "Alpha 项目 v2 知识库",
+      "status": "active",
+      "entry_count": 12,
+      "total_size": 4096,
+      "metadata": {
+        "created_by": "forward",
+        "team": "backend"
+      },
+      "system_managed": false,
+      "identity_id": null,
+      "created_at": "2026-08-14T10:00:00Z",
+      "updated_at": "2026-08-14T10:15:00Z",
+      "archived_at": null,
+      "binding_info": {
+        "identity_template_count": 1
+      }
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "deleteMemoryStore",
+    "service": "MemoryStoreService",
+    "entry": "MemoryStores",
+    "name": "Delete",
+    "response": {
+      "id": "memstore_00mc7mukn7lkxr454tjd",
+      "type": "memory_store_deleted",
+      "deleted": true
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "archiveMemoryStore",
+    "service": "MemoryStoreService",
+    "entry": "MemoryStores",
+    "name": "Archive",
+    "response": {
+      "id": "memstore_00mc7mukn7lkxr454tjd",
+      "type": "memory_store",
+      "name": "project-alpha-memory",
+      "description": "Alpha 项目的 Agent 知识库",
+      "status": "archived",
+      "entry_count": 12,
+      "total_size": 4096,
+      "metadata": {
+        "created_by": "forward",
+        "team": "backend"
+      },
+      "system_managed": false,
+      "identity_id": null,
+      "created_at": "2026-08-14T10:00:00Z",
+      "updated_at": "2026-08-14T11:00:00Z",
+      "archived_at": "2026-08-14T11:00:00Z",
+      "binding_info": {
+        "identity_template_count": 0
+      }
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listMemoryStoreMemoryMemories",
+    "service": "MemoryStoreMemoryService",
+    "entry": "MemoryStores.Memories",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "mem_00mc7mvag5u68kkfvxhy",
+          "type": "memory",
+          "memory_store_id": "memstore_00mc7mukn7lkxr454tjd",
+          "path": "decisions/arch-choice.md",
+          "content_size_bytes": 99,
+          "content_sha256": "1712de0d497a5aeef2beeccf4fbb7d5a16944975438d0c25447b9c1fba13099a",
+          "metadata": {
+            "owner": "backend-team"
+          },
+          "created_at": "2026-08-14T10:00:00Z",
+          "updated_at": "2026-08-14T10:00:00Z"
+        }
+      ],
+      "first_id": "mem_00mc7mvag5u68kkfvxhy",
+      "last_id": "mem_00mc7mvag5u68kkfvxhy",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "createMemoryStoreMemory",
+    "service": "MemoryStoreMemoryService",
+    "entry": "MemoryStores.Memories",
+    "name": "New",
+    "response": {
+      "id": "mem_00mc7mvag5u68kkfvxhy",
+      "type": "memory",
+      "memory_store_id": "memstore_00mc7mukn7lkxr454tjd",
+      "path": "decisions/arch-choice.md",
+      "content": "# 架构决策\n\n选择微服务架构。",
+      "content_size_bytes": 99,
+      "content_sha256": "1712de0d497a5aeef2beeccf4fbb7d5a16944975438d0c25447b9c1fba13099a",
+      "metadata": {
+        "owner": "backend-team"
+      },
+      "created_at": "2026-08-14T10:00:00Z",
+      "updated_at": "2026-08-14T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getMemoryStoreMemory",
+    "service": "MemoryStoreMemoryService",
+    "entry": "MemoryStores.Memories",
+    "name": "Get",
+    "response": {
+      "id": "mem_00mc7mvag5u68kkfvxhy",
+      "type": "memory",
+      "memory_store_id": "memstore_00mc7mukn7lkxr454tjd",
+      "path": "decisions/arch-choice.md",
+      "content": "# 架构决策\n\n选择微服务架构。",
+      "content_size_bytes": 99,
+      "content_sha256": "1712de0d497a5aeef2beeccf4fbb7d5a16944975438d0c25447b9c1fba13099a",
+      "metadata": {
+        "owner": "backend-team"
+      },
+      "created_at": "2026-08-14T10:00:00Z",
+      "updated_at": "2026-08-14T10:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "updateMemoryStoreMemory",
+    "service": "MemoryStoreMemoryService",
+    "entry": "MemoryStores.Memories",
+    "name": "Update",
+    "response": {
+      "id": "mem_00mc7mvag5u68kkfvxhy",
+      "type": "memory",
+      "memory_store_id": "memstore_00mc7mukn7lkxr454tjd",
+      "path": "decisions/arch-choice.md",
+      "content": "# 架构决策 v2\n\n改为 Modular Monolith。",
+      "content_size_bytes": 108,
+      "content_sha256": "9a4f8d2c1b7e6543210fedcba9876543210fedcba9876543210fedcba987654",
+      "metadata": {
+        "owner": "backend-team"
+      },
+      "created_at": "2026-08-14T10:00:00Z",
+      "updated_at": "2026-08-14T11:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "deleteMemoryStoreMemory",
+    "service": "MemoryStoreMemoryService",
+    "entry": "MemoryStores.Memories",
+    "name": "Delete",
+    "response": {
+      "id": "mem_00mc7mvag5u68kkfvxhy",
+      "type": "memory_deleted",
+      "deleted": true
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listMemoryStoreMemoryVersion",
+    "service": "MemoryStoreMemoryVersionService",
+    "entry": "MemoryStores.MemoryVersions",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "memver_00mc7mw0t337kbcx5q52",
+          "type": "memory_version",
+          "memory_store_id": "memstore_00mc7mukn7lkxr454tjd",
+          "memory_id": "mem_00mc7mvag5u68kkfvxhy",
+          "path": "decisions/arch-choice.md",
+          "content_size_bytes": 108,
+          "content_sha256": "9a4f8d2c1b7e6543210fedcba9876543210fedcba9876543210fedcba987654",
+          "operation": "updated",
+          "redacted": false,
+          "redacted_at": null,
+          "created_at": "2026-08-14T11:00:00Z"
+        },
+        {
+          "id": "memver_00mc7mvag5u68lh2y8gwh",
+          "type": "memory_version",
+          "memory_store_id": "memstore_00mc7mukn7lkxr454tjd",
+          "memory_id": "mem_00mc7mvag5u68kkfvxhy",
+          "path": "decisions/arch-choice.md",
+          "content_size_bytes": 99,
+          "content_sha256": "1712de0d497a5aeef2beeccf4fbb7d5a16944975438d0c25447b9c1fba13099a",
+          "operation": "created",
+          "redacted": false,
+          "redacted_at": null,
+          "created_at": "2026-08-14T10:00:00Z"
+        }
+      ],
+      "first_id": "memver_00mc7mw0t337kbcx5q52",
+      "last_id": "memver_00mc7mvag5u68lh2y8gwh",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getMemoryStoreMemoryVersion",
+    "service": "MemoryStoreMemoryVersionService",
+    "entry": "MemoryStores.MemoryVersions",
+    "name": "Get",
+    "response": {
+      "id": "memver_00mc7mw0t337kbcx5q52",
+      "type": "memory_version",
+      "memory_store_id": "memstore_00mc7mukn7lkxr454tjd",
+      "memory_id": "mem_00mc7mvag5u68kkfvxhy",
+      "path": "decisions/arch-choice.md",
+      "content": "# 架构决策 v2\n\n改为 Modular Monolith。",
+      "content_size_bytes": 108,
+      "content_sha256": "9a4f8d2c1b7e6543210fedcba9876543210fedcba9876543210fedcba987654",
+      "operation": "updated",
+      "redacted": false,
+      "redacted_at": null,
+      "created_at": "2026-08-14T11:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "redactMemoryStoreMemoryVersion",
+    "service": "MemoryStoreMemoryVersionService",
+    "entry": "MemoryStores.MemoryVersions",
+    "name": "Redact",
+    "response": {
+      "id": "memver_00mc7mw0t337kbcx5q52",
+      "type": "memory_version",
+      "memory_store_id": "memstore_00mc7mukn7lkxr454tjd",
+      "memory_id": "mem_00mc7mvag5u68kkfvxhy",
+      "path": "decisions/arch-choice.md",
+      "content": null,
+      "content_size_bytes": 108,
+      "content_sha256": "9a4f8d2c1b7e6543210fedcba9876543210fedcba9876543210fedcba987654",
+      "operation": "updated",
+      "redacted": true,
+      "redacted_at": "2026-08-14T12:00:00Z",
+      "created_at": "2026-08-14T11:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listModels",
+    "service": "ModelService",
+    "entry": "Models",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "ultimate",
+          "display_name": "Ultimate",
+          "is_enabled": true,
+          "is_new": false,
+          "is_vl": true,
+          "support_disable_reasoning": true,
+          "price_factor": 1.6,
+          "efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "default_effort": "high",
+          "speed": [
+            "standard",
+            "high"
+          ],
+          "max_input_tokens": 1000000,
+          "default_context_window": 200000,
+          "available_context_windows": [
+            200000,
+            400000,
+            1000000
+          ]
+        }
+      ],
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "archiveEnvironment",
+    "service": "EnvironmentService",
+    "entry": "Environments",
+    "name": "Archive",
+    "response": {
+      "id": "env_xxx",
+      "type": "environment",
+      "name": "dev-env",
+      "description": "Development environment",
+      "config": {
+        "type": "cloud"
+      },
+      "metadata": {
+        "source": "console"
+      },
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-07-23T10:00:00Z",
+      "identity_id": null,
+      "status": "archived"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  }
+]

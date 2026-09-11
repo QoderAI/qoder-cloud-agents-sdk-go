@@ -1,0 +1,327 @@
+// Qoder managed API definitions.
+package managed
+
+import (
+	"bytes"
+	"context"
+	"errors"
+	"fmt"
+	"io"
+	"mime/multipart"
+	"net/http"
+	"net/url"
+	"slices"
+	"time"
+
+	requestconfig "github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apiform"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apijson"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apiquery"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/constant"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/pagination"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/param"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/respjson"
+)
+
+// FileService contains methods and other services that help with interacting
+// with the Qoder Cloud Agents API.
+//
+// Note, unlike clients, this service does not read variables from the environment
+// automatically. You should not instantiate this service directly, and instead use
+// the [NewFileService] method instead.
+type FileService struct {
+	Options []option.RequestOption
+}
+
+// NewFileService generates a new service that applies the given options to
+// each request. These options are applied after the parent client's options (if
+// there is one), and before any request-specific options.
+func NewFileService(opts ...option.RequestOption) (r FileService) {
+	r = FileService{}
+	r.Options = opts
+	return
+}
+
+// List Files
+func (r *FileService) List(ctx context.Context, params FileListParams, opts ...option.RequestOption) (res *pagination.PageCursor[FileMetadata], err error) {
+	var raw *http.Response
+	for _, v := range params.Betas {
+		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", fmt.Sprintf("%v", v)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	path := "files"
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, params, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// List Files
+func (r *FileService) ListAutoPaging(ctx context.Context, params FileListParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[FileMetadata] {
+	return pagination.NewPageCursorAutoPager(r.List(ctx, params, opts...))
+}
+
+// Delete File
+func (r *FileService) Delete(ctx context.Context, fileID string, body FileDeleteParams, opts ...option.RequestOption) (res *DeletedFile, err error) {
+	for _, v := range body.Betas {
+		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", fmt.Sprintf("%v", v)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	if fileID == "" {
+		err = errors.New("missing required file_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("files/%s", url.PathEscape(fileID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
+	return res, err
+}
+
+// Download File
+func (r *FileService) Download(ctx context.Context, fileID string, query FileDownloadParams, opts ...option.RequestOption) (res *http.Response, err error) {
+	for _, v := range query.Betas {
+		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", fmt.Sprintf("%v", v)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/json")}, opts...)
+	if fileID == "" {
+		err = errors.New("missing required file_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("files/%s/content", url.PathEscape(fileID))
+	res, err = requestconfig.DownloadFile(ctx, path, opts...)
+	return res, err
+}
+
+// Get File Metadata
+func (r *FileService) GetMetadata(ctx context.Context, fileID string, query FileGetMetadataParams, opts ...option.RequestOption) (res *FileMetadata, err error) {
+	for _, v := range query.Betas {
+		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", fmt.Sprintf("%v", v)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	if fileID == "" {
+		err = errors.New("missing required file_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("files/%s", url.PathEscape(fileID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return res, err
+}
+
+// Upload File
+func (r *FileService) Upload(ctx context.Context, params FileUploadParams, opts ...option.RequestOption) (res *FileMetadata, err error) {
+	for _, v := range params.Betas {
+		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", fmt.Sprintf("%v", v)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	path := "files"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
+	return res, err
+}
+
+type DeletedFile struct {
+	// ID of the deleted file.
+	ID string `json:"id" api:"required"`
+	// Deleted object type.
+	//
+	// For file deletion, this is always `"file_deleted"`.
+	//
+	// Any of "file_deleted".
+	Type DeletedFileType `json:"type"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r DeletedFile) RawJSON() string { return r.JSON.raw }
+func (r *DeletedFile) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Deleted object type.
+//
+// For file deletion, this is always `"file_deleted"`.
+type DeletedFileType string
+
+const (
+	DeletedFileTypeFileDeleted DeletedFileType = "file_deleted"
+)
+
+type FileMetadata struct {
+	Metadata map[string]string `json:"metadata"`
+	Status   string            `json:"status"`
+
+	// Unique object identifier.
+	//
+	// The format and length of IDs may change over time.
+	ID string `json:"id" api:"required"`
+	// RFC 3339 datetime string representing when the file was created.
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// Original filename of the uploaded file.
+	Filename string `json:"filename" api:"required"`
+	// MIME type of the file.
+	MimeType string `json:"mime_type" api:"required"`
+	// Size of the file in bytes.
+	SizeBytes int64 `json:"size_bytes" api:"required"`
+	// Object type.
+	//
+	// For files, this is always `"file"`.
+	Type constant.File `json:"type" default:"file"`
+	// Whether the file can be downloaded.
+	Downloadable bool `json:"downloadable"`
+	// RFC 3339 datetime string representing when the file will expire and become
+	// unavailable for download. Null if the file does not expire. For files uploaded
+	// with `expires_in_seconds`, this is the upload time plus that value.
+	ExpiresAt time.Time `json:"expires_at" api:"nullable" format:"date-time"`
+	// The scope of this file, indicating the context in which it was created (e.g., a
+	// session).
+	Scope FileScope `json:"scope" api:"nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Metadata respjson.Field
+		Status   respjson.Field
+
+		ID           respjson.Field
+		CreatedAt    respjson.Field
+		Filename     respjson.Field
+		MimeType     respjson.Field
+		SizeBytes    respjson.Field
+		Type         respjson.Field
+		Downloadable respjson.Field
+		ExpiresAt    respjson.Field
+		Scope        respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r FileMetadata) RawJSON() string { return r.JSON.raw }
+func (r *FileMetadata) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type FileScope struct {
+	// The ID of the scoping resource (e.g., the session ID).
+	ID string `json:"id" api:"required"`
+	// The type of scope (e.g., `"session"`).
+	Type constant.Session `json:"type" default:"session"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r FileScope) RawJSON() string { return r.JSON.raw }
+func (r *FileScope) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type FileListParams struct {
+	Name param.Opt[string] `query:"name,omitzero" json:"-"`
+
+	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
+	AfterID  param.Opt[string] `query:"after_id,omitzero" json:"-"`
+
+	// Opaque page cursor returned in a prior list response's `next_page`. Prefixed
+	// `page_`.
+	Page param.Opt[string] `query:"page,omitzero" json:"-"`
+	// Number of items to return per page.
+	//
+	// Defaults to `20`. Ranges from `1` to `1000`.
+	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
+	// Filter by scope ID. Only returns files associated with the specified scope
+	// (e.g., a session ID).
+	ScopeID     param.Opt[string] `query:"scope_id,omitzero" json:"-"`
+	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	// Restrict the result set to Files whose `id` is in this list. At most 100 entries
+	// (after de-duplication). Mutually exclusive with `page` and `limit`. When
+	// supplied, the response is always a single page (`next_page` is null). IDs that
+	// do not resolve to a visible File — including deleted Files — are silently
+	// omitted.
+	IDs []string `query:"ids,omitzero" json:"-"`
+	// Optional header to specify the beta version(s) you want to use.
+	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [FileListParams]'s query parameters as `url.Values`.
+func (r FileListParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type FileDeleteParams struct {
+	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	// Optional header to specify the beta version(s) you want to use.
+	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+	paramObj
+}
+
+type FileDownloadParams struct {
+	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	// Optional header to specify the beta version(s) you want to use.
+	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+	paramObj
+}
+
+type FileGetMetadataParams struct {
+	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	// Optional header to specify the beta version(s) you want to use.
+	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+	paramObj
+}
+
+type FileUploadParams struct {
+	Name param.Opt[string] `json:"name,omitzero"`
+
+	Metadata map[string]string `json:"metadata,omitzero" api:"metadata"`
+
+	// The file to upload. Only the final path component of the part's `filename` is
+	// kept; an absent or empty `filename` is replaced with `unnamed` plus the
+	// extension for the file's stored `mime_type`, when known.
+	File io.Reader `json:"file,omitzero" api:"required" format:"binary"`
+	// Seconds from upload until the file expires and its bytes become permanently
+	// unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
+	ExpiresInSeconds param.Opt[int64]  `json:"expires_in_seconds,omitzero"`
+	WorkspaceID      param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	// Optional header to specify the beta version(s) you want to use.
+	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+	paramObj
+}
+
+func (r FileUploadParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
+}

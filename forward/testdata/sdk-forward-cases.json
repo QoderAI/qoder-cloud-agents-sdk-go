@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "valid-token",
+      "scenario": "valid_token"
+    },
+    {
+      "id": "identity-create-minimal",
+      "scenario": "create_identity_minimal"
+    },
+    {
+      "id": "identity-create-metadata",
+      "scenario": "create_identity_metadata"
+    },
+    {
+      "id": "template-list-limit-one",
+      "variant": "limit=1",
+      "scenario": "list_templates_limit"
+    },
+    {
+      "id": "template-list-after-cursor",
+      "scenario": "list_templates_after_cursor"
+    },
+    {
+      "id": "template-get-not-found",
+      "scenario": "get_template_not_found"
+    },
+    {
+      "id": "session-event-stream-open",
+      "scenario": "stream_session_events"
+    },
+    {
+      "id": "session-event-stream-invalid-cursor",
+      "scenario": "stream_session_events_invalid_cursor"
+    }
+  ]
+}

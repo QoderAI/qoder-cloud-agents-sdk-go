@@ -1,0 +1,62 @@
+PYTHON ?= python3
+LIVE_ENV_FILE ?= .env.live
+.DEFAULT_GOAL := test
+
+.PHONY: build test test-unit test-contract test-live test-live-check test-live-managed test-live-managed-check test-live-all
+
+build:
+	go build ./...
+
+test: test-unit test-contract
+
+test-unit:
+	go test ./...
+	go test -tags live -run 'Cleanup.*Offline$$' ./forward ./managed
+
+test-contract:
+	go test -v \
+		-run '^(Test.*APIContracts|TestForwardAPIInventory|TestForwardFailureContracts)$$' ./forward
+	go test -v ./managed
+
+test-live-check:
+	@test -f "$(LIVE_ENV_FILE)" || (echo "missing $(LIVE_ENV_FILE)" >&2; exit 2)
+	@set -a; . "$(abspath $(LIVE_ENV_FILE))"; set +a; \
+		test -n "$$QODER_FORWARD_PAT" || (echo "QODER_FORWARD_PAT is required in $(LIVE_ENV_FILE)" >&2; exit 2)
+
+test-live-managed-check:
+	@test -f "$(LIVE_ENV_FILE)" || (echo "missing $(LIVE_ENV_FILE)" >&2; exit 2)
+	@set -a; . "$(abspath $(LIVE_ENV_FILE))"; set +a; \
+		test -n "$$QODER_MANAGED_PAT" || (echo "QODER_MANAGED_PAT is required in $(LIVE_ENV_FILE)" >&2; exit 2)
+
+test-live: test-live-check
+	@set -a; . "$(abspath $(LIVE_ENV_FILE))"; set +a; \
+		go test -tags live -v \
+			-run 'Live$$' ./forward
+
+test-live-managed: test-live-managed-check
+	@set -a; . "$(abspath $(LIVE_ENV_FILE))"; set +a; \
+		go test -tags live -v -run 'Live$$' ./managed
+
+test-live-all: test-live test-live-managed
+
+.PHONY: test-e2e-check test-e2e
+
+test-e2e-check: test-live-check test-live-managed-check
+	@set -a; . "$(abspath $(LIVE_ENV_FILE))"; set +a; \
+		for mode in FORWARD MANAGED; do \
+			for key in MODEL LIVE_ALLOW_WRITE LIVE_ALLOW_EXECUTION; do \
+				name="QODER_$${mode}_$${key}"; value=$$(printenv "$$name"); \
+				if test -z "$$value" || { test "$$key" != MODEL && test "$$value" != true; }; then \
+					echo "E2E requires $$name (see .env.live.example)" >&2; exit 2; \
+				fi; \
+			done; \
+		done
+
+# Prerequisites run before the recipe, so no live call can precede a failing unit suite.
+test-e2e: test-unit
+	@$(MAKE) --no-print-directory test-e2e-check
+	@mkdir -p build/test-results
+	@set -a; . "$(abspath $(LIVE_ENV_FILE))"; set +a; \
+		go test -tags live -count=1 -p=1 -parallel=1 -timeout=45m \
+			-json -run 'E2ELive$$' ./forward ./managed > build/test-results/e2e.json; \
+		result=$$?; echo "E2E result: build/test-results/e2e.json (exit $$result)"; exit $$result

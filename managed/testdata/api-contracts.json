@@ -1,0 +1,2728 @@
+[
+  {
+    "service": "AgentService",
+    "name": "New",
+    "method": "POST",
+    "path": "/agents",
+    "file": "qoder-cloud-agents-sdk-go/managed/agent.go",
+    "line": 47,
+    "doc": "agents/create.md",
+    "route": "/agents",
+    "response": {
+      "type": "agent",
+      "id": "agent_019eXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+      "name": "doc-test-agent",
+      "description": "",
+      "model": "ultimate",
+      "system": "You are a documentation testing assistant.",
+      "tools": [
+        {
+          "type": "agent_toolset_20260401",
+          "enabled_tools": [
+            "Bash",
+            "Read",
+            "Write",
+            "Edit",
+            "Glob",
+            "Grep",
+            "WebFetch",
+            "WebSearch"
+          ]
+        }
+      ],
+      "mcp_servers": [
+        {
+          "type": "url",
+          "name": "weather-service",
+          "url": "https://mcp.example.com/mcp"
+        }
+      ],
+      "skills": [],
+      "metadata": {},
+      "multiagent": null,
+      "version": 1,
+      "archived_at": null,
+      "created_at": "2026-05-18T15:26:39.61669Z",
+      "updated_at": "2026-05-18T15:26:39.61669Z"
+    }
+  },
+  {
+    "service": "AgentService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/agents/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/agent.go",
+    "line": 59,
+    "doc": "agents/get.md",
+    "route": "/agents/{agent_id}",
+    "response": {
+      "type": "agent",
+      "id": "agent_019eXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+      "name": "doc-test-agent",
+      "description": "",
+      "model": "ultimate",
+      "system": "You are a documentation testing assistant.",
+      "tools": [],
+      "mcp_servers": [],
+      "skills": [
+        {
+          "type": "custom",
+          "skill_id": "skill_019e5d133c057536872f745e0b6dbd5d"
+        }
+      ],
+      "metadata": {},
+      "multiagent": null,
+      "version": 1,
+      "archived_at": null,
+      "created_at": "2026-05-18T15:26:39.61669Z",
+      "updated_at": "2026-05-18T15:26:39.61669Z"
+    }
+  },
+  {
+    "service": "AgentService",
+    "name": "Update",
+    "method": "POST",
+    "path": "/agents/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/agent.go",
+    "line": 75,
+    "doc": "agents/update.md",
+    "route": "/agents/{agent_id}",
+    "response": {
+      "type": "agent",
+      "id": "agent_019eXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+      "name": "doc-test-agent-updated",
+      "description": "Used for API documentation testing",
+      "model": "ultimate",
+      "system": "You are an updated documentation testing assistant.",
+      "tools": [],
+      "mcp_servers": [],
+      "skills": [],
+      "metadata": {},
+      "multiagent": null,
+      "version": 2,
+      "archived_at": null,
+      "created_at": "2026-05-18T15:26:39.61669Z",
+      "updated_at": "2026-05-18T15:27:07.967138Z"
+    }
+  },
+  {
+    "service": "AgentService",
+    "name": "List",
+    "method": "GET",
+    "path": "/agents",
+    "file": "qoder-cloud-agents-sdk-go/managed/agent.go",
+    "line": 91,
+    "doc": "agents/list.md",
+    "route": "/agents",
+    "response": {
+      "data": [
+        {
+          "type": "agent",
+          "id": "agent_019eXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "name": "doc-test-agent",
+          "description": "",
+          "model": "ultimate",
+          "system": "You are a documentation testing assistant.",
+          "tools": [],
+          "mcp_servers": [],
+          "skills": [],
+          "metadata": {},
+          "multiagent": null,
+          "version": 1,
+          "archived_at": null,
+          "created_at": "2026-05-18T15:26:39.61669Z",
+          "updated_at": "2026-05-18T15:26:39.61669Z"
+        },
+        {
+          "type": "agent",
+          "id": "agent_019eYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+          "name": "test-agent-e2e",
+          "description": "Agent used for end-to-end testing",
+          "model": "ultimate",
+          "system": "You are a testing assistant.",
+          "tools": [],
+          "mcp_servers": [],
+          "skills": [],
+          "metadata": {},
+          "multiagent": null,
+          "version": 2,
+          "archived_at": null,
+          "created_at": "2026-05-18T03:04:33.952256Z",
+          "updated_at": "2026-05-18T03:05:28.023697Z"
+        }
+      ],
+      "first_id": "agent_019eXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+      "last_id": "agent_019eYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+      "has_more": true,
+      "next_page": "agent_019eYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+    }
+  },
+  {
+    "service": "AgentService",
+    "name": "Archive",
+    "method": "POST",
+    "path": "/agents/{}/archive",
+    "file": "qoder-cloud-agents-sdk-go/managed/agent.go",
+    "line": 117,
+    "doc": "agents/archive.md",
+    "route": "/agents/{agent_id}/archive",
+    "response": {
+      "type": "agent",
+      "id": "agent_019eXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+      "name": "doc-test-agent-updated",
+      "description": "Used for API documentation testing",
+      "model": "ultimate",
+      "system": "You are an updated documentation testing assistant.",
+      "tools": [],
+      "mcp_servers": [],
+      "skills": [],
+      "metadata": {},
+      "multiagent": null,
+      "version": 2,
+      "archived_at": "2026-05-18T15:27:22.698411Z",
+      "created_at": "2026-05-18T15:26:39.61669Z",
+      "updated_at": "2026-05-18T15:27:22.698411Z"
+    }
+  },
+  {
+    "service": "DeploymentService",
+    "name": "New",
+    "method": "POST",
+    "path": "/deployments",
+    "file": "qoder-cloud-agents-sdk-go/managed/deployment.go",
+    "line": 43,
+    "doc": "deployments/create.md",
+    "route": "/deployments",
+    "response": {
+      "agent": {
+        "id": "agent_019eb4d4a06d747c865d5800b9c57ae2",
+        "type": "agent",
+        "version": 1
+      },
+      "archived_at": null,
+      "created_at": "2026-06-14T08:53:32Z",
+      "description": "Deployment created for API documentation verification",
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "environment_variables": "FEATURE_FLAG=on\nLOG_LEVEL=info",
+      "id": "dep_019ec556114c78f8b60ee34fcb98bf59",
+      "initial_events": [
+        {
+          "content": [
+            {
+              "type": "text",
+              "text": "Generate today's status report"
+            }
+          ],
+          "type": "user.message"
+        }
+      ],
+      "metadata": {
+        "team": "platform"
+      },
+      "name": "api-doc-verification-deployment",
+      "paused_reason": null,
+      "resources": [],
+      "schedule": {
+        "expression": "0 9 * * *",
+        "timezone": "Asia/Shanghai",
+        "type": "cron",
+        "upcoming_runs_at": [
+          "2026-06-15T01:00:00Z",
+          "2026-06-16T01:00:00Z",
+          "2026-06-17T01:00:00Z",
+          "2026-06-18T01:00:00Z",
+          "2026-06-19T01:00:00Z"
+        ]
+      },
+      "status": "active",
+      "type": "deployment",
+      "updated_at": "2026-06-14T08:53:32Z",
+      "vault_ids": []
+    }
+  },
+  {
+    "service": "DeploymentService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/deployments/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/deployment.go",
+    "line": 55,
+    "doc": "deployments/get.md",
+    "route": "/deployments/{id}",
+    "response": {
+      "agent": {
+        "id": "agent_019eb4d4a06d747c865d5800b9c57ae2",
+        "type": "agent",
+        "version": 1
+      },
+      "archived_at": null,
+      "created_at": "2026-06-14T08:53:32Z",
+      "description": "Deployment created for API documentation verification",
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "environment_variables": "",
+      "id": "dep_019ec556114c78f8b60ee34fcb98bf59",
+      "initial_events": [
+        {
+          "content": [
+            {
+              "type": "text",
+              "text": "Generate today's status report"
+            }
+          ],
+          "type": "user.message"
+        }
+      ],
+      "metadata": {},
+      "name": "api-doc-verification-deployment",
+      "paused_reason": null,
+      "resources": [],
+      "schedule": {
+        "expression": "0 9 * * *",
+        "timezone": "Asia/Shanghai",
+        "type": "cron",
+        "upcoming_runs_at": [
+          "2026-06-15T01:00:00Z",
+          "2026-06-16T01:00:00Z",
+          "2026-06-17T01:00:00Z",
+          "2026-06-18T01:00:00Z",
+          "2026-06-19T01:00:00Z"
+        ]
+      },
+      "status": "active",
+      "type": "deployment",
+      "updated_at": "2026-06-14T08:53:32Z",
+      "vault_ids": []
+    }
+  },
+  {
+    "service": "DeploymentService",
+    "name": "Update",
+    "method": "POST",
+    "path": "/deployments/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/deployment.go",
+    "line": 71,
+    "doc": "deployments/update.md",
+    "route": "/deployments/{id}",
+    "response": {
+      "agent": {
+        "id": "agent_019eb4d4a06d747c865d5800b9c57ae2",
+        "type": "agent",
+        "version": 1
+      },
+      "archived_at": null,
+      "created_at": "2026-06-14T08:53:32Z",
+      "description": "Deployment created for API documentation verification",
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "environment_variables": "",
+      "id": "dep_019ec556114c78f8b60ee34fcb98bf59",
+      "initial_events": [
+        {
+          "content": [
+            {
+              "type": "text",
+              "text": "Generate today's status report"
+            }
+          ],
+          "type": "user.message"
+        }
+      ],
+      "metadata": {},
+      "name": "api-doc-verification-deployment-v2",
+      "paused_reason": null,
+      "resources": [],
+      "schedule": {
+        "expression": "30 9 * * 1-5",
+        "timezone": "Asia/Shanghai",
+        "type": "cron",
+        "upcoming_runs_at": [
+          "2026-06-15T01:30:00Z",
+          "2026-06-16T01:30:00Z",
+          "2026-06-17T01:30:00Z",
+          "2026-06-18T01:30:00Z",
+          "2026-06-19T01:30:00Z"
+        ]
+      },
+      "status": "active",
+      "type": "deployment",
+      "updated_at": "2026-06-14T08:54:05Z",
+      "vault_ids": []
+    }
+  },
+  {
+    "service": "DeploymentService",
+    "name": "List",
+    "method": "GET",
+    "path": "/deployments",
+    "file": "qoder-cloud-agents-sdk-go/managed/deployment.go",
+    "line": 87,
+    "doc": "deployments/list.md",
+    "route": "/deployments",
+    "response": {
+      "data": [
+        {
+          "agent": {
+            "id": "agent_019eb4d4a06d747c865d5800b9c57ae2",
+            "type": "agent",
+            "version": 1
+          },
+          "archived_at": null,
+          "created_at": "2026-06-14T08:53:32Z",
+          "description": "Deployment created for API documentation verification",
+          "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+          "environment_variables": "",
+          "id": "dep_019ec556114c78f8b60ee34fcb98bf59",
+          "initial_events": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Generate today's status report"
+                }
+              ],
+              "type": "user.message"
+            }
+          ],
+          "metadata": {},
+          "name": "api-doc-verification-deployment",
+          "paused_reason": null,
+          "resources": [],
+          "schedule": {
+            "expression": "0 9 * * *",
+            "timezone": "Asia/Shanghai",
+            "type": "cron",
+            "upcoming_runs_at": [
+              "2026-06-15T01:00:00Z",
+              "2026-06-16T01:00:00Z",
+              "2026-06-17T01:00:00Z",
+              "2026-06-18T01:00:00Z",
+              "2026-06-19T01:00:00Z"
+            ]
+          },
+          "status": "active",
+          "type": "deployment",
+          "updated_at": "2026-06-14T08:53:32Z",
+          "vault_ids": []
+        }
+      ],
+      "first_id": "dep_019ec556114c78f8b60ee34fcb98bf59",
+      "has_more": true,
+      "last_id": "dep_019ec51604b87aaea12568c9ab7b7025",
+      "next_page": "dep_019ec51604b87aaea12568c9ab7b7025"
+    }
+  },
+  {
+    "service": "DeploymentService",
+    "name": "Archive",
+    "method": "POST",
+    "path": "/deployments/{}/archive",
+    "file": "qoder-cloud-agents-sdk-go/managed/deployment.go",
+    "line": 113,
+    "doc": "deployments/archive.md",
+    "route": "/deployments/{id}/archive",
+    "response": {
+      "agent": {
+        "id": "agent_019ebb21ef8e7df6a559052c94875160",
+        "type": "agent",
+        "version": 1
+      },
+      "archived_at": "2026-06-14T08:58:42Z",
+      "created_at": "2026-06-14T08:58:01Z",
+      "description": "Deployment created for API documentation verification",
+      "environment_id": "env_019e49a1780171daac1e6b01f290ac2b",
+      "environment_variables": "",
+      "id": "dep_019ec55a2b687b3f94eee77dd77e4b2a",
+      "initial_events": [
+        {
+          "content": [
+            {
+              "type": "text",
+              "text": "Generate today's status report"
+            }
+          ],
+          "type": "user.message"
+        }
+      ],
+      "metadata": {},
+      "name": "api-doc-verification-deployment-v2_archived_1781427523",
+      "paused_reason": null,
+      "resources": [],
+      "schedule": {
+        "expression": "30 9 * * 1-5",
+        "last_run_at": "2026-06-14T08:58:17Z",
+        "timezone": "Asia/Shanghai",
+        "type": "cron",
+        "upcoming_runs_at": []
+      },
+      "status": "active",
+      "type": "deployment",
+      "updated_at": "2026-06-14T08:58:42Z",
+      "vault_ids": []
+    }
+  },
+  {
+    "service": "DeploymentService",
+    "name": "Pause",
+    "method": "POST",
+    "path": "/deployments/{}/pause",
+    "file": "qoder-cloud-agents-sdk-go/managed/deployment.go",
+    "line": 129,
+    "doc": "deployments/pause.md",
+    "route": "/deployments/{id}/pause",
+    "response": {
+      "agent": {
+        "id": "agent_019eb4d4a06d747c865d5800b9c57ae2",
+        "type": "agent",
+        "version": 1
+      },
+      "archived_at": null,
+      "created_at": "2026-06-14T08:53:32Z",
+      "description": "Deployment created for API documentation verification",
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "environment_variables": "",
+      "id": "dep_019ec556114c78f8b60ee34fcb98bf59",
+      "initial_events": [
+        {
+          "content": [
+            {
+              "type": "text",
+              "text": "Generate today's status report"
+            }
+          ],
+          "type": "user.message"
+        }
+      ],
+      "metadata": {},
+      "name": "api-doc-verification-deployment-v2",
+      "paused_reason": {
+        "type": "manual"
+      },
+      "resources": [],
+      "schedule": {
+        "expression": "30 9 * * 1-5",
+        "last_run_at": "2026-06-14T08:54:06Z",
+        "timezone": "Asia/Shanghai",
+        "type": "cron",
+        "upcoming_runs_at": [
+          "2026-06-15T01:30:00Z",
+          "2026-06-16T01:30:00Z",
+          "2026-06-17T01:30:00Z",
+          "2026-06-18T01:30:00Z",
+          "2026-06-19T01:30:00Z"
+        ]
+      },
+      "status": "paused",
+      "type": "deployment",
+      "updated_at": "2026-06-14T08:54:22Z",
+      "vault_ids": []
+    }
+  },
+  {
+    "service": "DeploymentService",
+    "name": "Run",
+    "method": "POST",
+    "path": "/deployments/{}/run",
+    "file": "qoder-cloud-agents-sdk-go/managed/deployment.go",
+    "line": 145,
+    "doc": "deployments/run.md",
+    "route": "/deployments/{id}/run",
+    "response": {
+      "agent": {
+        "id": "agent_019eb4d4a06d747c865d5800b9c57ae2",
+        "type": "agent",
+        "version": 1
+      },
+      "created_at": "2026-06-14T08:54:06Z",
+      "deployment_id": "dep_019ec556114c78f8b60ee34fcb98bf59",
+      "error": null,
+      "id": "drun_019ec55694c07f2a9b402ffb4448ec18",
+      "session_id": "sess_019ec55694c47605a8904c8f3d842ccb",
+      "trigger_context": {
+        "type": "manual"
+      },
+      "type": "deployment_run"
+    }
+  },
+  {
+    "service": "DeploymentService",
+    "name": "Unpause",
+    "method": "POST",
+    "path": "/deployments/{}/unpause",
+    "file": "qoder-cloud-agents-sdk-go/managed/deployment.go",
+    "line": 161,
+    "doc": "deployments/unpause.md",
+    "route": "/deployments/{id}/unpause",
+    "response": {
+      "agent": {
+        "id": "agent_019ebb21ef8e7df6a559052c94875160",
+        "type": "agent",
+        "version": 1
+      },
+      "archived_at": null,
+      "created_at": "2026-06-14T08:58:01Z",
+      "description": "Deployment created for API documentation verification",
+      "environment_id": "env_019e49a1780171daac1e6b01f290ac2b",
+      "environment_variables": "",
+      "id": "dep_019ec55a2b687b3f94eee77dd77e4b2a",
+      "initial_events": [
+        {
+          "content": [
+            {
+              "type": "text",
+              "text": "Generate today's status report"
+            }
+          ],
+          "type": "user.message"
+        }
+      ],
+      "metadata": {},
+      "name": "api-doc-verification-deployment-v2",
+      "paused_reason": null,
+      "resources": [],
+      "schedule": {
+        "expression": "30 9 * * 1-5",
+        "last_run_at": "2026-06-14T08:58:17Z",
+        "timezone": "Asia/Shanghai",
+        "type": "cron",
+        "upcoming_runs_at": [
+          "2026-06-15T01:30:00Z",
+          "2026-06-16T01:30:00Z",
+          "2026-06-17T01:30:00Z",
+          "2026-06-18T01:30:00Z",
+          "2026-06-19T01:30:00Z"
+        ]
+      },
+      "status": "active",
+      "type": "deployment",
+      "updated_at": "2026-06-14T08:58:27Z",
+      "vault_ids": []
+    }
+  },
+  {
+    "service": "ModelService",
+    "name": "List",
+    "method": "GET",
+    "path": "/models",
+    "file": "qoder-cloud-agents-sdk-go/managed/model.go",
+    "line": 46,
+    "doc": "models/list.md",
+    "route": "/models",
+    "response": {
+      "data": [
+        {
+          "id": "ultimate",
+          "type": "model",
+          "display_name": "Ultimate",
+          "source": "system",
+          "is_enabled": true,
+          "is_new": false,
+          "price_factor": 1.6,
+          "efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "default_effort": "high",
+          "max_input_tokens": 1000000,
+          "default_context_window": 200000,
+          "available_context_windows": [
+            200000,
+            400000,
+            1000000
+          ]
+        }
+      ],
+      "has_more": false
+    }
+  },
+  {
+    "service": "SessionEventService",
+    "name": "List",
+    "method": "GET",
+    "path": "/sessions/{}/events",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionevent.go",
+    "line": 44,
+    "doc": "sessions/list-events.md",
+    "route": "/sessions/{session_id}/events",
+    "response": {
+      "data": [
+        {
+          "id": "evt_019e392c0d787cfaa21bda98e06cd913",
+          "type": "user.message",
+          "content": [
+            {
+              "type": "text",
+              "text": "Hello, this is a test message."
+            }
+          ],
+          "processed_at": "2026-05-18T03:40:48.888851795Z"
+        },
+        {
+          "id": "evt_771c1195bcbd4a07834d4ed4dd6450ca",
+          "type": "agent.message",
+          "content": [
+            {
+              "type": "text",
+              "text": "Hello! How can I help you today?"
+            }
+          ],
+          "processed_at": "2026-05-18T03:40:55.123Z"
+        }
+      ],
+      "first_id": "evt_019e392c0d787cfaa21bda98e06cd913",
+      "has_more": false,
+      "last_id": "evt_771c1195bcbd4a07834d4ed4dd6450ca",
+      "next_page": null
+    }
+  },
+  {
+    "service": "SessionEventService",
+    "name": "Send",
+    "method": "POST",
+    "path": "/sessions/{}/events",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionevent.go",
+    "line": 74,
+    "doc": "sessions/send-event.md",
+    "route": "/sessions/{session_id}/events",
+    "response": {
+      "data": [
+        {
+          "id": "evt_019e3bb2c153764da54e4d3acbef52b6",
+          "type": "user.message",
+          "content": [
+            {
+              "type": "text",
+              "text": "Help me analyze the performance of this code."
+            }
+          ],
+          "processed_at": "2026-05-18T15:27:11.187413896Z"
+        }
+      ]
+    }
+  },
+  {
+    "service": "SessionEventService",
+    "name": "StreamEvents",
+    "method": "GET",
+    "path": "/sessions/{}/events/stream",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionevent.go",
+    "line": 90,
+    "doc": "sessions/stream-events.md",
+    "route": "/sessions/{session_id}/events/stream",
+    "response": {}
+  },
+  {
+    "service": "DeploymentRunService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/deployment_runs/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/deploymentrun.go",
+    "line": 43,
+    "doc": "deployments/get-run-global.md",
+    "route": "/deployment_runs/{run_id}",
+    "response": {
+      "agent": {
+        "id": "agent_019ebb21ef8e7df6a559052c94875160",
+        "type": "agent",
+        "version": 1
+      },
+      "created_at": "2026-06-14T08:58:17Z",
+      "deployment_id": "dep_019ec55a2b687b3f94eee77dd77e4b2a",
+      "error": null,
+      "id": "drun_019ec55a68af73028afa5b87931cb2f3",
+      "session_id": "sess_019ec55a68b37e1e8d660691af161ab4",
+      "trigger_context": {
+        "type": "manual"
+      },
+      "type": "deployment_run"
+    }
+  },
+  {
+    "service": "DeploymentRunService",
+    "name": "List",
+    "method": "GET",
+    "path": "/deployment_runs",
+    "file": "qoder-cloud-agents-sdk-go/managed/deploymentrun.go",
+    "line": 59,
+    "doc": "deployments/list-all-runs.md",
+    "route": "/deployment_runs",
+    "response": {
+      "data": [
+        {
+          "agent": {
+            "id": "agent_019ebb21ef8e7df6a559052c94875160",
+            "type": "agent",
+            "version": 1
+          },
+          "created_at": "2026-06-14T08:58:17Z",
+          "deployment_id": "dep_019ec55a2b687b3f94eee77dd77e4b2a",
+          "error": null,
+          "id": "drun_019ec55a68af73028afa5b87931cb2f3",
+          "session_id": "sess_019ec55a68b37e1e8d660691af161ab4",
+          "trigger_context": {
+            "type": "manual"
+          },
+          "type": "deployment_run"
+        },
+        {
+          "agent": {
+            "id": "agent_019ebb21ef8e7df6a559052c94875160",
+            "type": "agent",
+            "version": 1
+          },
+          "created_at": "2026-06-14T08:58:04Z",
+          "deployment_id": "dep_019ec53748f7784bac33f208c0f66982",
+          "error": null,
+          "id": "drun_019ec55a371470969dd48ce41fb2a7da",
+          "session_id": "sess_019ec55a37157b049f3e7f3681b5ec15",
+          "trigger_context": {
+            "scheduled_at": "2026-06-14T08:58:04Z",
+            "type": "schedule"
+          },
+          "type": "deployment_run"
+        }
+      ],
+      "first_id": "drun_019ec55a68af73028afa5b87931cb2f3",
+      "has_more": true,
+      "last_id": "drun_019ec55a371470969dd48ce41fb2a7da",
+      "next_page": "drun_019ec55a371470969dd48ce41fb2a7da"
+    }
+  },
+  {
+    "service": "VaultService",
+    "name": "New",
+    "method": "POST",
+    "path": "/vaults",
+    "file": "qoder-cloud-agents-sdk-go/managed/vault.go",
+    "line": 44,
+    "doc": "vaults/create.md",
+    "route": "/vaults",
+    "response": {
+      "id": "vault_019e3bb940277f0db05ab74291acf6ef",
+      "type": "vault",
+      "display_name": "my-mcp-vault",
+      "metadata": {
+        "team": "docs"
+      },
+      "credentials": [],
+      "archived_at": null,
+      "created_at": "2026-05-18T15:34:16.874877Z",
+      "updated_at": "2026-05-18T15:34:16.874877Z"
+    }
+  },
+  {
+    "service": "VaultService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/vaults/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/vault.go",
+    "line": 56,
+    "doc": "vaults/get.md",
+    "route": "/vaults/{vault_id}",
+    "response": {
+      "id": "vault_019e3bb940277f0db05ab74291acf6ef",
+      "type": "vault",
+      "display_name": "my-mcp-vault",
+      "metadata": {},
+      "archived_at": null,
+      "created_at": "2026-05-18T15:34:16.874877Z",
+      "updated_at": "2026-05-18T15:34:16.874877Z"
+    }
+  },
+  {
+    "service": "VaultService",
+    "name": "List",
+    "method": "GET",
+    "path": "/vaults",
+    "file": "qoder-cloud-agents-sdk-go/managed/vault.go",
+    "line": 72,
+    "doc": "vaults/list.md",
+    "route": "/vaults",
+    "response": {
+      "data": [
+        {
+          "id": "vault_019e3bb940277f0db05ab74291acf6ef",
+          "type": "vault",
+          "display_name": "my-mcp-vault",
+          "metadata": {},
+          "archived_at": null,
+          "created_at": "2026-05-18T15:34:16.874877Z",
+          "updated_at": "2026-05-18T15:34:16.874877Z"
+        }
+      ],
+      "next_page": null,
+      "first_id": "vault_019e3bb940277f0db05ab74291acf6ef",
+      "last_id": "vault_019e3bb940277f0db05ab74291acf6ef",
+      "has_more": false
+    }
+  },
+  {
+    "service": "VaultService",
+    "name": "Delete",
+    "method": "DELETE",
+    "path": "/vaults/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/vault.go",
+    "line": 98,
+    "doc": "vaults/delete.md",
+    "route": "/vaults/{vault_id}",
+    "response": {
+      "id": "vault_019e3bb940277f0db05ab74291acf6ef",
+      "type": "vault_deleted"
+    }
+  },
+  {
+    "service": "VaultService",
+    "name": "Archive",
+    "method": "POST",
+    "path": "/vaults/{}/archive",
+    "file": "qoder-cloud-agents-sdk-go/managed/vault.go",
+    "line": 114,
+    "doc": "vaults/archive.md",
+    "route": "/vaults/{vault_id}/archive",
+    "response": {
+      "id": "vault_019e3bb940277f0db05ab74291acf6ef",
+      "type": "vault",
+      "display_name": "my-mcp-vault",
+      "metadata": {},
+      "archived_at": "2026-05-18T15:34:35.630693Z",
+      "created_at": "2026-05-18T15:34:16.874877Z",
+      "updated_at": "2026-05-18T15:34:35.630693Z"
+    }
+  },
+  {
+    "service": "MemoryStoreMemoryVersionService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/memory_stores/{}/memory_versions/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystorememoryversion.go",
+    "line": 44,
+    "doc": "memory-stores/get-version.md",
+    "route": "/memory_stores/{memory_store_id}/memory_versions/{memory_version_id}",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreMemoryVersionService",
+    "name": "List",
+    "method": "GET",
+    "path": "/memory_stores/{}/memory_versions",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystorememoryversion.go",
+    "line": 64,
+    "doc": "memory-stores/list-versions.md",
+    "route": "/memory_stores/{memory_store_id}/memory_versions",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreMemoryVersionService",
+    "name": "Redact",
+    "method": "POST",
+    "path": "/memory_stores/{}/memory_versions/{}/redact",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystorememoryversion.go",
+    "line": 94,
+    "doc": "memory-stores/redact-version.md",
+    "route": "/memory_stores/{memory_store_id}/memory_versions/{memory_version_id}/redact",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreService",
+    "name": "New",
+    "method": "POST",
+    "path": "/memory_stores",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystore.go",
+    "line": 46,
+    "doc": "memory-stores/create.md",
+    "route": "/memory_stores",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/memory_stores/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystore.go",
+    "line": 58,
+    "doc": "memory-stores/get.md",
+    "route": "/memory_stores/{memory_store_id}",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreService",
+    "name": "Update",
+    "method": "POST",
+    "path": "/memory_stores/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystore.go",
+    "line": 74,
+    "doc": "memory-stores/update.md",
+    "route": "/memory_stores/{memory_store_id}",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreService",
+    "name": "List",
+    "method": "GET",
+    "path": "/memory_stores",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystore.go",
+    "line": 90,
+    "doc": "memory-stores/list.md",
+    "route": "/memory_stores",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreService",
+    "name": "Delete",
+    "method": "DELETE",
+    "path": "/memory_stores/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystore.go",
+    "line": 116,
+    "doc": "memory-stores/delete.md",
+    "route": "/memory_stores/{memory_store_id}",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreService",
+    "name": "Archive",
+    "method": "POST",
+    "path": "/memory_stores/{}/archive",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystore.go",
+    "line": 132,
+    "doc": "memory-stores/archive.md",
+    "route": "/memory_stores/{memory_store_id}/archive",
+    "response": {}
+  },
+  {
+    "service": "SessionResourceService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/sessions/{}/resources/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionresource.go",
+    "line": 43,
+    "doc": "sessions/get-resource.md",
+    "route": "/sessions/{session_id}/resources/{resource_id}",
+    "response": {
+      "id": "sesr_0e4323e8f47ba34853f5409e",
+      "type": "file",
+      "file_id": "file_019ef2a07a06704fb899908c29eed779",
+      "mount_path": "/mnt/session/uploads/file_019ef2a07a06704fb899908c29eed779",
+      "created_at": "2026-06-23T05:53:19.77484Z",
+      "updated_at": "2026-06-23T05:53:44.995459Z"
+    }
+  },
+  {
+    "service": "SessionResourceService",
+    "name": "Update",
+    "method": "POST",
+    "path": "/sessions/{}/resources/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionresource.go",
+    "line": 63,
+    "doc": "sessions/update-resource.md",
+    "route": "/sessions/{session_id}/resources/{resource_id}",
+    "response": {
+      "id": "sesr_0e4323e8f47ba34853f5409e",
+      "type": "github_repository",
+      "url": "https://github.com/your-org/your-repo",
+      "mount_path": "/data/workspace/your-repo",
+      "checkout": {
+        "type": "branch",
+        "name": "main"
+      },
+      "created_at": "2026-06-23T05:53:19.774840Z",
+      "updated_at": "2026-06-23T06:01:42.124501Z"
+    }
+  },
+  {
+    "service": "SessionResourceService",
+    "name": "List",
+    "method": "GET",
+    "path": "/sessions/{}/resources",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionresource.go",
+    "line": 83,
+    "doc": "sessions/list-resources.md",
+    "route": "/sessions/{session_id}/resources",
+    "response": {
+      "data": [
+        {
+          "id": "sesr_0e4323e8f47ba34853f5409e",
+          "type": "file",
+          "file_id": "file_019ef2a07a06704fb899908c29eed779",
+          "mount_path": "/mnt/session/uploads/file_019ef2a07a06704fb899908c29eed779",
+          "created_at": "2026-06-23T05:53:19.77484Z",
+          "updated_at": "2026-06-23T05:53:38.185714Z"
+        }
+      ],
+      "first_id": "sesr_0e4323e8f47ba34853f5409e",
+      "last_id": "sesr_0e4323e8f47ba34853f5409e",
+      "has_more": false,
+      "next_page": null
+    }
+  },
+  {
+    "service": "SessionResourceService",
+    "name": "Delete",
+    "method": "DELETE",
+    "path": "/sessions/{}/resources/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionresource.go",
+    "line": 113,
+    "doc": "sessions/delete-resource.md",
+    "route": "/sessions/{session_id}/resources/{resource_id}",
+    "response": {
+      "id": "sesr_0e4323e8f47ba34853f5409e",
+      "type": "session_resource_deleted"
+    }
+  },
+  {
+    "service": "SessionResourceService",
+    "name": "Add",
+    "method": "POST",
+    "path": "/sessions/{}/resources",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionresource.go",
+    "line": 133,
+    "doc": "sessions/add-resource.md",
+    "route": "/sessions/{session_id}/resources",
+    "response": {
+      "id": "sesr_0e4323e8f47ba34853f5409e",
+      "type": "file",
+      "file_id": "file_019ef2a07a06704fb899908c29eed779",
+      "mount_path": "/mnt/session/uploads/file_019ef2a07a06704fb899908c29eed779",
+      "created_at": "2026-06-23T05:53:19.77484Z",
+      "updated_at": "2026-06-23T05:53:38.185714Z"
+    }
+  },
+  {
+    "service": "SessionThreadEventService",
+    "name": "List",
+    "method": "GET",
+    "path": "/sessions/{}/threads/{}/events",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionthreadevent.go",
+    "line": 40,
+    "doc": "sessions/list-thread-events.md",
+    "route": "/sessions/{session_id}/threads/{thread_id}/events",
+    "response": {
+      "data": [
+        {
+          "id": "evt_019f00000000000000000000000003cc",
+          "type": "agent.message",
+          "content": [
+            {
+              "type": "text",
+              "text": "Thread response"
+            }
+          ],
+          "processed_at": "2026-06-15T08:02:00.000Z"
+        }
+      ],
+      "first_id": "evt_019f00000000000000000000000003cc",
+      "has_more": false,
+      "last_id": "evt_019f00000000000000000000000003cc",
+      "next_page": null
+    }
+  },
+  {
+    "service": "SessionThreadEventService",
+    "name": "StreamEvents",
+    "method": "GET",
+    "path": "/sessions/{}/threads/{}/stream",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionthreadevent.go",
+    "line": 74,
+    "doc": "sessions/stream-thread-events.md",
+    "route": "/sessions/{session_id}/threads/{thread_id}/stream",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreMemoryService",
+    "name": "New",
+    "method": "POST",
+    "path": "/memory_stores/{}/memories",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystorememory.go",
+    "line": 43,
+    "doc": "memory-stores/create-memory.md",
+    "route": "/memory_stores/{memory_store_id}/memories",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreMemoryService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/memory_stores/{}/memories/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystorememory.go",
+    "line": 59,
+    "doc": "memory-stores/get-memory.md",
+    "route": "/memory_stores/{memory_store_id}/memories/{memory_id}",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreMemoryService",
+    "name": "Update",
+    "method": "POST",
+    "path": "/memory_stores/{}/memories/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystorememory.go",
+    "line": 79,
+    "doc": "memory-stores/update-memory.md",
+    "route": "/memory_stores/{memory_store_id}/memories/{memory_id}",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreMemoryService",
+    "name": "List",
+    "method": "GET",
+    "path": "/memory_stores/{}/memories",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystorememory.go",
+    "line": 99,
+    "doc": "memory-stores/list-memories.md",
+    "route": "/memory_stores/{memory_store_id}/memories",
+    "response": {}
+  },
+  {
+    "service": "MemoryStoreMemoryService",
+    "name": "Delete",
+    "method": "DELETE",
+    "path": "/memory_stores/{}/memories/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/memorystorememory.go",
+    "line": 129,
+    "doc": "memory-stores/delete-memory.md",
+    "route": "/memory_stores/{memory_store_id}/memories/{memory_id}",
+    "response": {}
+  },
+  {
+    "service": "SkillService",
+    "name": "New",
+    "method": "POST",
+    "path": "/skills",
+    "file": "qoder-cloud-agents-sdk-go/managed/skill.go",
+    "line": 49,
+    "doc": "skills/create.md",
+    "route": "/skills",
+    "response": {
+      "id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+      "type": "skill",
+      "display_title": "My Custom Skill",
+      "source": "custom",
+      "latest_version": "1759178010641129",
+      "metadata": {
+        "team": "docs"
+      },
+      "created_at": "2026-05-18T15:35:24.248164Z",
+      "updated_at": "2026-05-18T15:35:24.248164Z"
+    }
+  },
+  {
+    "service": "SkillService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/skills/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/skill.go",
+    "line": 60,
+    "doc": "skills/get.md",
+    "route": "/skills/{skill_id}",
+    "response": {
+      "id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+      "type": "skill",
+      "display_title": "test-skill-api-doc",
+      "source": "custom",
+      "latest_version": "1759178010641129",
+      "metadata": {
+        "team": "docs"
+      },
+      "created_at": "2026-05-18T15:35:24.248164Z",
+      "updated_at": "2026-05-18T15:35:24.248164Z"
+    }
+  },
+  {
+    "service": "SkillService",
+    "name": "List",
+    "method": "GET",
+    "path": "/skills",
+    "file": "qoder-cloud-agents-sdk-go/managed/skill.go",
+    "line": 75,
+    "doc": "skills/list.md",
+    "route": "/skills",
+    "response": {
+      "data": [
+        {
+          "id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+          "type": "skill",
+          "display_title": "test-skill-api-doc",
+          "source": "custom",
+          "latest_version": "1759178010641129",
+          "metadata": {
+            "team": "docs"
+          },
+          "created_at": "2026-05-18T15:35:24.248164Z",
+          "updated_at": "2026-05-18T15:35:24.248164Z"
+        }
+      ],
+      "next_page": null,
+      "first_id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+      "last_id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+      "has_more": false
+    }
+  },
+  {
+    "service": "SkillService",
+    "name": "Delete",
+    "method": "DELETE",
+    "path": "/skills/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/skill.go",
+    "line": 101,
+    "doc": "skills/delete.md",
+    "route": "/skills/{skill_id}",
+    "response": {
+      "id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+      "type": "skill_deleted"
+    }
+  },
+  {
+    "service": "EnvironmentService",
+    "name": "New",
+    "method": "POST",
+    "path": "/environments",
+    "file": "qoder-cloud-agents-sdk-go/managed/environment.go",
+    "line": 46,
+    "doc": "environments/create.md",
+    "route": "/environments",
+    "response": {
+      "id": "env_019e3bb39b6774d8878cd0b9d237574b",
+      "type": "environment",
+      "name": "doc-test-env",
+      "description": "",
+      "config": {
+        "type": "cloud",
+        "packages": {
+          "type": "packages",
+          "apt": [
+            "curl"
+          ],
+          "cargo": [],
+          "gem": [],
+          "go": [],
+          "npm": [],
+          "pip": []
+        }
+      },
+      "metadata": {},
+      "archived_at": null,
+      "created_at": "2026-05-18T15:28:07.017808Z",
+      "updated_at": "2026-05-18T15:28:07.017808Z"
+    }
+  },
+  {
+    "service": "EnvironmentService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/environments/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/environment.go",
+    "line": 58,
+    "doc": "environments/get.md",
+    "route": "/environments/{environment_id}",
+    "response": {
+      "id": "env_019e3bb39b6774d8878cd0b9d237574b",
+      "type": "environment",
+      "name": "doc-test-env",
+      "description": "",
+      "config": {
+        "type": "cloud",
+        "packages": {
+          "type": "packages",
+          "apt": [
+            "curl"
+          ],
+          "cargo": [],
+          "gem": [],
+          "go": [],
+          "npm": [],
+          "pip": []
+        }
+      },
+      "metadata": {},
+      "archived_at": null,
+      "created_at": "2026-05-18T15:28:07.017808Z",
+      "updated_at": "2026-05-18T15:28:07.017808Z"
+    }
+  },
+  {
+    "service": "EnvironmentService",
+    "name": "Update",
+    "method": "POST",
+    "path": "/environments/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/environment.go",
+    "line": 74,
+    "doc": "environments/update.md",
+    "route": "/environments/{environment_id}",
+    "response": {
+      "id": "env_019e3bb39b6774d8878cd0b9d237574b",
+      "type": "environment",
+      "name": "doc-test-env",
+      "description": "Environment used for API documentation testing",
+      "config": {
+        "type": "cloud",
+        "packages": {
+          "type": "packages",
+          "apt": [
+            "curl"
+          ],
+          "cargo": [],
+          "gem": [],
+          "go": [],
+          "npm": [],
+          "pip": []
+        }
+      },
+      "metadata": {},
+      "archived_at": null,
+      "created_at": "2026-05-18T15:28:07.017808Z",
+      "updated_at": "2026-05-18T15:28:08.093156Z"
+    }
+  },
+  {
+    "service": "EnvironmentService",
+    "name": "List",
+    "method": "GET",
+    "path": "/environments",
+    "file": "qoder-cloud-agents-sdk-go/managed/environment.go",
+    "line": 90,
+    "doc": "environments/list.md",
+    "route": "/environments",
+    "response": {
+      "data": [
+        {
+          "id": "env_019e3bb39b6774d8878cd0b9d237574b",
+          "type": "environment",
+          "name": "doc-test-env",
+          "description": "",
+          "config": {
+            "type": "cloud",
+            "packages": {
+              "type": "packages",
+              "apt": [
+                "curl"
+              ],
+              "cargo": [],
+              "gem": [],
+              "go": [],
+              "npm": [],
+              "pip": []
+            }
+          },
+          "metadata": {},
+          "archived_at": null,
+          "created_at": "2026-05-18T15:28:07.017808Z",
+          "updated_at": "2026-05-18T15:28:07.017808Z"
+        },
+        {
+          "id": "env_019e2590d33f711fabf42f2857cecd8a",
+          "type": "environment",
+          "name": "default",
+          "description": "",
+          "config": {
+            "type": "cloud",
+            "packages": {
+              "type": "packages",
+              "apt": [],
+              "cargo": [],
+              "gem": [],
+              "go": [],
+              "npm": [],
+              "pip": []
+            }
+          },
+          "metadata": {},
+          "archived_at": null,
+          "created_at": "2026-05-14T08:18:28.800813Z",
+          "updated_at": "2026-05-14T08:18:28.800813Z"
+        }
+      ],
+      "first_id": "env_019e3bb39b6774d8878cd0b9d237574b",
+      "has_more": false,
+      "last_id": "env_019e2590d33f711fabf42f2857cecd8a",
+      "next_page": null
+    }
+  },
+  {
+    "service": "EnvironmentService",
+    "name": "Delete",
+    "method": "DELETE",
+    "path": "/environments/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/environment.go",
+    "line": 116,
+    "doc": "environments/delete.md",
+    "route": "/environments/{environment_id}",
+    "response": {
+      "id": "env_019e3bb39b6774d8878cd0b9d237574b",
+      "type": "environment_deleted"
+    }
+  },
+  {
+    "service": "EnvironmentService",
+    "name": "Archive",
+    "method": "POST",
+    "path": "/environments/{}/archive",
+    "file": "qoder-cloud-agents-sdk-go/managed/environment.go",
+    "line": 133,
+    "doc": "environments/archive.md",
+    "route": "/environments/{environment_id}/archive",
+    "response": {
+      "id": "env_019e3bb39b6774d8878cd0b9d237574b",
+      "type": "environment",
+      "name": "doc-test-env",
+      "description": "Environment used for API documentation testing",
+      "config": {
+        "type": "cloud",
+        "packages": {
+          "type": "packages",
+          "apt": [
+            "curl"
+          ],
+          "cargo": [],
+          "gem": [],
+          "go": [],
+          "npm": [],
+          "pip": []
+        }
+      },
+      "metadata": {},
+      "archived_at": "2026-05-18T15:28:08.459536Z",
+      "created_at": "2026-05-18T15:28:07.017808Z",
+      "updated_at": "2026-05-18T15:28:08.459536Z"
+    }
+  },
+  {
+    "service": "EnvironmentWorkService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/environments/{}/work/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/environmentwork.go",
+    "line": 47,
+    "doc": "environments/work/get.md",
+    "route": "/environments/{environment_id}/work/{work_id}",
+    "response": {
+      "id": "work_019f3be4fd2475d9a784bf2c739e1194",
+      "type": "work",
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "data": {
+        "type": "session",
+        "id": "sess_019f3be3fa66750bb9a1fbcde85b5fe1"
+      },
+      "state": "active",
+      "created_at": "2026-07-01T08:15:01Z",
+      "acknowledged_at": "2026-07-01T08:15:04Z",
+      "started_at": "2026-07-01T08:15:06Z",
+      "latest_heartbeat_at": "2026-07-01T08:16:06.120394Z",
+      "stop_requested_at": null,
+      "stopped_at": null,
+      "metadata": {
+        "job": "daily-report"
+      }
+    }
+  },
+  {
+    "service": "EnvironmentWorkService",
+    "name": "Update",
+    "method": "POST",
+    "path": "/environments/{}/work/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/environmentwork.go",
+    "line": 72,
+    "doc": "environments/work/update-metadata.md",
+    "route": "/environments/{environment_id}/work/{work_id}",
+    "response": {
+      "id": "work_019f3be4fd2475d9a784bf2c739e1194",
+      "type": "work",
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "data": {
+        "type": "session",
+        "id": "sess_019f3be3fa66750bb9a1fbcde85b5fe1"
+      },
+      "state": "active",
+      "created_at": "2026-07-01T08:15:01Z",
+      "acknowledged_at": "2026-07-01T08:15:04Z",
+      "started_at": "2026-07-01T08:15:06Z",
+      "latest_heartbeat_at": "2026-07-01T08:16:06.120394Z",
+      "stop_requested_at": null,
+      "stopped_at": null,
+      "metadata": {
+        "job": "daily-report",
+        "worker": "byoc-worker-01"
+      }
+    }
+  },
+  {
+    "service": "EnvironmentWorkService",
+    "name": "List",
+    "method": "GET",
+    "path": "/environments/{}/work",
+    "file": "qoder-cloud-agents-sdk-go/managed/environmentwork.go",
+    "line": 97,
+    "doc": "environments/work/list.md",
+    "route": "/environments/{environment_id}/work",
+    "response": {
+      "data": [
+        {
+          "id": "work_019f3be4fd2475d9a784bf2c739e1194",
+          "type": "work",
+          "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+          "data": {
+            "type": "session",
+            "id": "sess_019f3be3fa66750bb9a1fbcde85b5fe1"
+          },
+          "state": "queued",
+          "created_at": "2026-07-01T08:15:01Z",
+          "acknowledged_at": null,
+          "started_at": null,
+          "latest_heartbeat_at": null,
+          "stop_requested_at": null,
+          "stopped_at": null,
+          "metadata": {
+            "job": "daily-report"
+          }
+        }
+      ],
+      "first_id": "work_019f3be4fd2475d9a784bf2c739e1194",
+      "last_id": "work_019f3be4fd2475d9a784bf2c739e1194",
+      "has_more": false,
+      "next_page": null
+    }
+  },
+  {
+    "service": "EnvironmentWorkService",
+    "name": "Ack",
+    "method": "POST",
+    "path": "/environments/{}/work/{}/ack",
+    "file": "qoder-cloud-agents-sdk-go/managed/environmentwork.go",
+    "line": 138,
+    "doc": "environments/work/ack.md",
+    "route": "/environments/{environment_id}/work/{work_id}/ack",
+    "response": {
+      "id": "work_019f3be4fd2475d9a784bf2c739e1194",
+      "type": "work",
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "data": {
+        "type": "session",
+        "id": "sess_019f3be3fa66750bb9a1fbcde85b5fe1"
+      },
+      "state": "starting",
+      "created_at": "2026-07-01T08:15:01Z",
+      "acknowledged_at": "2026-07-01T08:15:04Z",
+      "started_at": null,
+      "latest_heartbeat_at": null,
+      "stop_requested_at": null,
+      "stopped_at": null,
+      "metadata": {}
+    }
+  },
+  {
+    "service": "EnvironmentWorkService",
+    "name": "Heartbeat",
+    "method": "POST",
+    "path": "/environments/{}/work/{}/heartbeat",
+    "file": "qoder-cloud-agents-sdk-go/managed/environmentwork.go",
+    "line": 163,
+    "doc": "environments/work/heartbeat.md",
+    "route": "/environments/{environment_id}/work/{work_id}/heartbeat",
+    "response": {
+      "type": "work_heartbeat",
+      "last_heartbeat": "2026-07-01T08:15:06.120394Z",
+      "lease_extended": true,
+      "state": "active",
+      "ttl_seconds": 60
+    }
+  },
+  {
+    "service": "EnvironmentWorkService",
+    "name": "Poll",
+    "method": "GET",
+    "path": "/environments/{}/work/poll",
+    "file": "qoder-cloud-agents-sdk-go/managed/environmentwork.go",
+    "line": 188,
+    "doc": "environments/work/poll.md",
+    "route": "/environments/{environment_id}/work/poll",
+    "response": null
+  },
+  {
+    "service": "EnvironmentWorkService",
+    "name": "Stats",
+    "method": "GET",
+    "path": "/environments/{}/work/stats",
+    "file": "qoder-cloud-agents-sdk-go/managed/environmentwork.go",
+    "line": 207,
+    "doc": "environments/work/stats.md",
+    "route": "/environments/{environment_id}/work/stats",
+    "response": {
+      "type": "work_queue_stats",
+      "depth": 3,
+      "pending": 1,
+      "oldest_queued_at": "2026-07-01T08:15:01Z",
+      "workers_polling": 2
+    }
+  },
+  {
+    "service": "EnvironmentWorkService",
+    "name": "Stop",
+    "method": "POST",
+    "path": "/environments/{}/work/{}/stop",
+    "file": "qoder-cloud-agents-sdk-go/managed/environmentwork.go",
+    "line": 228,
+    "doc": "environments/work/stop.md",
+    "route": "/environments/{environment_id}/work/{work_id}/stop",
+    "response": {
+      "id": "work_019f3be4fd2475d9a784bf2c739e1194",
+      "type": "work",
+      "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+      "data": {
+        "type": "session",
+        "id": "sess_019f3be3fa66750bb9a1fbcde85b5fe1"
+      },
+      "state": "stopping",
+      "created_at": "2026-07-01T08:15:01Z",
+      "acknowledged_at": "2026-07-01T08:15:04Z",
+      "started_at": "2026-07-01T08:15:06Z",
+      "latest_heartbeat_at": "2026-07-01T08:16:06.120394Z",
+      "stop_requested_at": "2026-07-01T08:16:30Z",
+      "stopped_at": null,
+      "metadata": {}
+    }
+  },
+  {
+    "service": "DreamService",
+    "name": "New",
+    "method": "POST",
+    "path": "/dreams",
+    "file": "qoder-cloud-agents-sdk-go/managed/dream.go",
+    "line": 43,
+    "doc": "dreams/create.md",
+    "route": "/dreams",
+    "response": {
+      "id": "drm_019e86b4a8f070a3b6c5d4e3f2a1b0c9",
+      "type": "dream",
+      "status": "pending",
+      "inputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "memstore_019e5cdb9c3f71c3b6505eba937a40b4"
+        },
+        {
+          "type": "sessions",
+          "session_ids": [
+            "sess_019e7a1b2c3d4e5f6a7b8c9d0e1f2a3b"
+          ]
+        }
+      ],
+      "outputs": [],
+      "model": {
+        "id": "auto"
+      },
+      "instructions": "Focus on user preferences for code style",
+      "session_id": null,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "error": null,
+      "created_at": "2026-06-15T10:00:00Z",
+      "ended_at": null,
+      "archived_at": null
+    }
+  },
+  {
+    "service": "DreamService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/dreams/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/dream.go",
+    "line": 55,
+    "doc": "dreams/get.md",
+    "route": "/dreams/{id}",
+    "response": {
+      "id": "drm_019e86b4a8f070a3b6c5d4e3f2a1b0c9",
+      "type": "dream",
+      "status": "completed",
+      "inputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "memstore_019e5cdb9c3f71c3b6505eba937a40b4"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "memstore_019e86b4b10578059435632bb357c5ed",
+          "files_touched": [
+            "preferences.md",
+            "project/arch.md"
+          ]
+        }
+      ],
+      "model": {
+        "id": "auto"
+      },
+      "instructions": "",
+      "session_id": "sess_019e86b4b10578059435632bb357c5ed",
+      "usage": {
+        "input_tokens": 12500,
+        "output_tokens": 3200,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 8000
+      },
+      "error": null,
+      "created_at": "2026-06-15T10:00:00Z",
+      "ended_at": "2026-06-15T10:03:42Z",
+      "archived_at": null
+    }
+  },
+  {
+    "service": "DreamService",
+    "name": "List",
+    "method": "GET",
+    "path": "/dreams",
+    "file": "qoder-cloud-agents-sdk-go/managed/dream.go",
+    "line": 71,
+    "doc": "dreams/list.md",
+    "route": "/dreams",
+    "response": {
+      "data": [
+        {
+          "id": "drm_019e86b4a8f070a3b6c5d4e3f2a1b0c9",
+          "type": "dream",
+          "status": "completed",
+          "inputs": [
+            {
+              "type": "memory_store",
+              "memory_store_id": "memstore_019e5cdb9c3f71c3b6505eba937a40b4"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "memory_store",
+              "memory_store_id": "memstore_019e86b4b10578059435632bb357c5ed",
+              "files_touched": [
+                "preferences.md"
+              ]
+            }
+          ],
+          "model": {
+            "id": "auto"
+          },
+          "instructions": "",
+          "session_id": "sess_019e86b4b10578059435632bb357c5ed",
+          "usage": {
+            "input_tokens": 12500,
+            "output_tokens": 3200,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 8000
+          },
+          "error": null,
+          "created_at": "2026-06-15T10:00:00Z",
+          "ended_at": "2026-06-15T10:03:42Z",
+          "archived_at": null
+        }
+      ]
+    }
+  },
+  {
+    "service": "DreamService",
+    "name": "Archive",
+    "method": "POST",
+    "path": "/dreams/{}/archive",
+    "file": "qoder-cloud-agents-sdk-go/managed/dream.go",
+    "line": 97,
+    "doc": "dreams/archive.md",
+    "route": "/dreams/{id}/archive",
+    "response": {
+      "id": "drm_019e86b4a8f070a3b6c5d4e3f2a1b0c9",
+      "type": "dream",
+      "status": "completed",
+      "inputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "memstore_019e5cdb9c3f71c3b6505eba937a40b4"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "memstore_019e86b4b10578059435632bb357c5ed",
+          "files_touched": [
+            "preferences.md"
+          ]
+        }
+      ],
+      "model": {
+        "id": "auto"
+      },
+      "instructions": "",
+      "session_id": "sess_019e86b4b10578059435632bb357c5ed",
+      "usage": {
+        "input_tokens": 12500,
+        "output_tokens": 3200,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 8000
+      },
+      "error": null,
+      "created_at": "2026-06-15T10:00:00Z",
+      "ended_at": "2026-06-15T10:03:42Z",
+      "archived_at": "2026-06-15T12:00:00Z"
+    }
+  },
+  {
+    "service": "DreamService",
+    "name": "Cancel",
+    "method": "POST",
+    "path": "/dreams/{}/cancel",
+    "file": "qoder-cloud-agents-sdk-go/managed/dream.go",
+    "line": 113,
+    "doc": "dreams/cancel.md",
+    "route": "/dreams/{id}/cancel",
+    "response": {
+      "id": "drm_019e86b4a8f070a3b6c5d4e3f2a1b0c9",
+      "type": "dream",
+      "status": "canceled",
+      "inputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "memstore_019e5cdb9c3f71c3b6505eba937a40b4"
+        }
+      ],
+      "outputs": [],
+      "model": {
+        "id": "auto"
+      },
+      "instructions": "",
+      "session_id": "sess_019e86b4b10578059435632bb357c5ed",
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "error": null,
+      "created_at": "2026-06-15T10:00:00Z",
+      "ended_at": "2026-06-15T10:01:15Z",
+      "archived_at": null
+    }
+  },
+  {
+    "service": "SessionThreadService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/sessions/{}/threads/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionthread.go",
+    "line": 45,
+    "doc": "sessions/get-thread.md",
+    "route": "/sessions/{session_id}/threads/{thread_id}",
+    "response": {
+      "id": "sthr_019f00000000000000000000000002bb",
+      "type": "session_thread",
+      "session_id": "sess_019f00000000000000000000000000aa",
+      "parent_thread_id": "sthr_019f00000000000000000000000001aa",
+      "agent": {
+        "id": "agent_019f000000000000000000000000002b",
+        "type": "agent",
+        "version": 2
+      },
+      "status": "running",
+      "stats": null,
+      "archived_at": null,
+      "created_at": "2026-06-15T08:01:00.000Z",
+      "updated_at": "2026-06-15T08:01:00.000Z"
+    }
+  },
+  {
+    "service": "SessionThreadService",
+    "name": "List",
+    "method": "GET",
+    "path": "/sessions/{}/threads",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionthread.go",
+    "line": 65,
+    "doc": "sessions/list-threads.md",
+    "route": "/sessions/{session_id}/threads",
+    "response": {
+      "data": [
+        {
+          "id": "sthr_019f00000000000000000000000001aa",
+          "type": "session_thread",
+          "session_id": "sess_019f00000000000000000000000000aa",
+          "parent_thread_id": null,
+          "agent": {
+            "id": "agent_019f000000000000000000000000001a",
+            "type": "agent",
+            "version": 1
+          },
+          "status": "idle",
+          "stats": null,
+          "archived_at": null,
+          "created_at": "2026-06-15T08:00:00.000Z",
+          "updated_at": "2026-06-15T08:05:00.000Z"
+        }
+      ],
+      "first_id": "sthr_019f00000000000000000000000001aa",
+      "has_more": false,
+      "last_id": "sthr_019f00000000000000000000000001aa",
+      "next_page": null
+    }
+  },
+  {
+    "service": "SessionThreadService",
+    "name": "Archive",
+    "method": "POST",
+    "path": "/sessions/{}/threads/{}/archive",
+    "file": "qoder-cloud-agents-sdk-go/managed/sessionthread.go",
+    "line": 95,
+    "doc": "sessions/archive-thread.md",
+    "route": "/sessions/{session_id}/threads/{thread_id}/archive",
+    "response": {
+      "id": "sthr_019ef2a07a06704fb899908c29eed779",
+      "type": "session_thread",
+      "session_id": "sess_019ef2a07a0670b3b68a84f0f3c5c98e",
+      "parent_thread_id": "sthr_019ef2a07a06704fb899908c29eed778",
+      "agent": {
+        "id": "agent_019e390add9f7bac9b6cc806db46fcbd",
+        "type": "agent",
+        "version": 2,
+        "name": "doc-test-agent",
+        "description": "",
+        "model": {
+          "id": "ultimate",
+          "effective_context_window": 200000
+        },
+        "system": "You are an expert software engineer.",
+        "tools": [
+          {
+            "enabled_tools": [
+              "Bash",
+              "Read",
+              "Write",
+              "Edit",
+              "Glob",
+              "Grep"
+            ],
+            "type": "agent_toolset_20260401"
+          }
+        ],
+        "skills": [],
+        "mcp_servers": []
+      },
+      "status": "terminated",
+      "stats": null,
+      "archived_at": "2026-06-23T06:00:00.000Z",
+      "created_at": "2026-06-23T05:53:19.774840Z",
+      "updated_at": "2026-06-23T06:00:00.000Z"
+    }
+  },
+  {
+    "service": "VaultCredentialService",
+    "name": "New",
+    "method": "POST",
+    "path": "/vaults/{}/credentials",
+    "file": "qoder-cloud-agents-sdk-go/managed/vaultcredential.go",
+    "line": 43,
+    "doc": "vaults/create-credential.md",
+    "route": "/vaults/{vault_id}/credentials",
+    "response": {
+      "id": "vcred_019e3bb98877759e862750b495c1fce8",
+      "type": "vault_credential",
+      "vault_id": "vault_019e3bb940277f0db05ab74291acf6ef",
+      "auth": {
+        "type": "static_bearer",
+        "mcp_server_url": "https://example.com/mcp-stream"
+      },
+      "display_name": null,
+      "metadata": {
+        "team": "docs"
+      },
+      "archived_at": null,
+      "created_at": "2026-05-18T15:34:35.387093Z",
+      "updated_at": "2026-05-18T15:34:35.387093Z"
+    }
+  },
+  {
+    "service": "VaultCredentialService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/vaults/{}/credentials/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/vaultcredential.go",
+    "line": 59,
+    "doc": "vaults/get-credential.md",
+    "route": "/vaults/{vault_id}/credentials/{credential_id}",
+    "response": {
+      "id": "vcred_019e3bb98877759e862750b495c1fce8",
+      "type": "vault_credential",
+      "vault_id": "vault_019e3bb940277f0db05ab74291acf6ef",
+      "auth": {
+        "type": "static_bearer",
+        "mcp_server_url": "https://example.com/mcp-stream"
+      },
+      "display_name": null,
+      "metadata": {
+        "team": "docs"
+      },
+      "archived_at": null,
+      "created_at": "2026-05-18T15:34:35.387093Z",
+      "updated_at": "2026-05-18T15:34:35.387093Z"
+    }
+  },
+  {
+    "service": "VaultCredentialService",
+    "name": "Update",
+    "method": "POST",
+    "path": "/vaults/{}/credentials/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/vaultcredential.go",
+    "line": 79,
+    "doc": "vaults/update-credential.md",
+    "route": "/vaults/{vault_id}/credentials/{credential_id}",
+    "response": {
+      "id": "vcred_019e3bb98877759e862750b495c1fce8",
+      "type": "vault_credential",
+      "vault_id": "vault_019e3bb940277f0db05ab74291acf6ef",
+      "auth": {
+        "type": "mcp_oauth",
+        "mcp_server_url": "https://mcp.example.com/mcp",
+        "expires_at": "2026-08-20T08:00:00Z"
+      },
+      "display_name": null,
+      "metadata": {
+        "rotated_by": "ops"
+      },
+      "archived_at": null,
+      "created_at": "2026-05-18T15:34:35.387093Z",
+      "updated_at": "2026-08-19T02:58:10.114532Z"
+    }
+  },
+  {
+    "service": "VaultCredentialService",
+    "name": "List",
+    "method": "GET",
+    "path": "/vaults/{}/credentials",
+    "file": "qoder-cloud-agents-sdk-go/managed/vaultcredential.go",
+    "line": 99,
+    "doc": "vaults/list-credentials.md",
+    "route": "/vaults/{vault_id}/credentials",
+    "response": {
+      "data": [
+        {
+          "id": "vcred_019e3bb940297658a632dbf920057eff",
+          "type": "vault_credential",
+          "vault_id": "vault_019e3bb940277f0db05ab74291acf6ef",
+          "auth": {
+            "type": "static_bearer",
+            "mcp_server_url": "https://example.com/mcp"
+          },
+          "display_name": null,
+          "metadata": {
+            "team": "docs"
+          },
+          "archived_at": null,
+          "created_at": "2026-05-18T15:34:16.876188Z",
+          "updated_at": "2026-05-18T15:34:16.876188Z"
+        }
+      ],
+      "next_page": null,
+      "first_id": "vcred_019e3bb940297658a632dbf920057eff",
+      "last_id": "vcred_019e3bb940297658a632dbf920057eff",
+      "has_more": false
+    }
+  },
+  {
+    "service": "VaultCredentialService",
+    "name": "Delete",
+    "method": "DELETE",
+    "path": "/vaults/{}/credentials/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/vaultcredential.go",
+    "line": 129,
+    "doc": "vaults/delete-credential.md",
+    "route": "/vaults/{vault_id}/credentials/{credential_id}",
+    "response": {
+      "id": "vcred_019e3bb98877759e862750b495c1fce8",
+      "type": "vault_credential_deleted"
+    }
+  },
+  {
+    "service": "VaultCredentialService",
+    "name": "Archive",
+    "method": "POST",
+    "path": "/vaults/{}/credentials/{}/archive",
+    "file": "qoder-cloud-agents-sdk-go/managed/vaultcredential.go",
+    "line": 149,
+    "doc": "vaults/archive-credential.md",
+    "route": "/vaults/{vault_id}/credentials/{credential_id}/archive",
+    "response": {
+      "id": "vcred_019e3bb98877759e862750b495c1fce8",
+      "type": "vault_credential",
+      "vault_id": "vault_019e3bb940277f0db05ab74291acf6ef",
+      "auth": {
+        "type": "static_bearer",
+        "mcp_server_url": "https://example.com/mcp-stream"
+      },
+      "display_name": null,
+      "metadata": {
+        "team": "docs"
+      },
+      "archived_at": "2026-05-18T15:45:35.387093Z",
+      "created_at": "2026-05-18T15:34:35.387093Z",
+      "updated_at": "2026-05-18T15:45:35.387093Z"
+    }
+  },
+  {
+    "service": "VaultCredentialService",
+    "name": "MCPOAuthValidate",
+    "method": "POST",
+    "path": "/vaults/{}/credentials/{}/mcp_oauth_validate",
+    "file": "qoder-cloud-agents-sdk-go/managed/vaultcredential.go",
+    "line": 169,
+    "doc": "vaults/validate-credential.md",
+    "route": "/vaults/{vault_id}/credentials/{credential_id}/mcp_oauth_validate",
+    "response": {
+      "credential_id": "vcred_019e3bb98877759e862750b495c1fce8",
+      "vault_id": "vault_019e3bb940277f0db05ab74291acf6ef",
+      "type": "vault_credential_validation",
+      "status": "invalid",
+      "validated_at": "2026-08-19T02:58:16Z",
+      "has_refresh_token": false,
+      "refresh": {
+        "status": "no_refresh_token",
+        "http_response": null
+      },
+      "mcp_probe": {
+        "method": "initialize",
+        "http_response": {
+          "status_code": 401,
+          "content_type": "application/json",
+          "body": "{\"error\":\"invalid_token\"}",
+          "body_truncated": false
+        }
+      }
+    }
+  },
+  {
+    "service": "SkillVersionService",
+    "name": "New",
+    "method": "POST",
+    "path": "/skills/{}/versions",
+    "file": "qoder-cloud-agents-sdk-go/managed/skillversion.go",
+    "line": 47,
+    "doc": "skills/create-version.md",
+    "route": "/skills/{skill_id}/versions",
+    "response": {
+      "id": "skillver_019e3bbb6a25768b9b50ca2f52aa4345",
+      "type": "skill_version",
+      "skill_id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+      "version": "1759264410332875",
+      "name": "my-custom-skill",
+      "description": "Custom skill example (second revision)",
+      "directory": "my-custom-skill",
+      "created_at": "2026-05-19T10:12:07.332875Z"
+    }
+  },
+  {
+    "service": "SkillVersionService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/skills/{}/versions/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/skillversion.go",
+    "line": 62,
+    "doc": "skills/get-version.md",
+    "route": "/skills/{skill_id}/versions/{version}",
+    "response": {
+      "id": "skillver_019e3bba474b7f10a3c2b4d5e6f70123",
+      "type": "skill_version",
+      "skill_id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+      "version": "1759178010641129",
+      "name": "my-custom-skill",
+      "description": "Custom skill example",
+      "directory": "my-custom-skill",
+      "created_at": "2026-05-18T15:35:24.248164Z"
+    }
+  },
+  {
+    "service": "SkillVersionService",
+    "name": "List",
+    "method": "GET",
+    "path": "/skills/{}/versions",
+    "file": "qoder-cloud-agents-sdk-go/managed/skillversion.go",
+    "line": 81,
+    "doc": "skills/list-versions.md",
+    "route": "/skills/{skill_id}/versions",
+    "response": {
+      "data": [
+        {
+          "id": "skillver_019e3bbb6a25768b9b50ca2f52aa4345",
+          "type": "skill_version",
+          "skill_id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+          "version": "1759264410332875",
+          "name": "my-custom-skill",
+          "description": "Custom skill example (second revision)",
+          "directory": "my-custom-skill",
+          "created_at": "2026-05-19T10:12:07.332875Z"
+        },
+        {
+          "id": "skillver_019e3bba474b7f10a3c2b4d5e6f70123",
+          "type": "skill_version",
+          "skill_id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+          "version": "1759178010641129",
+          "name": "my-custom-skill",
+          "description": "Custom skill example",
+          "directory": "my-custom-skill",
+          "created_at": "2026-05-18T15:35:24.248164Z"
+        }
+      ],
+      "has_more": false,
+      "next_page": null
+    }
+  },
+  {
+    "service": "SkillVersionService",
+    "name": "Delete",
+    "method": "DELETE",
+    "path": "/skills/{}/versions/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/skillversion.go",
+    "line": 111,
+    "doc": "skills/delete-version.md",
+    "route": "/skills/{skill_id}/versions/{version}",
+    "response": {
+      "id": "1759264410332875",
+      "type": "skill_version_deleted"
+    }
+  },
+  {
+    "service": "SkillVersionService",
+    "name": "Download",
+    "method": "GET",
+    "path": "/skills/{}/versions/{}/content",
+    "file": "qoder-cloud-agents-sdk-go/managed/skillversion.go",
+    "line": 130,
+    "doc": "skills/get-version-content.md",
+    "route": "/skills/{skill_id}/versions/{version}/content",
+    "response": {}
+  },
+  {
+    "service": "AgentVersionService",
+    "name": "List",
+    "method": "GET",
+    "path": "/agents/{}/versions",
+    "file": "qoder-cloud-agents-sdk-go/managed/agentversion.go",
+    "line": 39,
+    "doc": "agents/list-versions.md",
+    "route": "/agents/{agent_id}/versions",
+    "response": {
+      "data": [
+        {
+          "type": "agent",
+          "id": "agent_019eXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "name": "doc-test-agent-updated",
+          "description": "Used for API documentation testing",
+          "model": "ultimate",
+          "system": "You are an updated documentation testing assistant.",
+          "tools": [],
+          "mcp_servers": [],
+          "skills": [],
+          "metadata": {},
+          "multiagent": null,
+          "version": 2,
+          "archived_at": null,
+          "created_at": "2026-05-18T15:26:39.61669Z",
+          "updated_at": "2026-05-18T15:27:07.967138Z"
+        },
+        {
+          "type": "agent",
+          "id": "agent_019eXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "name": "doc-test-agent",
+          "description": "",
+          "model": "ultimate",
+          "system": "You are a documentation testing assistant.",
+          "tools": [],
+          "mcp_servers": [],
+          "skills": [],
+          "metadata": {},
+          "multiagent": null,
+          "version": 1,
+          "archived_at": null,
+          "created_at": "2026-05-18T15:26:39.61669Z",
+          "updated_at": "2026-05-18T15:26:39.61669Z"
+        }
+      ],
+      "first_id": "2",
+      "last_id": "1",
+      "has_more": false,
+      "next_page": null
+    }
+  },
+  {
+    "service": "FileService",
+    "name": "List",
+    "method": "GET",
+    "path": "/files",
+    "file": "qoder-cloud-agents-sdk-go/managed/file.go",
+    "line": 47,
+    "doc": "files/list.md",
+    "route": "/files",
+    "response": {
+      "data": [
+        {
+          "id": "file_019e3bb8e6c47d189212a79642136696",
+          "type": "file",
+          "filename": "report.txt",
+          "mime_type": "text/plain",
+          "size_bytes": 110,
+          "downloadable": true,
+          "scope": {
+            "id": "sess_019e3bb8e6c47d18",
+            "type": "session"
+          },
+          "metadata": {
+            "project": "demo"
+          },
+          "created_at": "2026-05-18T15:33:53Z"
+        }
+      ],
+      "next_page": null,
+      "first_id": "file_019e3bb8e6c47d189212a79642136696",
+      "has_more": false,
+      "last_id": "file_019e3bb8e6c47d189212a79642136696"
+    }
+  },
+  {
+    "service": "FileService",
+    "name": "Delete",
+    "method": "DELETE",
+    "path": "/files/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/file.go",
+    "line": 73,
+    "doc": "files/delete.md",
+    "route": "/files/{file_id}",
+    "response": {
+      "id": "file_019e3bb8c1387743bf4ef115aae5acb1",
+      "type": "file_deleted"
+    }
+  },
+  {
+    "service": "FileService",
+    "name": "Download",
+    "method": "GET",
+    "path": "/files/{}/content",
+    "file": "qoder-cloud-agents-sdk-go/managed/file.go",
+    "line": 88,
+    "doc": "files/download.md",
+    "route": "/files/{file_id}/content",
+    "response": {
+      "expires_at": "2026-05-18T16:34:52Z",
+      "url": "https://storage.qoder.com/files/..."
+    }
+  },
+  {
+    "service": "FileService",
+    "name": "GetMetadata",
+    "method": "GET",
+    "path": "/files/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/file.go",
+    "line": 104,
+    "doc": "files/get.md",
+    "route": "/files/{file_id}",
+    "response": {
+      "id": "file_019e3bb8c1387743bf4ef115aae5acb1",
+      "type": "file",
+      "filename": "qoder-test-upload.txt",
+      "mime_type": "text/plain",
+      "size_bytes": 110,
+      "downloadable": true,
+      "scope": {
+        "id": "sess_019e3bb8e6c47d18",
+        "type": "session"
+      },
+      "metadata": {
+        "project": "demo"
+      },
+      "created_at": "2026-05-18T15:33:44Z"
+    }
+  },
+  {
+    "service": "FileService",
+    "name": "Upload",
+    "method": "POST",
+    "path": "/files",
+    "file": "qoder-cloud-agents-sdk-go/managed/file.go",
+    "line": 119,
+    "doc": "files/upload.md",
+    "route": "/files",
+    "response": {
+      "id": "file_019e3bb8c1387743bf4ef115aae5acb1",
+      "type": "file",
+      "filename": "my-document.txt",
+      "mime_type": "text/plain",
+      "size_bytes": 110,
+      "downloadable": false,
+      "scope": null,
+      "metadata": {
+        "project": "demo"
+      },
+      "created_at": "2026-05-18T15:33:44Z"
+    }
+  },
+  {
+    "service": "SessionService",
+    "name": "New",
+    "method": "POST",
+    "path": "/sessions",
+    "file": "qoder-cloud-agents-sdk-go/managed/session.go",
+    "line": 50,
+    "doc": "sessions/create.md",
+    "route": "/sessions",
+    "response": {
+      "id": "sess_019e3bb1e8c171fd9abbb1477ffb84cc",
+      "type": "session",
+      "agent": {
+        "id": "agent_019e390add9f7bac9b6cc806db46fcbd",
+        "type": "agent",
+        "name": "doc-test-agent",
+        "description": "Documentation example Agent",
+        "model": {
+          "id": "ultimate",
+          "effective_context_window": 200000
+        },
+        "system": "You are a test assistant.",
+        "tools": [],
+        "skills": [],
+        "mcp_servers": [],
+        "version": 2
+      },
+      "environment_id": "env_019e2590d33f711fabf42f2857cecd8a",
+      "title": "Code review session",
+      "status": "idle",
+      "metadata": {
+        "purpose": "review"
+      },
+      "environment_variables": {
+        "FEATURE_FLAG": "on",
+        "LOG_LEVEL": "debug"
+      },
+      "resources": [],
+      "vault_ids": [
+        "vault_019eed0519807975983d0ffc4b4b4c79"
+      ],
+      "deployment_id": null,
+      "outcome_evaluations": [],
+      "stats": {
+        "active_seconds": 0,
+        "duration_seconds": 0
+      },
+      "archived_at": null,
+      "created_at": "2026-05-18T15:26:15.747298Z",
+      "updated_at": "2026-05-18T15:26:15.747298Z",
+      "usage": {
+        "total_credits": 0
+      }
+    }
+  },
+  {
+    "service": "SessionService",
+    "name": "Get",
+    "method": "GET",
+    "path": "/sessions/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/session.go",
+    "line": 62,
+    "doc": "sessions/get.md",
+    "route": "/sessions/{session_id}",
+    "response": {
+      "id": "sess_019ef30a4f0275678965d496ab542ef0",
+      "type": "session",
+      "agent": {
+        "description": "",
+        "id": "agent_019eda46c02b754499cdd3e282dbb8f1",
+        "mcp_servers": [],
+        "model": {
+          "id": "ultimate",
+          "effective_context_window": 200000
+        },
+        "name": "dev-agent",
+        "skills": [],
+        "system": "You are an expert software engineer.",
+        "tools": [
+          {
+            "enabled_tools": [
+              "Bash",
+              "Read",
+              "Write",
+              "Edit",
+              "Glob",
+              "Grep"
+            ],
+            "type": "agent_toolset_20260401"
+          }
+        ],
+        "type": "agent",
+        "version": 1
+      },
+      "archived_at": null,
+      "created_at": "2026-06-23T05:53:19.77484Z",
+      "deployment_id": null,
+      "environment_id": "env_019eed3178647ceb92c821573e9f9bad",
+      "environment_variables": {},
+      "metadata": {
+        "purpose": "doc-verification"
+      },
+      "outcome_evaluations": [],
+      "resources": [],
+      "stats": {
+        "active_seconds": 0,
+        "duration_seconds": 0
+      },
+      "status": "idle",
+      "title": "doc-review-test",
+      "updated_at": "2026-06-23T05:53:19.77484Z",
+      "usage": {
+        "total_credits": 1.25
+      },
+      "vault_ids": []
+    }
+  },
+  {
+    "service": "SessionService",
+    "name": "Update",
+    "method": "POST",
+    "path": "/sessions/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/session.go",
+    "line": 78,
+    "doc": "sessions/update.md",
+    "route": "/sessions/{session_id}",
+    "response": {}
+  },
+  {
+    "service": "SessionService",
+    "name": "List",
+    "method": "GET",
+    "path": "/sessions",
+    "file": "qoder-cloud-agents-sdk-go/managed/session.go",
+    "line": 94,
+    "doc": "sessions/list.md",
+    "route": "/sessions",
+    "response": {
+      "data": [
+        {
+          "id": "sess_019e3bb1e8c171fd9abbb1477ffb84cc",
+          "type": "session",
+          "agent": {
+            "id": "agent_019e390add9f7bac9b6cc806db46fcbd",
+            "type": "agent",
+            "version": 2,
+            "name": "doc-verification-agent",
+            "description": "",
+            "model": {
+              "id": "ultimate",
+              "effective_context_window": 200000
+            },
+            "system": "You are an expert software engineer.",
+            "tools": [
+              {
+                "enabled_tools": [
+                  "Bash",
+                  "Read",
+                  "Write",
+                  "Edit",
+                  "Glob",
+                  "Grep"
+                ],
+                "type": "agent_toolset_20260401"
+              }
+            ],
+            "skills": [],
+            "mcp_servers": []
+          },
+          "environment_id": "env_019e2590d33f711fabf42f2857cecd8a",
+          "title": "API-doc-verification-session",
+          "status": "idle",
+          "metadata": {},
+          "resources": [],
+          "vault_ids": [],
+          "deployment_id": null,
+          "outcome_evaluations": [],
+          "stats": {
+            "active_seconds": 0,
+            "duration_seconds": 0
+          },
+          "environment_variables": {},
+          "archived_at": null,
+          "created_at": "2026-05-18T15:26:15.747298Z",
+          "updated_at": "2026-05-18T15:26:15.747298Z",
+          "usage": {
+            "total_credits": 1.25
+          }
+        }
+      ],
+      "first_id": "sess_019e3bb1e8c171fd9abbb1477ffb84cc",
+      "has_more": false,
+      "last_id": "sess_019e3bb1e8c171fd9abbb1477ffb84cc",
+      "next_page": null
+    }
+  },
+  {
+    "service": "SessionService",
+    "name": "Delete",
+    "method": "DELETE",
+    "path": "/sessions/{}",
+    "file": "qoder-cloud-agents-sdk-go/managed/session.go",
+    "line": 120,
+    "doc": "sessions/delete.md",
+    "route": "/sessions/{session_id}",
+    "response": {
+      "id": "sess_019e3bb1e8c171fd9abbb1477ffb84cc",
+      "type": "session_deleted"
+    }
+  },
+  {
+    "service": "SessionService",
+    "name": "Archive",
+    "method": "POST",
+    "path": "/sessions/{}/archive",
+    "file": "qoder-cloud-agents-sdk-go/managed/session.go",
+    "line": 136,
+    "doc": "sessions/archive.md",
+    "route": "/sessions/{session_id}/archive",
+    "response": {
+      "id": "sess_019ef30a4f0275678965d496ab542ef0",
+      "type": "session",
+      "agent": {
+        "id": "agent_019eda46c02b754499cdd3e282dbb8f1",
+        "type": "agent",
+        "version": 1,
+        "name": "dev-agent",
+        "description": "",
+        "model": {
+          "id": "ultimate",
+          "effective_context_window": 200000
+        },
+        "system": "You are an expert software engineer.",
+        "tools": [
+          {
+            "enabled_tools": [
+              "Bash",
+              "Read",
+              "Write",
+              "Edit",
+              "Glob",
+              "Grep"
+            ],
+            "type": "agent_toolset_20260401"
+          }
+        ],
+        "skills": [],
+        "mcp_servers": []
+      },
+      "archived_at": "2026-06-23T05:53:07.524734Z",
+      "created_at": "2026-06-22T02:38:23.006797Z",
+      "deployment_id": null,
+      "environment_id": "env_019eed3178647ceb92c821573e9f9bad",
+      "metadata": {},
+      "outcome_evaluations": [],
+      "resources": [],
+      "stats": {
+        "active_seconds": 0,
+        "duration_seconds": 0
+      },
+      "status": "idle",
+      "title": "test-patch-title",
+      "updated_at": "2026-06-23T05:53:07.524734Z",
+      "usage": {
+        "total_credits": 2.5
+      },
+      "environment_variables": {},
+      "vault_ids": []
+    }
+  }
+]
