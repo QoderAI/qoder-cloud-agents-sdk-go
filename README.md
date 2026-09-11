@@ -731,10 +731,6 @@ go test -race ./...
 
 The offline tests cover request serialization, API contracts, response decoding, errors, retries, pagination, SSE and cleanup behaviour. Files ending in `_live_test.go` need the `live` build tag and a test configuration; the runnable examples do not.
 
-- [Forward package guide](forward/README.md)
-- [Managed package guide](managed/README.md)
-- [Shared package scope](managed/PACKAGE_SCOPE.md)
-
 ## Versioning
 
 The module is pre-1.0. Per semantic versioning, the compatibility guarantee does not apply below `v1.0.0`, so a minor release may change the API; pin a version in `go.mod` and read the release notes before upgrading.
