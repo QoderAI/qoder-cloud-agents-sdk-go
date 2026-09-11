@@ -1,19 +1,20 @@
 # Qoder Cloud Agents Go SDK
 
-使用 Go 调用 Qoder Cloud Agents，支持类型化参数、上下文取消、流式事件和请求配置。
+The Qoder Cloud Agents Go SDK provides access to the Qoder Cloud Agents API from Go. It offers typed request parameters, context cancellation, streamed events and per-request configuration.
 
-SDK 提供两种客户端，共享鉴权、HTTP、错误处理、参数和分页工具：
+The SDK ships two clients that share authentication, transport, retries, error handling, parameter encoding and pagination:
 
-| 模式 | Go 包 | 主要资源 |
+| Mode | Package | Resources |
 | --- | --- | --- |
-| Forward | `forward` | Identity、Template、Session、Schedule、Batch、Channel |
-| Managed | `managed` | Agent、Session、Deployment、Dream |
-
-本页介绍 Go SDK 的用法与配置。
+| Forward | `forward` | Identity, Template, Session, Schedule, Batch, Channel, Environment, File, Skill, Vault, MemoryStore, Model |
+| Managed | `managed` | Agent, Session, Deployment, Dream, Environment, File, Skill, Vault, MemoryStore, Model |
 
 - [Installation](#installation)
 - [Requirements](#requirements)
 - [Usage](#usage)
+- [Conversations](#conversations)
+- [System prompts and tools](#system-prompts-and-tools)
+- [Streaming](#streaming)
 - [Request fields](#request-fields)
 - [Response objects](#response-objects)
 - [Error handling](#error-handling)
@@ -24,30 +25,31 @@ SDK 提供两种客户端，共享鉴权、HTTP、错误处理、参数和分页
 - [Pagination](#pagination)
 - [Request options](#request-options)
 - [HTTP client customization](#http-client-customization)
+- [Accessing raw response data](#accessing-raw-response-data)
+- [Making undocumented requests](#making-undocumented-requests)
 - [Examples](#examples)
 - [Development](#development)
+- [Versioning](#versioning)
 - [License](#license)
 
 ## Installation
 
-在应用的 Go module 中安装：
+No version has been tagged yet, so depend on the branch; `go` records a pseudo-version in `go.mod`:
 
 ```sh
-go get github.com/QoderAI/qoder-cloud-agents-sdk-go
+go get github.com/QoderAI/qoder-cloud-agents-sdk-go@main
 ```
 
-应用应保留 `go.mod` 和 `go.sum` 中解析出的版本。
+Once a release is tagged, `go get github.com/QoderAI/qoder-cloud-agents-sdk-go@latest` resolves it. Keep the version your build resolved in `go.mod` and `go.sum`.
 
 ## Requirements
 
-- Go **1.23 或更高版本**。
-- 目标环境可用的 PAT，以及所调用资源的访问权限。
+- Go **1.23** or later.
+- A personal access token (PAT) for the target environment, with access to the resources you call.
 
 ## Usage
 
-### 创建客户端
-
-下面是一个完整的 Forward 程序：从环境变量读取 PAT，连接 CN 环境并列出账号启用的模型。
+The complete program below reads a PAT from the environment, connects to the CN environment and lists the models enabled for the account.
 
 ```go
 package main
@@ -66,7 +68,7 @@ import (
 func main() {
 	token := os.Getenv("QODER_ACCESS_TOKEN")
 	if token == "" {
-		log.Fatal("请设置 QODER_ACCESS_TOKEN")
+		log.Fatal("set QODER_ACCESS_TOKEN")
 	}
 	client := forward.NewClient(
 		option.WithAccessToken(token),
@@ -87,25 +89,25 @@ func main() {
 }
 ```
 
-将有效令牌设置为 `QODER_ACCESS_TOKEN` 后即可运行。Managed 使用 `managed.NewClient` 和 CN 地址 `https://api.qoder.com.cn/api/v1/cloud`；其模型查询为 `client.Models.List(ctx, managed.ModelListParams{})`。
+Managed works the same way through `managed.NewClient` with the CN base URL `https://api.qoder.com.cn/api/v1/cloud`; its model listing is `client.Models.List(ctx, managed.ModelListParams{})`.
 
-显式传入的 option 优先于环境变量。未指定地址或令牌时，客户端按下表读取：
+Explicit options always win over the environment. When a base URL or token is not passed, each client falls back to:
 
-| 配置 | Forward | Managed |
+| Setting | Forward | Managed |
 | --- | --- | --- |
-| 访问令牌环境变量 | `QODER_ACCESS_TOKEN` | `QODER_ACCESS_TOKEN` |
-| API 地址环境变量 | `QODER_FORWARD_BASE_URL` | `QODER_BASE_URL` |
-| 默认 API 地址 | `https://api.qoder.com/api/v1/forward/` | `https://api.qoder.com/api/v1/cloud/` |
+| Access token variable | `QODER_ACCESS_TOKEN` | `QODER_ACCESS_TOKEN` |
+| Base URL variable | `QODER_FORWARD_BASE_URL` | `QODER_BASE_URL` |
+| Default base URL | `https://api.qoder.com/api/v1/forward/` | `https://api.qoder.com/api/v1/cloud/` |
 
-默认地址是国际站；访问 CN 时请显式配置 CN 地址。地址必须包含完整 API 根路径，末尾 `/` 可以省略。两种模式使用不同账号时，分别向各自客户端传入对应令牌。
+The defaults point at the international site; pass the CN base URL explicitly to reach CN. A base URL must include the full API root path, and the trailing `/` is optional. If the two modes use different accounts, pass each token to its own client.
 
-SDK 客户端本身不读取 `.env` 文件。`examples/` 中的程序另有配置加载器，会读取 `.env.live` 的 `QODER_FORWARD_PAT`、`QODER_MANAGED_PAT` 等配置。
+The clients do not read `.env` files. The programs under `examples/` have their own config loader, which prefers real environment variables and otherwise reads `QODER_FORWARD_PAT`, `QODER_MANAGED_PAT` and friends from `.env.live`, falling back to `QODER_ACCESS_TOKEN`.
 
-也可通过 `option.WithCredential(provider)` 使用实现 `convention.Credential` 的动态令牌提供者。提供者在请求时获取令牌；请求中已有的 `Authorization`（包括来自 `QODER_ACCESS_TOKEN` 的值）优先，因此采用动态凭据时应避免同时配置静态令牌。
+For rotating credentials, `option.WithCredential(provider)` accepts any implementation of `convention.Credential`. The provider is evaluated per request, and an `Authorization` header that is already present — including one derived from `QODER_ACCESS_TOKEN` — takes precedence, so do not configure a static token alongside a dynamic credential.
 
-以下示例为可放入应用的函数片段，省略 `package` 和 `import`。按片段使用的名称导入标准库；SDK 包路径统一为：
+The remaining examples are function fragments meant to be dropped into an application; `package` and `import` blocks are omitted. Import the standard library packages each fragment uses, plus the SDK packages:
 
-| 包名 | import 路径 |
+| Package | Import path |
 | --- | --- |
 | `forward` | `github.com/QoderAI/qoder-cloud-agents-sdk-go/forward` |
 | `managed` | `github.com/QoderAI/qoder-cloud-agents-sdk-go/managed` |
@@ -113,16 +115,16 @@ SDK 客户端本身不读取 `.env` 文件。`examples/` 中的程序另有配�
 | `option` | `github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option` |
 | `param` | `github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/param` |
 
-### Forward 会话
+## Conversations
 
-Forward 通过 Identity 和 Template 创建 Session。以下函数使用已有的 Identity 和 Template；Template 中需配置可用的执行环境。创建这些资源的完整流程见 [Forward 会话示例](examples/forward/session/main.go)。
+Forward creates a Session from an Identity and a Template. The fragments below assume both already exist, with a usable execution environment configured on the Template; [the Forward session example](examples/forward/session/main.go) shows how to create them.
 
 ```go
 func startForwardSession(ctx context.Context, client forward.Client, identityID, templateID string) (*forward.Session, error) {
 	return client.Sessions.New(ctx, forward.SessionNewParams{
 		IdentityID: identityID,
 		TemplateID: templateID,
-		Title:      forward.String("项目助手"),
+		Title:      forward.String("project assistant"),
 	})
 }
 
@@ -146,11 +148,7 @@ func sendForwardMessage(ctx context.Context, client forward.Client, sessionID, t
 }
 ```
 
-`requestKey` 是调用方为本次逻辑消息生成并保存的非空唯一键；重试同一条消息时复用该键，新消息使用新键。返回值是用户消息事件 ID，可用作接收后续事件的起点。
-
-### Managed 会话
-
-Managed 使用已有的 Agent 和 Environment 创建 Session。创建资源的完整流程见 [Managed 会话示例](examples/managed/session/main.go)。
+Managed creates a Session from an existing Agent and Environment; see [the Managed session example](examples/managed/session/main.go).
 
 ```go
 func startManagedSession(ctx context.Context, client managed.Client, agentID, environmentID string) (*managed.ManagedAgentsSession, error) {
@@ -183,11 +181,13 @@ func sendManagedMessage(ctx context.Context, client managed.Client, sessionID, t
 }
 ```
 
-同一段连续对话复用 `sessionID`，继续发送新消息。`Events.Send` 成功表示消息已接收；Agent 的回答和执行状态通过事件列表或 SSE 获取。
+`requestKey` is a non-empty unique key that the caller generates and stores for one logical message: reuse it when retrying that message, and use a fresh key for a new one. The return value is the user message event ID, which is also the right starting point for reading the events that follow.
 
-### System prompts and tools
+Reuse `sessionID` to continue the same conversation. A successful `Events.Send` only means the message was accepted; the agent's answer and execution status arrive through the event list or the stream.
 
-系统指令、模型和工具在 Forward Template 或 Managed Agent 上配置。`modelID` 应来自对应账号的 `Models.List`，并确认 `IsEnabled`。
+## System prompts and tools
+
+The system prompt, model and tools live on the Forward Template or the Managed Agent. Take `modelID` from `Models.List` on the same account and check `IsEnabled` first.
 
 ```go
 func createForwardTemplate(ctx context.Context, client forward.Client, environmentID, modelID string) (*forward.Template, error) {
@@ -195,7 +195,7 @@ func createForwardTemplate(ctx context.Context, client forward.Client, environme
 		Name:          "project-assistant",
 		EnvironmentID: environmentID,
 		Model:         forward.ModelConfigUnionParam{OfString: forward.String(modelID)},
-		System:        forward.String("请使用中文回答，根据可读取的项目资料给出建议。"),
+		System:        forward.String("Answer from the project material you can read."),
 		Tools:         []forward.ToolParam{{Type: "agent_toolset_20260401"}},
 	})
 }
@@ -204,7 +204,7 @@ func createManagedAgent(ctx context.Context, client managed.Client, modelID stri
 	return client.Agents.New(ctx, managed.AgentNewParams{
 		Name:   "project-assistant",
 		Model:  managed.ManagedAgentsModelConfigParams{ID: modelID},
-		System: managed.String("请使用中文回答，根据可读取的项目资料给出建议。"),
+		System: managed.String("Answer from the project material you can read."),
 		Tools: []managed.AgentNewParamsToolUnion{{
 			OfAgentToolset20260401: &managed.ManagedAgentsAgentToolset20260401Params{
 				Type: "agent_toolset_20260401",
@@ -214,11 +214,11 @@ func createManagedAgent(ctx context.Context, client managed.Client, modelID stri
 }
 ```
 
-内置工具由云端运行时执行，调用过程会产生工具事件。上述 Managed 示例中的事件、内容块和工具均显式设置 `Type`；构造请求时不能依赖这些字段自动补默认值。
+Built-in tools run in the cloud runtime, and each call produces tool events. Note that the Managed fragment sets `Type` on every event, content block and tool: request construction does not fill those discriminators in for you.
 
-### Streaming
+## Streaming
 
-两种模式都使用 `Sessions.Events.StreamEvents`。下面展示 Forward 接收完整消息事件的方式；`afterID` 传入刚发送的用户消息事件 ID，避免从历史事件中误判当前轮次。
+Both modes stream through `Sessions.Events.StreamEvents`. Pass the ID of the user message you just sent as the starting point, so events from earlier turns are not mistaken for the current one.
 
 ```go
 func readForwardTurn(ctx context.Context, client forward.Client, sessionID, afterID string) error {
@@ -241,7 +241,7 @@ func readForwardTurn(ctx context.Context, client forward.Client, sessionID, afte
 				}
 			}
 		case "session.status_idle":
-			fmt.Printf("本轮暂停或结束：%v\n", event.StopReason)
+			fmt.Printf("turn paused or finished: %v\n", event.StopReason)
 			return nil
 		case "session.error", "session.status_terminated":
 			return fmt.Errorf("session stopped: type=%s event_id=%s", event.Type, event.ID)
@@ -254,7 +254,7 @@ func readForwardTurn(ctx context.Context, client forward.Client, sessionID, afte
 }
 ```
 
-Managed 用请求头传入起点，通过响应联合类型访问消息内容：
+Managed takes the starting point as a request header and exposes message content through a response union:
 
 ```go
 func readManagedTurn(ctx context.Context, client managed.Client, sessionID, afterID string) error {
@@ -273,7 +273,7 @@ func readManagedTurn(ctx context.Context, client managed.Client, sessionID, afte
 				}
 			}
 		case "session.status_idle":
-			fmt.Printf("本轮暂停或结束：%s\n", event.StopReason.Type)
+			fmt.Printf("turn paused or finished: %s\n", event.StopReason.Type)
 			return nil
 		case "session.error", "session.status_terminated":
 			return fmt.Errorf("session stopped: type=%s event_id=%s", event.Type, event.ID)
@@ -286,43 +286,43 @@ func readManagedTurn(ctx context.Context, client managed.Client, sessionID, afte
 }
 ```
 
-调用方需关闭流，并在读取结束时检查 `Err()`。`session.status_idle` 可能表示正常结束，也可能表示等待调用方处理或达到预算等情况；业务成功应结合 `stop_reason` 和最终回答判断。上述函数用于展示事件消费，完整的执行断言见 [场景示例](examples/internal/live/turn.go)。
+Close the stream, and check `Err()` once the loop ends. An idle event does not always mean success: it can also mean the run is waiting on the caller or hit a budget, so judge the outcome from `stop_reason` together with the final answer. [The scenario helper](examples/internal/live/turn.go) shows a full set of execution assertions.
 
-需要显示生成中的内容时，在 Stream Params 中设置 `EventDeltas`：Forward 使用 `[]string{"agent.message"}`，Managed 使用 `[]managed.ManagedAgentsDeltaType{"agent.message"}`。此时还会收到 `event_start`、`event_delta` 等预览事件；最终完整事件会再次携带完整内容。应用应更新同一条消息的预览，避免把增量和最终内容重复追加。同一个 ID 的多个增量事件不能仅按 ID 去重。
+To render text as it is produced, set `EventDeltas` on the stream params: `[]string{"agent.message"}` for Forward, `[]managed.ManagedAgentsDeltaType{"agent.message"}` for Managed. You then also receive `event_start` and `event_delta` previews, and the final complete event repeats the whole content. Update one message in place instead of appending both the deltas and the final content, and do not deduplicate deltas by event ID alone — one ID legitimately produces many delta events.
 
-流中断后由调用方重新连接。保存 `stream.LastEventID()`，作为下次的 `LastEventID` 或 `Last-Event-ID`；SDK 不自动重连已建立的 SSE 流。恢复订阅时复用原 Session，不重新发送已被接收的用户消息。
+Reconnection is the caller's job. Keep `stream.LastEventID()` and pass it as the next `LastEventID` or `Last-Event-ID`; the SDK does not resume a broken SSE stream on its own. Resume on the same Session, and do not resend a user message that was already accepted.
 
 ## Request fields
 
-必填字段通常使用普通值；可选标量使用 `param.Opt[T]`。例如 `forward.String`、`managed.String`、`Bool`、`Int` 和 `Float` 用于明确设置可选值。
+Required fields take plain values; optional scalars take `param.Opt[T]`. Use `forward.String`, `managed.String`, `Bool`, `Int` and `Float` to set an optional value explicitly.
 
-| Go 值 | 请求中的含义 |
+| Go value | Meaning on the wire |
 | --- | --- |
-| 未设置的 `param.Opt[T]` | 省略该字段 |
-| `forward.String("")` | 发送空字符串 |
-| `forward.Bool(false)` | 发送 `false` |
-| `forward.Int(0)` | 发送数字 `0` |
-| `param.Null[string]()` | 发送 JSON `null` |
-| nil map / slice（带 `omitzero`） | 省略该字段 |
-| 非 nil 的空 map / slice | 发送 `{}` / `[]` |
+| unset `param.Opt[T]` | field is omitted |
+| `forward.String("")` | sends an empty string |
+| `forward.Bool(false)` | sends `false` |
+| `forward.Int(0)` | sends the number `0` |
+| `param.Null[string]()` | sends JSON `null` |
+| nil map or slice (with `omitzero`) | field is omitted |
+| non-nil empty map or slice | sends `{}` or `[]` |
 
-`param.IsOmitted(value)` 和 `param.IsNull(value)` 可检查参数状态。结构体、map、slice 的显式 null 分别使用 `param.NullStruct[T]()`、`param.NullMap[T]()`、`param.NullSlice[T]()`。能否清空某个字段仍由该 API 的校验规则决定。
+`param.IsOmitted(value)` and `param.IsNull(value)` report the state of a parameter. For an explicit null on a struct, map or slice, use `param.NullStruct[T]()`, `param.NullMap[T]()` or `param.NullSlice[T]()`. Whether a given field may be cleared is still decided by that API's validation.
 
-下面只演示序列化，不发送请求：
+The fragment below only serializes; it sends nothing:
 
 ```go
 func encodeOptionalFields() ([]byte, error) {
 	params := forward.IdentityUpdateParams{
 		Enabled: forward.Bool(false),
 	}
-	// Name 未设置，序列化时省略；Enabled 会明确发送 false。
+	// Name is unset and will be omitted; Enabled is sent explicitly as false.
 	return json.Marshal(params)
 }
 ```
 
 ### Request unions
 
-联合参数通过 `Of...` 字段选择一种表示，同一个联合值只设置一个分支。例如 Forward 的模型参数可以是模型 ID 字符串，也可以是配置对象：
+A union parameter picks one representation through an `Of...` field, and exactly one branch should be set. A Forward model parameter, for example, is either a model ID or a configuration object:
 
 ```go
 func configuredModel(modelID string) forward.ModelConfigUnionParam {
@@ -335,11 +335,11 @@ func configuredModel(modelID string) forward.ModelConfigUnionParam {
 }
 ```
 
-`Effort` 等模型选项需与所选模型支持的能力匹配。只传模型 ID 时使用 `forward.ModelConfigUnionParam{OfString: forward.String(modelID)}`。
+Options such as `Effort` must match what the selected model supports. To send only the ID, use `forward.ModelConfigUnionParam{OfString: forward.String(modelID)}`.
 
-### Extra fields and raw JSON
+### Extra fields
 
-请求对象的 `SetExtraFields` 可补充 SDK 尚未建模、但服务端已支持的字段。同名 extra field 会覆盖结构体字段，应仅使用应用控制的字段名和值。
+`SetExtraFields` adds fields that the server already accepts but the SDK does not model yet. An extra field overrides the struct field of the same name, so restrict it to names and values your application controls.
 
 ```go
 func removeSessionMetadataKey() forward.SessionUpdateParams {
@@ -351,7 +351,9 @@ func removeSessionMetadataKey() forward.SessionUpdateParams {
 }
 ```
 
-需要按原始 JSON 发送请求时，可以使用 `param.SetJSON`。它控制整个对象的序列化，结构体已有字段不会再与原始 JSON 合并。服务端仍会校验请求内容。
+### Deserializing params
+
+`param.SetJSON` sends a request body exactly as given. It controls serialization of the whole object, so fields already set on the struct are not merged in. The server still validates the result.
 
 ```go
 func paramsFromJSON(raw []byte) (managed.AgentNewParams, error) {
@@ -364,38 +366,38 @@ func paramsFromJSON(raw []byte) (managed.AgentNewParams, error) {
 }
 ```
 
-不要依赖将任意 JSON 反序列化到参数联合类型后，所有 `Of...` 分支都能被还原。需要读取响应数据时使用响应类型；需要保持请求原始表示时使用 `SetJSON`。
+Do not rely on unmarshalling arbitrary JSON into a param union and getting every `Of...` branch back. Use the response types to read data, and `SetJSON` to preserve a request verbatim.
 
 ## Response objects
 
-响应字段可以直接访问；`JSON` 元信息用于区分未返回、null、无效类型与实际值：
+Response fields are read directly. The `JSON` metadata distinguishes an absent field from `null`, from a type mismatch, from a real value:
 
 ```go
 func inspectIdentity(identity forward.Identity) {
 	fmt.Println(identity.ID)
 	if identity.JSON.Name.Valid() {
-		fmt.Println("展示名：", identity.Name)
+		fmt.Println("display name:", identity.Name)
 	}
 	switch identity.JSON.Name.Raw() {
 	case "":
-		fmt.Println("响应未包含 name")
+		fmt.Println("the response had no name")
 	case "null":
-		fmt.Println("name 为 null")
+		fmt.Println("name was null")
 	}
 }
 ```
 
-`RawJSON()` 返回对象对应的原始 JSON。未知字段可通过 `result.JSON.ExtraFields["field_name"].Raw()` 读取。`Valid()` 为 false 时，还应结合 `Raw()` 判断是缺失、null 还是类型不匹配。
+`RawJSON()` returns the JSON an object was decoded from, and unknown fields remain available through `result.JSON.ExtraFields["field_name"].Raw()`. When `Valid()` is false, read `Raw()` to tell missing from null from a mismatched type.
 
 ### Response unions
 
-Managed 的响应联合类型提供 `AsAny()` 和 `As...()` 方法；应先根据判别字段确认类型。比如 `agent.message` 事件可使用 `event.AsAgentMessage()`，见上面的 Managed SSE 示例。
+Managed response unions expose `AsAny()` and `As...()` accessors; check the discriminator before calling one. An `agent.message` event, for instance, is read through `event.AsAgentMessage()` as in the Managed stream above.
 
-Forward 的部分开放内容直接保留为 `json.RawMessage`，例如 `SessionEvent.Content`。对于文本内容块数组，可调用 `ContentBlocks()`；处理其他事件时按事件类型解析，或保留 `RawJSON()`。两种模式均保留未知字段，但具体访问方法取决于对应响应类型。
+Some open-ended Forward content stays as `json.RawMessage` — `SessionEvent.Content` is one. For an array of text content blocks call `ContentBlocks()`; otherwise decode per event type, or keep `RawJSON()`. Both modes preserve unknown fields, but the accessor depends on the response type.
 
 ## Error handling
 
-HTTP API 返回错误状态时，SDK 返回 `*convention.Error`；`forward.Error` 和 `managed.Error` 是该类型的别名。通过 `errors.As` 读取状态码、错误码和 Request ID：
+When the API returns an error status, the SDK returns a `*convention.Error`; `forward.Error` and `managed.Error` are aliases of that type. Use `errors.As` to read the status, code and request ID:
 
 ```go
 func lookupSession(ctx context.Context, client forward.Client, sessionID string) error {
@@ -407,43 +409,43 @@ func lookupSession(ctx context.Context, client forward.Client, sessionID string)
 	var apiErr *convention.Error
 	switch {
 	case errors.Is(err, context.Canceled):
-		fmt.Println("调用已取消")
+		fmt.Println("call was cancelled")
 	case errors.Is(err, context.DeadlineExceeded):
-		fmt.Println("等待请求超时")
+		fmt.Println("timed out waiting for the request")
 	case errors.As(err, &apiErr):
 		fmt.Printf("status=%d code=%s type=%s request_id=%s\n",
 			apiErr.StatusCode, apiErr.Code, apiErr.Type(), apiErr.RequestID)
 	default:
-		fmt.Printf("网络、参数或解析错误：%v\n", err)
+		fmt.Printf("network, parameter or decoding error: %v\n", err)
 	}
 	return err
 }
 ```
 
-| 字段或方法 | 内容 |
+| Field or method | Contents |
 | --- | --- |
-| `StatusCode` | HTTP 状态码 |
-| `Code` | 服务端错误码，是否返回取决于错误响应 |
-| `Message` | 服务端错误说明 |
-| `Type()` | 错误类型 |
-| `RequestID` | 定位请求的 ID，服务端未提供时可能为空 |
-| `Request` / `Response` | 原始 HTTP 请求和响应 |
-| `RawJSON()` | 收到的错误响应正文；网关返回非 JSON 时保留原文 |
+| `StatusCode` | HTTP status code |
+| `Code` | server error code, when the error response carries one |
+| `Message` | server error description |
+| `Type()` | error type |
+| `RequestID` | request identifier, empty when the server sends none |
+| `Request` / `Response` | the underlying HTTP request and response |
+| `RawJSON()` | the error body as received, including non-JSON gateway output |
 
-网络、context、参数构造和解码错误不保证是 `*convention.Error`，需要保留其他错误处理分支。排查问题时优先记录状态码、错误码和 Request ID；原始请求可能包含 PAT，正文也可能包含业务数据，不宜直接输出到通用日志。
+Network, context, parameter-construction and decoding failures are not guaranteed to be `*convention.Error`, so keep the other branches. When investigating, record the status, code and request ID — but note that the raw request may carry the PAT and the body may carry business data, so neither belongs in a general-purpose log.
 
-SSE 建连失败和读取错误由 `stream.Err()` 返回；业务事件中的 `session.error`、终止状态和异常 `stop_reason` 还需由调用方处理。
+For streams, connection and read failures surface through `stream.Err()`, while `session.error`, terminal statuses and unexpected stop reasons are business events the caller has to handle.
 
 ## Retries
 
-默认最多重试 **2 次**，即最多进行 3 次 HTTP 尝试；请求体必须可重放，调用方 context 也必须尚未结束。
+Some errors are retried automatically, up to **2 times** by default — three HTTP attempts in total. A retry requires a replayable request body and a caller context that is still live.
 
-- `GET` / `HEAD`，以及带 `Idempotency-Key` 的其他请求：通常对连接错误、408、429、5xx 重试。
-- 没有幂等键的其他请求：只允许对 429 重试。
-- **409 不自动重试**。
-- 在上述约束内，服务端 `x-should-retry` 可显式开启或禁止响应重试。
+- `GET` and `HEAD`, plus any request carrying an `Idempotency-Key`: retried on connection errors, 408, 429 and 5xx.
+- Any other request without an idempotency key: retried on 429 only.
+- **409 is never retried automatically.**
+- Within those rules, a server `x-should-retry` header can force a retry on or off.
 
-等待时间优先采用有效的 `Retry-After-Ms` / `Retry-After`，否则使用指数退避。重试不会重置调用方 context 的总期限。
+The wait comes from a valid `Retry-After-Ms` or `Retry-After` header when present, and from exponential backoff otherwise. Retries do not extend the caller's context deadline.
 
 ```go
 func clientWithoutRetries(token string) forward.Client {
@@ -459,11 +461,11 @@ func getWithRetries(ctx context.Context, client forward.Client, sessionID string
 }
 ```
 
-幂等键代表一次逻辑操作，应由调用方生成和保存。SDK 不会为所有写操作自动生成幂等键；也不应在一次重试中换用新键。
+An idempotency key stands for one logical operation, and the caller generates and stores it. The SDK does not mint keys for write operations, and a retry must not switch to a new key.
 
 ## Timeouts
 
-SDK 默认不设置统一的请求超时，默认 HTTP 客户端为 `http.DefaultClient`。可以分别限制整个调用和每次 HTTP 尝试：
+There is no default request timeout, and the default HTTP client is `http.DefaultClient`. Bound the whole call and each HTTP attempt separately:
 
 ```go
 func getWithTimeout(parent context.Context, client forward.Client, sessionID string) (*forward.Session, error) {
@@ -475,29 +477,29 @@ func getWithTimeout(parent context.Context, client forward.Client, sessionID str
 }
 ```
 
-此例中，context 的 1 分钟覆盖所有尝试和退避；每次尝试最多 15 秒。先到达的期限生效。单次超时能否重试，仍受前述请求方法、幂等键和请求体规则约束。
+Here the context's minute covers every attempt and the backoff between them, while each attempt gets at most 15 seconds; whichever deadline arrives first applies. `WithRequestTimeout` also advertises the per-attempt deadline to the server as `X-Qoder-Timeout`, in whole seconds. Whether a timed-out attempt is retried still depends on the method, idempotency key and body rules above.
 
-SSE 和下载的超时也覆盖响应正文的读取。不要把适用于普通 API 的短超时直接用于需要长期保持的事件流；可在流式方法上覆盖 `WithRequestTimeout`，并为整个订阅设置合适的 context。
+For streams and downloads the timeout also covers reading the response body. Do not reuse a short request timeout for an event stream that is meant to stay open: override `WithRequestTimeout` on the streaming call, and give the whole subscription an appropriate context.
 
-取消本地 context 会停止当前 HTTP 调用或事件订阅。若已创建云端执行任务，还需根据业务意图调用对应的取消或中断 API，随后确认服务端状态。
+Cancelling the local context stops the HTTP call or the subscription. If cloud execution has already started, cancelling or interrupting it is a separate API call, after which the server state is worth confirming.
 
 ## Long-running operations
 
-Session、Schedule、Batch、Deployment 和 Dream 的创建或触发响应，与执行完成是不同阶段。应通过事件流、Run 状态或任务结果确认最终执行情况。
+For Session, Schedule, Batch, Deployment and Dream, the response to a create or trigger call is a different stage from the execution finishing. Confirm the outcome through the event stream, the run status or the task result.
 
-| 场景 | 等待与结果入口 |
+| Case | Where the result arrives |
 | --- | --- |
-| Session | `Sessions.Events` 的流或事件列表，结合 idle 的 `stop_reason` 和最终回答 |
-| Forward Schedule | `ScheduleRuns`，以及关联 Session 的结果 |
-| Forward Batch | `Batches.Get`、`Batches.Tasks.List`、`Batches.GetOutput` |
-| Managed Deployment | `DeploymentRuns`，以及关联 Session 的结果 |
-| Managed Dream | Dream 状态，以及输出 Memory Store 的内容 |
+| Session | the `Sessions.Events` stream or event list, with the idle `stop_reason` and the final answer |
+| Forward Schedule | `ScheduleRuns`, plus the linked Session's result |
+| Forward Batch | `Batches.Get`, `Batches.Tasks.List`, `Batches.GetOutput` |
+| Managed Deployment | `DeploymentRuns`, plus the linked Session's result |
+| Managed Dream | the Dream status, plus the contents of the output Memory Store |
 
-例如 Batch 的 `completion_window: "24h"` 是提交给服务端的完成窗口；示例程序的 `-timeout 5m` 是本地等待期限。处于 `queued` 的 Batch 可能尚未开始执行，延长等待时间不会改变服务端调度规则。示例超时后会主动取消其创建的任务，不能用该运行的结果验证后续执行。
+Server-side windows and local deadlines are independent: a Batch `completion_window: "24h"` is submitted to the server, while the examples' `-timeout 5m` is only how long the local program waits. A Batch sitting in `queued` may not have started, and waiting longer does not change how the server schedules it. The examples cancel the work they created when they time out, so that run's output cannot be used to judge later execution.
 
 ## File uploads and downloads
 
-文件上传参数接收 `io.Reader`。使用 `convention.UploadFile` 指定文件名和媒体类型：
+Upload parameters accept an `io.Reader`. Use `convention.UploadFile` to set the filename and media type:
 
 ```go
 func uploadText(ctx context.Context, client forward.Client, text string) (*forward.FileMetadata, error) {
@@ -512,11 +514,11 @@ func uploadText(ctx context.Context, client forward.Client, text string) (*forwa
 }
 ```
 
-本地文件可以通过 `os.Open` 打开，传入 Reader，并在调用结束后关闭。Managed 的对应方法是 `client.Files.Upload(ctx, managed.FileUploadParams{File: ...})`，同样接受 `convention.UploadFile`。
+A local file works the same way through `os.Open`, closed once the call returns. The Managed equivalent is `client.Files.Upload(ctx, managed.FileUploadParams{File: ...})`, which also takes a `convention.UploadFile`.
 
-上传文件与将文件挂载到 Session 是两个步骤；挂载方式见 [Forward 资源示例](examples/forward/resources/main.go) 和 [Managed 资源示例](examples/managed/resources/main.go)。Skill 文件树通过 `Skills.New` / `Skills.Versions.New` 上传，`files` 中的 Reader 使用相对路径文件名，例如 `my-skill/SKILL.md`。
+Uploading a file and attaching it to a Session are two steps; [the Forward](examples/forward/resources/main.go) and [Managed](examples/managed/resources/main.go) resource examples show the attachment. Skill file trees go through `Skills.New` and `Skills.Versions.New`, where each reader in `files` is named with its relative path, such as `my-skill/SKILL.md`.
 
-文件下载返回 `*http.Response`，调用方负责读取并关闭 Body：
+Downloads return an `*http.Response` whose body the caller reads and closes:
 
 ```go
 func downloadFile(ctx context.Context, client forward.Client, fileID string, destination io.Writer) error {
@@ -530,11 +532,11 @@ func downloadFile(ctx context.Context, client forward.Client, fileID string, des
 }
 ```
 
-Managed 的下载方法为 `client.Files.Download(ctx, fileID, managed.FileDownloadParams{})`。SDK 先从 API 获取临时下载地址，再请求存储内容；API 的 PAT、请求头和 middleware 不会被附加到这次存储请求，但自定义 HTTP transport 的行为仍由调用方控制。
+The Managed method is `client.Files.Download(ctx, fileID, managed.FileDownloadParams{})`. The SDK first asks the API for a temporary download URL, then fetches the stored content. The API PAT, request headers and middleware are not attached to that storage request, though a custom HTTP transport still governs it.
 
 ## Pagination
 
-`ListAutoPaging` 自动获取后续分页，使用 `Next()`、`Current()` 和 `Err()` 遍历：
+`ListAutoPaging` fetches subsequent pages on demand; iterate with `Next()`, `Current()` and `Err()`:
 
 ```go
 func listTemplates(ctx context.Context, client forward.Client) error {
@@ -548,9 +550,9 @@ func listTemplates(ctx context.Context, client forward.Client) error {
 }
 ```
 
-Managed 的列表使用相同的遍历方式，例如 `client.Agents.ListAutoPaging(ctx, managed.AgentListParams{Limit: managed.Int(20)})`。
+Managed lists iterate identically, for example `client.Agents.ListAutoPaging(ctx, managed.AgentListParams{Limit: managed.Int(20)})`.
 
-也可以使用 `List` 获取单页，再通过 `GetNextPage()` 手动翻页：
+`List` returns a single page instead, which `GetNextPage()` advances manually:
 
 ```go
 func listAgentPages(ctx context.Context, client managed.Client) error {
@@ -565,43 +567,30 @@ func listAgentPages(ctx context.Context, client managed.Client) error {
 }
 ```
 
-不同 API 使用 `after_id` / `before_id` 或 `next_page` 等游标。分页工具会维护后续请求所需的参数，并保留筛选条件；请使用对应响应的分页方法，不自行混用游标类型。
+Different APIs page by `after_id` / `before_id` or by `next_page`. The pagers carry the parameters the next request needs and preserve the filters, so use the pagination methods of the response you have rather than mixing cursor styles.
 
 ## Request options
 
-`option` 包提供函数式配置，可传给客户端构造函数或单次方法调用。方法级选项覆盖客户端或服务级的同名设置；middleware、追加请求头等选项按自身的追加规则组合。共享客户端前应完成配置，避免并发修改 Options。
+The `option` package configures a client constructor or a single call. A method-level option overrides the same setting from the client or service, while options that accumulate — middleware, added headers — combine by their own rules. Finish configuring a client before sharing it, so that its Options are not mutated concurrently.
 
-```go
-func inspectResponse(ctx context.Context, client forward.Client, sessionID, traceID string) error {
-	var response *http.Response
-	_, err := client.Sessions.Get(ctx, sessionID,
-		option.WithHeader("X-Trace-ID", traceID),
-		option.WithResponseInto(&response),
-	)
-	if response != nil {
-		fmt.Println("Request ID:", response.Header.Get("X-Request-ID"))
-	}
-	return err
-}
-```
-
-| 选项 | 用途 |
+| Option | Purpose |
 | --- | --- |
-| `WithBaseURL` | 设置完整 API 根地址 |
-| `WithAccessToken` / `WithCredential` | 静态令牌或动态凭据 |
-| `WithMaxRetries` / `WithRequestTimeout` | 重试次数和单次尝试超时 |
-| `WithHeader` / `WithHeaderAdd` / `WithHeaderDel` | 设置、追加或删除请求头 |
-| `WithQuery` / `WithQueryAdd` / `WithQueryDel` | 自定义查询参数 |
-| `WithJSONSet` / `WithJSONDel` | 修改 JSON 请求体中的字段 |
-| `WithResponseInto` | 获取原始 HTTP 响应及响应头 |
-| `WithResponseBodyInto` | 替换默认的响应解码目标 |
-| `WithRequestBody` | 提供自定义序列化请求体 |
+| `WithBaseURL` | full API root URL |
+| `WithAccessToken` / `WithCredential` | static token or dynamic credential |
+| `WithMaxRetries` / `WithRequestTimeout` | retry budget and per-attempt timeout |
+| `WithHeader` / `WithHeaderAdd` / `WithHeaderDel` | set, add or remove a request header |
+| `WithQuery` / `WithQueryAdd` / `WithQueryDel` | custom query parameters |
+| `WithJSONSet` / `WithJSONDel` | edit fields in the JSON request body |
+| `WithResponseInto` | capture the raw HTTP response and its headers |
+| `WithResponseBodyInto` | replace the default decoding target |
+| `WithRequestBody` | supply a pre-serialized body |
+| `WithHTTPClient` / `WithMiddleware` | transport and per-attempt interception |
 
-`WithResponseInto` 不保证响应 Body 仍未被读取；需要原始 JSON 时优先使用实体的 `RawJSON()`。完整选项见 [requestoption.go](convention/option/requestoption.go)。
+The full list lives in [requestoption.go](convention/option/requestoption.go).
 
 ## HTTP client customization
 
-使用 `WithHTTPClient` 配置连接池、代理或自定义 transport。下面保留默认 transport 的设置，并调整空闲连接数：
+`WithHTTPClient` configures connection pooling, proxies or a custom transport. The fragment below keeps the default transport's settings and only raises the idle connection limit:
 
 ```go
 func clientWithTransport(token string) managed.Client {
@@ -615,7 +604,7 @@ func clientWithTransport(token string) managed.Client {
 }
 ```
 
-`WithMiddleware` 可以拦截 API 请求，记录耗时等信息。middleware 在每次 HTTP 尝试中执行；下面只记录方法、路径、状态码和耗时：
+`WithMiddleware` intercepts API requests, for example to record timings. Middleware runs on every HTTP attempt:
 
 ```go
 func requestTiming(req *http.Request, next option.MiddlewareNext) (*http.Response, error) {
@@ -631,38 +620,106 @@ func requestTiming(req *http.Request, next option.MiddlewareNext) (*http.Respons
 }
 ```
 
-将 `option.WithMiddleware(requestTiming)` 传给 `NewClient` 即可。API middleware 不用于临时地址的存储下载；需要配置存储请求时使用合适的 HTTP client / transport。
+Pass `option.WithMiddleware(requestTiming)` to `NewClient`. API middleware does not apply to the temporary-URL storage download; configure that through the HTTP client or transport instead.
+
+## Accessing raw response data
+
+`WithResponseInto` captures the `*http.Response` alongside the decoded value, which is how response headers such as the request ID become visible:
+
+```go
+func inspectResponse(ctx context.Context, client forward.Client, sessionID, traceID string) error {
+	var response *http.Response
+	_, err := client.Sessions.Get(ctx, sessionID,
+		option.WithHeader("X-Trace-ID", traceID),
+		option.WithResponseInto(&response),
+	)
+	if response != nil {
+		fmt.Println("Request ID:", response.Header.Get("X-Request-ID"))
+	}
+	return err
+}
+```
+
+The captured response's body is not guaranteed to be unread, so prefer the entity's `RawJSON()` when you want the JSON itself. To decode into something else entirely, pass `option.WithResponseBodyInto(&dst)`.
+
+## Making undocumented requests
+
+This library is typed for the documented API surface. Endpoints, parameters and fields outside it are still reachable.
+
+### Undocumented endpoints
+
+`convention.ExecuteNewRequest` issues an arbitrary request against the configured base URL. Passing `client.Options...` reuses the client's authentication, retries and middleware:
+
+```go
+func callUndocumentedEndpoint(ctx context.Context, client forward.Client, sessionID string) (map[string]any, error) {
+	var response map[string]any
+	err := convention.ExecuteNewRequest(ctx, http.MethodPost,
+		"sessions/"+sessionID+"/unreleased-action",
+		map[string]any{"flag": true},
+		&response,
+		client.Options...,
+	)
+	return response, err
+}
+```
+
+The path is relative to the base URL. No parameter validation or response typing applies here, so treat the result as untyped JSON.
+
+### Undocumented request params
+
+`option.WithJSONSet` adds or overwrites a field in a typed request body, and `option.WithQueryAdd` does the same for the query string:
+
+```go
+func createSessionWithUnknownField(ctx context.Context, client forward.Client, identityID, templateID string) (*forward.Session, error) {
+	return client.Sessions.New(ctx, forward.SessionNewParams{
+		IdentityID: identityID,
+		TemplateID: templateID,
+	}, option.WithJSONSet("unreleased_flag", true))
+}
+```
+
+For a field that belongs to the request model rather than to one call, `SetExtraFields` is the better fit — see [Extra fields](#extra-fields).
+
+### Undocumented response properties
+
+Fields the SDK does not model are preserved during decoding and read back through the `JSON` metadata:
+
+```go
+func readUnknownField(session *forward.Session) string {
+	return session.JSON.ExtraFields["unreleased_field"].Raw()
+}
+```
+
+`RawJSON()` on the entity returns the whole body it was decoded from.
 
 ## Examples
 
-`examples/` 按功能提供 18 个独立程序，分别放在 `examples/forward/` 和 `examples/managed/` 下，每个场景目录都有自己的 `main.go`，直接运行目录即可。默认读取 SDK 仓库根目录的 `.env.live`。从 [.env.live.example](.env.live.example) 复制配置模板，并填写两种模式各自的 URL 和 PAT。
+`examples/` holds 18 standalone programs under `examples/forward/` and `examples/managed/`, one `main.go` per scenario, each runnable directly. Each program reads `.env.live` from the working directory — so run them from the repository root, or point `-env` elsewhere. Copy [.env.live.example](.env.live.example) and fill in the URL and PAT for each mode. Unlike the clients, the examples default to the CN hostname, and `-region cn|international` overrides whichever host the configuration names.
 
 ```sh
-# 在 SDK 仓库根目录执行；查询模型是只读操作。
+# Run from the repository root. Listing models is read-only.
 go run ./examples/forward/models
 go run ./examples/managed/models
 
-# 创建资源并执行一次真实对话；示例结束后清理本次资源。
+# Create resources, run one real conversation, then clean up.
 go run ./examples/forward/session
 go run ./examples/managed/session
 
-# 写入记忆，在全新会话的回答中验证记忆生效。
+# Write a memory, then check that a brand-new session's answer uses it.
 go run ./examples/forward/memory
 go run ./examples/managed/memory
 ```
 
-| 场景 | Forward | Managed |
+| Scenario | Forward | Managed |
 | --- | --- | --- |
-| 模型与基础会话 | `models`、`session` | `models`、`session` |
-| 多轮对话与文本增量 | `conversation`、`streaming-deltas` | `conversation`、`streaming-deltas` |
-| 个性化与业务工具 | `identity-config`：共享模板的用户配置覆盖 | `custom-tools`：Go 函数执行与结果回传 |
-| 文件、环境变量、Skill | `resources` | `resources` |
-| 记忆 | `memory`：Identity + Template 绑定 | `memory`：Session 资源挂载 |
-| 调度与批处理 | `schedule`、`batch` | `deployment`、`dream` |
+| Models and a basic session | `models`, `session` | `models`, `session` |
+| Multi-turn chat and text deltas | `conversation`, `streaming-deltas` | `conversation`, `streaming-deltas` |
+| Personalization and business tools | `identity-config`: per-user overrides on a shared template | `custom-tools`: running a Go function and returning its result |
+| Files, environment variables, Skills | `resources` | `resources` |
+| Memory | `memory`: bound to Identity and Template | `memory`: attached as a Session resource |
+| Scheduling and batches | `schedule`, `batch` | `deployment`, `dream` |
 
-记忆场景写入正文与 `MEMORY.md` 索引，提问不提供记忆中的答案，检查最终回复是否使用了保存的项目约定。
-
-程序默认展示步骤、消息、助手回复和清理结果；`-output json` 输出结构化日志，`-timeout` 设置每个场景的等待期限。执行场景会产生实际资源和模型用量。
+The programs print their steps, messages, assistant replies and cleanup results; `-output json` switches to structured logs, and `-timeout` bounds each scenario, excluding cleanup. Running a scenario creates real resources and consumes model usage.
 
 ## Development
 
@@ -672,11 +729,15 @@ make build
 go test -race ./...
 ```
 
-离线测试覆盖请求序列化、API 契约、响应解码、错误、重试、分页、SSE 和清理行为。`*_live_test.go` 需要 `live` build tag 及测试配置；可执行示例不需要该 tag。
+The offline tests cover request serialization, API contracts, response decoding, errors, retries, pagination, SSE and cleanup behaviour. Files ending in `_live_test.go` need the `live` build tag and a test configuration; the runnable examples do not.
 
-- [Forward 使用与迁移说明](forward/README.md)
-- [Managed 使用与迁移说明](managed/README.md)
-- [公共包范围](managed/PACKAGE_SCOPE.md)
+- [Forward package guide](forward/README.md)
+- [Managed package guide](managed/README.md)
+- [Shared package scope](managed/PACKAGE_SCOPE.md)
+
+## Versioning
+
+The module is pre-1.0. Per semantic versioning, the compatibility guarantee does not apply below `v1.0.0`, so a minor release may change the API; pin a version in `go.mod` and read the release notes before upgrading.
 
 ## License
 
