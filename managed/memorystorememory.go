@@ -426,8 +426,7 @@ type MemoryStoreMemoryNewParams struct {
 	// Must not contain empty segments, `.` or `..` segments, control or format
 	// characters, or the Unicode line and paragraph separators (U+2028, U+2029), and
 	// must be NFC-normalized. Paths are case-sensitive.
-	Path        string            `json:"path" api:"required"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Path string `json:"path" api:"required"`
 	// Query parameter for view
 	//
 	// Any of "basic", "full".
@@ -455,8 +454,7 @@ func (r MemoryStoreMemoryNewParams) URLQuery() (v url.Values, err error) {
 }
 
 type MemoryStoreMemoryGetParams struct {
-	MemoryStoreID string            `path:"memory_store_id" api:"required" json:"-"`
-	WorkspaceID   param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	MemoryStoreID string `path:"memory_store_id" api:"required" json:"-"`
 	// Query parameter for view
 	//
 	// Any of "basic", "full".
@@ -490,8 +488,7 @@ type MemoryStoreMemoryUpdateParams struct {
 	// paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are
 	// case-sensitive. The memory's `id` is preserved across renames. Omit to leave the
 	// path unchanged.
-	Path        param.Opt[string] `json:"path,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Path param.Opt[string] `json:"path,omitzero"`
 	// Query parameter for view
 	//
 	// Any of "basic", "full".
@@ -551,8 +548,7 @@ type MemoryStoreMemoryListParams struct {
 	// Optional path prefix filter. Must end with `/` (segment-aligned), e.g.,
 	// `/notes/`. This value appears in request URLs. Do not include secrets or
 	// personally identifiable information.
-	PathPrefix  param.Opt[string] `query:"path_prefix,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	PathPrefix param.Opt[string] `query:"path_prefix,omitzero" json:"-"`
 	// Which projection of each `memory` to return. Defaults to `basic` (content
 	// omitted). `full` populates `content` on each item and caps `limit` at 20; use
 	// this as the bulk-read path for export and sync.
@@ -577,7 +573,6 @@ type MemoryStoreMemoryDeleteParams struct {
 	MemoryStoreID string `path:"memory_store_id" api:"required" json:"-"`
 	// Query parameter for expected_content_sha256
 	ExpectedContentSha256 param.Opt[string] `query:"expected_content_sha256,omitzero" json:"-"`
-	WorkspaceID           param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

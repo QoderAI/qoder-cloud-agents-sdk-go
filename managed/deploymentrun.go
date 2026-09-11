@@ -904,7 +904,6 @@ const (
 )
 
 type DeploymentRunGetParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -933,8 +932,7 @@ type DeploymentRunListParams struct {
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Opaque pagination cursor. Pass `next_page` from the previous response. Invalid
 	// or expired cursors return 400.
-	Page        param.Opt[string] `query:"page,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Page param.Opt[string] `query:"page,omitzero" json:"-"`
 	// Filter runs by what triggered them. Omit to return all runs.
 	//
 	// Any of "schedule", "manual".

@@ -854,7 +854,6 @@ type DreamNewParams struct {
 	// Model identifier and configuration applied to every pipeline stage.
 	Model        DreamNewParamsModelUnion `json:"model,omitzero" api:"required"`
 	Instructions param.Opt[string]        `json:"instructions,omitzero"`
-	WorkspaceID  param.Opt[string]        `header:"qoder-workspace-id,omitzero" json:"-"`
 	// The default destination: the job creates a new output memory store as a clone of
 	// the memory_store input and writes the consolidated memories into it. The input
 	// store is never mutated.
@@ -898,7 +897,6 @@ func (u *DreamNewParamsModelUnion) asAny() any {
 }
 
 type DreamGetParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -916,8 +914,7 @@ type DreamListParams struct {
 	// Query parameter for limit
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Query parameter for page
-	Page        param.Opt[string] `query:"page,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Page param.Opt[string] `query:"page,omitzero" json:"-"`
 	// Filter by lifecycle status. Repeat the parameter to match any of multiple
 	// statuses. Empty applies no status filter.
 	Statuses []DreamStatus `query:"statuses,omitzero" json:"-"`
@@ -935,14 +932,12 @@ func (r DreamListParams) URLQuery() (v url.Values, err error) {
 }
 
 type DreamArchiveParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
 
 type DreamCancelParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

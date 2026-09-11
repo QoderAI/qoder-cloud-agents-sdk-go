@@ -222,8 +222,7 @@ type SkillVersionNewParams struct {
 	//
 	// All files must be in the same top-level directory and must include a SKILL.md
 	// file at the root of that directory.
-	Files       []io.Reader       `json:"files,omitzero" api:"required" format:"binary"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Files []io.Reader `json:"files,omitzero" api:"required" format:"binary"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -251,8 +250,7 @@ type SkillVersionGetParams struct {
 	// Unique identifier for the skill.
 	//
 	// The format and length of IDs may change over time.
-	SkillID     string            `path:"skill_id" api:"required" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	SkillID string `path:"skill_id" api:"required" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -264,8 +262,7 @@ type SkillVersionListParams struct {
 	// Ranges from `1` to `1000`. Defaults to `20`.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Optionally set to the `next_page` token from the previous response.
-	Page        param.Opt[string] `query:"page,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Page param.Opt[string] `query:"page,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -284,8 +281,7 @@ type SkillVersionDeleteParams struct {
 	// Unique identifier for the skill.
 	//
 	// The format and length of IDs may change over time.
-	SkillID     string            `path:"skill_id" api:"required" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	SkillID string `path:"skill_id" api:"required" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -295,8 +291,7 @@ type SkillVersionDownloadParams struct {
 	// Unique identifier for the skill.
 	//
 	// The format and length of IDs may change over time.
-	SkillID     string            `path:"skill_id" api:"required" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	SkillID string `path:"skill_id" api:"required" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

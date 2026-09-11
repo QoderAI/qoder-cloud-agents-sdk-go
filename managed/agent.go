@@ -4288,8 +4288,7 @@ type AgentNewParams struct {
 	// Description of what the agent does.
 	Description param.Opt[string] `json:"description,omitzero"`
 	// System prompt for the agent.
-	System      param.Opt[string] `json:"system,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	System param.Opt[string] `json:"system,omitzero"`
 	// MCP servers this agent connects to. Maximum 20. Names must be unique within the
 	// array. Every server must be referenced by an `mcp_toolset` in `tools`;
 	// unreferenced servers are rejected. See the
@@ -4504,8 +4503,7 @@ func init() {
 type AgentGetParams struct {
 	// Agent version. Omit for the most recent version. Must be at least 1 if
 	// specified.
-	Version     param.Opt[int64]  `query:"version,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Version param.Opt[int64] `query:"version,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -4530,8 +4528,7 @@ type AgentUpdateParams struct {
 	// value from a create or retrieve response. Must be at least 1 if specified. When
 	// supplied, the request fails if it does not match the server's current version;
 	// omit to apply the update unconditionally.
-	Version     param.Opt[int64]  `json:"version,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Version param.Opt[int64] `json:"version,omitzero"`
 	// MCP servers. Full replacement. Omit to preserve; send empty array or `null` to
 	// clear. Names must be unique. Maximum 20. Every server must be referenced by an
 	// `mcp_toolset` in the agent's resulting `tools`; unreferenced servers are
@@ -4761,8 +4758,7 @@ type AgentListParams struct {
 	// Maximum results per page. Default 20, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Opaque pagination cursor from a previous response.
-	Page        param.Opt[string] `query:"page,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Page param.Opt[string] `query:"page,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -4777,7 +4773,6 @@ func (r AgentListParams) URLQuery() (v url.Values, err error) {
 }
 
 type AgentArchiveParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

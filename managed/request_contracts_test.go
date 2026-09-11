@@ -115,7 +115,7 @@ func TestManagedQueryAndHeaderContract(t *testing.T) {
 		}
 		return reply(r, 200, `{"data":[],"next_page":null}`), nil
 	})
-	_, err := client.Sessions.List(context.Background(), managed.SessionListParams{AgentID: managed.String("agent /?"), AgentVersion: managed.Int(0), IncludeArchived: managed.Bool(false), Limit: managed.Int(100), Page: managed.String("page +/="), CreatedAtGte: param.NewOpt(when), Statuses: []string{"idle", "running"}, Order: "asc", WorkspaceID: managed.String("workspace"), Betas: []managed.QoderBeta{"first", "second"}})
+	_, err := client.Sessions.List(context.Background(), managed.SessionListParams{AgentID: managed.String("agent /?"), AgentVersion: managed.Int(0), IncludeArchived: managed.Bool(false), Limit: managed.Int(100), Page: managed.String("page +/="), CreatedAtGte: param.NewOpt(when), Statuses: []string{"idle", "running"}, Order: "asc", Betas: []managed.QoderBeta{"first", "second"}})
 	if err != nil {
 		t.Fatal(err)
 	}

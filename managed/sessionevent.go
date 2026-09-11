@@ -7576,8 +7576,7 @@ type SessionEventListParams struct {
 	// Query parameter for limit
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Opaque pagination cursor from a previous response's `next_page`.
-	Page        param.Opt[string] `query:"page,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Page param.Opt[string] `query:"page,omitzero" json:"-"`
 	// Sort direction for results, ordered by the event's `processed_at`. Defaults to
 	// `asc` (chronological).
 	//
@@ -7611,8 +7610,7 @@ const (
 
 type SessionEventSendParams struct {
 	// Events to send to the `session`.
-	Events      []ManagedAgentsEventParamsUnion `json:"events,omitzero" api:"required"`
-	WorkspaceID param.Opt[string]               `header:"qoder-workspace-id,omitzero" json:"-"`
+	Events []ManagedAgentsEventParamsUnion `json:"events,omitzero" api:"required"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -7627,7 +7625,6 @@ func (r *SessionEventSendParams) UnmarshalJSON(data []byte) error {
 }
 
 type SessionEventStreamParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// When set, this connection also receives streaming deltas (`event_start`,
 	// `event_delta`) while an event is being produced, before the event itself
 	// arrives. Deltas are best-effort; when the final event is produced it carries the

@@ -1523,7 +1523,6 @@ type VaultCredentialNewParams struct {
 	Auth VaultCredentialNewParamsAuthUnion `json:"auth,omitzero" api:"required"`
 	// Human-readable name for the credential. Up to 255 characters.
 	DisplayName param.Opt[string] `json:"display_name,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Arbitrary key-value metadata to attach to the credential. Maximum 16 pairs, keys
 	// up to 64 chars, values up to 512 chars.
 	Metadata map[string]string `json:"metadata,omitzero"`
@@ -1664,8 +1663,7 @@ func init() {
 }
 
 type VaultCredentialGetParams struct {
-	VaultID     string            `path:"vault_id" api:"required" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	VaultID string `path:"vault_id" api:"required" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -1676,7 +1674,6 @@ type VaultCredentialUpdateParams struct {
 	// Deprecated: Qoder does not support updating credential display names.
 	// Leave this field omitted; setting it returns an error before sending a request.
 	DisplayName param.Opt[string] `json:"display_name,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Metadata patch. Set a key to a string to upsert it, or to null to delete it.
 	// Omitted keys are preserved.
 	Metadata map[string]any `json:"metadata,omitzero"`
@@ -1814,8 +1811,7 @@ type VaultCredentialListParams struct {
 	// Maximum number of credentials to return per page. Defaults to 20, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Opaque pagination token from a previous `list_credentials` response.
-	Page        param.Opt[string] `query:"page,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Page param.Opt[string] `query:"page,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -1831,24 +1827,21 @@ func (r VaultCredentialListParams) URLQuery() (v url.Values, err error) {
 }
 
 type VaultCredentialDeleteParams struct {
-	VaultID     string            `path:"vault_id" api:"required" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	VaultID string `path:"vault_id" api:"required" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
 
 type VaultCredentialArchiveParams struct {
-	VaultID     string            `path:"vault_id" api:"required" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	VaultID string `path:"vault_id" api:"required" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
 
 type VaultCredentialMCPOAuthValidateParams struct {
-	VaultID     string            `path:"vault_id" api:"required" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	VaultID string `path:"vault_id" api:"required" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

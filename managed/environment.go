@@ -738,7 +738,6 @@ type EnvironmentNewParams struct {
 	Name string `json:"name" api:"required"`
 	// Optional description of the environment
 	Description param.Opt[string] `json:"description,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Environment configuration
 	Config EnvironmentNewParamsConfigUnion `json:"config,omitzero"`
 	// The visibility scope for this environment. 'organization' makes the environment
@@ -834,7 +833,6 @@ const (
 )
 
 type EnvironmentGetParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -845,8 +843,7 @@ type EnvironmentUpdateParams struct {
 	// an empty string is stored as an empty string.
 	Description param.Opt[string] `json:"description,omitzero"`
 	// Updated name for the environment
-	Name        param.Opt[string] `json:"name,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Name param.Opt[string] `json:"name,omitzero"`
 	// Updated environment configuration
 	Config EnvironmentUpdateParamsConfigUnion `json:"config,omitzero"`
 	// The visibility scope for this environment. 'organization' makes the environment
@@ -950,8 +947,7 @@ type EnvironmentListParams struct {
 	// Include archived environments in the response
 	IncludeArchived param.Opt[bool] `query:"include_archived,omitzero" json:"-"`
 	// Maximum number of environments to return
-	Limit       param.Opt[int64]  `query:"limit,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -967,14 +963,12 @@ func (r EnvironmentListParams) URLQuery() (v url.Values, err error) {
 }
 
 type EnvironmentDeleteParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
 
 type EnvironmentArchiveParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

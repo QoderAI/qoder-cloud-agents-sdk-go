@@ -13,12 +13,10 @@ type Error struct {
 	Request    *http.Request  `json:"-"`
 	Response   *http.Response `json:"-"`
 	RequestID  string         `json:"request_id"`
-	// WorkspaceID is retained for source compatibility with the upstream error shape.
-	WorkspaceID string `json:"-"`
-	Message     string `json:"-"`
-	Code        string `json:"-"`
-	errorType   string
-	raw         string
+	Message    string         `json:"-"`
+	Code       string         `json:"-"`
+	errorType  string
+	raw        string
 }
 
 func (e *Error) Type() string   { return e.errorType }

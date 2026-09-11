@@ -197,8 +197,7 @@ const (
 
 type VaultNewParams struct {
 	// Human-readable name for the vault. 1-255 characters.
-	DisplayName string            `json:"display_name" api:"required"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	DisplayName string `json:"display_name" api:"required"`
 	// Arbitrary key-value metadata to attach to the vault. Maximum 16 pairs, keys up
 	// to 64 chars, values up to 512 chars.
 	Metadata map[string]string `json:"metadata,omitzero"`
@@ -216,7 +215,6 @@ func (r *VaultNewParams) UnmarshalJSON(data []byte) error {
 }
 
 type VaultGetParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -233,8 +231,7 @@ type VaultListParams struct {
 	// Maximum number of vaults to return per page. Defaults to 20, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Opaque pagination token from a previous `list_vaults` response.
-	Page        param.Opt[string] `query:"page,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Page param.Opt[string] `query:"page,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -249,14 +246,12 @@ func (r VaultListParams) URLQuery() (v url.Values, err error) {
 }
 
 type VaultDeleteParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
 
 type VaultArchiveParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

@@ -25,12 +25,10 @@
     "Type"
   ],
   "AgentArchiveParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "AgentGetParams": [
     "Version",
-    "WorkspaceID",
     "Betas"
   ],
   "AgentListParams": [
@@ -39,7 +37,6 @@
     "IncludeArchived",
     "Limit",
     "Page",
-    "WorkspaceID",
     "Betas"
   ],
   "AgentNewParams": [
@@ -47,7 +44,6 @@
     "Name",
     "Description",
     "System",
-    "WorkspaceID",
     "MCPServers",
     "Metadata",
     "Multiagent",
@@ -69,7 +65,6 @@
     "System",
     "Name",
     "Version",
-    "WorkspaceID",
     "MCPServers",
     "Metadata",
     "Skills",
@@ -86,7 +81,6 @@
   "AgentVersionListParams": [
     "Limit",
     "Page",
-    "WorkspaceID",
     "Betas"
   ],
   "AgentVersionService": [
@@ -333,11 +327,9 @@
     "JSON"
   ],
   "DeploymentArchiveParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "DeploymentGetParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "DeploymentListParams": [
@@ -347,7 +339,6 @@
     "IncludeArchived",
     "Limit",
     "Page",
-    "WorkspaceID",
     "Status",
     "Betas"
   ],
@@ -357,7 +348,6 @@
     "InitialEvents",
     "Name",
     "Description",
-    "WorkspaceID",
     "Budget",
     "Metadata",
     "Resources",
@@ -375,11 +365,9 @@
     "OfMemoryStore"
   ],
   "DeploymentPauseParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "DeploymentRunGetParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "DeploymentRunListParams": [
@@ -391,12 +379,10 @@
     "HasError",
     "Limit",
     "Page",
-    "WorkspaceID",
     "TriggerType",
     "Betas"
   ],
   "DeploymentRunParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "DeploymentRunService": [
@@ -406,14 +392,12 @@
     "Options"
   ],
   "DeploymentUnpauseParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "DeploymentUpdateParams": [
     "Description",
     "EnvironmentID",
     "Name",
-    "WorkspaceID",
     "Metadata",
     "Resources",
     "VaultIDs",
@@ -453,11 +437,9 @@
     "JSON"
   ],
   "DreamArchiveParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "DreamCancelParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "DreamError": [
@@ -466,7 +448,6 @@
     "JSON"
   ],
   "DreamGetParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "DreamInputUnion": [
@@ -485,7 +466,6 @@
     "IncludeArchived",
     "Limit",
     "Page",
-    "WorkspaceID",
     "Statuses",
     "Betas"
   ],
@@ -511,7 +491,6 @@
     "Inputs",
     "Model",
     "Instructions",
-    "WorkspaceID",
     "OutputBehavior",
     "Betas"
   ],
@@ -573,7 +552,6 @@
     "JSON"
   ],
   "EnvironmentArchiveParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "EnvironmentConfigUnion": [
@@ -583,7 +561,6 @@
     "JSON"
   ],
   "EnvironmentDeleteParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "EnvironmentDeleteResponse": [
@@ -592,20 +569,17 @@
     "JSON"
   ],
   "EnvironmentGetParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "EnvironmentListParams": [
     "Page",
     "IncludeArchived",
     "Limit",
-    "WorkspaceID",
     "Betas"
   ],
   "EnvironmentNewParams": [
     "Name",
     "Description",
-    "WorkspaceID",
     "Config",
     "Scope",
     "Metadata",
@@ -622,7 +596,6 @@
   "EnvironmentUpdateParams": [
     "Description",
     "Name",
-    "WorkspaceID",
     "Config",
     "Scope",
     "Metadata",
@@ -638,7 +611,6 @@
   ],
   "EnvironmentWorkGetParams": [
     "EnvironmentID",
-    "WorkspaceID",
     "Betas"
   ],
   "EnvironmentWorkHeartbeatParams": [
@@ -662,19 +634,16 @@
     "Options"
   ],
   "EnvironmentWorkStatsParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "EnvironmentWorkStopParams": [
     "EnvironmentID",
     "SelfHostedWorkStopRequest",
-    "WorkspaceID",
     "Betas"
   ],
   "EnvironmentWorkUpdateParams": [
     "EnvironmentID",
     "SelfHostedWorkUpdateRequest",
-    "WorkspaceID",
     "Betas"
   ],
   "FallbackBlockParam": [
@@ -687,7 +656,6 @@
     "Model"
   ],
   "FileDeleteParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "FileDocumentSourceParam": [
@@ -695,11 +663,9 @@
     "Type"
   ],
   "FileDownloadParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "FileGetMetadataParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "FileImageSourceParam": [
@@ -710,7 +676,6 @@
     "Page",
     "Limit",
     "ScopeID",
-    "WorkspaceID",
     "IDs",
     "Betas"
   ],
@@ -737,7 +702,6 @@
   "FileUploadParams": [
     "File",
     "ExpiresInSeconds",
-    "WorkspaceID",
     "Betas"
   ],
   "HealthCheckWorkData": [
@@ -3436,15 +3400,12 @@
     "JSON"
   ],
   "MemoryStoreArchiveParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "MemoryStoreDeleteParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "MemoryStoreGetParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "MemoryStoreListParams": [
@@ -3453,18 +3414,15 @@
     "IncludeArchived",
     "Limit",
     "Page",
-    "WorkspaceID",
     "Betas"
   ],
   "MemoryStoreMemoryDeleteParams": [
     "MemoryStoreID",
     "ExpectedContentSha256",
-    "WorkspaceID",
     "Betas"
   ],
   "MemoryStoreMemoryGetParams": [
     "MemoryStoreID",
-    "WorkspaceID",
     "View",
     "Betas"
   ],
@@ -3473,14 +3431,12 @@
     "Limit",
     "Page",
     "PathPrefix",
-    "WorkspaceID",
     "View",
     "Betas"
   ],
   "MemoryStoreMemoryNewParams": [
     "Content",
     "Path",
-    "WorkspaceID",
     "View",
     "Betas"
   ],
@@ -3491,14 +3447,12 @@
     "MemoryStoreID",
     "Content",
     "Path",
-    "WorkspaceID",
     "View",
     "Precondition",
     "Betas"
   ],
   "MemoryStoreMemoryVersionGetParams": [
     "MemoryStoreID",
-    "WorkspaceID",
     "View",
     "Betas"
   ],
@@ -3511,14 +3465,12 @@
     "Page",
     "ServiceAccountID",
     "SessionID",
-    "WorkspaceID",
     "Operation",
     "View",
     "Betas"
   ],
   "MemoryStoreMemoryVersionRedactParams": [
     "MemoryStoreID",
-    "WorkspaceID",
     "Betas"
   ],
   "MemoryStoreMemoryVersionService": [
@@ -3527,7 +3479,6 @@
   "MemoryStoreNewParams": [
     "Name",
     "Description",
-    "WorkspaceID",
     "Metadata",
     "Betas"
   ],
@@ -3539,7 +3490,6 @@
   "MemoryStoreUpdateParams": [
     "Description",
     "Name",
-    "WorkspaceID",
     "Metadata",
     "Betas"
   ],
@@ -3570,7 +3520,6 @@
     "AfterID",
     "BeforeID",
     "Limit",
-    "WorkspaceID",
     "Betas"
   ],
   "ModelService": [
@@ -3764,11 +3713,9 @@
     "OfCodeExecution20260120"
   ],
   "SessionArchiveParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "SessionDeleteParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "SessionEventListParams": [
@@ -3778,26 +3725,22 @@
     "CreatedAtLte",
     "Limit",
     "Page",
-    "WorkspaceID",
     "Order",
     "Types",
     "Betas"
   ],
   "SessionEventSendParams": [
     "Events",
-    "WorkspaceID",
     "Betas"
   ],
   "SessionEventService": [
     "Options"
   ],
   "SessionEventStreamParams": [
-    "WorkspaceID",
     "EventDeltas",
     "Betas"
   ],
   "SessionGetParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "SessionListParams": [
@@ -3812,7 +3755,6 @@
     "Limit",
     "MemoryStoreID",
     "Page",
-    "WorkspaceID",
     "Order",
     "Statuses",
     "Betas"
@@ -3821,7 +3763,6 @@
     "Agent",
     "EnvironmentID",
     "Title",
-    "WorkspaceID",
     "Budget",
     "InitialEvents",
     "Metadata",
@@ -3845,17 +3786,14 @@
   ],
   "SessionResourceAddParams": [
     "ManagedAgentsFileResourceParams",
-    "WorkspaceID",
     "Betas"
   ],
   "SessionResourceDeleteParams": [
     "SessionID",
-    "WorkspaceID",
     "Betas"
   ],
   "SessionResourceGetParams": [
     "SessionID",
-    "WorkspaceID",
     "Betas"
   ],
   "SessionResourceGetResponseUnion": [
@@ -3877,7 +3815,6 @@
   "SessionResourceListParams": [
     "Limit",
     "Page",
-    "WorkspaceID",
     "Betas"
   ],
   "SessionResourceService": [
@@ -3886,7 +3823,6 @@
   "SessionResourceUpdateParams": [
     "SessionID",
     "AuthorizationToken",
-    "WorkspaceID",
     "Betas"
   ],
   "SessionResourceUpdateResponseUnion": [
@@ -3913,14 +3849,12 @@
   ],
   "SessionThreadArchiveParams": [
     "SessionID",
-    "WorkspaceID",
     "Betas"
   ],
   "SessionThreadEventListParams": [
     "SessionID",
     "Limit",
     "Page",
-    "WorkspaceID",
     "Betas"
   ],
   "SessionThreadEventService": [
@@ -3928,19 +3862,16 @@
   ],
   "SessionThreadEventStreamParams": [
     "SessionID",
-    "WorkspaceID",
     "EventDeltas",
     "Betas"
   ],
   "SessionThreadGetParams": [
     "SessionID",
-    "WorkspaceID",
     "Betas"
   ],
   "SessionThreadListParams": [
     "Limit",
     "Page",
-    "WorkspaceID",
     "Betas"
   ],
   "SessionThreadService": [
@@ -3949,7 +3880,6 @@
   ],
   "SessionUpdateParams": [
     "Title",
-    "WorkspaceID",
     "Metadata",
     "Agent",
     "Budget",
@@ -3972,24 +3902,20 @@
     "JSON"
   ],
   "SkillDeleteParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "SkillGetParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "SkillListParams": [
     "Page",
     "Source",
     "Limit",
-    "WorkspaceID",
     "Betas"
   ],
   "SkillNewParams": [
     "Files",
     "DisplayName",
-    "WorkspaceID",
     "Betas"
   ],
   "SkillService": [
@@ -4011,28 +3937,23 @@
   ],
   "SkillVersionDeleteParams": [
     "SkillID",
-    "WorkspaceID",
     "Betas"
   ],
   "SkillVersionDownloadParams": [
     "SkillID",
-    "WorkspaceID",
     "Betas"
   ],
   "SkillVersionGetParams": [
     "SkillID",
-    "WorkspaceID",
     "Betas"
   ],
   "SkillVersionListParams": [
     "Limit",
     "Page",
-    "WorkspaceID",
     "Betas"
   ],
   "SkillVersionNewParams": [
     "Files",
-    "WorkspaceID",
     "Betas"
   ],
   "SkillVersionService": [
@@ -4186,40 +4107,33 @@
     "Type"
   ],
   "VaultArchiveParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "VaultCredentialArchiveParams": [
     "VaultID",
-    "WorkspaceID",
     "Betas"
   ],
   "VaultCredentialDeleteParams": [
     "VaultID",
-    "WorkspaceID",
     "Betas"
   ],
   "VaultCredentialGetParams": [
     "VaultID",
-    "WorkspaceID",
     "Betas"
   ],
   "VaultCredentialListParams": [
     "IncludeArchived",
     "Limit",
     "Page",
-    "WorkspaceID",
     "Betas"
   ],
   "VaultCredentialMCPOAuthValidateParams": [
     "VaultID",
-    "WorkspaceID",
     "Betas"
   ],
   "VaultCredentialNewParams": [
     "Auth",
     "DisplayName",
-    "WorkspaceID",
     "Metadata",
     "Betas"
   ],
@@ -4234,7 +4148,6 @@
   "VaultCredentialUpdateParams": [
     "VaultID",
     "DisplayName",
-    "WorkspaceID",
     "Metadata",
     "Auth",
     "Betas"
@@ -4245,23 +4158,19 @@
     "OfEnvironmentVariable"
   ],
   "VaultDeleteParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "VaultGetParams": [
-    "WorkspaceID",
     "Betas"
   ],
   "VaultListParams": [
     "IncludeArchived",
     "Limit",
     "Page",
-    "WorkspaceID",
     "Betas"
   ],
   "VaultNewParams": [
     "DisplayName",
-    "WorkspaceID",
     "Metadata",
     "Betas"
   ],

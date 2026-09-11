@@ -2471,8 +2471,7 @@ type SessionNewParams struct {
 	// ID of the `environment` defining the container configuration for this session.
 	EnvironmentID string `json:"environment_id" api:"required"`
 	// Human-readable session title.
-	Title       param.Opt[string] `json:"title,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Title param.Opt[string] `json:"title,omitzero"`
 	// A hard spend ceiling. The session stops issuing new model requests once the
 	// tracked list cost reaches `max_list_cost`.
 	Budget ManagedAgentsBudgetLimitParam `json:"budget,omitzero"`
@@ -2788,7 +2787,6 @@ func init() {
 }
 
 type SessionGetParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -2798,8 +2796,7 @@ type SessionUpdateParams struct {
 	EnvironmentVariables map[string]string `json:"environment_variables,omitzero"`
 
 	// Human-readable session title.
-	Title       param.Opt[string] `json:"title,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Title param.Opt[string] `json:"title,omitzero"`
 	// Metadata patch. Set a key to a string to upsert it, or to null to delete it.
 	// Omit the field to preserve.
 	Metadata map[string]any `json:"metadata,omitzero"`
@@ -2849,8 +2846,7 @@ type SessionListParams struct {
 	// ID.
 	MemoryStoreID param.Opt[string] `query:"memory_store_id,omitzero" json:"-"`
 	// Opaque pagination cursor from a previous response.
-	Page        param.Opt[string] `query:"page,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Page param.Opt[string] `query:"page,omitzero" json:"-"`
 	// Sort direction for results, ordered by `created_at`. Defaults to `desc` (newest
 	// first).
 	//
@@ -2884,14 +2880,12 @@ const (
 )
 
 type SessionDeleteParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
 
 type SessionArchiveParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

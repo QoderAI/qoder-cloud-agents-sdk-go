@@ -248,8 +248,7 @@ type FileListParams struct {
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Filter by scope ID. Only returns files associated with the specified scope
 	// (e.g., a session ID).
-	ScopeID     param.Opt[string] `query:"scope_id,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	ScopeID param.Opt[string] `query:"scope_id,omitzero" json:"-"`
 	// Restrict the result set to Files whose `id` is in this list. At most 100 entries
 	// (after de-duplication). Mutually exclusive with `page` and `limit`. When
 	// supplied, the response is always a single page (`next_page` is null). IDs that
@@ -270,21 +269,18 @@ func (r FileListParams) URLQuery() (v url.Values, err error) {
 }
 
 type FileDeleteParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
 
 type FileDownloadParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
 
 type FileGetMetadataParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -301,8 +297,7 @@ type FileUploadParams struct {
 	File io.Reader `json:"file,omitzero" api:"required" format:"binary"`
 	// Seconds from upload until the file expires and its bytes become permanently
 	// unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
-	ExpiresInSeconds param.Opt[int64]  `json:"expires_in_seconds,omitzero"`
-	WorkspaceID      param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	ExpiresInSeconds param.Opt[int64] `json:"expires_in_seconds,omitzero"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

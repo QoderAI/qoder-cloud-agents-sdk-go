@@ -406,8 +406,7 @@ const (
 )
 
 type MemoryStoreMemoryVersionGetParams struct {
-	MemoryStoreID string            `path:"memory_store_id" api:"required" json:"-"`
-	WorkspaceID   param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	MemoryStoreID string `path:"memory_store_id" api:"required" json:"-"`
 	// Query parameter for view
 	//
 	// Any of "basic", "full".
@@ -442,8 +441,7 @@ type MemoryStoreMemoryVersionListParams struct {
 	// Query parameter for service_account_id
 	ServiceAccountID param.Opt[string] `query:"service_account_id,omitzero" json:"-"`
 	// Query parameter for session_id
-	SessionID   param.Opt[string] `query:"session_id,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	SessionID param.Opt[string] `query:"session_id,omitzero" json:"-"`
 	// Query parameter for operation
 	//
 	// Any of "created", "modified", "deleted".
@@ -467,8 +465,7 @@ func (r MemoryStoreMemoryVersionListParams) URLQuery() (v url.Values, err error)
 }
 
 type MemoryStoreMemoryVersionRedactParams struct {
-	MemoryStoreID string            `path:"memory_store_id" api:"required" json:"-"`
-	WorkspaceID   param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	MemoryStoreID string `path:"memory_store_id" api:"required" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

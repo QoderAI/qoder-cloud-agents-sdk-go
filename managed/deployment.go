@@ -1846,7 +1846,6 @@ type DeploymentNewParams struct {
 	Name string `json:"name" api:"required"`
 	// Description of what the deployment does.
 	Description param.Opt[string] `json:"description,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// A hard spend ceiling. The session stops issuing new model requests once the
 	// tracked list cost reaches `max_list_cost`.
 	Budget ManagedAgentsBudgetLimitParam `json:"budget,omitzero"`
@@ -2016,7 +2015,6 @@ func init() {
 }
 
 type DeploymentGetParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -2030,8 +2028,7 @@ type DeploymentUpdateParams struct {
 	// ID of the `environment` where sessions run. Omit to preserve. Cannot be cleared.
 	EnvironmentID param.Opt[string] `json:"environment_id,omitzero"`
 	// Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
-	Name        param.Opt[string] `json:"name,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Name param.Opt[string] `json:"name,omitzero"`
 	// Metadata patch. Set a key to a string to upsert it, or to null to delete it.
 	// Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars
 	// each) with values up to 512 chars.
@@ -2223,8 +2220,7 @@ type DeploymentListParams struct {
 	// Maximum results per page. Default 20, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Opaque pagination cursor.
-	Page        param.Opt[string] `query:"page,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Page param.Opt[string] `query:"page,omitzero" json:"-"`
 	// Filter by status: `active` or `paused`. Omit for both. To include archived
 	// deployments, use `include_archived` instead; the two cannot be combined.
 	//
@@ -2245,28 +2241,24 @@ func (r DeploymentListParams) URLQuery() (v url.Values, err error) {
 }
 
 type DeploymentArchiveParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
 
 type DeploymentPauseParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
 
 type DeploymentRunParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
 
 type DeploymentUnpauseParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

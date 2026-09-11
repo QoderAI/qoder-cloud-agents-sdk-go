@@ -244,7 +244,6 @@ type SkillNewParams struct {
 	// set: derived from the SKILL.md frontmatter `name` when omitted at creation. Not
 	// unique.
 	DisplayName param.Opt[string] `json:"display_title,omitzero"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -269,7 +268,6 @@ func (r SkillNewParams) MarshalMultipart() (data []byte, contentType string, err
 }
 
 type SkillGetParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -298,8 +296,7 @@ type SkillListParams struct {
 	// Number of results to return per page.
 	//
 	// Ranges from `1` to `1000`. Defaults to `20`.
-	Limit       param.Opt[int64]  `query:"limit,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -314,7 +311,6 @@ func (r SkillListParams) URLQuery() (v url.Values, err error) {
 }
 
 type SkillDeleteParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

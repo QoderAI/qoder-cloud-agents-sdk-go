@@ -506,8 +506,7 @@ func (r *SessionWorkData) UnmarshalJSON(data []byte) error {
 }
 
 type EnvironmentWorkGetParams struct {
-	EnvironmentID string            `path:"environment_id" api:"required" json:"-"`
-	WorkspaceID   param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	EnvironmentID string `path:"environment_id" api:"required" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -517,7 +516,6 @@ type EnvironmentWorkUpdateParams struct {
 	EnvironmentID string `path:"environment_id" api:"required" json:"-"`
 	// Request to update work item metadata.
 	SelfHostedWorkUpdateRequest SelfHostedWorkUpdateRequestParam
-	WorkspaceID                 param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -608,7 +606,6 @@ func (r EnvironmentWorkPollParams) URLQuery() (v url.Values, err error) {
 }
 
 type EnvironmentWorkStatsParams struct {
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -618,7 +615,6 @@ type EnvironmentWorkStopParams struct {
 	EnvironmentID string `path:"environment_id" api:"required" json:"-"`
 	// Request to stop a work item.
 	SelfHostedWorkStopRequest SelfHostedWorkStopRequestParam
-	WorkspaceID               param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj

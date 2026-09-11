@@ -679,8 +679,7 @@ func (r *SessionResourceUpdateResponseUnion) UnmarshalJSON(data []byte) error {
 }
 
 type SessionResourceGetParams struct {
-	SessionID   string            `path:"session_id" api:"required" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	SessionID string `path:"session_id" api:"required" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -692,8 +691,7 @@ type SessionResourceUpdateParams struct {
 	SessionID string `path:"session_id" api:"required" json:"-"`
 	// New authorization token for the resource. Currently only `github_repository`
 	// resources support token rotation.
-	AuthorizationToken string            `json:"authorization_token,omitzero"`
-	WorkspaceID        param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	AuthorizationToken string `json:"authorization_token,omitzero"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -715,8 +713,7 @@ type SessionResourceListParams struct {
 	// all resources.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Opaque cursor from a previous response's `next_page` field.
-	Page        param.Opt[string] `query:"page,omitzero" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Page param.Opt[string] `query:"page,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -732,8 +729,7 @@ func (r SessionResourceListParams) URLQuery() (v url.Values, err error) {
 }
 
 type SessionResourceDeleteParams struct {
-	SessionID   string            `path:"session_id" api:"required" json:"-"`
-	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	SessionID string `path:"session_id" api:"required" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
@@ -742,7 +738,6 @@ type SessionResourceDeleteParams struct {
 type SessionResourceAddParams struct {
 	// Mount a file uploaded via the Files API into the session.
 	ManagedAgentsFileResourceParams ManagedAgentsFileResourceParams
-	WorkspaceID                     param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
