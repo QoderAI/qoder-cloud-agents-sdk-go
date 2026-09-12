@@ -23,8 +23,14 @@ func (e *Error) Type() string   { return e.errorType }
 func (e Error) RawJSON() string { return e.raw }
 func (e *Error) UnmarshalJSON(data []byte) error {
 	e.raw = string(data)
+	// The service nests its error under "error", but the auth gateway rejects
+	// requests before they reach the service using a flat body. The nested
+	// envelope's top-level "type" is the constant discriminator "error", so it
+	// is never an error type and is not read here.
 	var body struct {
 		RequestID string `json:"request_id"`
+		Message   string `json:"message"`
+		Code      string `json:"code"`
 		Error     struct {
 			Type    string `json:"type"`
 			Message string `json:"message"`
@@ -41,6 +47,12 @@ func (e *Error) UnmarshalJSON(data []byte) error {
 	e.errorType = body.Error.Type
 	e.Message = body.Error.Message
 	e.Code = body.Error.Code
+	if e.Message == "" {
+		e.Message = body.Message
+	}
+	if e.Code == "" {
+		e.Code = body.Code
+	}
 	return nil
 }
 func (e *Error) Error() string {
