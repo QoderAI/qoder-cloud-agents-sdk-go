@@ -34,13 +34,11 @@ The SDK ships two clients that share authentication, transport, retries, error h
 
 ## Installation
 
-No version has been tagged yet, so depend on the branch; `go` records a pseudo-version in `go.mod`:
-
 ```sh
-go get github.com/QoderAI/qoder-cloud-agents-sdk-go@main
+go get github.com/QoderAI/qoder-cloud-agents-sdk-go@v0.0.1-dev1
 ```
 
-Once a release is tagged, `go get github.com/QoderAI/qoder-cloud-agents-sdk-go@latest` resolves it. Keep the version your build resolved in `go.mod` and `go.sum`.
+`v0.0.1-dev1` is a pre-release. Pin it explicitly: `@latest` resolves to a pre-release only while the module has no release version, so it moves away as soon as one is tagged. Keep the version your build resolved in `go.mod` and `go.sum`.
 
 ## Requirements
 
