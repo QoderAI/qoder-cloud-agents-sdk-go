@@ -13,13 +13,15 @@ func TestSessionResourceAndThreadLifecycleLive(t *testing.T) {
 	ctx := s.context(t)
 	identity := s.identity(t)
 	template := s.template(t, s.environment(t).ID)
+	// Registered before the session so its cleanup runs after the session is
+	// archived: an attached file cannot be deleted while the session is active.
+	file := s.file(t, "sdk-resource.txt", "session_resource", "SDK resource")
 	session := s.session(t, identity.ID, template.ID)
 	updated, err := s.client.Sessions.Update(ctx, session.ID, forward.SessionUpdateParams{Title: forward.String("SDK updated session")})
 	liveCheck(t, err)
 	if updated.Title != "SDK updated session" {
 		t.Fatal("session title not updated")
 	}
-	file := s.file(t, "sdk-resource.txt", "session_resource", "SDK resource")
 	resource, err := s.client.Sessions.Resources.Add(ctx, session.ID, forward.SessionResourceAddParams{Type: "file", FileID: file.ID, MountPath: forward.String("/data/workspace/sdk-resource.txt")})
 	liveCheck(t, err)
 	if resource.FileID != file.ID || resource.MountPath != "/data/workspace/sdk-resource.txt" {

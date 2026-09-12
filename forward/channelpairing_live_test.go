@@ -14,7 +14,7 @@ func TestChannelPairingLifecycleLive(t *testing.T) {
 	s := newLiveSuite(t, "WRITE", "CHANNEL")
 	code := os.Getenv("QODER_FORWARD_LIVE_PAIRING_CODE")
 	if code == "" {
-		t.Fatal("QODER_FORWARD_LIVE_PAIRING_CODE is required")
+		t.Skip("QODER_FORWARD_LIVE_PAIRING_CODE is not configured")
 	}
 	identity := s.identity(t)
 	template := s.template(t, s.environment(t).ID)

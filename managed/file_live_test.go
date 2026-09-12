@@ -4,9 +4,9 @@ package managed_test
 
 import (
 	"context"
+	"errors"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/managed"
-	"io"
 	"strings"
 	"testing"
 )
@@ -30,11 +30,16 @@ func TestFileLifecycleLive(t *testing.T) {
 		_, err := s.client.Files.Delete(ctx, created.ID, managed.FileDeleteParams{})
 		return err
 	})
-	liveResult(s.client.Files.GetMetadata(ctx, created.ID, managed.FileGetMetadataParams{})).require(t)
-	response := liveResult(s.client.Files.Download(ctx, created.ID, managed.FileDownloadParams{})).require(t)
-	defer response.Body.Close()
-	if got := string(liveResult(io.ReadAll(response.Body)).require(t)); got != content {
-		t.Fatalf("download content: %q", got)
+	metadata := liveResult(s.client.Files.GetMetadata(ctx, created.ID, managed.FileGetMetadataParams{})).require(t)
+	// Uploads through this SDK carry no purpose, so the API stores them as
+	// user_upload and refuses to serve the bytes back.
+	if metadata.Downloadable {
+		t.Fatalf("expected a non-downloadable upload: %s", metadata.RawJSON())
+	}
+	_, err := s.client.Files.Download(ctx, created.ID, managed.FileDownloadParams{})
+	var apiErr *convention.Error
+	if !errors.As(err, &apiErr) || apiErr.StatusCode != 403 {
+		t.Fatalf("expected 403 for downloading an upload, got %v", err)
 	}
 
 }

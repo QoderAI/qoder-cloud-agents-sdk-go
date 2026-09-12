@@ -25,6 +25,8 @@ func TestEnvironmentLifecycleLive(t *testing.T) {
 		t.Fatal(got.ID)
 	}
 	liveResult(s.client.Environments.Update(ctx, environment.ID, managed.EnvironmentUpdateParams{Description: managed.String("updated through Managed Go SDK")})).require(t)
-	liveResult(s.client.Environments.Work.List(ctx, environment.ID, managed.EnvironmentWorkListParams{})).require(t)
+	// The work endpoint only serves self-hosted environments.
+	selfHosted := s.createEnvironmentWithConfig(t, map[string]any{"type": "self_hosted"})
+	liveResult(s.client.Environments.Work.List(ctx, selfHosted.ID, managed.EnvironmentWorkListParams{})).require(t)
 
 }

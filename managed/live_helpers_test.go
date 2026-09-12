@@ -125,10 +125,14 @@ func (s *managedScenarioSuite) model(t *testing.T) string {
 }
 func (s *managedScenarioSuite) createEnvironment(t *testing.T) *managed.Environment {
 	t.Helper()
+	return s.createEnvironmentWithConfig(t, map[string]any{"type": "cloud"})
+}
+func (s *managedScenarioSuite) createEnvironmentWithConfig(t *testing.T, config map[string]any) *managed.Environment {
+	t.Helper()
 	s.requireWrite(t)
 	ctx, cancel := s.context()
 	defer cancel()
-	params := liveJSON[managed.EnvironmentNewParams](t, map[string]any{"name": managedUnique("env"), "config": map[string]any{"type": "cloud"}, "metadata": map[string]string{"suite": "sdk-live"}})
+	params := liveJSON[managed.EnvironmentNewParams](t, map[string]any{"name": managedUnique("env"), "config": config, "metadata": map[string]string{"suite": "sdk-live"}})
 	value := liveResult(s.client.Environments.New(ctx, params)).require(t)
 	s.cleanup(t, "Environment "+value.ID, func(ctx context.Context) error {
 		_, err := s.client.Environments.Delete(ctx, value.ID, managed.EnvironmentDeleteParams{})
