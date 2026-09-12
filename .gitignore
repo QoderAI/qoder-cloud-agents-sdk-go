@@ -11,6 +11,8 @@ __pycache__/
 build/
 tmp/
 node_modules/
+package.json
+package-lock.json
 dist/
 *.test
 .env.live
