@@ -12,6 +12,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 )
@@ -28,7 +29,9 @@ func TestForwardBatchE2ELive(t *testing.T) {
 	line, err := json.Marshal(map[string]any{"custom_id": customID, "template_id": template.ID, "identity_id": identity.ID, "body": map[string]any{"input": "Reply with exactly " + marker}})
 	liveCheck(t, err)
 	input := s.file(t, "sdk-e2e-input.jsonl", "session_resource", string(line)+"\n")
-	batch, err := s.client.Batches.New(ctx, forward.BatchNewParams{InputFileID: input.ID, CompletionWindow: "24h", IdempotencyKey: forward.String(liveName("batch"))})
+	// The scheduler only promotes queued batches inside the server's idle
+	// window (22:00–08:00) unless the batch opts out.
+	batch, err := s.client.Batches.New(ctx, forward.BatchNewParams{InputFileID: input.ID, CompletionWindow: "24h", IdempotencyKey: forward.String(liveName("batch"))}, option.WithJSONSet("ignore_idle_window", true))
 	liveCheck(t, err)
 	t.Logf("batch=%s input_file=%s custom_id=%s", batch.ID, input.ID, customID)
 	batchID := batch.ID
