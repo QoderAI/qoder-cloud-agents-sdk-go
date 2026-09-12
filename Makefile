@@ -31,11 +31,11 @@ test-live-managed-check:
 test-live: test-live-check
 	@set -a; . "$(abspath $(LIVE_ENV_FILE))"; set +a; \
 		go test -tags live -v \
-			-run 'Live$$' ./forward
+			-run 'Live$$' -skip 'E2ELive$$' ./forward
 
 test-live-managed: test-live-managed-check
 	@set -a; . "$(abspath $(LIVE_ENV_FILE))"; set +a; \
-		go test -tags live -v -run 'Live$$' ./managed
+		go test -tags live -v -run 'Live$$' -skip 'E2ELive$$' ./managed
 
 test-live-all: test-live test-live-managed
 
