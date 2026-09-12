@@ -23,7 +23,7 @@ import (
 
 func getDefaultHeaders() map[string]string {
 	return map[string]string{
-		"User-Agent": "Qoder/Go",
+		"User-Agent": "qca-go/" + packageVersion,
 	}
 }
 
@@ -66,7 +66,7 @@ func getNormalizedArchitecture() string {
 func getPlatformProperties() map[string]string {
 	return map[string]string{
 		"X-Qoder-Lang":            "go",
-		"X-Qoder-Package-Version": "0.1.0",
+		"X-Qoder-Package-Version": packageVersion,
 		"X-Qoder-OS":              getNormalizedOS(),
 		"X-Qoder-Arch":            getNormalizedArchitecture(),
 		"X-Qoder-Runtime":         "go",

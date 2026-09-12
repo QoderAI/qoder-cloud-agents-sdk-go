@@ -2,10 +2,21 @@ PYTHON ?= python3
 LIVE_ENV_FILE ?= .env.live
 .DEFAULT_GOAL := test
 
-.PHONY: build test test-unit test-contract test-live test-live-check test-live-managed test-live-managed-check test-live-all
+.PHONY: build test test-unit test-contract test-live test-live-check test-live-managed test-live-managed-check test-live-all check-version
 
 build:
 	go build ./...
+
+# Run before tagging a release: the reported version is a compile-time constant,
+# so tagging without bumping it makes the SDK report a version it is not.
+check-version:
+	@const=$$(sed -n 's/^const packageVersion = "\(.*\)"$$/\1/p' convention/version.go); \
+		tag=$$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//'); \
+		if test -z "$$tag"; then echo "no tag reachable; skipped" >&2; exit 0; fi; \
+		if test "$$const" != "$$tag"; then \
+			echo "packageVersion is $$const but the latest tag is v$$tag" >&2; exit 1; \
+		fi; \
+		echo "packageVersion matches v$$tag"
 
 test: test-unit test-contract
 
