@@ -26,7 +26,7 @@ func NewMemoryStoreMemoryService(opts ...option.RequestOption) MemoryStoreMemory
 	return MemoryStoreMemoryService{Options: slices.Clone(opts)}
 }
 
-// 列出 Memory.
+// List Memories
 func (r *MemoryStoreMemoryService) List(ctx context.Context, memoryStoreID string, params MemoryStoreMemoryListParams, opts ...option.RequestOption) (res *pagination.Page[Memory], err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")
@@ -51,13 +51,14 @@ func (r *MemoryStoreMemoryService) ListAutoPaging(ctx context.Context, memorySto
 }
 
 type MemoryStoreMemoryListParams struct {
-	// 每页返回数量上限，1..100，默认 20。
+	// Maximum number of entries per page, 1..100, default 20.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向前翻页游标，与 `after_id` 互斥。
+	// Cursor for the previous page; mutually exclusive with `after_id`.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
-	// 向后翻页游标，与 `before_id` 互斥。
+	// Cursor for the next page; mutually exclusive with `before_id`.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 按 `path` 前缀过滤。**这是纯字符串前缀匹配，不是目录语义** —— `path_prefix=a/b` 也会命中 `a/bc.md`。
+	// Filter by `path` prefix. **This is a plain string prefix match, not directory
+	// semantics** — `path_prefix=a/b` also matches `a/bc.md`.
 	PathPrefix param.Opt[string] `query:"path_prefix,omitzero" json:"-"`
 	paramObj
 }
@@ -66,7 +67,7 @@ func (r MemoryStoreMemoryListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Memory.
+// Create Memory
 func (r *MemoryStoreMemoryService) New(ctx context.Context, memoryStoreID string, params MemoryStoreMemoryNewParams, opts ...option.RequestOption) (res *Memory, err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")
@@ -79,11 +80,12 @@ func (r *MemoryStoreMemoryService) New(ctx context.Context, memoryStoreID string
 }
 
 type MemoryStoreMemoryNewParams struct {
-	// 库内相对路径，大小写敏感。约束详见 [path 规则](../MemoryStore数据结构.md#path-规则)。
+	// Path relative to the store root, case-sensitive; it must be relative, with no
+	// leading `/`.
 	Path string `json:"path" api:"required"`
-	// UTF-8 明文内容，非 base64；原始字节 ≤100 KiB。约束详见 [content 约束](../MemoryStore数据结构.md#content-约束)。
+	// UTF-8 plain text content, not base64; at most 100 KiB of raw bytes.
 	Content string `json:"content" api:"required"`
-	// 键值元数据，值必须为字符串。最多 **16** 个键。约束详见 [Memory metadata 约束](../MemoryStore数据结构.md#memory-metadata-约束)。
+	// Key-value metadata whose values must be strings, up to **16** keys.
 	Metadata map[string]any `json:"metadata,omitzero"`
 	paramObj
 }
@@ -96,7 +98,7 @@ func (r *MemoryStoreMemoryNewParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 查询 Memory.
+// Get Memory
 func (r *MemoryStoreMemoryService) Get(ctx context.Context, memoryStoreID string, memoryID string, opts ...option.RequestOption) (res *Memory, err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")
@@ -111,7 +113,7 @@ func (r *MemoryStoreMemoryService) Get(ctx context.Context, memoryStoreID string
 	return res, err
 }
 
-// 更新 Memory.
+// Update Memory
 func (r *MemoryStoreMemoryService) Update(ctx context.Context, memoryStoreID string, memoryID string, params MemoryStoreMemoryUpdateParams, opts ...option.RequestOption) (res *Memory, err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")
@@ -127,11 +129,13 @@ func (r *MemoryStoreMemoryService) Update(ctx context.Context, memoryStoreID str
 }
 
 type MemoryStoreMemoryUpdateParams struct {
-	// 新内容，UTF-8 明文；原始字节 ≤100 KiB。约束详见 [content 约束](../MemoryStore数据结构.md#content-约束)。
+	// New content as UTF-8 plain text; at most 100 KiB of raw bytes.
 	Content string `json:"content" api:"required"`
-	// 期望的当前内容 SHA-256，用于乐观并发控制。不一致时返回 `409`。
+	// Expected SHA-256 of the current content, for optimistic concurrency control.
+	// Returns `409` when it does not match.
 	ContentSHA256 param.Opt[string] `json:"content_sha256,omitzero"`
-	// 新元数据，**整体替换**当前 metadata（非合并）。未传入时保持原 metadata 不变。约束详见 [Memory metadata 约束](../MemoryStore数据结构.md#memory-metadata-约束)。
+	// New metadata, which **replaces** the current metadata wholesale rather than
+	// merging into it. Omit to leave the existing metadata unchanged.
 	Metadata map[string]any `json:"metadata,omitzero"`
 	paramObj
 }
@@ -144,7 +148,7 @@ func (r *MemoryStoreMemoryUpdateParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 删除 Memory.
+// Delete Memory
 func (r *MemoryStoreMemoryService) Delete(ctx context.Context, memoryStoreID string, memoryID string, opts ...option.RequestOption) (res *DeletedMemory, err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")
@@ -160,11 +164,11 @@ func (r *MemoryStoreMemoryService) Delete(ctx context.Context, memoryStoreID str
 }
 
 type DeletedMemory struct {
-	// 被删除的 Memory ID。
+	// ID of the deleted Memory.
 	ID string `json:"id"`
-	// 固定为 `memory_deleted`。
+	// Always `memory_deleted`.
 	Type string `json:"type"`
-	// 是否已删除。
+	// Whether the Memory was deleted.
 	Deleted bool `json:"deleted"`
 	JSON    struct {
 		ID          respjson.Field

@@ -29,7 +29,7 @@ func NewSessionService(opts ...option.RequestOption) SessionService {
 	return SessionService{Options: slices.Clone(opts), Events: NewSessionEventService(opts...), Resources: NewSessionResourceService(opts...), Threads: NewSessionThreadService(opts...)}
 }
 
-// 列出 Sessions.
+// List Sessions
 func (r *SessionService) List(ctx context.Context, params SessionListParams, opts ...option.RequestOption) (res *pagination.Page[Session], err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -51,37 +51,37 @@ func (r *SessionService) ListAutoPaging(ctx context.Context, params SessionListP
 }
 
 type SessionListParams struct {
-	// 按一个或多个 Identity ID 过滤，支持逗号分隔。
+	// Filter by one or more Identity IDs, comma-separated.
 	IdentityIDs []string `query:"identity_ids,omitzero" json:"-"`
-	// 按 Forward Template ID 过滤。
+	// Filter by Forward Template ID.
 	TemplateID param.Opt[string] `query:"template_id,omitzero" json:"-"`
-	// 按 `api`、`im`、`schedule` 或 `batch` 过滤。
+	// Filter by `api`, `im`, `schedule` or `batch`.
 	SourceType param.Opt[string] `query:"source_type,omitzero" json:"-"`
-	// 创建时间严格大于该 RFC 3339 时间。
+	// Creation time strictly after this RFC 3339 timestamp.
 	CreatedAtGt param.Opt[time.Time] `query:"created_at[gt],omitzero" json:"-" format:"date-time"`
-	// 创建时间大于等于该 RFC 3339 时间。
+	// Creation time at or after this RFC 3339 timestamp.
 	CreatedAtGte param.Opt[time.Time] `query:"created_at[gte],omitzero" json:"-" format:"date-time"`
-	// 创建时间严格小于该 RFC 3339 时间。
+	// Creation time strictly before this RFC 3339 timestamp.
 	CreatedAtLt param.Opt[time.Time] `query:"created_at[lt],omitzero" json:"-" format:"date-time"`
-	// 创建时间小于等于该 RFC 3339 时间。
+	// Creation time at or before this RFC 3339 timestamp.
 	CreatedAtLte param.Opt[time.Time] `query:"created_at[lte],omitzero" json:"-" format:"date-time"`
-	// 更新时间严格大于该 RFC 3339 时间。
+	// Update time strictly after this RFC 3339 timestamp.
 	UpdatedAtGt param.Opt[time.Time] `query:"updated_at[gt],omitzero" json:"-" format:"date-time"`
-	// 更新时间大于等于该 RFC 3339 时间。
+	// Update time at or after this RFC 3339 timestamp.
 	UpdatedAtGte param.Opt[time.Time] `query:"updated_at[gte],omitzero" json:"-" format:"date-time"`
-	// 更新时间严格小于该 RFC 3339 时间。
+	// Update time strictly before this RFC 3339 timestamp.
 	UpdatedAtLt param.Opt[time.Time] `query:"updated_at[lt],omitzero" json:"-" format:"date-time"`
-	// 更新时间小于等于该 RFC 3339 时间。
+	// Update time at or before this RFC 3339 timestamp.
 	UpdatedAtLte param.Opt[time.Time] `query:"updated_at[lte],omitzero" json:"-" format:"date-time"`
-	// 分页大小，最大 100。
+	// Page size, up to 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向后翻页游标，传入上一页响应的 `last_id`。
+	// Cursor for the next page; pass the `last_id` from the previous response.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 向前翻页游标，传入当前页响应的 `first_id`。
+	// Cursor for the previous page; pass the `first_id` from the current response.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
-	// 创建时间排序方向：`desc` 或 `asc`。
+	// Sort direction by creation time: `desc` or `asc`.
 	Order param.Opt[string] `query:"order,omitzero" json:"-"`
-	// 是否包含已归档 Session。
+	// Whether to include archived Sessions.
 	IncludeArchived param.Opt[bool] `query:"include_archived,omitzero" json:"-"`
 	paramObj
 }
@@ -90,7 +90,7 @@ func (r SessionListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Session.
+// Create Session
 func (r *SessionService) New(ctx context.Context, params SessionNewParams, opts ...option.RequestOption) (res *Session, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
@@ -102,17 +102,17 @@ func (r *SessionService) New(ctx context.Context, params SessionNewParams, opts 
 }
 
 type SessionNewParams struct {
-	// Forward Identity ID。
+	// Forward Identity ID.
 	IdentityID string `json:"identity_id" api:"required"`
-	// Forward Template ID。
+	// Forward Template ID.
 	TemplateID string `json:"template_id" api:"required"`
-	// Session 标题。
+	// Session title.
 	Title param.Opt[string] `json:"title,omitzero"`
-	// 业务元数据。
+	// Business metadata.
 	Metadata  map[string]any              `json:"metadata,omitzero"`
 	Config    SessionNewParamsConfigParam `json:"config,omitzero"`
 	Resources []SessionResourceSpecParam  `json:"resources,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -136,7 +136,7 @@ func (r *SessionNewParamsConfigParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 获取 Session.
+// Get Session
 func (r *SessionService) Get(ctx context.Context, sessionID string, opts ...option.RequestOption) (res *Session, err error) {
 	if sessionID == "" {
 		return nil, fmt.Errorf("missing required session_id parameter")
@@ -148,7 +148,7 @@ func (r *SessionService) Get(ctx context.Context, sessionID string, opts ...opti
 	return res, err
 }
 
-// 更新 Session.
+// Update Session
 func (r *SessionService) Update(ctx context.Context, sessionID string, params SessionUpdateParams, opts ...option.RequestOption) (res *Session, err error) {
 	if sessionID == "" {
 		return nil, fmt.Errorf("missing required session_id parameter")
@@ -163,12 +163,12 @@ func (r *SessionService) Update(ctx context.Context, sessionID string, params Se
 }
 
 type SessionUpdateParams struct {
-	// 新的 Session 标题。
+	// New Session title.
 	Title param.Opt[string] `json:"title,omitzero"`
-	// metadata merge patch；传入的 key 覆盖已有 key，未出现的 key 保留。
+	// Metadata merge patch; supplied keys overwrite existing keys, omitted keys are kept.
 	Metadata map[string]any                 `json:"metadata,omitzero"`
 	Config   SessionUpdateParamsConfigParam `json:"config,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -192,7 +192,7 @@ func (r *SessionUpdateParamsConfigParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 归档 Session.
+// Archive Session
 func (r *SessionService) Archive(ctx context.Context, sessionID string, params SessionArchiveParams, opts ...option.RequestOption) (res *Session, err error) {
 	if sessionID == "" {
 		return nil, fmt.Errorf("missing required session_id parameter")
@@ -207,7 +207,7 @@ func (r *SessionService) Archive(ctx context.Context, sessionID string, params S
 }
 
 type SessionArchiveParams struct {
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -216,7 +216,7 @@ func (r SessionArchiveParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 取消当前 Turn.
+// Cancel the current Turn
 func (r *SessionService) Cancel(ctx context.Context, sessionID string, params SessionCancelParams, opts ...option.RequestOption) (res *Session, err error) {
 	if sessionID == "" {
 		return nil, fmt.Errorf("missing required session_id parameter")
@@ -231,7 +231,7 @@ func (r *SessionService) Cancel(ctx context.Context, sessionID string, params Se
 }
 
 type SessionCancelParams struct {
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -241,17 +241,17 @@ func (r SessionCancelParams) URLQuery() (url.Values, error) {
 }
 
 type Session struct {
-	// Session ID。
+	// Session ID.
 	ID string `json:"id"`
-	// 固定为 `session`。
+	// Always `session`.
 	Type string `json:"type"`
-	// Forward Identity ID。
+	// Forward Identity ID.
 	IdentityID string `json:"identity_id"`
-	// Template 摘要。
+	// Template summary.
 	Template SessionTemplate `json:"template"`
-	// Session 来源，直接 API 创建为 `api`。
+	// Session source; `api` when created directly through the API.
 	SourceType string `json:"source_type"`
-	// `idle`、`running`、`rescheduling`、`canceling` 或 `terminated`。
+	// `idle`, `running`, `rescheduling`, `canceling` or `terminated`.
 	Status     string            `json:"status"`
 	Title      string            `json:"title"`
 	Metadata   map[string]any    `json:"metadata"`

@@ -24,7 +24,7 @@ func NewIdentityMemoryStoreService(opts ...option.RequestOption) IdentityMemoryS
 	return IdentityMemoryStoreService{Options: slices.Clone(opts)}
 }
 
-// 列出 Identity 上的 Memory Store 挂载.
+// List Memory Store mounts on an Identity
 func (r *IdentityMemoryStoreService) List(ctx context.Context, identityID string, templateID string, opts ...option.RequestOption) (res *IdentityMemoryStoreListResponse, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -39,7 +39,7 @@ func (r *IdentityMemoryStoreService) List(ctx context.Context, identityID string
 	return res, err
 }
 
-// 挂载 Memory Store 到 Identity.
+// Mount Memory Store on an Identity
 func (r *IdentityMemoryStoreService) Mount(ctx context.Context, identityID string, templateID string, params IdentityMemoryStoreMountParams, opts ...option.RequestOption) (res *MemoryStoreMount, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -55,7 +55,8 @@ func (r *IdentityMemoryStoreService) Mount(ctx context.Context, identityID strin
 }
 
 type IdentityMemoryStoreMountParams struct {
-	// 要挂载的 Memory Store ID（`memstore_...`）。必须是当前调用方可见的 active Store。
+	// ID of the Memory Store to mount (`memstore_...`). It must be an active Store
+	// visible to the caller.
 	MemoryStoreID string `json:"memory_store_id" api:"required"`
 	paramObj
 }
@@ -68,7 +69,7 @@ func (r *IdentityMemoryStoreMountParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 解绑 Identity 上的 Memory Store.
+// Unmount Memory Store from an Identity
 func (r *IdentityMemoryStoreService) Detach(ctx context.Context, identityID string, templateID string, memoryStoreID string, opts ...option.RequestOption) (res *DeletedMemoryStoreMount, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -87,11 +88,13 @@ func (r *IdentityMemoryStoreService) Detach(ctx context.Context, identityID stri
 }
 
 type DeletedMemoryStoreMount struct {
-	// 被解绑的 Memory Store ID。
+	// ID of the unmounted Memory Store.
 	ID string `json:"id"`
-	// 固定为 `memory_store_binding_deleted`。与删除 Store 的 `memory_store_deleted` 区分：本接口只解除挂载关系，Store 本体仍然存在。
+	// Always `memory_store_binding_deleted`, as distinct from the `memory_store_deleted`
+	// returned when deleting a Store: this endpoint only removes the mount, and the Store
+	// itself continues to exist.
 	Type string `json:"type"`
-	// 挂载关系是否已解除。
+	// Whether the mount was removed.
 	Deleted bool `json:"deleted"`
 	JSON    struct {
 		ID          respjson.Field

@@ -26,7 +26,7 @@ func NewEnvironmentService(opts ...option.RequestOption) EnvironmentService {
 	return EnvironmentService{Options: slices.Clone(opts)}
 }
 
-// 列出 Environment.
+// List Environments
 func (r *EnvironmentService) List(ctx context.Context, params EnvironmentListParams, opts ...option.RequestOption) (res *pagination.PageCursor[Environment], err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -48,13 +48,14 @@ func (r *EnvironmentService) ListAutoPaging(ctx context.Context, params Environm
 }
 
 type EnvironmentListParams struct {
-	// 分页大小，最大 100。
+	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 分页游标（推荐使用），取值来自上一页响应的 `next_page`；与 `after_id`、`before_id` 互斥。
+	// Pagination cursor (recommended); take the value from `next_page` in the previous
+	// response. Mutually exclusive with `after_id` and `before_id`.
 	Page param.Opt[string] `query:"page,omitzero" json:"-"`
-	// 向后翻页游标；与 `page`、`before_id` 互斥。
+	// Cursor for paging forward; mutually exclusive with `page` and `before_id`.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 向前翻页游标；与 `page`、`after_id` 互斥。
+	// Cursor for paging backward; mutually exclusive with `page` and `after_id`.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
 	paramObj
 }
@@ -63,7 +64,7 @@ func (r EnvironmentListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Environment.
+// Create Environment
 func (r *EnvironmentService) New(ctx context.Context, params EnvironmentNewParams, opts ...option.RequestOption) (res *Environment, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
@@ -75,15 +76,19 @@ func (r *EnvironmentService) New(ctx context.Context, params EnvironmentNewParam
 }
 
 type EnvironmentNewParams struct {
-	// Environment 名称；去除首尾空白后不能为空。
+	// Environment name; must not be empty after trimming surrounding whitespace.
 	Name string `json:"name" api:"required"`
-	// 描述。
+	// Description.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// Environment 运行时配置对象；省略时默认使用 `{"type":"cloud"}`。显式传入时不能为 `null` 或空对象。字段详见 schemas。
+	// Environment runtime configuration; defaults to `{"type":"cloud"}` when omitted.
+	// When passed explicitly it must not be `null` or an empty object. See the schemas
+	// for the available fields.
 	Config map[string]any `json:"config,omitzero"`
-	// [Environment metadata](./schemas.md#environment-metadata)；省略时为 `{}`，显式传入时不能为 `null`。
+	// [Environment metadata](./schemas.md#environment-metadata); defaults to `{}` when
+	// omitted and must not be `null` when passed explicitly.
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 建议创建请求携带。相同 key 和相同请求可安全重试。
+	// Recommended on create requests. The same key with the same request is safe to
+	// retry.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -96,7 +101,7 @@ func (r *EnvironmentNewParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 查询 Environment.
+// Get Environment
 func (r *EnvironmentService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *Environment, err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -108,7 +113,7 @@ func (r *EnvironmentService) Get(ctx context.Context, id string, opts ...option.
 	return res, err
 }
 
-// 修改 Environment.
+// Update Environment
 func (r *EnvironmentService) Update(ctx context.Context, id string, params EnvironmentUpdateParams, opts ...option.RequestOption) (res *Environment, err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -121,13 +126,15 @@ func (r *EnvironmentService) Update(ctx context.Context, id string, params Envir
 }
 
 type EnvironmentUpdateParams struct {
-	// 新名称。
+	// New name.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// 新描述。
+	// New description.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// 新配置；传入时不能为 `null`，显式 `null` 返回 400。字段详见 schemas。
+	// New configuration; must not be `null` when passed, an explicit `null` returns 400.
+	// See the schemas for the available fields.
 	Config map[string]any `json:"config,omitzero"`
-	// 要合并的 [Environment metadata](./schemas.md#environment-metadata)；传入时不能为 `null`，显式 `null` 返回 400。
+	// [Environment metadata](./schemas.md#environment-metadata) to merge; must not be
+	// `null` when passed, an explicit `null` returns 400.
 	Metadata map[string]any `json:"metadata,omitzero"`
 	paramObj
 }
@@ -151,7 +158,7 @@ func (r *EnvironmentService) Archive(ctx context.Context, id string, opts ...opt
 	return res, err
 }
 
-// 删除 Environment.
+// Delete Environment
 func (r *EnvironmentService) Delete(ctx context.Context, id string, opts ...option.RequestOption) (err error) {
 	if id == "" {
 		return fmt.Errorf("missing required id parameter")

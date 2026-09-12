@@ -28,7 +28,7 @@ func NewSkillService(opts ...option.RequestOption) SkillService {
 	return SkillService{Options: slices.Clone(opts), Versions: NewSkillVersionService(opts...)}
 }
 
-// 列出 Skill.
+// List Skills
 func (r *SkillService) List(ctx context.Context, params SkillListParams, opts ...option.RequestOption) (res *pagination.PageCursor[Skill], err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -50,19 +50,22 @@ func (r *SkillService) ListAutoPaging(ctx context.Context, params SkillListParam
 }
 
 type SkillListParams struct {
-	// 分页大小，最大 100。
+	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 分页游标（推荐使用），取值来自上一页响应的 `next_page`；与 `after_id`、`before_id` 互斥。
+	// Pagination cursor (recommended), taken from `next_page` in the previous response;
+	// mutually exclusive with `after_id` and `before_id`.
 	Page param.Opt[string] `query:"page,omitzero" json:"-"`
-	// 向后翻页游标；与 `page`、`before_id` 互斥。
+	// Cursor for the next page; mutually exclusive with `page` and `before_id`.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 向前翻页游标；与 `page`、`after_id` 互斥。
+	// Cursor for the previous page; mutually exclusive with `page` and `after_id`.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
-	// 按 Skill 展示名前缀搜索，不区分大小写。
+	// Search by Skill display title prefix, case-insensitive.
 	DisplayTitle param.Opt[string] `query:"display_title,omitzero" json:"-"`
-	// 按 Skill 来源过滤，可选 `custom`、`qoder`。传 `source` 时不支持 `before_id`。
+	// Filter by Skill source, one of `custom`, `qoder`. `before_id` is not supported
+	// when `source` is set.
 	Source param.Opt[string] `query:"source,omitzero" json:"-"`
-	// ⚠️ **已弃用**：`display_title` 的兼容别名，语义完全一致。请使用 `display_title`。
+	// ⚠️ **Deprecated**: compatibility alias for `display_title` with identical
+	// semantics. Use `display_title` instead.
 	Name param.Opt[string] `query:"name,omitzero" json:"-"`
 	paramObj
 }
@@ -71,7 +74,7 @@ func (r SkillListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Skill.
+// Create Skill
 func (r *SkillService) New(ctx context.Context, params SkillNewParams, opts ...option.RequestOption) (res *Skill, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
@@ -83,21 +86,32 @@ func (r *SkillService) New(ctx context.Context, params SkillNewParams, opts ...o
 }
 
 type SkillNewParams struct {
-	// 推荐上传字段，可**重复出现**多次。支持两种形态： ① 单个 `.zip` 包； ② 裸文件树——每个 part 独立上传一个文件，`filename` 携带相对路径（如 `code-review/SKILL.md`、`code-review/scripts/run.sh`）。 压缩包本身与解压后总大小均不超过 50 MB。
+	// Recommended upload field, which may **repeat** several times. Two shapes are
+	// supported: (1) a single `.zip` archive; (2) a bare file tree — each part uploads
+	// one file and carries its relative path in `filename` (such as
+	// `code-review/SKILL.md`, `code-review/scripts/run.sh`). Neither the archive itself
+	// nor its uncompressed total size may exceed 50 MB.
 	Files []io.Reader `json:"files,omitzero" format:"binary"`
-	// 调用方元数据对象，最多 15 个键；`created_by` 为保留字段，不可传入（传入返回 400）。
+	// Caller metadata object, at most 15 keys. `created_by` is reserved and must not be
+	// sent (sending it returns 400).
 	Metadata map[string]any `json:"metadata,omitzero" api:"metadata"`
-	// Forward Resource icon 公开 ID。
+	// Public ID of the Forward Resource icon.
 	IconID param.Opt[string] `json:"icon_id,omitzero"`
-	// ⚠️ **已弃用**：单个 `.zip` 包，宽松包规则。命中时响应头返回 `Deprecation: true`。请迁移到 `files`。
+	// ⚠️ **Deprecated**: a single `.zip` archive with relaxed packaging rules. Responses
+	// carry the `Deprecation: true` header when it is used. Migrate to `files`.
 	File io.Reader `json:"file,omitzero" format:"binary"`
-	// ⚠️ **已弃用**：最终名称始终从上传包内 `SKILL.md` frontmatter 的 `name` 解析。字段保留仅为兼容，传入将被忽略。
+	// ⚠️ **Deprecated**: the final name is always parsed from the `name` in the
+	// `SKILL.md` frontmatter of the uploaded package. The field is kept for
+	// compatibility only and is ignored when sent.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// ⚠️ **已弃用**：最终描述始终从 `SKILL.md` 解析。
+	// ⚠️ **Deprecated**: the final description is always parsed from `SKILL.md`.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// ⚠️ **已弃用**：Skill 创建类型，可选 `custom`、`prebuilt`，默认 `custom`。`prebuilt` 会使响应 `source` 字段返回 `qoder`（其余为 `custom`）。
+	// ⚠️ **Deprecated**: Skill creation type, one of `custom`, `prebuilt`, defaults to
+	// `custom`. `prebuilt` makes the response `source` field return `qoder` (everything
+	// else returns `custom`).
 	Type param.Opt[string] `json:"type,omitzero"`
-	// 建议提供。相同 key 且规范化后的 `files` 指纹一致时可安全重试。
+	// Recommended. Retrying is safe when the same key is paired with an identical
+	// normalized `files` fingerprint.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -106,7 +120,7 @@ func (r SkillNewParams) MarshalMultipart() ([]byte, string, error) {
 	return marshalMultipart(r, r.ExtraFields())
 }
 
-// 查询 Skill.
+// Get Skill
 func (r *SkillService) Get(ctx context.Context, id string, params SkillGetParams, opts ...option.RequestOption) (res *Skill, err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -119,7 +133,10 @@ func (r *SkillService) Get(ctx context.Context, id string, params SkillGetParams
 }
 
 type SkillGetParams struct {
-	// ⚠️ **已弃用**：为 `true` 时随响应返回 `content` 与 `content_encoding`（base64 zip）。命中时响应头会返回 `Deprecation: true`。请改用 [下载 Skill 版本内容](./Versions/download.md)。
+	// ⚠️ **Deprecated**: when `true`, the response also carries `content` and
+	// `content_encoding` (a base64 zip). Responses carry the `Deprecation: true` header
+	// when it is used. Use [Download Skill version content](./Versions/download.md)
+	// instead.
 	IncludeContent param.Opt[bool] `query:"include_content,omitzero" json:"-"`
 	paramObj
 }
@@ -128,7 +145,7 @@ func (r SkillGetParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 修改 Skill.
+// Update Skill
 func (r *SkillService) Update(ctx context.Context, id string, params SkillUpdateParams, opts ...option.RequestOption) (res *Skill, err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -141,17 +158,26 @@ func (r *SkillService) Update(ctx context.Context, id string, params SkillUpdate
 }
 
 type SkillUpdateParams struct {
-	// 新描述。
+	// New description.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// 新内容（zip 包内容）。压缩包本身与解压后总大小均不超过 50 MB，超过返回 400；请求体整体（含 base64 编码与 JSON 信封）上限约 67.7 MB，超过返回 413。
+	// New content (the contents of a zip archive). Neither the archive itself nor its
+	// uncompressed total size may exceed 50 MB, otherwise 400 is returned. The request
+	// body as a whole (including base64 encoding and the JSON envelope) is capped at
+	// about 67.7 MB, beyond which 413 is returned.
 	Content param.Opt[string] `json:"content,omitzero"`
-	// `content` 的编码。支持 `base64`、`utf-8`、`utf8`、`plain`、`text`；省略时按 UTF-8 文本处理。传入该字段时必须同时提供非空 `content`。
+	// Encoding of `content`. Supports `base64`, `utf-8`, `utf8`, `plain`, `text`; when
+	// omitted the value is treated as UTF-8 text. Sending this field requires a
+	// non-empty `content` as well.
 	ContentEncoding param.Opt[string] `json:"content_encoding,omitzero"`
-	// 元数据对象，会**替换**当前 metadata（非合并）；传入时不能为 `null`，value 必须为 string。`created_by` 为保留字段，不可传入（传入返回 400）。
+	// Metadata object that **replaces** the current metadata (not a merge). It must not
+	// be `null` when sent, and each value must be a string. `created_by` is reserved and
+	// must not be sent (sending it returns 400).
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 更新或清空 Forward icon。
+	// Update or clear the Forward icon.
 	IconID param.Opt[string] `json:"icon_id,omitzero" api:"nullable"`
-	// ⚠️ **已弃用**：技能名不可修改。传入必须与当前规范名完全一致，否则返回 400；一致时为空操作。
+	// ⚠️ **Deprecated**: the Skill name cannot be changed. A value sent must match the
+	// current canonical name exactly, otherwise 400 is returned; a matching value is a
+	// no-op.
 	Name param.Opt[string] `json:"name,omitzero"`
 	paramObj
 }
@@ -162,7 +188,7 @@ func (r SkillUpdateParams) MarshalJSON() ([]byte, error) {
 }
 func (r *SkillUpdateParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
-// 删除 Skill.
+// Delete Skill
 func (r *SkillService) Delete(ctx context.Context, id string, opts ...option.RequestOption) (err error) {
 	if id == "" {
 		return fmt.Errorf("missing required id parameter")

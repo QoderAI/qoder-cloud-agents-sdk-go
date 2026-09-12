@@ -26,7 +26,7 @@ func NewScheduleService(opts ...option.RequestOption) ScheduleService {
 	return ScheduleService{Options: slices.Clone(opts)}
 }
 
-// 列出 Schedules.
+// List Schedules
 func (r *ScheduleService) List(ctx context.Context, params ScheduleListParams, opts ...option.RequestOption) (res *pagination.Page[Schedule], err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -48,23 +48,25 @@ func (r *ScheduleService) ListAutoPaging(ctx context.Context, params ScheduleLis
 }
 
 type ScheduleListParams struct {
-	// PAT 或管理员 SAT 可省略，省略时查询当前 owner 全部 Identity；Identity-bound SAT 省略时自动绑定自身，显式传其他 Identity 返回 403。
+	// Optional for a PAT or an admin SAT; when omitted, all Identities of the
+	// current owner are queried. An Identity-bound SAT binds to itself when this is
+	// omitted, and returns 403 if another Identity is passed explicitly.
 	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
-	// 按 Forward Template ID 过滤。
+	// Filter by Forward Template ID.
 	TemplateID param.Opt[string] `query:"template_id,omitzero" json:"-"`
-	// 按 `active` 或 `paused` 过滤。
+	// Filter by `active` or `paused`.
 	Status param.Opt[string] `query:"status,omitzero" json:"-"`
-	// 是否包含已归档 Schedule。
+	// Whether to include archived Schedules.
 	IncludeArchived param.Opt[bool] `query:"include_archived,omitzero" json:"-"`
-	// 分页大小，最大 100。
+	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向后翻页游标。
+	// Cursor for the next page.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 向前翻页游标。
+	// Cursor for the previous page.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
-	// 排序字段：`created_at` 或 `upcoming_runs_at`。
+	// Sort field: `created_at` or `upcoming_runs_at`.
 	SortBy param.Opt[string] `query:"sort_by,omitzero" json:"-"`
-	// 排序方向：`asc` 或 `desc`。
+	// Sort direction: `asc` or `desc`.
 	Order param.Opt[string] `query:"order,omitzero" json:"-"`
 	paramObj
 }
@@ -73,7 +75,7 @@ func (r ScheduleListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Schedule.
+// Create Schedule
 func (r *ScheduleService) New(ctx context.Context, params ScheduleNewParams, opts ...option.RequestOption) (res *Schedule, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
@@ -85,27 +87,28 @@ func (r *ScheduleService) New(ctx context.Context, params ScheduleNewParams, opt
 }
 
 type ScheduleNewParams struct {
-	// Schedule 所属 Forward Identity ID。
+	// Forward Identity ID the Schedule belongs to.
 	IdentityID string `json:"identity_id" api:"required"`
-	// 要执行的 Forward Template ID。
+	// Forward Template ID to execute.
 	TemplateID string `json:"template_id" api:"required"`
-	// Schedule 名称。
+	// Schedule name.
 	Name string `json:"name" api:"required"`
-	// Schedule 描述。
+	// Schedule description.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// 每次执行注入的初始事件，当前支持 `user.message`。
+	// Initial events injected on every run; currently `user.message` is supported.
 	InitialEvents []map[string]any `json:"initial_events" api:"required"`
-	// 执行策略；省略时使用服务端默认值。
+	// Execution policy; server-side defaults apply when omitted.
 	Execution map[string]any `json:"execution,omitzero"`
-	// 触发策略；省略或 `null` 时按 `manual` 处理。
+	// Trigger policy; treated as `manual` when omitted or `null`.
 	TriggerPolicy map[string]any `json:"trigger_policy,omitzero" api:"nullable"`
-	// 执行环境。
+	// Environment used for execution.
 	EnvironmentID string `json:"environment_id" api:"required"`
-	// 执行结果推送目标；为兼容性保留数组形式，当前最多允许一个元素。
+	// Destinations the run result is pushed to; kept as an array for compatibility,
+	// currently at most one element is allowed.
 	Sinks []map[string]any `json:"sinks,omitzero" api:"nullable"`
-	// 业务元数据，仅用于标签或透传。
+	// Business metadata, used only for labeling or pass-through.
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -116,7 +119,7 @@ func (r ScheduleNewParams) MarshalJSON() ([]byte, error) {
 }
 func (r *ScheduleNewParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
-// 批量归档 Schedules.
+// Archive Schedules in bulk
 func (r *ScheduleService) ArchiveMany(ctx context.Context, params ScheduleArchiveManyParams, opts ...option.RequestOption) (res *ScheduleArchiveManyResponse, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
@@ -128,11 +131,12 @@ func (r *ScheduleService) ArchiveMany(ctx context.Context, params ScheduleArchiv
 }
 
 type ScheduleArchiveManyParams struct {
-	// 归档范围，当前仅支持 by_schedule_ids。
+	// Archive scope; currently only by_schedule_ids is supported.
 	Scope string `json:"scope" api:"required"`
-	// 去重后必须包含 1～50 个非空 Schedule ID。
+	// Must contain 1-50 non-empty Schedule IDs after deduplication.
 	ScheduleIDs []string `json:"schedule_ids" api:"required"`
-	// 有副作用请求可选的幂等键；相同 owner、路径和请求体可安全重放。
+	// Optional idempotency key for requests with side effects; the same owner, path
+	// and body can be replayed safely.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -145,7 +149,7 @@ func (r *ScheduleArchiveManyParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 获取 Schedule.
+// Get Schedule
 func (r *ScheduleService) Get(ctx context.Context, scheduleID string, opts ...option.RequestOption) (res *Schedule, err error) {
 	if scheduleID == "" {
 		return nil, fmt.Errorf("missing required schedule_id parameter")
@@ -157,7 +161,7 @@ func (r *ScheduleService) Get(ctx context.Context, scheduleID string, opts ...op
 	return res, err
 }
 
-// 更新 Schedule.
+// Update Schedule
 func (r *ScheduleService) Update(ctx context.Context, scheduleID string, params ScheduleUpdateParams, opts ...option.RequestOption) (res *Schedule, err error) {
 	if scheduleID == "" {
 		return nil, fmt.Errorf("missing required schedule_id parameter")
@@ -172,25 +176,26 @@ func (r *ScheduleService) Update(ctx context.Context, scheduleID string, params 
 }
 
 type ScheduleUpdateParams struct {
-	// 新的 Schedule 名称。
+	// New Schedule name.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// 新的 Schedule 描述。
+	// New Schedule description.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// 新的 Forward Template ID。
+	// New Forward Template ID.
 	TemplateID param.Opt[string] `json:"template_id,omitzero"`
-	// 替换初始事件列表。
+	// Replaces the initial event list.
 	InitialEvents []map[string]any `json:"initial_events,omitzero"`
-	// 合并更新执行策略。
+	// Merges updates into the execution policy.
 	Execution map[string]any `json:"execution,omitzero"`
-	// 更新触发策略；`null` 表示改为 manual。
+	// Updates the trigger policy; `null` switches it to manual.
 	TriggerPolicy map[string]any `json:"trigger_policy,omitzero" api:"nullable"`
-	// 新的执行环境。
+	// New Environment used for execution.
 	EnvironmentID param.Opt[string] `json:"environment_id,omitzero"`
-	// 执行结果推送目标；为兼容性保留数组形式，当前最多允许一个元素。
+	// Destinations the run result is pushed to; kept as an array for compatibility,
+	// currently at most one element is allowed.
 	Sinks []map[string]any `json:"sinks,omitzero" api:"nullable"`
-	// 合并更新 metadata；value 为 `null` 删除 key。
+	// Merges updates into metadata; a `null` value deletes the key.
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -203,7 +208,7 @@ func (r *ScheduleUpdateParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 归档 Schedule.
+// Archive Schedule
 func (r *ScheduleService) Archive(ctx context.Context, scheduleID string, params ScheduleArchiveParams, opts ...option.RequestOption) (res *Schedule, err error) {
 	if scheduleID == "" {
 		return nil, fmt.Errorf("missing required schedule_id parameter")
@@ -218,7 +223,7 @@ func (r *ScheduleService) Archive(ctx context.Context, scheduleID string, params
 }
 
 type ScheduleArchiveParams struct {
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -227,7 +232,7 @@ func (r ScheduleArchiveParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 暂停 Schedule.
+// Pause Schedule
 func (r *ScheduleService) Pause(ctx context.Context, scheduleID string, params SchedulePauseParams, opts ...option.RequestOption) (res *Schedule, err error) {
 	if scheduleID == "" {
 		return nil, fmt.Errorf("missing required schedule_id parameter")
@@ -242,7 +247,7 @@ func (r *ScheduleService) Pause(ctx context.Context, scheduleID string, params S
 }
 
 type SchedulePauseParams struct {
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -251,7 +256,7 @@ func (r SchedulePauseParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 运行 Schedule.
+// Run Schedule
 func (r *ScheduleService) Run(ctx context.Context, scheduleID string, params ScheduleRunParams, opts ...option.RequestOption) (res *ScheduleRun, err error) {
 	if scheduleID == "" {
 		return nil, fmt.Errorf("missing required schedule_id parameter")
@@ -266,7 +271,7 @@ func (r *ScheduleService) Run(ctx context.Context, scheduleID string, params Sch
 }
 
 type ScheduleRunParams struct {
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -275,7 +280,7 @@ func (r ScheduleRunParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 恢复 Schedule.
+// Unpause Schedule
 func (r *ScheduleService) Unpause(ctx context.Context, scheduleID string, params ScheduleUnpauseParams, opts ...option.RequestOption) (res *Schedule, err error) {
 	if scheduleID == "" {
 		return nil, fmt.Errorf("missing required schedule_id parameter")
@@ -290,7 +295,7 @@ func (r *ScheduleService) Unpause(ctx context.Context, scheduleID string, params
 }
 
 type ScheduleUnpauseParams struct {
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -300,7 +305,8 @@ func (r ScheduleUnpauseParams) URLQuery() (url.Values, error) {
 }
 
 type ScheduleArchiveManyResponse struct {
-	// 本次从未归档状态变为已归档的 Schedule 数量；已经归档的目标不重复计数。
+	// Number of Schedules that moved from unarchived to archived in this call;
+	// targets that were already archived are not counted again.
 	ArchivedCount int64 `json:"archived_count"`
 	JSON          struct {
 		ArchivedCount respjson.Field

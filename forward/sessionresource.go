@@ -24,7 +24,7 @@ func NewSessionResourceService(opts ...option.RequestOption) SessionResourceServ
 	return SessionResourceService{Options: slices.Clone(opts)}
 }
 
-// 添加 Session 资源.
+// Add Session resource
 func (r *SessionResourceService) Add(ctx context.Context, sessionID string, params SessionResourceAddParams, opts ...option.RequestOption) (res *SessionResource, err error) {
 	if sessionID == "" {
 		return nil, fmt.Errorf("missing required session_id parameter")
@@ -37,11 +37,12 @@ func (r *SessionResourceService) Add(ctx context.Context, sessionID string, para
 }
 
 type SessionResourceAddParams struct {
-	// 资源类型，必须为 `file`。
+	// Resource type; must be `file`.
 	Type string `json:"type" api:"required"`
-	// Files API 返回的 File ID，文件必须已上传完成。
+	// File ID returned by the Files API; the file must already be fully uploaded.
 	FileID string `json:"file_id" api:"required"`
-	// Agent 容器内挂载路径；省略时由 Forward 根据文件名生成，默认挂载到 `/data/workspace/<文件名>`。
+	// Mount path inside the Agent container; when omitted, Forward derives one from the
+	// file name and mounts it at `/data/workspace/<file name>`.
 	MountPath param.Opt[string] `json:"mount_path,omitzero"`
 	paramObj
 }
@@ -55,17 +56,17 @@ func (r *SessionResourceAddParams) UnmarshalJSON(data []byte) error {
 }
 
 type SessionResource struct {
-	// Session 资源 ID，以 `sesr_` 为前缀。
+	// Session resource ID, prefixed with `sesr_`.
 	ID string `json:"id"`
-	// 资源类型，固定为 `file`。
+	// Resource type, always `file`.
 	Type string `json:"type"`
-	// 挂载的 File ID。
+	// ID of the mounted File.
 	FileID string `json:"file_id"`
-	// 文件在 Agent 容器内的实际挂载路径。
+	// Actual mount path of the file inside the Agent container.
 	MountPath string `json:"mount_path"`
-	// 资源创建时间，RFC3339。
+	// Resource creation time, RFC3339.
 	CreatedAt time.Time `json:"created_at" format:"date-time"`
-	// 资源更新时间，RFC3339。
+	// Resource update time, RFC3339.
 	UpdatedAt time.Time `json:"updated_at" format:"date-time"`
 	JSON      struct {
 		ID          respjson.Field

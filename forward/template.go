@@ -26,7 +26,7 @@ func NewTemplateService(opts ...option.RequestOption) TemplateService {
 	return TemplateService{Options: slices.Clone(opts)}
 }
 
-// 列出 Templates.
+// List Templates
 func (r *TemplateService) List(ctx context.Context, params TemplateListParams, opts ...option.RequestOption) (res *pagination.Page[Template], err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -48,13 +48,13 @@ func (r *TemplateService) ListAutoPaging(ctx context.Context, params TemplateLis
 }
 
 type TemplateListParams struct {
-	// 按 `active` 或 `archived` 过滤。
+	// Filter by `active` or `archived`.
 	Status param.Opt[string] `query:"status,omitzero" json:"-"`
-	// 分页大小，最大 100。
+	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向后翻页游标，不能与 `before_id` 同用。
+	// Cursor for the next page; cannot be combined with `before_id`.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 向前翻页游标，不能与 `after_id` 同用。
+	// Cursor for the previous page; cannot be combined with `after_id`.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
 	paramObj
 }
@@ -63,7 +63,7 @@ func (r TemplateListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Template.
+// Create Template
 func (r *TemplateService) New(ctx context.Context, params TemplateNewParams, opts ...option.RequestOption) (res *Template, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
@@ -78,37 +78,41 @@ func (r *TemplateService) New(ctx context.Context, params TemplateNewParams, opt
 }
 
 type TemplateNewParams struct {
-	// Template 名称，1-256 个字符，租户内唯一。
+	// Template name, 1-256 characters, unique per user.
 	Name string `json:"name" api:"required"`
-	// 模型标识。可传 string（如 `"ultimate"`），或传 Agent model 对象以同时配置 `effort` 或 `context_window`。可通过列出模型接口查询可用值。
+	// Model identifier. Accepts a string (such as `"ultimate"`), or an Agent model
+	// object to configure `effort` or `context_window` at the same time. Use the
+	// list models endpoint to discover the available values.
 	Model ModelConfigUnionParam `json:"model" api:"required"`
-	// 创建 Session 时默认使用的 Environment ID。
+	// Environment ID used by default when creating a Session.
 	EnvironmentID string `json:"environment_id" api:"required"`
-	// Template 描述，最多 2048 个字符。
+	// Template description, up to 2048 characters.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// System Prompt，最多 100,000 个字符。
+	// System Prompt, up to 100,000 characters.
 	System param.Opt[string] `json:"system,omitzero"`
-	// 工具配置列表，最多 128 项。
+	// Tool configuration list, up to 128 entries.
 	Tools []ToolParam `json:"tools,omitzero"`
-	// MCP Server 配置列表，最多 20 项。
+	// MCP Server configuration list, up to 20 entries.
 	MCPServers []MCPServerParam `json:"mcp_servers,omitzero"`
-	// Skill 绑定列表，最多 20 项。
+	// Skill binding list, up to 20 entries.
 	Skills []SkillBindingParam `json:"skills,omitzero"`
-	// Multi-agent 协作配置。`type` 必须为 `coordinator`；省略或传 `null` 表示不启用。
+	// Multi-agent collaboration configuration. `type` must be `coordinator`; omit
+	// it or pass `null` to leave it disabled.
 	Multiagent MultiagentConfigParam `json:"multiagent,omitzero"`
-	// 默认 Vault 配置，按 Vault ID 组织。
+	// Default Vault configuration, keyed by Vault ID.
 	Vaults map[string]ResourceBindingParam `json:"vaults,omitzero"`
-	// 默认文件资源配置，按 file ID 组织。
+	// Default file resource configuration, keyed by file ID.
 	Files map[string]ResourceBindingParam `json:"files,omitzero"`
-	// 默认 GitHub 仓库配置，按调用方指定的 binding key 组织，最多 20 项。
+	// Default GitHub repository configuration, keyed by a caller-chosen binding
+	// key, up to 20 entries.
 	GitHubRepositories map[string]GitHubRepositoryParam `json:"github_repositories,omitzero"`
-	// 默认 Session 环境变量。
+	// Default Session environment variables.
 	EnvironmentVariables EnvironmentVariablesUnionParam `json:"environment_variables,omitzero"`
-	// 自定义元数据。
+	// Custom metadata.
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
-	// 启用 Browser Use 时必须设置为 `browser-use-2026-07-14`。
+	// Must be set to `browser-use-2026-07-14` when Browser Use is enabled.
 	QoderBeta param.Opt[string] `header:"X-Qoder-Beta,omitzero" json:"-"`
 	paramObj
 }
@@ -119,7 +123,7 @@ func (r TemplateNewParams) MarshalJSON() ([]byte, error) {
 }
 func (r *TemplateNewParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
-// 获取 Template.
+// Get Template
 func (r *TemplateService) Get(ctx context.Context, templateID string, opts ...option.RequestOption) (res *Template, err error) {
 	if templateID == "" {
 		return nil, fmt.Errorf("missing required template_id parameter")
@@ -131,7 +135,7 @@ func (r *TemplateService) Get(ctx context.Context, templateID string, opts ...op
 	return res, err
 }
 
-// 更新 Template.
+// Update Template
 func (r *TemplateService) Update(ctx context.Context, templateID string, params TemplateUpdateParams, opts ...option.RequestOption) (res *Template, err error) {
 	if templateID == "" {
 		return nil, fmt.Errorf("missing required template_id parameter")
@@ -149,37 +153,43 @@ func (r *TemplateService) Update(ctx context.Context, templateID string, params 
 }
 
 type TemplateUpdateParams struct {
-	// 新的 Template 名称。
+	// New Template name.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// 新的 Template 描述。
+	// New Template description.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// 新的模型标识。可传 string，或传 Agent model 对象以同时配置 `effort` 或 `context_window`。可通过列出模型接口查询可用值。
+	// New model identifier. Accepts a string, or an Agent model object to configure
+	// `effort` or `context_window` at the same time. Use the list models endpoint
+	// to discover the available values.
 	Model ModelConfigUnionParam `json:"model,omitzero"`
-	// 新的 System Prompt。
+	// New System Prompt.
 	System param.Opt[string] `json:"system,omitzero"`
-	// 整体替换工具配置列表。
+	// Replaces the tool configuration list wholesale.
 	Tools []ToolParam `json:"tools,omitzero"`
-	// 整体替换 MCP Server 列表。
+	// Replaces the MCP Server list wholesale.
 	MCPServers []MCPServerParam `json:"mcp_servers,omitzero"`
-	// 整体替换 Skill 绑定列表。
+	// Replaces the Skill binding list wholesale.
 	Skills []SkillBindingParam `json:"skills,omitzero"`
-	// 整体替换 Multi-agent 协作配置；传 `null` 表示清空，省略则保留当前配置。
+	// Replaces the Multi-agent collaboration configuration wholesale; `null` clears
+	// it, omitting it keeps the current configuration.
 	Multiagent MultiagentConfigParam `json:"multiagent,omitzero"`
-	// 替换默认 Environment ID；`null` 或空字符串表示清空。
+	// Replaces the default Environment ID; `null` or an empty string clears it.
 	EnvironmentID param.Opt[string] `json:"environment_id,omitzero" api:"nullable"`
-	// 整体替换默认 Vault 配置；按 Vault ID 组织，`null` 表示清空。
+	// Replaces the default Vault configuration wholesale, keyed by Vault ID;
+	// `null` clears it.
 	Vaults map[string]ResourceBindingParam `json:"vaults,omitzero"`
-	// 整体替换默认文件资源配置；`null` 表示清空。
+	// Replaces the default file resource configuration wholesale; `null` clears it.
 	Files map[string]ResourceBindingParam `json:"files,omitzero"`
-	// 整体替换默认 GitHub 仓库配置；按 binding key 组织，`null` 或空 object 表示清空。
+	// Replaces the default GitHub repository configuration wholesale, keyed by
+	// binding key; `null` or an empty object clears it.
 	GitHubRepositories map[string]GitHubRepositoryParam `json:"github_repositories,omitzero"`
-	// 整体替换默认环境变量；`null` 表示清空。
+	// Replaces the default environment variables wholesale; `null` clears it.
 	EnvironmentVariables EnvironmentVariablesUnionParam `json:"environment_variables,omitzero"`
-	// 合并更新自定义元数据。
+	// Merges updates into the custom metadata.
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
-	// 更新后的 `tools` 中包含 Browser Use 工具集时，必须设置为 `browser-use-2026-07-14`。
+	// Must be set to `browser-use-2026-07-14` when the updated `tools` include the
+	// Browser Use toolset.
 	QoderBeta param.Opt[string] `header:"X-Qoder-Beta,omitzero" json:"-"`
 	paramObj
 }
@@ -192,7 +202,7 @@ func (r *TemplateUpdateParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 归档 Template.
+// Archive Template
 func (r *TemplateService) Archive(ctx context.Context, templateID string, params TemplateArchiveParams, opts ...option.RequestOption) (res *Template, err error) {
 	if templateID == "" {
 		return nil, fmt.Errorf("missing required template_id parameter")
@@ -207,7 +217,7 @@ func (r *TemplateService) Archive(ctx context.Context, templateID string, params
 }
 
 type TemplateArchiveParams struct {
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -216,7 +226,7 @@ func (r TemplateArchiveParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 克隆 Template.
+// Clone Template
 func (r *TemplateService) Clone(ctx context.Context, templateID string, params TemplateCloneParams, opts ...option.RequestOption) (res *Template, err error) {
 	if templateID == "" {
 		return nil, fmt.Errorf("missing required template_id parameter")
@@ -231,11 +241,11 @@ func (r *TemplateService) Clone(ctx context.Context, templateID string, params T
 }
 
 type TemplateCloneParams struct {
-	// 新 Template 名称；不传时使用 `<源名称> Copy <随机短 ID>`。
+	// Name of the new Template; defaults to `<source name> Copy <random short ID>`.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// 新 Template 描述；不传时沿用源描述。
+	// Description of the new Template; defaults to the source description.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -247,21 +257,22 @@ func (r TemplateCloneParams) MarshalJSON() ([]byte, error) {
 func (r *TemplateCloneParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type Template struct {
-	// 固定为 `template`。
+	// Always `template`.
 	Type string `json:"type"`
-	// Template ID。
+	// Template ID.
 	ID string `json:"id"`
-	// Template 名称。
+	// Template name.
 	Name        string `json:"name"`
 	Description string `json:"description"`
-	// `active` 或 `archived`。
+	// Either `active` or `archived`.
 	Status    string    `json:"status"`
 	CreatedAt time.Time `json:"created_at" format:"date-time"`
 	UpdatedAt time.Time `json:"updated_at" format:"date-time"`
-	// 与请求提交的形态一致；对象形态保留 `id`、`effort` 和 `context_window`。
+	// Mirrors the shape submitted in the request; the object form keeps `id`,
+	// `effort` and `context_window`.
 	Model      ModelConfig      `json:"model"`
 	Multiagent MultiagentConfig `json:"multiagent"`
-	// 默认 Environment ID。
+	// Default Environment ID.
 	EnvironmentID        string                      `json:"environment_id"`
 	Vaults               map[string]ResourceBinding  `json:"vaults"`
 	Files                map[string]ResourceBinding  `json:"files"`
@@ -271,7 +282,7 @@ type Template struct {
 	MCPServers           []MCPServer                 `json:"mcp_servers"`
 	Skills               []SkillBinding              `json:"skills"`
 	EnvironmentVariables map[string]string           `json:"environment_variables"`
-	// 自定义元数据。
+	// Custom metadata.
 	Metadata map[string]any `json:"metadata"`
 	JSON     struct {
 		Type                 respjson.Field

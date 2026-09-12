@@ -27,7 +27,7 @@ func NewSessionThreadService(opts ...option.RequestOption) SessionThreadService 
 	return SessionThreadService{Options: slices.Clone(opts), Events: NewSessionThreadEventService(opts...)}
 }
 
-// 列出 Session Threads.
+// List Session Threads
 func (r *SessionThreadService) List(ctx context.Context, sessionID string, params SessionThreadListParams, opts ...option.RequestOption) (res *pagination.Page[SessionThread], err error) {
 	if sessionID == "" {
 		return nil, fmt.Errorf("missing required session_id parameter")
@@ -52,11 +52,11 @@ func (r *SessionThreadService) ListAutoPaging(ctx context.Context, sessionID str
 }
 
 type SessionThreadListParams struct {
-	// 分页大小，范围为 1–100。
+	// Page size, 1–100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 返回该 Thread ID 之后的记录。
+	// Return records after this Thread ID.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 返回该 Thread ID 之前的记录。
+	// Return records before this Thread ID.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
 	paramObj
 }
@@ -65,7 +65,7 @@ func (r SessionThreadListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 获取 Session Thread.
+// Get Session Thread
 func (r *SessionThreadService) Get(ctx context.Context, sessionID string, threadID string, opts ...option.RequestOption) (res *SessionThread, err error) {
 	if sessionID == "" {
 		return nil, fmt.Errorf("missing required session_id parameter")
@@ -80,7 +80,7 @@ func (r *SessionThreadService) Get(ctx context.Context, sessionID string, thread
 	return res, err
 }
 
-// 归档 Session Thread.
+// Archive Session Thread
 func (r *SessionThreadService) Archive(ctx context.Context, sessionID string, threadID string, params SessionThreadArchiveParams, opts ...option.RequestOption) (res *SessionThread, err error) {
 	if sessionID == "" {
 		return nil, fmt.Errorf("missing required session_id parameter")
@@ -98,7 +98,8 @@ func (r *SessionThreadService) Archive(ctx context.Context, sessionID string, th
 }
 
 type SessionThreadArchiveParams struct {
-	// 标识一次逻辑归档尝试；建议为每次新的逻辑尝试生成唯一值。
+	// Identifies one logical archive attempt; generate a unique value for each new
+	// attempt.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }

@@ -28,7 +28,7 @@ func NewSessionEventService(opts ...option.RequestOption) SessionEventService {
 	return SessionEventService{Options: slices.Clone(opts)}
 }
 
-// 列出 Session Events.
+// List Session Events
 func (r *SessionEventService) List(ctx context.Context, sessionID string, params SessionEventListParams, opts ...option.RequestOption) (res *pagination.Page[SessionEvent], err error) {
 	if sessionID == "" {
 		return nil, fmt.Errorf("missing required session_id parameter")
@@ -53,21 +53,21 @@ func (r *SessionEventService) ListAutoPaging(ctx context.Context, sessionID stri
 }
 
 type SessionEventListParams struct {
-	// 分页大小，最大 100。
+	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 返回该 Event ID 之后的事件。
+	// Return events after this Event ID.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 返回该 Event ID 之前的事件。
+	// Return events before this Event ID.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
-	// 排序方向：`asc` 或 `desc`。
+	// Sort direction: `asc` or `desc`.
 	Order param.Opt[string] `query:"order,omitzero" json:"-"`
-	// 按 Event 类型过滤，支持逗号分隔。
+	// Filter by Event type; accepts a comma-separated list.
 	Type param.Opt[string] `query:"type,omitzero" json:"-"`
-	// 数组形式的 Event 类型过滤。
+	// Event type filter in array form.
 	Types []string `query:"types[],omitzero" json:"-"`
-	// 是否包含工具调用类事件。
+	// Whether to include tool call events.
 	IncludeToolCalls param.Opt[bool] `query:"include_tool_calls,omitzero" json:"-"`
-	// 是否包含思考过程事件。
+	// Whether to include thinking events.
 	IncludeThinking param.Opt[bool] `query:"include_thinking,omitzero" json:"-"`
 	paramObj
 }
@@ -76,7 +76,7 @@ func (r SessionEventListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 发送 Session Events.
+// Send Session Events
 func (r *SessionEventService) Send(ctx context.Context, sessionID string, params SessionEventSendParams, opts ...option.RequestOption) (res *SessionEventSendResponse, err error) {
 	if sessionID == "" {
 		return nil, fmt.Errorf("missing required session_id parameter")
@@ -92,7 +92,7 @@ func (r *SessionEventService) Send(ctx context.Context, sessionID string, params
 
 type SessionEventSendParams struct {
 	Events []SessionEventParam `json:"events" api:"required"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -105,7 +105,7 @@ func (r *SessionEventSendParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 订阅 Session Event Stream.
+// Subscribe to the Session Event stream
 func (r *SessionEventService) StreamEvents(ctx context.Context, sessionID string, params SessionEventStreamParams, opts ...option.RequestOption) *ssestream.Stream[SessionEvent] {
 	if sessionID == "" {
 		return ssestream.NewStream[SessionEvent](nil, fmt.Errorf("missing required session_id parameter"))
@@ -121,13 +121,15 @@ func (r *SessionEventService) StreamEvents(ctx context.Context, sessionID string
 }
 
 type SessionEventStreamParams struct {
-	// 订阅指定公开事件类型的流式增量事件。支持重复传参，取值见 [流式增量事件](../Session&Event数据结构.md#流式增量事件)。
+	// Subscribe to streaming delta events for the given public event types. May be
+	// repeated; see the streaming delta events section of the Session & Event data
+	// structure documentation for the accepted values.
 	EventDeltas []string `query:"event_deltas[],omitzero" json:"-"`
-	// 是否包含工具调用类事件。
+	// Whether to include tool call events.
 	IncludeToolCalls param.Opt[bool] `query:"include_tool_calls,omitzero" json:"-"`
-	// 是否包含思考过程事件。
+	// Whether to include thinking events.
 	IncludeThinking param.Opt[bool] `query:"include_thinking,omitzero" json:"-"`
-	// 从该 Event ID 之后恢复订阅。
+	// Resume the subscription after this Event ID.
 	LastEventID param.Opt[string] `header:"Last-Event-ID,omitzero" json:"-"`
 	paramObj
 }

@@ -23,7 +23,7 @@ func NewChannelPairingService(opts ...option.RequestOption) ChannelPairingServic
 	return ChannelPairingService{Options: slices.Clone(opts)}
 }
 
-// 完成 Channel 配对.
+// Complete Channel pairing
 func (r *ChannelPairingService) New(ctx context.Context, params ChannelPairingNewParams, opts ...option.RequestOption) (res *ChannelPairing, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
@@ -35,13 +35,14 @@ func (r *ChannelPairingService) New(ctx context.Context, params ChannelPairingNe
 }
 
 type ChannelPairingNewParams struct {
-	// Channel 消息中显示的 6 位配对码。
+	// Six-digit pairing code shown in the Channel message.
 	Code string `json:"code" api:"required"`
-	// 要绑定的 Forward Identity ID。
+	// Forward Identity ID to bind.
 	IdentityID string `json:"identity_id" api:"required"`
-	// 要绑定的 Forward Template ID。
+	// Forward Template ID to bind.
 	TemplateID string `json:"template_id" api:"required"`
-	// 由客户端生成的唯一幂等键，用于安全重试同一次配对请求。
+	// Client-generated unique idempotency key, used to safely retry the same pairing
+	// request.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -54,7 +55,7 @@ func (r *ChannelPairingNewParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 解除 Channel 配对.
+// Remove Channel pairing
 func (r *ChannelPairingService) Delete(ctx context.Context, pairingID string, opts ...option.RequestOption) (res *DeletedChannelPairing, err error) {
 	if pairingID == "" {
 		return nil, fmt.Errorf("missing required pairing_id parameter")
@@ -67,9 +68,9 @@ func (r *ChannelPairingService) Delete(ctx context.Context, pairingID string, op
 }
 
 type DeletedChannelPairing struct {
-	// Pairing ID。
+	// Pairing ID.
 	ID string `json:"id"`
-	// 是否已解除，成功时为 `true`。
+	// Whether the pairing was removed; `true` on success.
 	Deleted bool `json:"deleted"`
 	JSON    struct {
 		ID          respjson.Field
@@ -85,19 +86,19 @@ func (r *DeletedChannelPairing) UnmarshalJSON(data []byte) error {
 }
 
 type ChannelPairing struct {
-	// Pairing ID，解除配对时使用。
+	// Pairing ID, used when removing the pairing.
 	ID string `json:"id"`
-	// 固定为 `channel_pairing`。
+	// Always `channel_pairing`.
 	Type string `json:"type"`
-	// Channel ID。
+	// Channel ID.
 	ChannelID string `json:"channel_id"`
-	// 已绑定的 Forward Identity ID。
+	// Bound Forward Identity ID.
 	IdentityID string `json:"identity_id"`
-	// 已绑定的 Forward Template ID。
+	// Bound Forward Template ID.
 	TemplateID string `json:"template_id"`
-	// 配对成功时为 `active`。
+	// `active` when the pairing succeeded.
 	Status string `json:"status"`
-	// 配对完成时间。
+	// Time the pairing completed.
 	PairedAt string `json:"paired_at"`
 	JSON     struct {
 		ID          respjson.Field

@@ -26,7 +26,7 @@ func NewVaultCredentialService(opts ...option.RequestOption) VaultCredentialServ
 	return VaultCredentialService{Options: slices.Clone(opts)}
 }
 
-// 列出 Credential.
+// List Credentials
 func (r *VaultCredentialService) List(ctx context.Context, id string, params VaultCredentialListParams, opts ...option.RequestOption) (res *pagination.PageCursor[VaultCredential], err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -51,15 +51,16 @@ func (r *VaultCredentialService) ListAutoPaging(ctx context.Context, id string, 
 }
 
 type VaultCredentialListParams struct {
-	// 分页大小，最大 100。
+	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 分页游标（推荐使用），取值来自上一页响应的 `next_page`；与 `after_id`、`before_id` 互斥。
+	// Pagination cursor (recommended), taken from `next_page` in the previous response;
+	// mutually exclusive with `after_id` and `before_id`.
 	Page param.Opt[string] `query:"page,omitzero" json:"-"`
-	// 向后翻页游标；与 `page`、`before_id` 互斥。
+	// Cursor for the next page; mutually exclusive with `page` and `before_id`.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 向前翻页游标；与 `page`、`after_id` 互斥。
+	// Cursor for the previous page; mutually exclusive with `page` and `after_id`.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
-	// 按 `mcp_server_url` 搜索。
+	// Search by `mcp_server_url`.
 	Name param.Opt[string] `query:"name,omitzero" json:"-"`
 	paramObj
 }
@@ -68,7 +69,7 @@ func (r VaultCredentialListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Credential.
+// Create Credential
 func (r *VaultCredentialService) New(ctx context.Context, id string, params VaultCredentialNewParams, opts ...option.RequestOption) (res *VaultCredential, err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -83,13 +84,17 @@ func (r *VaultCredentialService) New(ctx context.Context, id string, params Vaul
 }
 
 type VaultCredentialNewParams struct {
-	// Credential 认证信息，支持 `static_bearer`、`mcp_oauth`；响应只返回脱敏后的非密文字段。
+	// Credential authentication material; supports `static_bearer` and `mcp_oauth`. The
+	// response only returns redacted, non-secret fields.
 	Auth map[string]any `json:"auth" api:"required"`
-	// 兼容字段；当前不持久化，Forward 响应固定为空字符串。
+	// Compatibility field; currently not persisted, and Forward always returns an empty
+	// string.
 	DisplayName param.Opt[string] `json:"display_name,omitzero"`
-	// 元数据对象；`created_by` 为保留字段，不可传入（传入返回 400）。
+	// Metadata object. `created_by` is reserved and must not be sent (sending it returns
+	// 400).
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 可选创建请求幂等键。相同 key 只能用于相同请求。
+	// Optional idempotency key for the create request. The same key may only be reused
+	// for an identical request.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -102,7 +107,7 @@ func (r *VaultCredentialNewParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 查询 Credential.
+// Get Credential
 func (r *VaultCredentialService) Get(ctx context.Context, id string, credID string, opts ...option.RequestOption) (res *VaultCredential, err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -117,7 +122,7 @@ func (r *VaultCredentialService) Get(ctx context.Context, id string, credID stri
 	return res, err
 }
 
-// 删除 Credential.
+// Delete Credential
 func (r *VaultCredentialService) Delete(ctx context.Context, id string, credID string, opts ...option.RequestOption) (err error) {
 	if id == "" {
 		return fmt.Errorf("missing required id parameter")
@@ -133,21 +138,21 @@ func (r *VaultCredentialService) Delete(ctx context.Context, id string, credID s
 }
 
 type VaultCredential struct {
-	// Credential ID。
+	// Credential ID.
 	ID string `json:"id"`
-	// 固定为 `vault_credential`。
+	// Always `vault_credential`.
 	Type string `json:"type"`
-	// 所属 Vault ID。
+	// ID of the owning Vault.
 	VaultID string `json:"vault_id"`
-	// 脱敏后的认证信息。
+	// Redacted authentication material.
 	Auth VaultCredentialAuth `json:"auth"`
-	// 当前固定为空字符串。
+	// Currently always an empty string.
 	DisplayName string `json:"display_name"`
-	// Credential 元数据。
+	// Credential metadata.
 	Metadata map[string]any `json:"metadata"`
-	// 创建时间，RFC 3339 格式。
+	// Creation time in RFC 3339 format.
 	CreatedAt time.Time `json:"created_at" format:"date-time"`
-	// 最后更新时间，RFC 3339 格式。
+	// Last update time in RFC 3339 format.
 	UpdatedAt time.Time `json:"updated_at" format:"date-time"`
 	JSON      struct {
 		ID          respjson.Field

@@ -24,7 +24,7 @@ func NewSessionThreadEventService(opts ...option.RequestOption) SessionThreadEve
 	return SessionThreadEventService{Options: slices.Clone(opts)}
 }
 
-// 列出 Session Thread Events.
+// List Session Thread Events
 func (r *SessionThreadEventService) List(ctx context.Context, sessionID string, threadID string, params SessionThreadEventListParams, opts ...option.RequestOption) (res *pagination.Page[SessionEvent], err error) {
 	if sessionID == "" {
 		return nil, fmt.Errorf("missing required session_id parameter")
@@ -52,11 +52,11 @@ func (r *SessionThreadEventService) ListAutoPaging(ctx context.Context, sessionI
 }
 
 type SessionThreadEventListParams struct {
-	// 分页大小，范围为 1–100。
+	// Page size, 1–100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 返回该 Event ID 之后的记录。
+	// Return records after this Event ID.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 返回该 Event ID 之前的记录。
+	// Return records before this Event ID.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
 	paramObj
 }
@@ -65,7 +65,7 @@ func (r SessionThreadEventListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 订阅 Session Thread Event Stream.
+// Subscribe to the Session Thread Event stream
 func (r *SessionThreadEventService) StreamEvents(ctx context.Context, sessionID string, threadID string, params SessionThreadEventStreamParams, opts ...option.RequestOption) *ssestream.Stream[SessionEvent] {
 	if sessionID == "" {
 		return ssestream.NewStream[SessionEvent](nil, fmt.Errorf("missing required session_id parameter"))
@@ -84,7 +84,7 @@ func (r *SessionThreadEventService) StreamEvents(ctx context.Context, sessionID 
 }
 
 type SessionThreadEventStreamParams struct {
-	// 从该 Thread Event 之后继续订阅。
+	// Resume the subscription after this Thread Event.
 	LastEventID param.Opt[string] `header:"Last-Event-ID,omitzero" json:"-"`
 	paramObj
 }

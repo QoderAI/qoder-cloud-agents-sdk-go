@@ -26,7 +26,7 @@ func NewBatchTaskService(opts ...option.RequestOption) BatchTaskService {
 	return BatchTaskService{Options: slices.Clone(opts)}
 }
 
-// 查询 Batch 子任务.
+// List Batch tasks
 func (r *BatchTaskService) List(ctx context.Context, batchID string, params BatchTaskListParams, opts ...option.RequestOption) (res *pagination.Page[BatchTask], err error) {
 	if batchID == "" {
 		return nil, fmt.Errorf("missing required batch_id parameter")
@@ -51,13 +51,16 @@ func (r *BatchTaskService) ListAutoPaging(ctx context.Context, batchID string, p
 }
 
 type BatchTaskListParams struct {
-	// 按任务状态过滤：`pending`、`running`、`completed`、`failed`、`cancelled`、`expired`。
+	// Filter by task status: `pending`, `running`, `completed`, `failed`, `cancelled` or
+	// `expired`.
 	Status param.Opt[string] `query:"status,omitzero" json:"-"`
-	// 按调用方任务标识精确过滤，仅支持单值；未命中返回空列表。
+	// Exact filter on the caller's task identifier; a single value only, and an unmatched
+	// value returns an empty list.
 	CustomID param.Opt[string] `query:"custom_id,omitzero" json:"-"`
-	// 分页大小，最大 100。
+	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向后翻页游标，传上一页响应的 `last_id`；游标必须属于当前 Batch。
+	// Cursor for the next page; pass `last_id` from the previous response. The cursor must
+	// belong to the current Batch.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
 	paramObj
 }

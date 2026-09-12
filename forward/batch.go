@@ -27,7 +27,7 @@ func NewBatchService(opts ...option.RequestOption) BatchService {
 	return BatchService{Options: slices.Clone(opts), Tasks: NewBatchTaskService(opts...)}
 }
 
-// 列出 Batches.
+// List Batches
 func (r *BatchService) List(ctx context.Context, params BatchListParams, opts ...option.RequestOption) (res *pagination.Page[Batch], err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -49,13 +49,13 @@ func (r *BatchService) ListAutoPaging(ctx context.Context, params BatchListParam
 }
 
 type BatchListParams struct {
-	// 按状态过滤。
+	// Filter by status.
 	Status param.Opt[string] `query:"status,omitzero" json:"-"`
-	// 分页大小，最大 100。
+	// Page size, up to 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向后翻页游标。
+	// Cursor for the next page.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 向前翻页游标。
+	// Cursor for the previous page.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
 	paramObj
 }
@@ -64,7 +64,7 @@ func (r BatchListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Batch.
+// Create Batch
 func (r *BatchService) New(ctx context.Context, params BatchNewParams, opts ...option.RequestOption) (res *Batch, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
@@ -76,13 +76,14 @@ func (r *BatchService) New(ctx context.Context, params BatchNewParams, opts ...o
 }
 
 type BatchNewParams struct {
-	// 通过 Files API 上传的 JSONL 文件 ID。
+	// ID of a JSONL file uploaded through the Files API.
 	InputFileID string `json:"input_file_id" api:"required"`
-	// 完成窗口：`24h`、`48h`、`72h`。超时后 Batch 自动进入 `expired` 状态。
+	// Completion window: `24h`, `48h` or `72h`. The Batch moves to `expired` when it elapses.
 	CompletionWindow string `json:"completion_window" api:"required"`
-	// 调用方业务元数据，最多 16 个 key；value 可为任意 JSON 类型；整体序列化后 ≤ 2KB，key ≤ 64 字符，且不得包含 NUL（U+0000）。
+	// Caller business metadata, up to 16 keys; values may be any JSON type; the serialized
+	// object must be ≤ 2KB, keys ≤ 64 characters, and must not contain NUL (U+0000).
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -93,7 +94,7 @@ func (r BatchNewParams) MarshalJSON() ([]byte, error) {
 }
 func (r *BatchNewParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
-// 查询 Batch 详情.
+// Get Batch
 func (r *BatchService) Get(ctx context.Context, batchID string, opts ...option.RequestOption) (res *Batch, err error) {
 	if batchID == "" {
 		return nil, fmt.Errorf("missing required batch_id parameter")
@@ -105,7 +106,7 @@ func (r *BatchService) Get(ctx context.Context, batchID string, opts ...option.R
 	return res, err
 }
 
-// 取消 Batch.
+// Cancel Batch
 func (r *BatchService) Cancel(ctx context.Context, batchID string, params BatchCancelParams, opts ...option.RequestOption) (res *Batch, err error) {
 	if batchID == "" {
 		return nil, fmt.Errorf("missing required batch_id parameter")
@@ -120,7 +121,7 @@ func (r *BatchService) Cancel(ctx context.Context, batchID string, params BatchC
 }
 
 type BatchCancelParams struct {
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -129,7 +130,7 @@ func (r BatchCancelParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 获取错误文件.
+// Get error file
 func (r *BatchService) GetError(ctx context.Context, batchID string, opts ...option.RequestOption) (res *BatchFile, err error) {
 	if batchID == "" {
 		return nil, fmt.Errorf("missing required batch_id parameter")
@@ -141,7 +142,7 @@ func (r *BatchService) GetError(ctx context.Context, batchID string, opts ...opt
 	return res, err
 }
 
-// 获取输出文件.
+// Get output file
 func (r *BatchService) GetOutput(ctx context.Context, batchID string, opts ...option.RequestOption) (res *BatchFile, err error) {
 	if batchID == "" {
 		return nil, fmt.Errorf("missing required batch_id parameter")
@@ -154,9 +155,10 @@ func (r *BatchService) GetOutput(ctx context.Context, batchID string, opts ...op
 }
 
 type BatchFile struct {
-	// OSS 预签名下载链接，含 `Expires` / `OSSAccessKeyId` / `Signature` 及 `response-content-disposition`，下载文件名为 `batch-<batch_id>-output.jsonl`。
+	// Pre-signed OSS download URL with `Expires` / `OSSAccessKeyId` / `Signature` and
+	// `response-content-disposition`; the file downloads as `batch-<batch_id>-output.jsonl`.
 	URL string `json:"url"`
-	// 链接过期时间，RFC 3339，需在此之前完成下载。
+	// Link expiration time in RFC 3339; the download must finish before it.
 	ExpiresAt time.Time `json:"expires_at" format:"date-time"`
 	JSON      struct {
 		URL         respjson.Field
@@ -170,45 +172,46 @@ func (r BatchFile) RawJSON() string                  { return r.JSON.raw }
 func (r *BatchFile) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type Batch struct {
-	// Batch ID，前缀 `batch_`。
+	// Batch ID, prefixed with `batch_`.
 	ID string `json:"id"`
-	// 固定为 `batch`。
+	// Always `batch`.
 	Object string `json:"object"`
-	// Batch 状态，见状态说明。
+	// Batch status; see the status descriptions.
 	Status string `json:"status"`
-	// 输入 JSONL 文件 ID。
+	// Input JSONL file ID.
 	InputFileID string `json:"input_file_id"`
-	// 成功结果文件 ID；未完成或未生成时省略。
+	// File ID of successful results; omitted while incomplete or not yet generated.
 	OutputFileID string `json:"output_file_id"`
-	// 完成窗口：`24h`、`48h`、`72h`。
+	// Completion window: `24h`, `48h` or `72h`.
 	CompletionWindow string `json:"completion_window"`
-	// 创建时间，RFC 3339。
+	// Creation time in RFC 3339.
 	CreatedAt time.Time `json:"created_at" format:"date-time"`
-	// 过期时间，`created_at` + `completion_window`。
+	// Expiration time, `created_at` + `completion_window`.
 	ExpiresAt time.Time `json:"expires_at" format:"date-time"`
-	// 任务计数聚合。
+	// Aggregated task counts.
 	RequestCounts BatchRequestCounts `json:"request_counts"`
-	// 创建响应为 `null`；后续 Batch 详情、列表和取消响应中，至少一个子任务已有合法 CAS Session 用量时返回 Credit 汇总。
+	// `null` on the create response; on later Batch get, list and cancel responses it returns
+	// the Credit total once at least one subtask has valid CAS Session usage.
 	Usage BatchUsage `json:"usage" api:"nullable"`
-	// 调用方业务元数据。
+	// Caller business metadata.
 	Metadata map[string]any `json:"metadata"`
-	// 总行数（含校验失败行）。
+	// Total number of lines, including lines that failed validation.
 	Total int64 `json:"total"`
-	// 等待执行的行数。
+	// Number of lines waiting to run.
 	Pending int64 `json:"pending"`
-	// 正在执行的行数。
+	// Number of lines currently running.
 	Running int64 `json:"running"`
-	// 执行成功的行数。
+	// Number of lines that completed successfully.
 	Completed int64 `json:"completed"`
-	// 永久失败的行数（含校验失败）。
+	// Number of permanently failed lines, including validation failures.
 	Failed int64 `json:"failed"`
-	// 因取消而终止的行数。
+	// Number of lines terminated by cancellation.
 	Cancelled int64 `json:"cancelled"`
-	// 因过期而终止的行数。
+	// Number of lines terminated by expiration.
 	Expired int64 `json:"expired"`
-	// 失败行结果文件 ID；无失败行时省略。
+	// File ID of failed-line results; omitted when there are no failed lines.
 	ErrorFileID string `json:"error_file_id"`
-	// Batch 级错误描述；仅 `failed` 状态出现。
+	// Batch-level error description; present only in the `failed` status.
 	ErrorMessage string `json:"error_message"`
 	JSON         struct {
 		ID               respjson.Field

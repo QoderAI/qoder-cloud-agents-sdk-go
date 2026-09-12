@@ -27,7 +27,7 @@ func NewFileService(opts ...option.RequestOption) FileService {
 	return FileService{Options: slices.Clone(opts)}
 }
 
-// 列出 File.
+// List Files
 func (r *FileService) List(ctx context.Context, params FileListParams, opts ...option.RequestOption) (res *pagination.PageCursor[FileMetadata], err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -49,17 +49,20 @@ func (r *FileService) ListAutoPaging(ctx context.Context, params FileListParams,
 }
 
 type FileListParams struct {
-	// 分页大小，最大 100。
+	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 分页游标（推荐使用），取值来自上一页响应的 `next_page`；与 `after_id`、`before_id` 互斥。
+	// Pagination cursor (recommended), taken from `next_page` in the previous response;
+	// mutually exclusive with `after_id` and `before_id`.
 	Page param.Opt[string] `query:"page,omitzero" json:"-"`
-	// 向后翻页游标；与 `page`、`before_id` 互斥。
+	// Cursor for the next page; mutually exclusive with `page` and `before_id`.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 向前翻页游标；与 `page`、`after_id` 互斥。
+	// Cursor for the previous page; mutually exclusive with `page` and `after_id`.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
-	// 按文件名搜索。
+	// Search by filename.
 	Name param.Opt[string] `query:"name,omitzero" json:"-"`
-	// 按资源作用域 ID 过滤，常用于 Session 资源文件查询。传入时不要同时使用 `before_id` 或 `after_id`；当前游标参数在该过滤模式下不生效。
+	// Filter by resource scope ID, commonly used to look up Session resource files. Do
+	// not combine it with `before_id` or `after_id`; cursor parameters currently have no
+	// effect in this filter mode.
 	ScopeID param.Opt[string] `query:"scope_id,omitzero" json:"-"`
 	paramObj
 }
@@ -68,7 +71,7 @@ func (r FileListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 上传 File.
+// Upload File
 func (r *FileService) Upload(ctx context.Context, params FileUploadParams, opts ...option.RequestOption) (res *FileMetadata, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
@@ -80,15 +83,21 @@ func (r *FileService) Upload(ctx context.Context, params FileUploadParams, opts 
 }
 
 type FileUploadParams struct {
-	// 待上传文件内容。支持类型见[支持上传的文件类型](./schemas.md#支持上传的文件类型)。
+	// Content of the file to upload. For accepted types see
+	// [Supported upload file types](./schemas.md).
 	File io.Reader `json:"file" api:"required" format:"binary"`
-	// 文件展示名，未传时使用 multipart 文件名；规范化后长度为 1-255 bytes。
+	// Display name for the file; the multipart filename is used when omitted. After
+	// normalization the length must be 1-255 bytes.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// 文件用途，默认 `user_upload`；作为 Batch 输入文件时必须传 `session_resource`。
+	// Purpose of the file, defaults to `user_upload`; must be `session_resource` when the
+	// file is used as Batch input.
 	Purpose param.Opt[string] `json:"purpose,omitzero"`
-	// 元数据对象；`created_by` 为保留字段，不可传入（传入返回 400）。
+	// Metadata object. `created_by` is reserved and must not be sent (sending it returns
+	// 400).
 	Metadata map[string]any `json:"metadata,omitzero" api:"metadata"`
-	// 可选创建请求幂等键。传入时相同 key 只能用于相同请求；不传时不提供本地幂等重放保护。
+	// Optional idempotency key for the create request. When set, the same key may only be
+	// reused for an identical request; when omitted no local idempotent replay protection
+	// is provided.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -97,7 +106,7 @@ func (r FileUploadParams) MarshalMultipart() ([]byte, string, error) {
 	return marshalMultipart(r, r.ExtraFields())
 }
 
-// 查询 File.
+// Get File
 func (r *FileService) GetMetadata(ctx context.Context, fileID string, opts ...option.RequestOption) (res *FileMetadata, err error) {
 	if fileID == "" {
 		return nil, fmt.Errorf("missing required file_id parameter")
@@ -109,7 +118,7 @@ func (r *FileService) GetMetadata(ctx context.Context, fileID string, opts ...op
 	return res, err
 }
 
-// 删除 File.
+// Delete File
 func (r *FileService) Delete(ctx context.Context, fileID string, opts ...option.RequestOption) (err error) {
 	if fileID == "" {
 		return fmt.Errorf("missing required file_id parameter")
@@ -121,7 +130,7 @@ func (r *FileService) Delete(ctx context.Context, fileID string, opts ...option.
 	return err
 }
 
-// 下载 File.
+// Download File
 func (r *FileService) Download(ctx context.Context, fileID string, opts ...option.RequestOption) (res *http.Response, err error) {
 	if fileID == "" {
 		return nil, fmt.Errorf("missing required file_id parameter")
@@ -133,27 +142,27 @@ func (r *FileService) Download(ctx context.Context, fileID string, opts ...optio
 }
 
 type FileMetadata struct {
-	// File ID。
+	// File ID.
 	ID string `json:"id"`
-	// 固定为 `file`。
+	// Always `file`.
 	Type string `json:"type"`
-	// 文件名。
+	// Filename.
 	Filename string `json:"filename"`
-	// 文件大小，单位为 byte。
+	// File size in bytes.
 	SizeBytes int64 `json:"size_bytes"`
-	// MIME 类型。
+	// MIME type.
 	MIMEType string `json:"mime_type"`
-	// 创建时间，RFC 3339 格式。
+	// Creation time in RFC 3339 format.
 	CreatedAt time.Time `json:"created_at" format:"date-time"`
-	// 最后更新时间，RFC 3339 格式。
+	// Last update time in RFC 3339 format.
 	UpdatedAt time.Time `json:"updated_at" format:"date-time"`
-	// 是否可下载。
+	// Whether the file can be downloaded.
 	Downloadable bool `json:"downloadable"`
-	// 文件关联的资源作用域，如 Session。
+	// Resource scope the file belongs to, such as a Session.
 	Scope map[string]any `json:"scope" api:"nullable"`
-	// 文件元数据。
+	// File metadata.
 	Metadata map[string]any `json:"metadata"`
-	// Forward 归属身份。
+	// Owning Forward Identity.
 	IdentityID string `json:"identity_id" api:"nullable"`
 	JSON       struct {
 		ID           respjson.Field

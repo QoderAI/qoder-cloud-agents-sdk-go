@@ -27,7 +27,7 @@ func NewMemoryStoreMemoryVersionService(opts ...option.RequestOption) MemoryStor
 	return MemoryStoreMemoryVersionService{Options: slices.Clone(opts)}
 }
 
-// 列出 Memory 版本.
+// List Memory versions
 func (r *MemoryStoreMemoryVersionService) List(ctx context.Context, memoryStoreID string, params MemoryStoreMemoryVersionListParams, opts ...option.RequestOption) (res *pagination.Page[MemoryVersion], err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")
@@ -52,13 +52,14 @@ func (r *MemoryStoreMemoryVersionService) ListAutoPaging(ctx context.Context, me
 }
 
 type MemoryStoreMemoryVersionListParams struct {
-	// 每页返回数量上限，1..100，默认 20。
+	// Maximum number of entries per page, 1..100, default 20.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向前翻页游标，与 `after_id` 互斥。
+	// Cursor for the previous page; mutually exclusive with `after_id`.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
-	// 向后翻页游标，与 `before_id` 互斥。
+	// Cursor for the next page; mutually exclusive with `before_id`.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 只返回该 memory（`mem_...`）的版本，用于查看单条记忆的变更历史。
+	// Return only versions of this memory (`mem_...`), to inspect the change history of
+	// a single entry.
 	MemoryID param.Opt[string] `query:"memory_id,omitzero" json:"-"`
 	paramObj
 }
@@ -67,7 +68,7 @@ func (r MemoryStoreMemoryVersionListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 查询 Memory 版本.
+// Get Memory version
 func (r *MemoryStoreMemoryVersionService) Get(ctx context.Context, memoryStoreID string, memoryVersionID string, opts ...option.RequestOption) (res *MemoryVersion, err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")
@@ -82,7 +83,7 @@ func (r *MemoryStoreMemoryVersionService) Get(ctx context.Context, memoryStoreID
 	return res, err
 }
 
-// Redact Memory 版本.
+// Redact Memory version
 func (r *MemoryStoreMemoryVersionService) Redact(ctx context.Context, memoryStoreID string, memoryVersionID string, opts ...option.RequestOption) (res *MemoryVersion, err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")

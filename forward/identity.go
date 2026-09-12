@@ -28,7 +28,7 @@ func NewIdentityService(opts ...option.RequestOption) IdentityService {
 	return IdentityService{Options: slices.Clone(opts), Configs: NewIdentityConfigService(opts...), MemoryStores: NewIdentityMemoryStoreService(opts...)}
 }
 
-// 列出 Identities.
+// List Identities
 func (r *IdentityService) List(ctx context.Context, params IdentityListParams, opts ...option.RequestOption) (res *pagination.Page[Identity], err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -50,19 +50,20 @@ func (r *IdentityService) ListAutoPaging(ctx context.Context, params IdentityLis
 }
 
 type IdentityListParams struct {
-	// 按集成方终端用户 ID 过滤。
+	// Filter by the integrator's end-user ID.
 	ExternalID param.Opt[string] `query:"external_id,omitzero" json:"-"`
-	// 按多个 Identity ID 过滤；支持逗号分隔或重复 query 参数，去重后最多 100 个。
+	// Filter by multiple Identity IDs; accepts a comma-separated list or repeated
+	// query parameters, up to 100 after deduplication.
 	IdentityIDs []string `query:"identity_ids,omitzero" json:"-"`
-	// 匹配 Identity ID、名称或外部 ID。
+	// Matches the Identity ID, name or external ID.
 	Search param.Opt[string] `query:"search,omitzero" json:"-"`
-	// 按是否启用过滤；非布尔值返回 400。
+	// Filter by enabled state; a non-boolean value returns 400.
 	Enabled param.Opt[bool] `query:"enabled,omitzero" json:"-"`
-	// 分页大小，最大 100；超过上限时按最大值处理。
+	// Page size, maximum 100; larger values are clamped to the maximum.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向后翻页游标，不能与 `before_id` 同用。
+	// Cursor for the next page; cannot be combined with `before_id`.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 向前翻页游标，不能与 `after_id` 同用。
+	// Cursor for the previous page; cannot be combined with `after_id`.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
 	paramObj
 }
@@ -71,7 +72,7 @@ func (r IdentityListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Identity.
+// Create Identity
 func (r *IdentityService) New(ctx context.Context, params IdentityNewParams, opts ...option.RequestOption) (res *Identity, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
@@ -83,15 +84,15 @@ func (r *IdentityService) New(ctx context.Context, params IdentityNewParams, opt
 }
 
 type IdentityNewParams struct {
-	// 集成方系统中的终端用户 ID，不能是空串或纯空白。
+	// End-user ID in the integrator's system; cannot be empty or whitespace only.
 	ExternalID string `json:"external_id" api:"required"`
-	// 展示名，传入时不能是空串或纯空白。
+	// Display name; when provided it cannot be empty or whitespace only.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// 是否启用该 Identity，默认 `true`。
+	// Whether the Identity is enabled; defaults to `true`.
 	Enabled param.Opt[bool] `json:"enabled,omitzero"`
-	// 业务元数据，建议最多 16 个 key。
+	// Business metadata; at most 16 keys is recommended.
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -102,7 +103,7 @@ func (r IdentityNewParams) MarshalJSON() ([]byte, error) {
 }
 func (r *IdentityNewParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
-// 确保管理员 Identity.
+// Ensure the admin Identity
 func (r *IdentityService) EnsureAdmin(ctx context.Context, opts ...option.RequestOption) (res *Identity, err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -111,7 +112,7 @@ func (r *IdentityService) EnsureAdmin(ctx context.Context, opts ...option.Reques
 	return res, err
 }
 
-// 获取 Identity 统计.
+// Get Identity stats
 func (r *IdentityService) Stats(ctx context.Context, opts ...option.RequestOption) (res *IdentityStats, err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -120,7 +121,7 @@ func (r *IdentityService) Stats(ctx context.Context, opts ...option.RequestOptio
 	return res, err
 }
 
-// 获取 Identity.
+// Get Identity
 func (r *IdentityService) Get(ctx context.Context, identityID string, opts ...option.RequestOption) (res *Identity, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -132,7 +133,7 @@ func (r *IdentityService) Get(ctx context.Context, identityID string, opts ...op
 	return res, err
 }
 
-// 更新 Identity.
+// Update Identity
 func (r *IdentityService) Update(ctx context.Context, identityID string, params IdentityUpdateParams, opts ...option.RequestOption) (res *Identity, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -147,15 +148,16 @@ func (r *IdentityService) Update(ctx context.Context, identityID string, params 
 }
 
 type IdentityUpdateParams struct {
-	// 替换原有终端用户 ID。
+	// Replaces the existing end-user ID.
 	ExternalID param.Opt[string] `json:"external_id,omitzero"`
-	// 替换展示名。
+	// Replaces the display name.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// 更新 Identity 是否可用。
+	// Updates whether the Identity is usable.
 	Enabled param.Opt[bool] `json:"enabled,omitzero"`
-	// 合并更新业务元数据；空字符串 value 删除对应 key。
+	// Merges updates into the business metadata; an empty string value deletes the
+	// corresponding key.
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -168,7 +170,7 @@ func (r *IdentityUpdateParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 删除 Identity.
+// Delete Identity
 func (r *IdentityService) Delete(ctx context.Context, identityID string, opts ...option.RequestOption) (res *DeletedIdentity, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -180,7 +182,7 @@ func (r *IdentityService) Delete(ctx context.Context, identityID string, opts ..
 	return res, err
 }
 
-// 列出 Identity 使用的 Template.
+// List Templates used by an Identity
 func (r *IdentityService) ListTemplates(ctx context.Context, identityID string, opts ...option.RequestOption) (res *IdentityListTemplatesResponse, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -192,7 +194,7 @@ func (r *IdentityService) ListTemplates(ctx context.Context, identityID string, 
 	return res, err
 }
 
-// 清理 Identity.
+// Clear Identity
 func (r *IdentityService) Clear(ctx context.Context, identityID string, params IdentityClearParams, opts ...option.RequestOption) (res *IdentityClearResponse, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -205,7 +207,7 @@ func (r *IdentityService) Clear(ctx context.Context, identityID string, params I
 }
 
 type IdentityClearParams struct {
-	// 清理原因，仅用于记录调用意图。
+	// Reason for clearing; recorded only to capture the caller's intent.
 	Reason param.Opt[string] `json:"reason,omitzero"`
 	paramObj
 }
@@ -216,7 +218,7 @@ func (r IdentityClearParams) MarshalJSON() ([]byte, error) {
 }
 func (r *IdentityClearParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
-// 停用 Identity.
+// Disable Identity
 func (r *IdentityService) Disable(ctx context.Context, identityID string, opts ...option.RequestOption) (res *Identity, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -228,7 +230,7 @@ func (r *IdentityService) Disable(ctx context.Context, identityID string, opts .
 	return res, err
 }
 
-// 启用 Identity.
+// Enable Identity
 func (r *IdentityService) Enable(ctx context.Context, identityID string, opts ...option.RequestOption) (res *Identity, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -241,11 +243,11 @@ func (r *IdentityService) Enable(ctx context.Context, identityID string, opts ..
 }
 
 type IdentityClearResponse struct {
-	// 被清理的 Identity ID。
+	// ID of the cleared Identity.
 	IdentityID string `json:"identity_id"`
-	// 清理状态，成功时为 `completed`。
+	// Clear status; `completed` on success.
 	Status string `json:"status"`
-	// Forward 侧清理完成时间，使用 RFC 3339 格式。
+	// Time the Forward-side cleanup completed, in RFC 3339 format.
 	CompletedAt time.Time                    `json:"completed_at" format:"date-time"`
 	Summary     IdentityClearResponseSummary `json:"summary"`
 	JSON        struct {
@@ -306,9 +308,9 @@ func (r IdentityTemplate) RawJSON() string                  { return r.JSON.raw 
 func (r *IdentityTemplate) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type DeletedIdentity struct {
-	// 被删除的 Identity ID。
+	// ID of the deleted Identity.
 	ID string `json:"id"`
-	// 是否已完成删除。成功响应为 `true`。
+	// Whether the deletion completed. `true` in a successful response.
 	Deleted bool `json:"deleted"`
 	JSON    struct {
 		ID          respjson.Field
@@ -322,13 +324,13 @@ func (r DeletedIdentity) RawJSON() string                  { return r.JSON.raw }
 func (r *DeletedIdentity) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type IdentityStats struct {
-	// 当前账号的 Identity 总数。
+	// Total number of Identities for the current account.
 	TotalIdentities int64 `json:"total_identities"`
-	// 最近活跃的 Identity 数量。
+	// Number of recently active Identities.
 	ActiveIdentities int64 `json:"active_identities"`
-	// 当前账号使用过的 Template 总数。
+	// Total number of Templates the current account has used.
 	TotalAgents int64 `json:"total_agents"`
-	// 当前账号的 Session 总数。
+	// Total number of Sessions for the current account.
 	TotalSessions int64 `json:"total_sessions"`
 	JSON          struct {
 		TotalIdentities  respjson.Field
@@ -344,21 +346,21 @@ func (r IdentityStats) RawJSON() string                  { return r.JSON.raw }
 func (r *IdentityStats) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type Identity struct {
-	// Forward Identity ID，建议前缀 `idn_`。
+	// Forward Identity ID; the `idn_` prefix is recommended.
 	ID string `json:"id"`
-	// 集成方系统中的终端用户 ID。
+	// End-user ID in the integrator's system.
 	ExternalID string `json:"external_id"`
-	// Identity 展示名。
+	// Identity display name.
 	Name string `json:"name"`
-	// Identity 类型。普通 Identity 返回 `normal`。
+	// Identity type. A regular Identity returns `normal`.
 	IdentityType string `json:"identity_type"`
-	// 是否允许继续使用该 Identity。
+	// Whether the Identity may continue to be used.
 	Enabled bool `json:"enabled"`
-	// 业务元数据。
+	// Business metadata.
 	Metadata map[string]any `json:"metadata"`
-	// 创建时间，RFC 3339 格式。
+	// Creation time, in RFC 3339 format.
 	CreatedAt time.Time `json:"created_at" format:"date-time"`
-	// 最近更新时间，RFC 3339 格式。
+	// Last update time, in RFC 3339 format.
 	UpdatedAt time.Time `json:"updated_at" format:"date-time"`
 	JSON      struct {
 		ID           respjson.Field

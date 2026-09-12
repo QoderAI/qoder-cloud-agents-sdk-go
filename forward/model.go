@@ -20,7 +20,7 @@ func NewModelService(opts ...option.RequestOption) ModelService {
 	return ModelService{Options: slices.Clone(opts)}
 }
 
-// 列出模型.
+// List models
 func (r *ModelService) List(ctx context.Context, opts ...option.RequestOption) (res *ModelListResponse, err error) {
 
 	opts = slices.Concat(r.Options, opts)

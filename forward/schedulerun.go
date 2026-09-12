@@ -26,7 +26,7 @@ func NewScheduleRunService(opts ...option.RequestOption) ScheduleRunService {
 	return ScheduleRunService{Options: slices.Clone(opts)}
 }
 
-// 列出 Schedule Runs.
+// List Schedule Runs
 func (r *ScheduleRunService) List(ctx context.Context, params ScheduleRunListParams, opts ...option.RequestOption) (res *pagination.Page[ScheduleRun], err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -48,25 +48,25 @@ func (r *ScheduleRunService) ListAutoPaging(ctx context.Context, params Schedule
 }
 
 type ScheduleRunListParams struct {
-	// Run 所属 Forward Identity ID。
+	// Forward Identity ID that owns the Run.
 	IdentityID string `query:"identity_id,omitzero" json:"-" api:"required"`
-	// 按 Schedule ID 过滤。
+	// Filter by Schedule ID.
 	ScheduleID param.Opt[string] `query:"schedule_id,omitzero" json:"-"`
-	// 按 `pending`、`running`、`completed`、`failed` 或 `skipped` 过滤。
+	// Filter by `pending`, `running`, `completed`, `failed` or `skipped`.
 	Status param.Opt[string] `query:"status,omitzero" json:"-"`
-	// 按 `schedule` 或 `manual` 过滤。
+	// Filter by `schedule` or `manual`.
 	TriggerType param.Opt[string] `query:"trigger_type,omitzero" json:"-"`
-	// 是否只返回有错误或无错误的 Run。
+	// Whether to return only Runs with or without an error.
 	HasError param.Opt[bool] `query:"has_error,omitzero" json:"-"`
-	// 分页大小，最大 100。
+	// Page size, up to 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向后翻页游标。
+	// Cursor for the next page.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 向前翻页游标。
+	// Cursor for the previous page.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
-	// 排序字段：`created_at` 或 `triggered_at`。
+	// Sort field: `created_at` or `triggered_at`.
 	SortBy param.Opt[string] `query:"sort_by,omitzero" json:"-"`
-	// 排序方向：`asc` 或 `desc`。
+	// Sort direction: `asc` or `desc`.
 	Order param.Opt[string] `query:"order,omitzero" json:"-"`
 	paramObj
 }
@@ -75,7 +75,7 @@ func (r ScheduleRunListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 获取 Schedule Run.
+// Get Schedule Run
 func (r *ScheduleRunService) Get(ctx context.Context, runID string, params ScheduleRunGetParams, opts ...option.RequestOption) (res *ScheduleRun, err error) {
 	if runID == "" {
 		return nil, fmt.Errorf("missing required run_id parameter")
@@ -88,7 +88,7 @@ func (r *ScheduleRunService) Get(ctx context.Context, runID string, params Sched
 }
 
 type ScheduleRunGetParams struct {
-	// 额外归属约束。
+	// Additional ownership constraint.
 	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	paramObj
 }
@@ -98,43 +98,45 @@ func (r ScheduleRunGetParams) URLQuery() (url.Values, error) {
 }
 
 type ScheduleRun struct {
-	// Schedule Run ID。
+	// Schedule Run ID.
 	ID string `json:"id"`
-	// 所属 Schedule ID。
+	// ID of the owning Schedule.
 	ScheduleID string `json:"schedule_id"`
-	// Forward Identity ID。
+	// Forward Identity ID.
 	IdentityID string `json:"identity_id"`
-	// Forward Template ID。
+	// Forward Template ID.
 	TemplateID string `json:"template_id"`
-	// null|本次执行创建或使用的 Session。
+	// null|Session created or reused by this run.
 	SessionID string `json:"session_id"`
-	// `pending`、`running`、`completed`、`failed` 或 `skipped`。
+	// `pending`, `running`, `completed`, `failed` or `skipped`.
 	Status string `json:"status"`
-	// 触发来源。
+	// Trigger source.
 	TriggerContext ScheduleRunTriggerContext `json:"trigger_context"`
-	// null|主流程文本结果。
+	// null|Text result of the main flow.
 	ResultPayload string `json:"result_payload"`
-	// null|本次 IM 投递使用的 Sink 类型；未配置投递时为 `null`。
+	// null|Sink type used for this IM delivery; `null` when no delivery is configured.
 	PushSink string `json:"push_sink"`
-	// IM 投递状态：`pending`、`succeeded`、`failed` 或 `skipped`。主流程状态与投递状态相互独立。
+	// IM delivery status: `pending`, `succeeded`, `failed` or `skipped`. The main flow
+	// status and the delivery status are independent.
 	PushStatus string `json:"push_status"`
-	// null|IM 投递结束时间。
+	// null|Time the IM delivery finished.
 	PushFinishedAt time.Time `json:"push_finished_at" format:"date-time"`
-	// 当前或最终实际执行到第几次，从 `1` 开始；当 Schedule 的 `execution.max_attempts=2` 且服务端完成自动重试时，可能返回 `2`。
+	// Current or final attempt number, starting at `1`; may return `2` when the Schedule sets
+	// `execution.max_attempts=2` and the server has performed an automatic retry.
 	Attempt int64 `json:"attempt"`
-	// 触发时间。
+	// Trigger time.
 	TriggeredAt time.Time `json:"triggered_at" format:"date-time"`
-	// null|开始执行时间。
+	// null|Time execution started.
 	StartedAt time.Time `json:"started_at" format:"date-time"`
-	// null|结束时间。
+	// null|Completion time.
 	CompletedAt time.Time `json:"completed_at" format:"date-time"`
-	// null|执行耗时，单位毫秒。
+	// null|Execution duration in milliseconds.
 	DurationMs int64 `json:"duration_ms"`
-	// 记录创建时间。
+	// Record creation time.
 	CreatedAt time.Time `json:"created_at" format:"date-time"`
-	// null|失败或跳过时的结构化错误。
+	// null|Structured error when the Run failed or was skipped.
 	Error map[string]any `json:"error"`
-	// null|便于展示的错误信息；结构化信息保留在 `error`。
+	// null|Human-readable error message; structured details stay in `error`.
 	ErrorMessage string `json:"error_message"`
 	JSON         struct {
 		ID             respjson.Field

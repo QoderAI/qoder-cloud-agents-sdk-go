@@ -27,7 +27,7 @@ func NewSkillVersionService(opts ...option.RequestOption) SkillVersionService {
 	return SkillVersionService{Options: slices.Clone(opts)}
 }
 
-// 列出 Skill 版本.
+// List Skill versions
 func (r *SkillVersionService) List(ctx context.Context, id string, params SkillVersionListParams, opts ...option.RequestOption) (res *pagination.PageCursor[SkillVersion], err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -52,9 +52,10 @@ func (r *SkillVersionService) ListAutoPaging(ctx context.Context, id string, par
 }
 
 type SkillVersionListParams struct {
-	// 分页大小，最大 100，默认 20。
+	// Page size, maximum 100, default 20.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向后翻页游标；取值来自上一页响应的 `next_page`；不传即从第一页开始。
+	// Cursor for paging forward; take the value from `next_page` in the previous
+	// response. Omit to start from the first page.
 	Page param.Opt[string] `query:"page,omitzero" json:"-"`
 	paramObj
 }
@@ -63,7 +64,7 @@ func (r SkillVersionListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Skill 版本.
+// Create Skill version
 func (r *SkillVersionService) New(ctx context.Context, id string, params SkillVersionNewParams, opts ...option.RequestOption) (res *SkillVersion, err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -76,7 +77,11 @@ func (r *SkillVersionService) New(ctx context.Context, id string, params SkillVe
 }
 
 type SkillVersionNewParams struct {
-	// 上传字段，可**重复**出现多次。支持两种形态： • 单个 `.zip` 包； • 裸文件树——每个 part 独立上传一个文件，`filename` 携带相对路径（如 `customer-reply/SKILL.md`、`customer-reply/scripts/run.sh`）。 压缩包本身与解压后总大小均不超过 50 MB。
+	// Upload field, which may appear **multiple** times. Two shapes are supported: • a
+	// single `.zip` archive; • a bare file tree, where every part uploads one file and
+	// `filename` carries its relative path (e.g. `customer-reply/SKILL.md`,
+	// `customer-reply/scripts/run.sh`). Neither the archive itself nor the total
+	// uncompressed size may exceed 50 MB.
 	Files []io.Reader `json:"files" api:"required" format:"binary"`
 	paramObj
 }
@@ -85,7 +90,7 @@ func (r SkillVersionNewParams) MarshalMultipart() ([]byte, string, error) {
 	return marshalMultipart(r, r.ExtraFields())
 }
 
-// 查询 Skill 版本.
+// Get Skill version
 func (r *SkillVersionService) Get(ctx context.Context, id string, version string, opts ...option.RequestOption) (res *SkillVersion, err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -100,7 +105,7 @@ func (r *SkillVersionService) Get(ctx context.Context, id string, version string
 	return res, err
 }
 
-// 删除 Skill 版本.
+// Delete Skill version
 func (r *SkillVersionService) Delete(ctx context.Context, id string, version string, opts ...option.RequestOption) (res *DeletedSkillVersion, err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -115,7 +120,7 @@ func (r *SkillVersionService) Delete(ctx context.Context, id string, version str
 	return res, err
 }
 
-// 下载 Skill 版本内容.
+// Download Skill version content
 func (r *SkillVersionService) Download(ctx context.Context, id string, version string, opts ...option.RequestOption) (res *http.Response, err error) {
 	if id == "" {
 		return nil, fmt.Errorf("missing required id parameter")
@@ -131,11 +136,11 @@ func (r *SkillVersionService) Download(ctx context.Context, id string, version s
 }
 
 type DeletedSkillVersion struct {
-	// 被删除的版本号。
+	// The deleted version number.
 	ID string `json:"id"`
-	// 固定值 `"skill_version_deleted"`
+	// Always `"skill_version_deleted"`
 	Type string `json:"type"`
-	// 固定值 `true`
+	// Always `true`
 	Deleted bool `json:"deleted"`
 	JSON    struct {
 		ID          respjson.Field

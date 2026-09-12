@@ -28,7 +28,7 @@ func NewMemoryStoreService(opts ...option.RequestOption) MemoryStoreService {
 	return MemoryStoreService{Options: slices.Clone(opts), Memories: NewMemoryStoreMemoryService(opts...), MemoryVersions: NewMemoryStoreMemoryVersionService(opts...)}
 }
 
-// 列出 Memory Store.
+// List Memory Stores
 func (r *MemoryStoreService) List(ctx context.Context, params MemoryStoreListParams, opts ...option.RequestOption) (res *pagination.Page[MemoryStore], err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -50,13 +50,14 @@ func (r *MemoryStoreService) ListAutoPaging(ctx context.Context, params MemorySt
 }
 
 type MemoryStoreListParams struct {
-	// 每页返回数量上限，1..100，默认 20。
+	// Maximum number of items per page, 1..100, defaults to 20.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向前翻页游标，与 `after_id` 互斥。
+	// Cursor for the previous page, mutually exclusive with `after_id`.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
-	// 向后翻页游标，与 `before_id` 互斥。
+	// Cursor for the next page, mutually exclusive with `before_id`.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 三态过滤：`true` 只返回系统默认库；`false` 只返回用户创建的库；不传不过滤。
+	// Three-state filter: `true` returns only system default stores; `false` returns only
+	// user-created stores; omit it to apply no filter.
 	SystemManaged param.Opt[bool] `query:"system_managed,omitzero" json:"-"`
 	paramObj
 }
@@ -65,7 +66,7 @@ func (r MemoryStoreListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Memory Store.
+// Create Memory Store
 func (r *MemoryStoreService) New(ctx context.Context, params MemoryStoreNewParams, opts ...option.RequestOption) (res *MemoryStore, err error) {
 	opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey))}, opts...)
 	opts = slices.Concat(r.Options, opts)
@@ -75,13 +76,20 @@ func (r *MemoryStoreService) New(ctx context.Context, params MemoryStoreNewParam
 }
 
 type MemoryStoreNewParams struct {
-	// Store 展示名，非空。不允许非打印控制字符（`U+0000`–`U+001F`、`U+007F`），换行 `\n`、回车 `\r`、制表 `\t` 除外。
+	// Display name for the store, non-empty. Non-printable control characters
+	// (`U+0000`–`U+001F`, `U+007F`) are not allowed, except newline `\n`, carriage return
+	// `\r` and tab `\t`.
 	Name string `json:"name" api:"required"`
-	// 自由文本描述。不允许非打印控制字符。
+	// Free-text description. Non-printable control characters are not allowed.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// 键值元数据，值必须为字符串。最多 **15** 个键；键 1..64 字符；值 ≤512 字符。`created_by` 是 Forward 保留键，服务端自动写入 `"forward"`；调用方传入 `created_by` 会返回 `400 invalid_request_error`。详见 [Store metadata 约束](./MemoryStore数据结构.md#store-metadata-约束)。
+	// Key-value metadata whose values must be strings. At most **15** keys; keys 1..64
+	// characters; values ≤512 characters. `created_by` is a Forward reserved key that the
+	// server fills in with `"forward"`; sending `created_by` returns
+	// `400 invalid_request_error`. See the Store metadata constraints in the MemoryStore
+	// data structure reference for details.
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 创建请求幂等键。相同 key 只能用于相同请求体；不传返回 `400`。
+	// Idempotency key for the create request. The same key may only be reused with an
+	// identical request body; omitting it returns `400`.
 	IdempotencyKey string `header:"Idempotency-Key,omitzero" json:"-" api:"required"`
 	paramObj
 }
@@ -94,7 +102,7 @@ func (r *MemoryStoreNewParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 查询 Memory Store.
+// Get Memory Store
 func (r *MemoryStoreService) Get(ctx context.Context, memoryStoreID string, opts ...option.RequestOption) (res *MemoryStore, err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")
@@ -106,7 +114,7 @@ func (r *MemoryStoreService) Get(ctx context.Context, memoryStoreID string, opts
 	return res, err
 }
 
-// 更新 Memory Store.
+// Update Memory Store
 func (r *MemoryStoreService) Update(ctx context.Context, memoryStoreID string, params MemoryStoreUpdateParams, opts ...option.RequestOption) (res *MemoryStore, err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")
@@ -119,11 +127,12 @@ func (r *MemoryStoreService) Update(ctx context.Context, memoryStoreID string, p
 }
 
 type MemoryStoreUpdateParams struct {
-	// 新名称。传入时非空且不含非打印控制字符。
+	// New name. Must be non-empty and free of non-printable control characters when sent.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// 新描述。传入时不含非打印控制字符。
+	// New description. Must be free of non-printable control characters when sent.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// 新元数据，**整体替换**当前 metadata（非合并）。约束详见 [Store metadata 约束](./MemoryStore数据结构.md#store-metadata-约束)。
+	// New metadata that **replaces** the current metadata entirely (not a merge). See the
+	// Store metadata constraints in the MemoryStore data structure reference for details.
 	Metadata map[string]any `json:"metadata,omitzero"`
 	paramObj
 }
@@ -136,7 +145,7 @@ func (r *MemoryStoreUpdateParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 删除 Memory Store.
+// Delete Memory Store
 func (r *MemoryStoreService) Delete(ctx context.Context, memoryStoreID string, opts ...option.RequestOption) (res *DeletedMemoryStore, err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")
@@ -148,7 +157,7 @@ func (r *MemoryStoreService) Delete(ctx context.Context, memoryStoreID string, o
 	return res, err
 }
 
-// 归档 Memory Store.
+// Archive Memory Store
 func (r *MemoryStoreService) Archive(ctx context.Context, memoryStoreID string, opts ...option.RequestOption) (res *MemoryStore, err error) {
 	if memoryStoreID == "" {
 		return nil, fmt.Errorf("missing required memory_store_id parameter")
@@ -161,11 +170,11 @@ func (r *MemoryStoreService) Archive(ctx context.Context, memoryStoreID string, 
 }
 
 type DeletedMemoryStore struct {
-	// 被删除的 Memory Store ID。
+	// ID of the deleted Memory Store.
 	ID string `json:"id"`
-	// 固定为 `memory_store_deleted`。
+	// Always `memory_store_deleted`.
 	Type string `json:"type"`
-	// 是否已删除。
+	// Whether the Memory Store was deleted.
 	Deleted bool `json:"deleted"`
 	JSON    struct {
 		ID          respjson.Field

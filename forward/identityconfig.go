@@ -26,7 +26,7 @@ func NewIdentityConfigService(opts ...option.RequestOption) IdentityConfigServic
 	return IdentityConfigService{Options: slices.Clone(opts)}
 }
 
-// 列出 Identity Configs.
+// List Identity Configs
 func (r *IdentityConfigService) List(ctx context.Context, identityID string, params IdentityConfigListParams, opts ...option.RequestOption) (res *pagination.Page[IdentityConfig], err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -51,15 +51,15 @@ func (r *IdentityConfigService) ListAutoPaging(ctx context.Context, identityID s
 }
 
 type IdentityConfigListParams struct {
-	// 按 Forward Template ID 过滤。
+	// Filter by Forward Template ID.
 	TemplateID param.Opt[string] `query:"template_id,omitzero" json:"-"`
-	// 按 `active` 或 `archived` 过滤。
+	// Filter by `active` or `archived`.
 	Status param.Opt[string] `query:"status,omitzero" json:"-"`
-	// 分页大小，最大 100。
+	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 来自上一页响应 `last_id` 的向后游标。
+	// Cursor for the next page, taken from `last_id` in the previous response.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 来自上一页响应 `first_id` 的向前游标。
+	// Cursor for the previous page, taken from `first_id` in the previous response.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
 	paramObj
 }
@@ -68,7 +68,7 @@ func (r IdentityConfigListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 获取 Identity Config.
+// Get Identity Config
 func (r *IdentityConfigService) Get(ctx context.Context, identityID string, templateID string, opts ...option.RequestOption) (res *IdentityConfig, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -83,7 +83,7 @@ func (r *IdentityConfigService) Get(ctx context.Context, identityID string, temp
 	return res, err
 }
 
-// 创建或更新 Identity Config.
+// Create or update Identity Config
 func (r *IdentityConfigService) Upsert(ctx context.Context, identityID string, templateID string, params IdentityConfigUpsertParams, opts ...option.RequestOption) (res *IdentityConfig, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -101,13 +101,13 @@ func (r *IdentityConfigService) Upsert(ctx context.Context, identityID string, t
 }
 
 type IdentityConfigUpsertParams struct {
-	// Config 展示名。
+	// Display name for the Config.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// 用户级覆盖配置。
+	// User-level configuration overrides.
 	IdentityConfig IdentityConfigSpecParam `json:"identity_config" api:"required"`
-	// 业务元数据；传入时整体替换已有 metadata。
+	// Business metadata; when sent it replaces the existing metadata entirely.
 	Metadata map[string]any `json:"metadata,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -120,7 +120,7 @@ func (r *IdentityConfigUpsertParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// 获取 Effective Config.
+// Get Effective Config
 func (r *IdentityConfigService) GetEffective(ctx context.Context, identityID string, templateID string, opts ...option.RequestOption) (res *EffectiveConfig, err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
@@ -136,17 +136,17 @@ func (r *IdentityConfigService) GetEffective(ctx context.Context, identityID str
 }
 
 type EffectiveConfig struct {
-	// 固定为 `effective_spec`。
+	// Always `effective_spec`.
 	Type string `json:"type"`
-	// Agent 部分编译结果 hash。
+	// Hash of the compiled Agent section.
 	AgentEffectiveHash string `json:"agent_effective_hash"`
-	// Session 部分编译结果 hash。
+	// Hash of the compiled Session section.
 	SessionEffectiveHash string `json:"session_effective_hash"`
-	// 完整有效配置 hash。
+	// Hash of the full effective configuration.
 	EffectiveHash string `json:"effective_hash"`
-	// 编译后的 Agent 配置。
+	// Compiled Agent configuration.
 	Agent EffectiveConfigAgent `json:"agent"`
-	// 编译后的 Session 默认配置。
+	// Compiled Session defaults.
 	Session    EffectiveConfigSession `json:"session"`
 	ID         string                 `json:"id"`
 	IdentityID string                 `json:"identity_id"`
@@ -264,21 +264,21 @@ func (r *EffectiveConfigAgentToolsItemConfigsItem) UnmarshalJSON(data []byte) er
 }
 
 type IdentityConfig struct {
-	// 固定为 `config`。
+	// Always `config`.
 	Type string `json:"type"`
 	ID   string `json:"id"`
-	// Forward Identity ID。
+	// Forward Identity ID.
 	IdentityID string `json:"identity_id"`
-	// Forward Template ID。
+	// Forward Template ID.
 	TemplateID string `json:"template_id"`
 	Name       string `json:"name"`
 	Status     string `json:"status"`
-	// 编译后的 Effective Config hash。
+	// Hash of the compiled Effective Config.
 	EffectiveHash  string             `json:"effective_hash"`
 	CreatedAt      time.Time          `json:"created_at" format:"date-time"`
 	UpdatedAt      time.Time          `json:"updated_at" format:"date-time"`
 	IdentityConfig IdentityConfigSpec `json:"identity_config"`
-	// 业务元数据。
+	// Business metadata.
 	Metadata map[string]any `json:"metadata"`
 	JSON     struct {
 		Type           respjson.Field

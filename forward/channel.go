@@ -27,7 +27,7 @@ func NewChannelService(opts ...option.RequestOption) ChannelService {
 	return ChannelService{Options: slices.Clone(opts), QRSessions: NewChannelQRSessionService(opts...)}
 }
 
-// 列出 Channels.
+// List Channels
 func (r *ChannelService) List(ctx context.Context, params ChannelListParams, opts ...option.RequestOption) (res *pagination.Page[Channel], err error) {
 
 	opts = slices.Concat(r.Options, opts)
@@ -49,21 +49,21 @@ func (r *ChannelService) ListAutoPaging(ctx context.Context, params ChannelListP
 }
 
 type ChannelListParams struct {
-	// 按 `wechat`、`wecom`、`feishu`、`dingtalk` 或 `teams`（Global）过滤。
+	// Filter by `wechat`, `wecom`, `feishu`, `dingtalk` or `teams` (Global).
 	ChannelType param.Opt[string] `query:"channel_type,omitzero" json:"-"`
-	// 按人工启停状态过滤。
+	// Filter by the manual enable/disable state.
 	Enabled param.Opt[bool] `query:"enabled,omitzero" json:"-"`
-	// 按 `unbound`、`bound` 或 `expired` 过滤。
+	// Filter by `unbound`, `bound` or `expired`.
 	BindingStatus param.Opt[string] `query:"binding_status,omitzero" json:"-"`
-	// 按 Forward Identity ID 过滤。
+	// Filter by Forward Identity ID.
 	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
-	// 按 Forward Template ID 过滤。
+	// Filter by Forward Template ID.
 	TemplateID param.Opt[string] `query:"template_id,omitzero" json:"-"`
-	// 分页大小，最大 100。
+	// Page size, up to 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
-	// 向后翻页游标。
+	// Cursor for the next page.
 	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
-	// 向前翻页游标。
+	// Cursor for the previous page.
 	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
 	paramObj
 }
@@ -72,7 +72,7 @@ func (r ChannelListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// 创建 Channel.
+// Create Channel
 func (r *ChannelService) New(ctx context.Context, params ChannelNewParams, opts ...option.RequestOption) (res *Channel, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
@@ -84,19 +84,20 @@ func (r *ChannelService) New(ctx context.Context, params ChannelNewParams, opts 
 }
 
 type ChannelNewParams struct {
-	// `fixed` 模式必填；`pairing` 模式不传。
+	// Required in `fixed` mode; omit in `pairing` mode.
 	IdentityID         param.Opt[string] `json:"identity_id,omitzero"`
 	IdentityResolution map[string]any    `json:"identity_resolution,omitzero"`
-	// `fixed` 模式必填；`pairing` 模式不传。
+	// Required in `fixed` mode; omit in `pairing` mode.
 	TemplateID param.Opt[string] `json:"template_id,omitzero"`
-	// 渠道类型，当前支持 `wechat`、`wecom`、`feishu`、`dingtalk` 和 `teams`（Global）。
+	// Channel type; currently `wechat`, `wecom`, `feishu`, `dingtalk` and `teams` (Global).
 	ChannelType string `json:"channel_type" api:"required"`
-	// Channel 展示名。
+	// Channel display name.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// 人工启停开关，默认 `true`。传 `false` 可创建后暂不处理上行消息。
+	// Manual enable/disable switch, defaults to `true`. Pass `false` to create the Channel
+	// without handling inbound messages yet.
 	Enabled       param.Opt[bool] `json:"enabled,omitzero"`
 	ChannelConfig map[string]any  `json:"channel_config,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -107,7 +108,7 @@ func (r ChannelNewParams) MarshalJSON() ([]byte, error) {
 }
 func (r *ChannelNewParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
-// 获取 Channel.
+// Get Channel
 func (r *ChannelService) Get(ctx context.Context, channelID string, opts ...option.RequestOption) (res *Channel, err error) {
 	if channelID == "" {
 		return nil, fmt.Errorf("missing required channel_id parameter")
@@ -119,7 +120,7 @@ func (r *ChannelService) Get(ctx context.Context, channelID string, opts ...opti
 	return res, err
 }
 
-// 更新 Channel.
+// Update Channel
 func (r *ChannelService) Update(ctx context.Context, channelID string, params ChannelUpdateParams, opts ...option.RequestOption) (res *Channel, err error) {
 	if channelID == "" {
 		return nil, fmt.Errorf("missing required channel_id parameter")
@@ -134,16 +135,16 @@ func (r *ChannelService) Update(ctx context.Context, channelID string, params Ch
 }
 
 type ChannelUpdateParams struct {
-	// Channel 展示名。
+	// Channel display name.
 	Name param.Opt[string] `json:"name,omitzero"`
-	// `fixed` 模式下新的 Forward Identity ID。
+	// New Forward Identity ID in `fixed` mode.
 	IdentityID param.Opt[string] `json:"identity_id,omitzero"`
-	// `fixed` 模式下新的 Forward Template ID。
+	// New Forward Template ID in `fixed` mode.
 	TemplateID param.Opt[string] `json:"template_id,omitzero"`
-	// 人工启停开关。
+	// Manual enable/disable switch.
 	Enabled       param.Opt[bool] `json:"enabled,omitzero"`
 	ChannelConfig map[string]any  `json:"channel_config,omitzero"`
-	// 有副作用请求可选的幂等键。
+	// Optional idempotency key for requests with side effects.
 	IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
 	paramObj
 }
@@ -154,7 +155,7 @@ func (r ChannelUpdateParams) MarshalJSON() ([]byte, error) {
 }
 func (r *ChannelUpdateParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
-// 删除 Channel.
+// Delete Channel
 func (r *ChannelService) Delete(ctx context.Context, channelID string, opts ...option.RequestOption) (res *DeletedChannel, err error) {
 	if channelID == "" {
 		return nil, fmt.Errorf("missing required channel_id parameter")
@@ -167,9 +168,9 @@ func (r *ChannelService) Delete(ctx context.Context, channelID string, opts ...o
 }
 
 type DeletedChannel struct {
-	// 被删除的 Channel ID。
+	// ID of the deleted Channel.
 	ID string `json:"id"`
-	// 是否删除成功，成功时恒为 `true`。
+	// Whether the deletion succeeded; always `true` on success.
 	Deleted bool `json:"deleted"`
 	JSON    struct {
 		ID          respjson.Field
@@ -183,21 +184,21 @@ func (r DeletedChannel) RawJSON() string                  { return r.JSON.raw }
 func (r *DeletedChannel) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type Channel struct {
-	// Channel ID，示例前缀 `channel_`。
+	// Channel ID, prefixed with `channel_` in examples.
 	ID string `json:"id"`
-	// 固定为 `channel`。
+	// Always `channel`.
 	Type string `json:"type"`
-	// `fixed` 模式为绑定的 Forward Identity ID；`pairing` 模式为 `null`。
+	// Bound Forward Identity ID in `fixed` mode; `null` in `pairing` mode.
 	IdentityID         string                    `json:"identity_id" api:"nullable"`
 	IdentityResolution ChannelIdentityResolution `json:"identity_resolution"`
-	// `fixed` 模式为绑定的 Forward Template ID；`pairing` 模式为 `null`。
+	// Bound Forward Template ID in `fixed` mode; `null` in `pairing` mode.
 	TemplateID string `json:"template_id" api:"nullable"`
-	// 外部渠道类型。
+	// External channel type.
 	ChannelType string `json:"channel_type"`
 	Name        string `json:"name"`
-	// 人工启停开关。
+	// Manual enable/disable switch.
 	Enabled bool `json:"enabled"`
-	// `unbound`、`bound` 或 `expired`。
+	// `unbound`, `bound` or `expired`.
 	BindingStatus string               `json:"binding_status"`
 	ChannelConfig ChannelChannelConfig `json:"channel_config"`
 	CreatedAt     time.Time            `json:"created_at" format:"date-time"`
