@@ -86,10 +86,10 @@ func Load(mode string) (Config, error) {
 	prefix := "QODER_" + strings.ToUpper(mode) + "_"
 	pat := get(prefix + "PAT")
 	if pat == "" {
-		pat = get("QODER_ACCESS_TOKEN")
+		pat = get("QODER_PAT")
 	}
 	if pat == "" {
-		return Config{}, fmt.Errorf("configure %sPAT or QODER_ACCESS_TOKEN", prefix)
+		return Config{}, fmt.Errorf("configure %sPAT or QODER_PAT", prefix)
 	}
 	base := get(prefix + "BASE_URL")
 	if base == "" {
@@ -118,7 +118,7 @@ func Load(mode string) (Config, error) {
 }
 
 func (c Config) Options() []option.RequestOption {
-	return []option.RequestOption{option.WithBaseURL(c.BaseURL), option.WithAccessToken(c.PAT), option.WithMaxRetries(0), option.WithRequestTimeout(30 * time.Second)}
+	return []option.RequestOption{option.WithBaseURL(c.BaseURL), option.WithPAT(c.PAT), option.WithMaxRetries(0), option.WithRequestTimeout(30 * time.Second)}
 }
 
 type cleanup struct {

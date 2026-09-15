@@ -54,14 +54,14 @@ func TestForwardAPIInventory(t *testing.T) {
 }
 
 func TestClientConfigurationPrecedence(t *testing.T) {
-	t.Setenv("QODER_ACCESS_TOKEN", "environment-token")
+	t.Setenv("QODER_PAT", "environment-token")
 	t.Setenv("QODER_FORWARD_BASE_URL", "https://env.test/api/v1/forward")
 	for _, explicit := range []bool{false, true} {
 		wantHost, wantToken := "env.test", "environment-token"
 		var opts []option.RequestOption
 		if explicit {
 			wantHost, wantToken = "explicit.test", "explicit-token"
-			opts = append(opts, option.WithBaseURL("https://explicit.test/api/v1/forward"), option.WithAccessToken(wantToken))
+			opts = append(opts, option.WithBaseURL("https://explicit.test/api/v1/forward"), option.WithPAT(wantToken))
 		}
 		opts = append(opts, option.WithHTTPClient(&http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
 			if r.URL.Host != wantHost || r.URL.Path != "/api/v1/forward/models" || r.Header.Get("Authorization") != "Bearer "+wantToken {

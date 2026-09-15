@@ -26,7 +26,7 @@ type transportFunc func(*http.Request) (*http.Response, error)
 func (f transportFunc) RoundTrip(r *http.Request) (*http.Response, error) { return f(r) }
 
 func TestCredentialSharedByBothModes(t *testing.T) {
-	t.Setenv("QODER_ACCESS_TOKEN", "")
+	t.Setenv("QODER_PAT", "")
 	credential := &tokenProvider{value: "first"}
 	var shared convention.Credential = credential
 	calls := 0

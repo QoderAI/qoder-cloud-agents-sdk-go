@@ -44,7 +44,7 @@ func newManagedScenarioSuite(t *testing.T) *managedScenarioSuite {
 		base = managed.DefaultBaseURL
 	}
 	return &managedScenarioSuite{
-		client:  managed.NewClient(option.WithAccessToken(token), option.WithBaseURL(base), option.WithRequestTimeout(timeout), option.WithMaxRetries(0), testutil.RequestLog(t)),
+		client:  managed.NewClient(option.WithPAT(token), option.WithBaseURL(base), option.WithRequestTimeout(timeout), option.WithMaxRetries(0), testutil.RequestLog(t)),
 		timeout: timeout, scenarioTimeout: testutil.ExecutionTimeout(t), allowWrite: os.Getenv("QODER_MANAGED_LIVE_ALLOW_WRITE") == "true", allowExecution: os.Getenv("QODER_MANAGED_LIVE_ALLOW_EXECUTION") == "true",
 	}
 }

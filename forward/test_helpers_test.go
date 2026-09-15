@@ -31,7 +31,7 @@ func reply(r *http.Request, status int, body string) *http.Response {
 }
 
 func testClient(fn roundTripFunc, opts ...option.RequestOption) forward.Client {
-	return forward.NewClient(append([]option.RequestOption{option.WithAccessToken("secret-pat"), option.WithBaseURL("https://qoder.test/api/v1/forward"), option.WithMaxRetries(0), option.WithHTTPClient(&http.Client{Transport: fn})}, opts...)...)
+	return forward.NewClient(append([]option.RequestOption{option.WithPAT("secret-pat"), option.WithBaseURL("https://qoder.test/api/v1/forward"), option.WithMaxRetries(0), option.WithHTTPClient(&http.Client{Transport: fn})}, opts...)...)
 }
 
 type operationCase struct {

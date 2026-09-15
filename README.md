@@ -64,12 +64,12 @@ import (
 )
 
 func main() {
-	token := os.Getenv("QODER_ACCESS_TOKEN")
+	token := os.Getenv("QODER_PAT")
 	if token == "" {
-		log.Fatal("set QODER_ACCESS_TOKEN")
+		log.Fatal("set QODER_PAT")
 	}
 	client := forward.NewClient(
-		option.WithAccessToken(token),
+		option.WithPAT(token),
 		option.WithBaseURL("https://api.qoder.com.cn/api/v1/forward"),
 	)
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
@@ -93,15 +93,15 @@ Explicit options always win over the environment. When a base URL or token is no
 
 | Setting | Forward | Managed |
 | --- | --- | --- |
-| Access token variable | `QODER_ACCESS_TOKEN` | `QODER_ACCESS_TOKEN` |
+| PAT variable | `QODER_PAT` | `QODER_PAT` |
 | Base URL variable | `QODER_FORWARD_BASE_URL` | `QODER_BASE_URL` |
 | Default base URL | `https://api.qoder.com/api/v1/forward/` | `https://api.qoder.com/api/v1/cloud/` |
 
 The defaults point at the international site; pass the CN base URL explicitly to reach CN. A base URL must include the full API root path, and the trailing `/` is optional. If the two modes use different accounts, pass each token to its own client.
 
-The clients do not read `.env` files. The programs under `examples/` have their own config loader, which prefers real environment variables and otherwise reads `QODER_FORWARD_PAT`, `QODER_MANAGED_PAT` and friends from `.env.live`, falling back to `QODER_ACCESS_TOKEN`.
+The clients do not read `.env` files. The programs under `examples/` have their own config loader, which prefers real environment variables and otherwise reads `QODER_FORWARD_PAT`, `QODER_MANAGED_PAT` and friends from `.env.live`, falling back to `QODER_PAT`.
 
-For rotating credentials, `option.WithCredential(provider)` accepts any implementation of `convention.Credential`. The provider is evaluated per request, and an `Authorization` header that is already present — including one derived from `QODER_ACCESS_TOKEN` — takes precedence, so do not configure a static token alongside a dynamic credential.
+For rotating credentials, `option.WithCredential(provider)` accepts any implementation of `convention.Credential`. The provider is evaluated per request, and an `Authorization` header that is already present — including one derived from `QODER_PAT` — takes precedence, so do not configure a static token alongside a dynamic credential.
 
 The remaining examples are function fragments meant to be dropped into an application; `package` and `import` blocks are omitted. Import the standard library packages each fragment uses, plus the SDK packages:
 
@@ -448,7 +448,7 @@ The wait comes from a valid `Retry-After-Ms` or `Retry-After` header when presen
 ```go
 func clientWithoutRetries(token string) forward.Client {
 	return forward.NewClient(
-		option.WithAccessToken(token),
+		option.WithPAT(token),
 		option.WithBaseURL("https://api.qoder.com.cn/api/v1/forward"),
 		option.WithMaxRetries(0),
 	)
@@ -574,7 +574,7 @@ The `option` package configures a client constructor or a single call. A method-
 | Option | Purpose |
 | --- | --- |
 | `WithBaseURL` | full API root URL |
-| `WithAccessToken` / `WithCredential` | static token or dynamic credential |
+| `WithPAT` / `WithCredential` | static token or dynamic credential |
 | `WithMaxRetries` / `WithRequestTimeout` | retry budget and per-attempt timeout |
 | `WithHeader` / `WithHeaderAdd` / `WithHeaderDel` | set, add or remove a request header |
 | `WithQuery` / `WithQueryAdd` / `WithQueryDel` | custom query parameters |
@@ -595,7 +595,7 @@ func clientWithTransport(token string) managed.Client {
 	transport := http.DefaultTransport.(*http.Transport).Clone()
 	transport.MaxIdleConnsPerHost = 20
 	return managed.NewClient(
-		option.WithAccessToken(token),
+		option.WithPAT(token),
 		option.WithBaseURL("https://api.qoder.com.cn/api/v1/cloud"),
 		option.WithHTTPClient(&http.Client{Transport: transport}),
 	)

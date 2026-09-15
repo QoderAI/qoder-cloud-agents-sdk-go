@@ -29,11 +29,11 @@ type Client struct {
 	Models          ModelService
 }
 
-// NewClient reads QODER_ACCESS_TOKEN and QODER_FORWARD_BASE_URL. Explicit options win.
+// NewClient reads QODER_PAT and QODER_FORWARD_BASE_URL. Explicit options win.
 func NewClient(opts ...option.RequestOption) Client {
 	defaults := []option.RequestOption{convention.WithDefaultBaseURL(DefaultBaseURL)}
-	if token := os.Getenv("QODER_ACCESS_TOKEN"); token != "" {
-		defaults = append(defaults, option.WithAccessToken(token))
+	if token := os.Getenv("QODER_PAT"); token != "" {
+		defaults = append(defaults, option.WithPAT(token))
 	}
 	if base := os.Getenv("QODER_FORWARD_BASE_URL"); base != "" {
 		defaults = append(defaults, option.WithBaseURL(base))

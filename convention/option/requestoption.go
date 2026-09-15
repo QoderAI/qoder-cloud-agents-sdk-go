@@ -268,8 +268,8 @@ func WithAuthToken(value string) RequestOption {
 	})
 }
 
-// WithAccessToken is the Qoder spelling of WithAuthToken.
-func WithAccessToken(value string) RequestOption { return WithAuthToken(value) }
+// WithPAT is the Qoder spelling of WithAuthToken.
+func WithPAT(value string) RequestOption { return WithAuthToken(value) }
 
 // WithCredential uses the same token provider as Forward Mode. The provider is
 // evaluated for each request; an explicit Authorization header takes precedence.

@@ -43,7 +43,7 @@ func newLiveSuite(t *testing.T, gates ...string) *liveSuite {
 		}
 	}
 	timeout := time.Duration(seconds) * time.Second
-	return &liveSuite{timeout: timeout, scenarioTimeout: testutil.ExecutionTimeout(t), client: forward.NewClient(option.WithAccessToken(os.Getenv("QODER_FORWARD_PAT")), option.WithRequestTimeout(timeout), option.WithMaxRetries(0), testutil.RequestLog(t))}
+	return &liveSuite{timeout: timeout, scenarioTimeout: testutil.ExecutionTimeout(t), client: forward.NewClient(option.WithPAT(os.Getenv("QODER_FORWARD_PAT")), option.WithRequestTimeout(timeout), option.WithMaxRetries(0), testutil.RequestLog(t))}
 }
 
 func liveEnabled(gate string) bool {

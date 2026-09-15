@@ -22,7 +22,7 @@ func NewPATCredential(token string) (*PATCredential, error) {
 
 func PATCredentialFromEnv(name string) (*PATCredential, error) {
 	if name == "" {
-		name = "QODER_ACCESS_TOKEN"
+		name = "QODER_PAT"
 	}
 	return NewPATCredential(os.Getenv(name))
 }

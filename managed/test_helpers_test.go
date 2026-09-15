@@ -80,7 +80,7 @@ func contractClient(t *testing.T, service, method string) managed.Client {
 			t.Errorf("HTTP calls: got %d want %d", count, want)
 		}
 	})
-	client := managed.NewClient(option.WithAccessToken("test-token"), option.WithBaseURL("https://qoder.test/api/v1/cloud"), option.WithMaxRetries(0), option.WithHTTPClient(&http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
+	client := managed.NewClient(option.WithPAT("test-token"), option.WithBaseURL("https://qoder.test/api/v1/cloud"), option.WithMaxRetries(0), option.WithHTTPClient(&http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
 		count++
 		if r.URL.Host == "storage.test" {
 			return reply(r, 200, "file bytes"), nil
@@ -125,7 +125,7 @@ func contractClient(t *testing.T, service, method string) managed.Client {
 }
 
 func testClient(fn roundTripFunc, opts ...option.RequestOption) managed.Client {
-	return managed.NewClient(append([]option.RequestOption{option.WithAccessToken("secret-pat"), option.WithBaseURL("https://qoder.test/api/v1/cloud"), option.WithMaxRetries(0), option.WithHTTPClient(&http.Client{Transport: fn})}, opts...)...)
+	return managed.NewClient(append([]option.RequestOption{option.WithPAT("secret-pat"), option.WithBaseURL("https://qoder.test/api/v1/cloud"), option.WithMaxRetries(0), option.WithHTTPClient(&http.Client{Transport: fn})}, opts...)...)
 }
 
 func jsonObject(t *testing.T, v any) map[string]any {
