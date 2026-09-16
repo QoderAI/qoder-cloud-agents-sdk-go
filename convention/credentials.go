@@ -58,3 +58,37 @@ func (transport *credentialTransport) RoundTrip(request *http.Request) (*http.Re
 	}
 	return transport.next.RoundTrip(cloned)
 }
+
+// NoCredentialsError is returned before a request is sent when no authentication
+// could be resolved. It mirrors the request-time validation in the Python and
+// TypeScript SDKs and is matchable with errors.As.
+type NoCredentialsError struct{}
+
+func (NoCredentialsError) Error() string {
+	return "qca: could not resolve authentication method. Expected one of pat or credential to be set, or the QODER_PAT environment variable to be configured"
+}
+
+// RequireCredential fails a request that reaches the wire without any authentication.
+// It is a defense-in-depth footgun-check on top of the server-side gateway; if the caller
+// installed a credential via option.WithPAT / option.WithCredential / a custom middleware,
+// or set the Authorization header directly, the sentinel steps aside.
+func RequireCredential() RequestOption {
+	preBuiltErr := &NoCredentialsError{}
+	return RequestOptionFunc(func(r *RequestConfig) error {
+		cfg := r
+		check := func(req *http.Request, next func(*http.Request) (*http.Response, error)) (*http.Response, error) {
+			if cfg.AuthToken != "" || cfg.APIKey != "" {
+				return next(req)
+			}
+			if len(cfg.Middlewares) > 1 {
+				return next(req)
+			}
+			if req.Header.Get("Authorization") != "" {
+				return next(req)
+			}
+			return nil, preBuiltErr
+		}
+		r.Middlewares = append(r.Middlewares, check)
+		return nil
+	})
+}

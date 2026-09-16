@@ -38,6 +38,7 @@ func NewClient(opts ...option.RequestOption) Client {
 	if base := os.Getenv("QODER_FORWARD_BASE_URL"); base != "" {
 		defaults = append(defaults, option.WithBaseURL(base))
 	}
+	defaults = append(defaults, convention.RequireCredential())
 	opts = slices.Concat(defaults, opts)
 	return Client{Options: opts,
 		Templates:       NewTemplateService(opts...),

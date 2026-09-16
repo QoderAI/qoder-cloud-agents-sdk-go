@@ -264,7 +264,7 @@ func TestStreamingCancellation(t *testing.T) {
 	defer server.Close()
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	client := forward.NewClient(option.WithBaseURL(server.URL), option.WithHTTPClient(server.Client()), option.WithMaxRetries(0))
+	client := forward.NewClient(option.WithPAT("secret-pat"), option.WithBaseURL(server.URL), option.WithHTTPClient(server.Client()), option.WithMaxRetries(0))
 	stream := client.Sessions.Events.StreamEvents(ctx, "sess_one", forward.SessionEventStreamParams{})
 	defer stream.Close()
 	if !stream.Next() {

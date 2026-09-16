@@ -38,6 +38,7 @@ func NewClient(opts ...option.RequestOption) Client {
 	if token := os.Getenv("QODER_PAT"); token != "" {
 		defaults = append(defaults, option.WithPAT(token))
 	}
+	defaults = append(defaults, convention.RequireCredential())
 	opts = slices.Concat(defaults, opts)
 	return Client{Options: opts, Agents: NewAgentService(opts...), Sessions: NewSessionService(opts...), Deployments: NewDeploymentService(opts...), DeploymentRuns: NewDeploymentRunService(opts...), Dreams: NewDreamService(opts...), Environments: NewEnvironmentService(opts...), Skills: NewSkillService(opts...), Vaults: NewVaultService(opts...), Files: NewFileService(opts...), MemoryStores: NewMemoryStoreService(opts...), Models: NewModelService(opts...)}
 }

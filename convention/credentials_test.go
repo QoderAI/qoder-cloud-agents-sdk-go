@@ -62,3 +62,37 @@ func TestCredentialSharedByBothModes(t *testing.T) {
 		t.Fatalf("token errors must not reach transport: %d calls", calls)
 	}
 }
+
+// Sentinel enforcement is defense-in-depth: without a credential the request must fail
+// locally rather than hit the wire with no Authorization header.
+func TestMissingCredentialFailsFirstRequest(t *testing.T) {
+	t.Setenv("QODER_PAT", "")
+	unreachable := &http.Client{Transport: transportFunc(func(r *http.Request) (*http.Response, error) {
+		t.Fatalf("transport must not be called without a credential: %s", r.URL.Path)
+		return nil, nil
+	})}
+	m := managed.NewClient(option.WithBaseURL("https://qoder.test/managed/"), option.WithHTTPClient(unreachable), option.WithMaxRetries(0))
+	f := forward.NewClient(option.WithBaseURL("https://qoder.test/forward/"), option.WithHTTPClient(unreachable), option.WithMaxRetries(0))
+	var noCredentials *convention.NoCredentialsError
+	if _, err := m.Agents.List(context.Background(), managed.AgentListParams{}); !errors.As(err, &noCredentials) {
+		t.Fatalf("managed: want NoCredentialsError, got %v", err)
+	}
+	if _, err := f.Templates.List(context.Background(), forward.TemplateListParams{}); !errors.As(err, &noCredentials) {
+		t.Fatalf("forward: want NoCredentialsError, got %v", err)
+	}
+	// Explicit PAT clears the sentinel.
+	reachable := &http.Client{Transport: transportFunc(func(r *http.Request) (*http.Response, error) {
+		if r.Header.Get("Authorization") != "Bearer explicit" {
+			t.Fatalf("authorization missing: %v", r.Header)
+		}
+		return &http.Response{StatusCode: 200, Header: http.Header{"Content-Type": {"application/json"}}, Body: io.NopCloser(strings.NewReader(`{"data":[],"has_more":false}`)), Request: r}, nil
+	})}
+	mOK := managed.NewClient(option.WithPAT("explicit"), option.WithBaseURL("https://qoder.test/managed/"), option.WithHTTPClient(reachable), option.WithMaxRetries(0))
+	fOK := forward.NewClient(option.WithPAT("explicit"), option.WithBaseURL("https://qoder.test/forward/"), option.WithHTTPClient(reachable), option.WithMaxRetries(0))
+	if _, err := mOK.Agents.List(context.Background(), managed.AgentListParams{}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := fOK.Templates.List(context.Background(), forward.TemplateListParams{}); err != nil {
+		t.Fatal(err)
+	}
+}

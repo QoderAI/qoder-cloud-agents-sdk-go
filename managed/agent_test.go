@@ -175,7 +175,7 @@ func TestPaginationAndOptionPrecedence(t *testing.T) {
 
 func TestPaginationPreservesCustomHTTPDoer(t *testing.T) {
 	calls := 0
-	c := managed.NewClient(option.WithBaseURL("https://no-network.test/"), option.WithHTTPClient(doerFunc(func(r *http.Request) (*http.Response, error) {
+	c := managed.NewClient(option.WithPAT("secret-pat"), option.WithBaseURL("https://no-network.test/"), option.WithHTTPClient(doerFunc(func(r *http.Request) (*http.Response, error) {
 		calls++
 		if calls == 1 {
 			return reply(r, 200, `{"data":[{"id":"a"}],"next_page":"next"}`), nil
