@@ -256,9 +256,9 @@ Managed takes the starting point as a request header and exposes message content
 
 ```go
 func readManagedTurn(ctx context.Context, client managed.Client, sessionID, afterID string) error {
-	stream := client.Sessions.Events.StreamEvents(ctx, sessionID, managed.SessionEventStreamParams{},
-		option.WithHeader("Last-Event-ID", afterID),
-	)
+	stream := client.Sessions.Events.StreamEvents(ctx, sessionID, managed.SessionEventStreamParams{
+		LastEventID: managed.String(afterID),
+	})
 	defer stream.Close()
 
 	for stream.Next() {
@@ -288,7 +288,23 @@ Close the stream, and check `Err()` once the loop ends. An idle event does not a
 
 To render text as it is produced, set `EventDeltas` on the stream params: `[]string{"agent.message"}` for Forward, `[]managed.ManagedAgentsDeltaType{"agent.message"}` for Managed. You then also receive `event_start` and `event_delta` previews, and the final complete event repeats the whole content. Update one message in place instead of appending both the deltas and the final content, and do not deduplicate deltas by event ID alone — one ID legitimately produces many delta events.
 
-Reconnection is the caller's job. Keep `stream.LastEventID()` and pass it as the next `LastEventID` or `Last-Event-ID`; the SDK does not resume a broken SSE stream on its own. Resume on the same Session, and do not resend a user message that was already accepted.
+`StreamEvents` is a one-shot connection. For automatic recovery, call `NewResumableStream` with the same arguments and iterate through the same `Next`, `Current`, `Err`, `LastEventID` and `Close` methods:
+
+```go
+stream := client.Sessions.Events.NewResumableStream(ctx, sessionID, forward.SessionEventStreamParams{
+	EventDeltas: []string{"agent.message"},
+	LastEventID: forward.String(afterID),
+})
+defer stream.Close()
+for stream.Next() {
+	handle(stream.Current())
+}
+if err := stream.Err(); err != nil {
+	return err
+}
+```
+
+The resumable stream checkpoints `LastEventID` only after yielding a decoded event, then reconnects transport/read failures and unexpected EOF with cancellable jittered exponential backoff from 500 ms to 10 seconds. Backoff resets only after an event arrives on a connection that has remained healthy for more than five seconds. It preserves stream params and request options on every connection. HTTP retry classification matches ordinary SDK requests: 408, 429, 5xx and transport failures retry (subject to `x-should-retry`), while 409 and other non-retryable 4xx errors stop. It neither clears an invalid cursor nor queries event history. Events are not deduplicated because multiple delta frames can legitimately share one ID. A yielded `session.status_terminated` or `session.deleted` event ends the stream normally; context cancellation and `Close` both stop an active connection or backoff wait.
 
 ## Request fields
 

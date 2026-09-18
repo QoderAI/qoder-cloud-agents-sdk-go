@@ -44,7 +44,7 @@ func TestStreamingEventsAndResume(t *testing.T) {
 		if r.Header.Get("Accept") != "text/event-stream" || r.Header.Get("Last-Event-ID") != "resume" || len(r.URL.Query()["event_deltas[]"]) != 2 {
 			t.Fatal("stream request conventions", r.Header, r.URL)
 		}
-		res := reply(r, 200, ": heartbeat\n\nevent: ping\ndata: {}\n\nid: shared\nevent: event_start\ndata: {\"type\":\"event_start\",\"id\":\"shared\"}\n\nid: shared\nevent: event_delta\ndata: {\"type\":\"event_delta\",\"id\":\"shared\"}\n\nid: final\nevent: agent.message\ndata: {\"type\":\"agent.message\",\"id\":\"final\",\"content\":[{\"type\":\"text\",\"text\":\"hello\"}]}\n\nevent: future.event\ndata: {\"type\":\"future.event\",\"id\":\"future\"}")
+		res := reply(r, 200, ": heartbeat\n\nevent: ping\ndata: {}\n\nid: shared\nevent: event_start\ndata: {\"type\":\"event_start\",\"id\":\"shared\"}\n\nid: shared\nevent: event_delta\ndata: {\"type\":\"event_delta\",\"id\":\"shared\"}\n\nid: final\nevent: agent.message\ndata: {\"type\":\"agent.message\",\"id\":\"final\",\"content\":[{\"type\":\"text\",\"text\":\"hello\"}]}\n\nevent: future.event\ndata: {\"type\":\"future.event\",\"id\":\"future\"}\n\n")
 		res.Header.Set("Content-Type", "text/event-stream")
 		return res, nil
 	})

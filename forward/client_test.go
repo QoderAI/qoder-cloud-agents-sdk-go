@@ -25,8 +25,9 @@ func TestForwardAPIInventory(t *testing.T) {
 			methods := field.Addr().Type()
 			for j := 0; j < methods.NumMethod(); j++ {
 				name := methods.Method(j).Name
-				if !strings.HasSuffix(name, "AutoPaging") {
-					actual[field.Type().Name()+"."+name] = true
+				key := field.Type().Name() + "." + name
+				if !strings.HasSuffix(name, "AutoPaging") && key != "SessionEventService.NewResumableStream" {
+					actual[key] = true
 				}
 			}
 			walk(field)

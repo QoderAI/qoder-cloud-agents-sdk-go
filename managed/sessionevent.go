@@ -95,6 +95,9 @@ func (r *SessionEventService) StreamEvents(ctx context.Context, sessionID string
 	for _, v := range params.Betas {
 		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", fmt.Sprintf("%v", v)))
 	}
+	if params.LastEventID.Valid() {
+		opts = append([]option.RequestOption{option.WithHeader("Last-Event-ID", fmt.Sprint(params.LastEventID.Value))}, opts...)
+	}
 	opts = slices.Concat(r.Options, []option.RequestOption{option.WithHeader("Accept", "text/event-stream")}, opts)
 
 	if sessionID == "" {
@@ -7638,6 +7641,8 @@ type SessionEventStreamParams struct {
 	EventDeltas []ManagedAgentsDeltaType `query:"event_deltas,omitzero" json:"-"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+	// Resume the subscription after this Event ID.
+	LastEventID param.Opt[string] `header:"Last-Event-ID,omitzero" json:"-"`
 	paramObj
 }
 

@@ -49,6 +49,16 @@ type responseDecoder struct {
 	response *http.Response
 }
 
+type readError struct{ error }
+
+func (e *readError) Unwrap() error { return e.error }
+func (*readError) Retryable() bool { return true }
+
+type decodeError struct{ error }
+
+func (e *decodeError) Unwrap() error { return e.error }
+func (*decodeError) Retryable() bool { return false }
+
 func (d *eventDecoder) Event() Event { return d.event }
 func (d *eventDecoder) Err() error   { return d.err }
 func (d *eventDecoder) Close() error { return d.body.Close() }
@@ -101,10 +111,7 @@ func (d *eventDecoder) Next() bool {
 		}
 	}
 	d.err = d.scanner.Err()
-	if d.err != nil {
-		return false
-	}
-	return dispatch()
+	return false
 }
 
 type Stream[T any] struct {
@@ -145,13 +152,15 @@ func (s *Stream[T]) Next() bool {
 		}
 		var value T
 		if err := json.Unmarshal(ev.Data, &value); err != nil {
-			s.err = err
+			s.err = &decodeError{error: err}
 			return false
 		}
 		s.cur = value
 		return true
 	}
-	s.err = s.decoder.Err()
+	if err := s.decoder.Err(); err != nil {
+		s.err = &readError{error: err}
+	}
 	s.done = true
 	return false
 }

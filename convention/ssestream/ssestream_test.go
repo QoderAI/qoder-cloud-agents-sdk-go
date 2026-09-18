@@ -51,6 +51,20 @@ func TestSSEFraming(t *testing.T) {
 		t.Fatal("unexpected final event", d.Err())
 	}
 }
+
+func TestSSEDecoderDiscardsIncompleteEOFFrame(t *testing.T) {
+	input := "id: complete\ndata: {\"id\":\"complete\"}\n\nid: incomplete\ndata: {\"id\":\"incomplete\"}"
+	d := ssestream.NewDecoder(&http.Response{Body: io.NopCloser(bytes.NewBufferString(input))})
+	defer d.Close()
+
+	if !d.Next() || d.Event().ID != "complete" {
+		t.Fatalf("complete event missing: event=%#v err=%v", d.Event(), d.Err())
+	}
+	if d.Next() || d.Err() != nil {
+		t.Fatalf("incomplete EOF frame was dispatched: event=%#v err=%v", d.Event(), d.Err())
+	}
+}
+
 func TestStreamTerminalState(t *testing.T) {
 	for _, terminal := range []string{"data: [DONE]\n\n", "data: {broken\n\n", "event: error\ndata: {\"error\":{\"message\":\"failed\"}}\n\n"} {
 		t.Run(terminal, func(t *testing.T) {
