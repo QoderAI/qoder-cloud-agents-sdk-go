@@ -1,0 +1,54 @@
+# PR CI baseline for qoder-cloud-agents-sdk-go.
+#
+# Matrix job (`check`) runs make lint → make build → make test across the
+# module's minimum Go version and a recent stable release. The docs-check job
+# runs on a single pinned Go version (matches the toolchain used to author
+# docs/api/reference.md) — go/doc rendering varies across Go versions, so
+# doc drift must be judged against exactly one.
+#
+# All jobs are offline: `make test` = test-unit (with the offline live
+# subset) + test-contract, no live tags, no PAT, no external Aliyun deps.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: check (${{ matrix.go-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version: ["1.23.x", "1.26.x"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: true
+      - name: make lint
+        run: make lint
+      - name: make build
+        run: make build
+      - name: make test
+        run: make test
+
+  docs-check:
+    name: docs-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          # Pinned to a single toolchain version — matches the version used
+          # to regenerate docs/api/reference.md locally. Bump both together.
+          go-version: "1.26.x"
+          cache: true
+      - name: make docs-check
+        run: make docs-check
