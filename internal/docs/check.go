@@ -21,9 +21,9 @@ var coreSurfaceMarkers = []struct {
 	{"# forward", 1},
 	{"# managed", 1},
 	{"# apierror", 1},
-	{"## type [Client]", 2},   // forward.Client AND managed.Client
+	{"## type [Client]", 2},     // forward.Client AND managed.Client
 	{"### func [NewClient]", 2}, // both constructors
-	{"## type [Error]", 1},    // apierror.Error
+	{"## type [Error]", 1},      // apierror.Error
 }
 
 // relativeLinkRe matches `[text](target)` markdown links whose target is a

@@ -740,10 +740,22 @@ The programs print their steps, messages, assistant replies and cleanup results;
 ```sh
 make test
 make build
+make lint
 go test -race ./...
 ```
 
 The offline tests cover request serialization, API contracts, response decoding, errors, retries, pagination, SSE and cleanup behaviour. Files ending in `_live_test.go` need the `live` build tag and a test configuration; the runnable examples do not.
+
+### API reference
+
+The committed API reference lives at [`docs/api/reference.md`](docs/api/reference.md) and is regenerated from the current source with a pinned `gomarkdoc` release:
+
+```sh
+make docs        # regenerate docs/api/reference.md
+make docs-check  # regenerate + drift/normalization/core-surface/link gate (used in CI)
+```
+
+The gate is what CI enforces; run `make docs` and commit the result whenever you change GoDoc on an exported symbol. Under the hood `make docs` runs `go run github.com/princjef/gomarkdoc/cmd/gomarkdoc@v1.1.0 --repository.url … --repository.default-branch main --repository.path / ./forward ./managed ./convention/...` — the version is pinned in `internal/docs/generate.go`.
 
 ## Versioning
 
