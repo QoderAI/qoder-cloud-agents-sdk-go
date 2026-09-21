@@ -3,7 +3,7 @@ package managed_test
 import (
 	"encoding/json"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 	managed "github.com/QoderAI/qoder-cloud-agents-sdk-go/managed"
 	"io"
 	"net/http"
@@ -55,7 +55,7 @@ func services(v reflect.Value, into map[string]reflect.Value) {
 
 func checkFields(t *testing.T, v reflect.Value, path string) {
 	t.Helper()
-	testutil.CheckFields(t, v, path)
+	testsupport.CheckFields(t, v, path)
 }
 
 func contractClient(t *testing.T, service, method string) managed.Client {

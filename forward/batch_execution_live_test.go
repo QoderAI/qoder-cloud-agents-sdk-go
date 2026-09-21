@@ -13,18 +13,18 @@ import (
 	"testing"
 
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 )
 
 func TestForwardBatchE2ELive(t *testing.T) {
-	testutil.RequireE2E(t, "FORWARD")
+	testsupport.RequireE2E(t, "FORWARD")
 	s := newLiveSuite(t, "WRITE", "EXECUTION")
-	ctx, cancel := context.WithTimeout(context.Background(), testutil.ExecutionTimeout(t))
+	ctx, cancel := context.WithTimeout(context.Background(), testsupport.ExecutionTimeout(t))
 	defer cancel()
 	identity := s.identity(t)
 	template := s.template(t, s.environment(t).ID)
-	marker := testutil.Marker(t)
+	marker := testsupport.Marker(t)
 	customID := liveName("task")
 	line, err := json.Marshal(map[string]any{"custom_id": customID, "template_id": template.ID, "identity_id": identity.ID, "body": map[string]any{"input": "Reply with exactly " + marker}})
 	liveCheck(t, err)
@@ -44,7 +44,7 @@ func TestForwardBatchE2ELive(t *testing.T) {
 		if batchTerminal(batch.Status) {
 			break
 		}
-		if err = testutil.PollPause(ctx); err != nil {
+		if err = testsupport.PollPause(ctx); err != nil {
 			t.Fatalf("batch=%s status=%s (execution depends on the server's batch window): %v", batchID, batch.Status, err)
 		}
 	}
@@ -132,7 +132,7 @@ func (s *liveSuite) finishBatch(ctx context.Context, id, customID, identityID, t
 		if batchTerminal(current.Status) {
 			break
 		}
-		if err = testutil.PollPause(ctx); err != nil {
+		if err = testsupport.PollPause(ctx); err != nil {
 			return fmt.Errorf("batch=%s remains %s: %w", id, current.Status, err)
 		}
 	}
@@ -144,7 +144,7 @@ func (s *liveSuite) finishBatch(ctx context.Context, id, customID, identityID, t
 	}
 	rows, err := s.batchOutput(ctx, id)
 	if err != nil {
-		return &testutil.CleanupFailure{Err: err}
+		return &testsupport.CleanupFailure{Err: err}
 	}
 	if len(rows) != 1 || rows[0].CustomID != customID || rows[0].IdentityID != identityID || rows[0].TemplateID != templateID {
 		return fmt.Errorf("batch=%s cleanup output does not match the test input", id)

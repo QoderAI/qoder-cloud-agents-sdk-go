@@ -5,20 +5,20 @@ package managed_test
 import (
 	"context"
 	"fmt"
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/managed"
 	"strings"
 	"testing"
 )
 
 func TestManagedDreamE2ELive(t *testing.T) {
-	testutil.RequireE2E(t, "MANAGED")
+	testsupport.RequireE2E(t, "MANAGED")
 	s := newManagedScenarioSuite(t)
 	s.requireExecution(t)
-	ctx, cancel := context.WithTimeout(context.Background(), testutil.ExecutionTimeout(t))
+	ctx, cancel := context.WithTimeout(context.Background(), testsupport.ExecutionTimeout(t))
 	defer cancel()
 	store := s.createMemoryStore(t)
-	marker := testutil.Marker(t)
+	marker := testsupport.Marker(t)
 	liveResult(s.client.MemoryStores.Memories.New(ctx, store.ID, managed.MemoryStoreMemoryNewParams{Path: "sdk-e2e/source.md", Content: managed.String("Permanent project verification code: " + marker + ". Preserve this exact code during consolidation.")})).require(t)
 	params := liveJSON[managed.DreamNewParams](t, map[string]any{"inputs": []any{map[string]any{"type": "memory_store", "memory_store_id": store.ID}}, "model": s.model(t), "instructions": "Consolidate the supplied memory into sdk-e2e/consolidated.md. Preserve the exact project verification code. Keep the original source."})
 	dream := liveResult(s.client.Dreams.New(ctx, params)).require(t)
@@ -40,7 +40,7 @@ func TestManagedDreamE2ELive(t *testing.T) {
 				if current.Status != "pending" && current.Status != "running" {
 					break
 				}
-				if err = testutil.PollPause(ctx); err != nil {
+				if err = testsupport.PollPause(ctx); err != nil {
 					return fmt.Errorf("dream=%s remains %s: %w", dream.ID, current.Status, err)
 				}
 			}
@@ -62,7 +62,7 @@ func TestManagedDreamE2ELive(t *testing.T) {
 		return err
 	})
 	for dream.Status == "pending" || dream.Status == "running" {
-		if err := testutil.PollPause(ctx); err != nil {
+		if err := testsupport.PollPause(ctx); err != nil {
 			t.Fatalf("dream=%s status=%s: %v", dream.ID, dream.Status, err)
 		}
 		dream = liveResult(s.client.Dreams.Get(ctx, dream.ID, managed.DreamGetParams{})).require(t)

@@ -5,7 +5,7 @@ package forward_test
 import (
 	"context"
 	"encoding/json"
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -128,7 +128,7 @@ func TestBatchMissingOutputCleanupOffline(t *testing.T) {
 		return reply(r, 200, `{"id":"batch","status":"cancelled","output_file_id":"internal","request_counts":{"total":1}}`), nil
 	})}
 	err := s.finishBatch(context.Background(), "batch", "task", "identity", "template")
-	if err == nil || testutil.ResourceAlreadyGone(err) {
+	if err == nil || testsupport.ResourceAlreadyGone(err) {
 		t.Fatalf("missing output silently ignored: %v", err)
 	}
 }

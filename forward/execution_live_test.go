@@ -12,15 +12,15 @@ import (
 
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 )
 
 func (s *liveSuite) waitTurn(t *testing.T, sessionID, after string, expected []string, tool, streaming bool) {
 	t.Helper()
-	ctx, cancel := context.WithTimeout(context.Background(), testutil.ExecutionTimeout(t))
+	ctx, cancel := context.WithTimeout(context.Background(), testsupport.ExecutionTimeout(t))
 	defer cancel()
-	result := testutil.TurnResult{LastID: after}
+	result := testsupport.TurnResult{LastID: after}
 	observe := func(raw string) bool {
 		t.Helper()
 		if err := result.Observe(raw); err != nil {
@@ -29,7 +29,7 @@ func (s *liveSuite) waitTurn(t *testing.T, sessionID, after string, expected []s
 		return result.Complete
 	}
 	if streaming {
-		stream := s.client.Sessions.Events.StreamEvents(ctx, sessionID, forward.SessionEventStreamParams{LastEventID: forward.String(after), IncludeToolCalls: forward.Bool(true)}, option.WithRequestTimeout(testutil.ExecutionTimeout(t)))
+		stream := s.client.Sessions.Events.StreamEvents(ctx, sessionID, forward.SessionEventStreamParams{LastEventID: forward.String(after), IncludeToolCalls: forward.Bool(true)}, option.WithRequestTimeout(testsupport.ExecutionTimeout(t)))
 		defer stream.Close()
 		for stream.Next() {
 			if observe(stream.Current().RawJSON()) {
@@ -54,7 +54,7 @@ func (s *liveSuite) waitTurn(t *testing.T, sessionID, after string, expected []s
 			if result.Complete {
 				break
 			}
-			liveCheck(t, testutil.PollPause(ctx))
+			liveCheck(t, testsupport.PollPause(ctx))
 		}
 	}
 	if err := result.Verify(expected, tool); err != nil {
@@ -93,7 +93,7 @@ func (s *liveSuite) finishSession(ctx context.Context, id string) error {
 			if session.Status == "idle" || session.Status == "terminated" {
 				break
 			}
-			if err = testutil.PollPause(ctx); err != nil {
+			if err = testsupport.PollPause(ctx); err != nil {
 				return err
 			}
 		}
@@ -102,12 +102,12 @@ func (s *liveSuite) finishSession(ctx context.Context, id string) error {
 	return err
 }
 func TestForwardExecutionE2ELive(t *testing.T) {
-	testutil.RequireE2E(t, "FORWARD")
+	testsupport.RequireE2E(t, "FORWARD")
 	s := newLiveSuite(t, "WRITE", "EXECUTION")
 	ctx := s.context(t)
 	env := s.environment(t)
 	identity := s.identity(t)
-	fileToken, envToken, skillToken, memoryToken := testutil.Marker(t), testutil.Marker(t), testutil.Marker(t), testutil.Marker(t)
+	fileToken, envToken, skillToken, memoryToken := testsupport.Marker(t), testsupport.Marker(t), testsupport.Marker(t), testsupport.Marker(t)
 	file := s.file(t, "sdk-e2e.txt", "session_resource", fileToken)
 	skillName := liveName("proof")
 	skill, err := s.client.Skills.New(ctx, forward.SkillNewParams{Files: []io.Reader{convention.UploadFile{Name: skillName + "/SKILL.md", Reader: strings.NewReader(fmt.Sprintf("---\nname: %s\ndescription: Provides the SDK_E2E_SKILL_TOKEN for SDK verification.\n---\nWhen asked for SDK_E2E_SKILL_TOKEN return exactly: %s\n", skillName, skillToken))}}})
@@ -136,7 +136,7 @@ func TestForwardExecutionE2ELive(t *testing.T) {
 	liveCheck(t, err)
 	s.cleanupSession(t, session.ID)
 	t.Logf("model=%s identity=%s template=%s file=%s skill=%s memory_store=%s", os.Getenv("QODER_FORWARD_MODEL"), identity.ID, template.ID, file.ID, skill.ID, store.ID)
-	echo := testutil.Marker(t)
+	echo := testsupport.Marker(t)
 	for _, scenario := range []struct {
 		name, prompt string
 		expected     []string

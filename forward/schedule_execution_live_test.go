@@ -5,20 +5,20 @@ package forward_test
 import (
 	"context"
 	"fmt"
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 	"testing"
 )
 
 func TestForwardScheduleE2ELive(t *testing.T) {
-	testutil.RequireE2E(t, "FORWARD")
+	testsupport.RequireE2E(t, "FORWARD")
 	s := newLiveSuite(t, "WRITE", "EXECUTION")
-	ctx, cancel := context.WithTimeout(context.Background(), testutil.ExecutionTimeout(t))
+	ctx, cancel := context.WithTimeout(context.Background(), testsupport.ExecutionTimeout(t))
 	defer cancel()
 	env := s.environment(t)
 	identity := s.identity(t)
 	template := s.template(t, env.ID)
-	marker := testutil.Marker(t)
+	marker := testsupport.Marker(t)
 	schedule, err := s.client.Schedules.New(ctx, forward.ScheduleNewParams{IdentityID: identity.ID, TemplateID: template.ID, EnvironmentID: env.ID, Name: liveName("schedule-e2e"), InitialEvents: []map[string]any{{"type": "user.message", "content": "Reply with exactly " + marker}}, TriggerPolicy: map[string]any{"type": "manual"}, Execution: map[string]any{"max_attempts": 1, "max_concurrent_runs": 1}})
 	liveCheck(t, err)
 	s.cleanup(t, "schedule "+schedule.ID, func(ctx context.Context) error {
@@ -43,7 +43,7 @@ func TestForwardScheduleE2ELive(t *testing.T) {
 		if run.Status == "failed" || run.Status == "skipped" {
 			t.Fatalf("schedule run=%s status=%s", runID, run.Status)
 		}
-		if err = testutil.PollPause(ctx); err != nil {
+		if err = testsupport.PollPause(ctx); err != nil {
 			t.Fatalf("schedule run=%s session=%s status=%s: %v", runID, sessionID, run.Status, err)
 		}
 	}
@@ -68,7 +68,7 @@ func (s *liveSuite) finishScheduleRun(ctx context.Context, runID, identityID str
 		if run.Status == "completed" {
 			return fmt.Errorf("completed run %s has no session", runID)
 		}
-		if err = testutil.PollPause(ctx); err != nil {
+		if err = testsupport.PollPause(ctx); err != nil {
 			return fmt.Errorf("run=%s remains %s without a session: %w", runID, run.Status, err)
 		}
 	}

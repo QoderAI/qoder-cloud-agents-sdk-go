@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 )
 
 func TestManagedDocumentedRequestBodies(t *testing.T) {
@@ -57,7 +57,7 @@ func TestManagedDocumentedRequestBodies(t *testing.T) {
 				}
 				return reply(r, 200, `{}`), nil
 			})
-			_, err := testutil.InvokeJSON(t, client, testutil.Endpoint{Service: c.Service, Method: c.Method}, c.Body)
+			_, err := testsupport.InvokeJSON(t, client, testsupport.Endpoint{Service: c.Service, Method: c.Method}, c.Body)
 			if err != nil {
 				t.Fatal(err)
 			}
