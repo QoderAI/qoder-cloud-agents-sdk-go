@@ -1,14 +1,14 @@
 package forward_test
 
 import (
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 	"testing"
 )
 
 func TestForwardFailureContracts(t *testing.T) {
-	var endpoints []testutil.Endpoint
+	var endpoints []testsupport.Endpoint
 	for _, c := range contracts(t) {
-		endpoints = append(endpoints, testutil.Endpoint{Service: c.Service, Method: c.Name})
+		endpoints = append(endpoints, testsupport.Endpoint{Service: c.Service, Method: c.Name})
 	}
-	testutil.FailureContracts(t, endpoints, func(fn testutil.Transport) any { return testClient(roundTripFunc(fn)) })
+	testsupport.FailureContracts(t, endpoints, func(fn testsupport.Transport) any { return testClient(roundTripFunc(fn)) })
 }

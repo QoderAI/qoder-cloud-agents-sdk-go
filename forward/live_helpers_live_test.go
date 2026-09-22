@@ -14,8 +14,8 @@ import (
 
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 )
 
 type liveSuite struct {
@@ -43,7 +43,7 @@ func newLiveSuite(t *testing.T, gates ...string) *liveSuite {
 		}
 	}
 	timeout := time.Duration(seconds) * time.Second
-	return &liveSuite{timeout: timeout, scenarioTimeout: testutil.ExecutionTimeout(t), client: forward.NewClient(option.WithPAT(os.Getenv("QODER_FORWARD_PAT")), option.WithRequestTimeout(timeout), option.WithMaxRetries(0), testutil.RequestLog(t))}
+	return &liveSuite{timeout: timeout, scenarioTimeout: testsupport.ExecutionTimeout(t), client: forward.NewClient(option.WithPAT(os.Getenv("QODER_FORWARD_PAT")), option.WithRequestTimeout(timeout), option.WithMaxRetries(0), testsupport.RequestLog(t))}
 }
 
 func liveEnabled(gate string) bool {
@@ -54,7 +54,7 @@ func liveName(prefix string) string { return fmt.Sprintf("sdk-%s-%d", prefix, ti
 func liveCheck(t *testing.T, err error) {
 	t.Helper()
 	if err != nil {
-		t.Fatal(testutil.SafeError(err))
+		t.Fatal(testsupport.SafeError(err))
 	}
 }
 func (s *liveSuite) context(t *testing.T) context.Context {
@@ -69,10 +69,10 @@ func (s *liveSuite) cleanup(t *testing.T, label string, fn func(context.Context)
 		ctx, cancel := context.WithTimeout(context.Background(), s.scenarioTimeout)
 		defer cancel()
 		if err := fn(ctx); err != nil {
-			if testutil.ResourceAlreadyGone(err) {
+			if testsupport.ResourceAlreadyGone(err) {
 				return
 			}
-			t.Errorf("cleanup %s: %s", label, testutil.SafeError(err))
+			t.Errorf("cleanup %s: %s", label, testsupport.SafeError(err))
 		}
 	})
 }

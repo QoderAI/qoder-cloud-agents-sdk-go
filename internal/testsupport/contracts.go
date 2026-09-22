@@ -1,5 +1,5 @@
 // Package testutil contains shared assertions for the two SDK contract suites.
-package testutil
+package testsupport
 
 import (
 	"context"

@@ -16,8 +16,8 @@ import (
 
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 )
 
 const pathSegment = "segment /?%#"
@@ -338,7 +338,7 @@ func checkDecoded(t *testing.T, result any) {
 }
 func checkFields(t *testing.T, v reflect.Value, path string) {
 	t.Helper()
-	testutil.CheckFields(t, v, path)
+	testsupport.CheckFields(t, v, path)
 }
 
 func jsonObject(t *testing.T, value any) map[string]any {

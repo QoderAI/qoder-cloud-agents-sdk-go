@@ -12,15 +12,15 @@ import (
 
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/managed"
 )
 
 func (s *managedScenarioSuite) waitTurn(t *testing.T, id, after string, expected []string, tool, streaming bool) {
 	t.Helper()
-	ctx, cancel := context.WithTimeout(context.Background(), testutil.ExecutionTimeout(t))
+	ctx, cancel := context.WithTimeout(context.Background(), testsupport.ExecutionTimeout(t))
 	defer cancel()
-	result := testutil.TurnResult{LastID: after}
+	result := testsupport.TurnResult{LastID: after}
 	observe := func(raw string) bool {
 		t.Helper()
 		if err := result.Observe(raw); err != nil {
@@ -29,7 +29,7 @@ func (s *managedScenarioSuite) waitTurn(t *testing.T, id, after string, expected
 		return result.Complete
 	}
 	if streaming {
-		stream := s.client.Sessions.Events.StreamEvents(ctx, id, managed.SessionEventStreamParams{}, option.WithHeader("Last-Event-ID", after), option.WithRequestTimeout(testutil.ExecutionTimeout(t)))
+		stream := s.client.Sessions.Events.StreamEvents(ctx, id, managed.SessionEventStreamParams{}, option.WithHeader("Last-Event-ID", after), option.WithRequestTimeout(testsupport.ExecutionTimeout(t)))
 		defer stream.Close()
 		for stream.Next() {
 			if observe(stream.Current().RawJSON()) {
@@ -37,7 +37,7 @@ func (s *managedScenarioSuite) waitTurn(t *testing.T, id, after string, expected
 			}
 		}
 		if err := stream.Err(); err != nil {
-			t.Fatal(testutil.SafeError(err))
+			t.Fatal(testsupport.SafeError(err))
 		}
 	} else {
 		for !result.Complete {
@@ -53,13 +53,13 @@ func (s *managedScenarioSuite) waitTurn(t *testing.T, id, after string, expected
 				}
 			}
 			if err := page.Err(); err != nil {
-				t.Fatal(testutil.SafeError(err))
+				t.Fatal(testsupport.SafeError(err))
 			}
 			if result.Complete {
 				break
 			}
-			if err := testutil.PollPause(ctx); err != nil {
-				t.Fatal(testutil.SafeError(err))
+			if err := testsupport.PollPause(ctx); err != nil {
+				t.Fatal(testsupport.SafeError(err))
 			}
 		}
 	}
@@ -75,7 +75,7 @@ func (s *managedScenarioSuite) sendTurn(t *testing.T, id, prompt string) string 
 	params := liveJSON[managed.SessionEventSendParams](t, map[string]any{"events": []any{map[string]any{"type": "user.message", "content": []any{map[string]any{"type": "text", "text": prompt}}}}})
 	res, err := s.client.Sessions.Events.Send(ctx, id, params, option.WithHeader("Idempotency-Key", managedUnique("send")))
 	if err != nil {
-		t.Fatal(testutil.SafeError(err))
+		t.Fatal(testsupport.SafeError(err))
 	}
 	if res == nil || len(res.Data) != 1 || res.Data[0].ID == "" {
 		t.Fatal("send did not return one user event ID")
@@ -105,7 +105,7 @@ func (s *managedScenarioSuite) finishSession(ctx context.Context, id string) err
 			if session.Status == "idle" || session.Status == "terminated" {
 				break
 			}
-			if err = testutil.PollPause(ctx); err != nil {
+			if err = testsupport.PollPause(ctx); err != nil {
 				return err
 			}
 		}
@@ -114,13 +114,13 @@ func (s *managedScenarioSuite) finishSession(ctx context.Context, id string) err
 	return err
 }
 func TestManagedExecutionE2ELive(t *testing.T) {
-	testutil.RequireE2E(t, "MANAGED")
+	testsupport.RequireE2E(t, "MANAGED")
 	s := newManagedScenarioSuite(t)
 	s.requireExecution(t)
-	ctx, cancel := context.WithTimeout(context.Background(), testutil.ExecutionTimeout(t))
+	ctx, cancel := context.WithTimeout(context.Background(), testsupport.ExecutionTimeout(t))
 	defer cancel()
 	env := s.createEnvironment(t)
-	fileToken, envToken, skillToken, memoryToken := testutil.Marker(t), testutil.Marker(t), testutil.Marker(t), testutil.Marker(t)
+	fileToken, envToken, skillToken, memoryToken := testsupport.Marker(t), testsupport.Marker(t), testsupport.Marker(t), testsupport.Marker(t)
 	file := liveResult(s.client.Files.Upload(ctx, managed.FileUploadParams{File: convention.UploadFile{Name: "sdk-e2e.txt", Reader: strings.NewReader(fileToken)}})).require(t)
 	s.cleanup(t, "file "+file.ID, func(ctx context.Context) error {
 		_, err := s.client.Files.Delete(ctx, file.ID, managed.FileDeleteParams{})
@@ -144,7 +144,7 @@ func TestManagedExecutionE2ELive(t *testing.T) {
 	session := liveResult(s.client.Sessions.New(ctx, sessionParams)).require(t)
 	s.cleanupSession(t, session.ID)
 	t.Logf("model=%s agent=%s file=%s skill=%s memory_store=%s", os.Getenv("QODER_MANAGED_MODEL"), agent.ID, file.ID, skill.ID, store.ID)
-	echo := testutil.Marker(t)
+	echo := testsupport.Marker(t)
 	for _, scenario := range []struct {
 		name, prompt string
 		expected     []string

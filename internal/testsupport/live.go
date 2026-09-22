@@ -1,6 +1,6 @@
 //go:build live
 
-package testutil
+package testsupport
 
 import (
 	"context"

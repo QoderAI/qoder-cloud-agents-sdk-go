@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
-	"github.com/QoderAI/qoder-cloud-agents-sdk-go/examples/testutil"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/internal/testsupport"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/managed"
 	"os"
 	"strconv"
@@ -44,8 +44,8 @@ func newManagedScenarioSuite(t *testing.T) *managedScenarioSuite {
 		base = managed.DefaultBaseURL
 	}
 	return &managedScenarioSuite{
-		client:  managed.NewClient(option.WithPAT(token), option.WithBaseURL(base), option.WithRequestTimeout(timeout), option.WithMaxRetries(0), testutil.RequestLog(t)),
-		timeout: timeout, scenarioTimeout: testutil.ExecutionTimeout(t), allowWrite: os.Getenv("QODER_MANAGED_LIVE_ALLOW_WRITE") == "true", allowExecution: os.Getenv("QODER_MANAGED_LIVE_ALLOW_EXECUTION") == "true",
+		client:  managed.NewClient(option.WithPAT(token), option.WithBaseURL(base), option.WithRequestTimeout(timeout), option.WithMaxRetries(0), testsupport.RequestLog(t)),
+		timeout: timeout, scenarioTimeout: testsupport.ExecutionTimeout(t), allowWrite: os.Getenv("QODER_MANAGED_LIVE_ALLOW_WRITE") == "true", allowExecution: os.Getenv("QODER_MANAGED_LIVE_ALLOW_EXECUTION") == "true",
 	}
 }
 func (s *managedScenarioSuite) context() (context.Context, context.CancelFunc) {
@@ -70,10 +70,10 @@ func (s *managedScenarioSuite) cleanup(t *testing.T, label string, run func(cont
 		ctx, cancel := context.WithTimeout(context.Background(), s.scenarioTimeout)
 		defer cancel()
 		if err := run(ctx); err != nil {
-			if testutil.ResourceAlreadyGone(err) {
+			if testsupport.ResourceAlreadyGone(err) {
 				return
 			}
-			t.Errorf("cleanup %s: %s", label, testutil.SafeError(err))
+			t.Errorf("cleanup %s: %s", label, testsupport.SafeError(err))
 		}
 	})
 }
@@ -90,7 +90,7 @@ func liveResult[T any](value T, err error) liveResponse[T] { return liveResponse
 func (r liveResponse[T]) require(t *testing.T) T {
 	t.Helper()
 	if r.err != nil {
-		t.Fatal(testutil.SafeError(r.err))
+		t.Fatal(testsupport.SafeError(r.err))
 	}
 	return r.value
 }
