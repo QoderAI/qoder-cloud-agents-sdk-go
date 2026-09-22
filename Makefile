@@ -2,10 +2,33 @@ PYTHON ?= python3
 LIVE_ENV_FILE ?= .env.live
 .DEFAULT_GOAL := test
 
-.PHONY: build test test-unit test-contract test-live test-live-check test-live-managed test-live-managed-check test-live-all check-version
+.PHONY: build test test-unit test-contract test-live test-live-check test-live-managed test-live-managed-check test-live-all check-version docs docs-check lint
 
 build:
 	go build ./...
+
+# Regenerate the committed API reference from source (public forward / managed
+# / convention packages via a pinned gomarkdoc; see internal/docs).
+docs:
+	go run ./internal/docs/cmd/generate
+
+# Drift + normalization + coarse core-surface + internal-link gate. Red when
+# committed docs/api/reference.md lags source, when any source link still
+# carries a #Lxx anchor, when the core public surface is missing from the
+# output, or when an internal relative link is broken.
+docs-check:
+	go run ./internal/docs/cmd/check
+
+# gofmt + go vet gate. Fails if any tracked .go file is not gofmt'd or if vet
+# reports a diagnostic. Wired into the CI matrix (see .github/workflows/ci.yml).
+lint:
+	@unformatted=$$(gofmt -l .); \
+		if test -n "$$unformatted"; then \
+			echo "gofmt reports unformatted files:" >&2; \
+			echo "$$unformatted" >&2; \
+			exit 1; \
+		fi
+	go vet ./...
 
 # Run before tagging a release: the reported version is a compile-time constant,
 # so tagging without bumping it makes the SDK report a version it is not.
