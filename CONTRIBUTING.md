@@ -52,6 +52,14 @@ The fixtures are maintained manually. A passing fixture test proves consistency 
 
 The SDK intentionally keeps Qoder-branded `X-Qoder-*` metadata headers and resumable session-event streams. Preserve those extensions unless the change explicitly revises the public contract. Breaking public API changes require a minor-version release while the SDK remains pre-1.0 and must include migration notes.
 
+## Release
+
+Before the first release, create the GitHub `release` Environment with required reviewers and a deployment-branch rule limited to `main`. Add a tag ruleset for `refs/tags/v*` that blocks updates and deletions and allows creation only by the release automation identity used by this workflow. Keep those protections enabled; do not dispatch the workflow until they are configured.
+
+For each release, merge a focused pull request that updates `convention/version.go` and any release notes, then run `make check-version VERSION=<version>` locally. From the workflow page, select the `main` ref and provide the version without `v`, the current full lowercase 40-character `main` commit SHA, and a 1-64 character `batch_id` that starts with a letter or digit and otherwise contains only letters, digits, `.`, `_`, or `-`.
+
+The workflow revalidates `main`, runs the offline lint, build, test, documentation, and example gates, and creates only the annotated module tag after Environment approval. It then waits for the public Go proxy and verifies that the exact tag resolves to the approved commit from empty module and build caches. Release tags are immutable: never move, delete, or overwrite one. Fix a bad release forward with a new version bump and a new workflow run.
+
 ## Pull requests
 
 Complete the pull request template, include exact verification commands and results, and identify public API, documentation, integration-test, and cross-SDK effects. Do not combine unrelated refactors with behavior changes.
