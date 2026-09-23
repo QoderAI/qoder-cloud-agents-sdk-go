@@ -1,5 +1,7 @@
 # Qoder Cloud Agents Go SDK
 
+[Changelog](CHANGELOG.md) · [Releases](https://github.com/QoderAI/qoder-cloud-agents-sdk-go/releases)
+
 The Qoder Cloud Agents Go SDK provides access to the Qoder Cloud Agents API from Go. It offers typed request parameters, context cancellation, streamed events and per-request configuration.
 
 The SDK ships two clients that share authentication, transport, retries, error handling, parameter encoding and pagination:

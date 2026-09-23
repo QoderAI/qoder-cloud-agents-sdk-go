@@ -52,3 +52,13 @@ jobs:
           cache: true
       - name: make docs-check
         run: make docs-check
+
+  release-notes:
+    name: release-notes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Validate changelog
+        run: python3 .github/scripts/release_notes.py check
+      - name: Test release notes automation
+        run: python3 -m unittest discover -s .github/scripts -p 'test_*.py'
