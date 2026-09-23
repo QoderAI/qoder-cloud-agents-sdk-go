@@ -1,0 +1,346 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Canonical Go module version without the v prefix
+        required: true
+        type: string
+      commit_sha:
+        description: Full 40-character lowercase SHA of the current main commit
+        required: true
+        type: string
+      batch_id:
+        description: '1-64 characters; start with a letter or digit; use only letters, digits, ., _, or -'
+        required: true
+        type: string
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  MODULE_PATH: github.com/QoderAI/qoder-cloud-agents-sdk-go
+  PROXY_MODULE_PATH: github.com/!qoder!a!i/qoder-cloud-agents-sdk-go
+
+jobs:
+  preflight:
+    name: preflight
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Validate dispatch inputs
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+          BATCH_ID: ${{ inputs.batch_id }}
+        run: |
+          set -euo pipefail
+
+          if [[ "$GITHUB_REF" != refs/heads/main || "$GITHUB_WORKFLOW_REF" != *@refs/heads/main ]]; then
+            echo "Release workflow must be dispatched from the main workflow ref." >&2
+            exit 1
+          fi
+          if [[ ! "$COMMIT_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "commit_sha must be a full 40-character lowercase commit SHA" >&2
+            exit 1
+          fi
+          if [[ ! "$BATCH_ID" =~ ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$ ]]; then
+            echo "batch_id must be 1-64 safe audit-token characters" >&2
+            exit 1
+          fi
+
+          semver_re='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$'
+          if [[ ! "$RELEASE_VERSION" =~ $semver_re ]]; then
+            echo "version must be canonical Go semver without a v prefix or build metadata" >&2
+            exit 1
+          fi
+          if [[ "$RELEASE_VERSION" == *-* ]]; then
+            prerelease="${RELEASE_VERSION#*-}"
+            IFS=. read -ra identifiers <<< "$prerelease"
+            for identifier in "${identifiers[@]}"; do
+              if [[ "$identifier" =~ ^[0-9]+$ && "$identifier" != "0" && "$identifier" == 0* ]]; then
+                echo "version has a numeric prerelease identifier with a leading zero: $identifier" >&2
+                exit 1
+              fi
+            done
+          fi
+
+      - name: Check out the approved commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: "1.26.x"
+          cache: true
+
+      - name: Validate main, module version, tag, and proxy state
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+          BATCH_ID: ${{ inputs.batch_id }}
+        run: |
+          set -euo pipefail
+
+          git fetch --force --prune origin \
+            '+refs/heads/main:refs/remotes/origin/main' \
+            '+refs/tags/*:refs/tags/*'
+
+          checked_out_sha=$(git rev-parse HEAD)
+          main_sha=$(git rev-parse refs/remotes/origin/main)
+          tag="v${RELEASE_VERSION}"
+          tag_sha=$(git rev-parse -q --verify "refs/tags/$tag^{commit}" || true)
+          if [[ "$checked_out_sha" != "$COMMIT_SHA" ]]; then
+            echo "Checked out $checked_out_sha instead of requested $COMMIT_SHA" >&2
+            exit 1
+          fi
+          if [[ "$main_sha" != "$COMMIT_SHA" && "$tag_sha" != "$COMMIT_SHA" ]]; then
+            echo "commit_sha $COMMIT_SHA is not current origin/main $main_sha and has no matching release tag" >&2
+            exit 1
+          fi
+
+          VERSION="$RELEASE_VERSION" make check-version
+
+          module=$(go list -m -f '{{.Path}}')
+          if [[ "$module" != "$MODULE_PATH" ]]; then
+            echo "Workflow module $MODULE_PATH does not match go.mod module $module" >&2
+            exit 1
+          fi
+
+          tag="v${RELEASE_VERSION}"
+          tag_exists=false
+          if git show-ref --verify --quiet "refs/tags/$tag"; then
+            tag_exists=true
+            if [[ "$(git cat-file -t "refs/tags/$tag")" != tag ]]; then
+              echo "Remote tag $tag must be annotated." >&2
+              exit 1
+            fi
+            tag_sha=$(git rev-list -n 1 "refs/tags/$tag")
+            if [[ "$tag_sha" != "$COMMIT_SHA" ]]; then
+              echo "Remote tag $tag already points to $tag_sha" >&2
+              exit 1
+            fi
+            tag_message=$(git for-each-ref --format='%(contents)' "refs/tags/$tag")
+            if [[ "$tag_message" != "Release $tag (batch_id: $BATCH_ID)" ]]; then
+              echo "Remote tag $tag does not have the expected release annotation." >&2
+              exit 1
+            fi
+          fi
+
+          proxy_tag=$(python3 -c 'import sys; print("".join("!" + c.lower() if c.isupper() else c for c in sys.argv[1]))' "$tag")
+          proxy_response="$RUNNER_TEMP/go-proxy-version"
+          proxy_url="https://proxy.golang.org/${PROXY_MODULE_PATH}/@v/${proxy_tag}.info"
+          if ! proxy_status=$(curl --connect-timeout 10 --max-time 30 --silent --show-error --output "$proxy_response" --write-out '%{http_code}' "$proxy_url"); then
+            echo "Failed to query the public Go proxy" >&2
+            exit 1
+          fi
+          case "$proxy_status" in
+            200)
+              if [[ "$tag_exists" != true ]]; then
+                echo "Public Go proxy already has $tag but the remote tag is absent" >&2
+                exit 1
+              fi
+              ;;
+            404|410)
+              ;;
+            *)
+              echo "Public Go proxy returned HTTP $proxy_status" >&2
+              exit 1
+              ;;
+          esac
+
+      - name: Lint
+        run: make lint
+      - name: Build
+        run: make build
+      - name: Test
+        run: make test
+      - name: Check generated documentation
+        run: make docs-check
+      - name: Build examples
+        run: go build ./examples/...
+
+  publish:
+    name: publish tag
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the approved commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 0
+
+      - name: Revalidate main and publish tag
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+          BATCH_ID: ${{ inputs.batch_id }}
+        run: |
+          set -euo pipefail
+
+          git fetch --force --prune origin \
+            '+refs/heads/main:refs/remotes/origin/main' \
+            '+refs/tags/*:refs/tags/*'
+
+          checked_out_sha=$(git rev-parse HEAD)
+          main_sha=$(git rev-parse refs/remotes/origin/main)
+          tag="v${RELEASE_VERSION}"
+          tag_sha=$(git rev-parse -q --verify "refs/tags/$tag^{commit}" || true)
+          if [[ "$checked_out_sha" != "$COMMIT_SHA" ]]; then
+            echo "Checked out $checked_out_sha instead of requested $COMMIT_SHA" >&2
+            exit 1
+          fi
+          if [[ "$main_sha" != "$COMMIT_SHA" && "$tag_sha" != "$COMMIT_SHA" ]]; then
+            echo "origin/main moved to $main_sha before the release tag was created; dispatch a new release" >&2
+            exit 1
+          fi
+
+          tag_exists=false
+          if git show-ref --verify --quiet "refs/tags/$tag"; then
+            tag_exists=true
+            if [[ "$(git cat-file -t "refs/tags/$tag")" != tag ]]; then
+              echo "Remote tag $tag must be annotated." >&2
+              exit 1
+            fi
+            tag_sha=$(git rev-list -n 1 "refs/tags/$tag")
+            if [[ "$tag_sha" != "$COMMIT_SHA" ]]; then
+              echo "Remote tag $tag already points to $tag_sha" >&2
+              exit 1
+            fi
+            tag_message=$(git for-each-ref --format='%(contents)' "refs/tags/$tag")
+            if [[ "$tag_message" != "Release $tag (batch_id: $BATCH_ID)" ]]; then
+              echo "Remote tag $tag does not have the expected release annotation." >&2
+              exit 1
+            fi
+          fi
+
+          proxy_tag=$(python3 -c 'import sys; print("".join("!" + c.lower() if c.isupper() else c for c in sys.argv[1]))' "$tag")
+          proxy_url="https://proxy.golang.org/${PROXY_MODULE_PATH}/@v/${proxy_tag}.info"
+          proxy_status=$(curl --connect-timeout 10 --max-time 30 --silent --show-error --output /dev/null --write-out '%{http_code}' "$proxy_url")
+          if [[ "$proxy_status" == 200 && "$tag_exists" != true ]]; then
+            echo "Public Go proxy already has $tag but the remote tag is absent." >&2
+            exit 1
+          fi
+          if [[ "$proxy_status" != 200 && "$proxy_status" != 404 && "$proxy_status" != 410 ]]; then
+            echo "Public Go proxy returned HTTP $proxy_status." >&2
+            exit 1
+          fi
+
+          if [[ "$tag_exists" == true ]]; then
+            echo "Remote tag $tag already points to $COMMIT_SHA; reusing it"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag --annotate "$tag" "$COMMIT_SHA" \
+            --message "Release $tag (batch_id: $BATCH_ID)"
+          git push --atomic --force-with-lease="refs/heads/main:$COMMIT_SHA" origin \
+            "${COMMIT_SHA}:refs/heads/main" "refs/tags/$tag"
+
+  verify:
+    name: verify public module
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: "1.26.x"
+          cache: false
+
+      - name: Wait for the public Go proxy
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+
+          tag="v${RELEASE_VERSION}"
+          proxy_tag=$(python3 -c 'import sys; print("".join("!" + c.lower() if c.isupper() else c for c in sys.argv[1]))' "$tag")
+          proxy_url="https://proxy.golang.org/${PROXY_MODULE_PATH}/@v/${proxy_tag}.info"
+          proxy_response="$RUNNER_TEMP/go-proxy-version-info"
+          for ((attempt = 1; attempt <= 30; attempt++)); do
+            proxy_status=000
+            if status=$(curl --connect-timeout 10 --max-time 30 --silent --show-error --output "$proxy_response" --write-out '%{http_code}' "$proxy_url"); then
+              proxy_status=$status
+            fi
+            if [[ "$proxy_status" == 200 ]]; then
+              echo "Public Go proxy serves $tag"
+              break
+            fi
+            if [[ "$attempt" == 30 ]]; then
+              echo "Public Go proxy did not serve $tag after 30 attempts (last HTTP status: $proxy_status)" >&2
+              exit 1
+            fi
+            echo "Waiting for $tag on the public Go proxy (attempt $attempt/30, HTTP $proxy_status)"
+            sleep 10
+          done
+
+      - name: Verify clean module consumption
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          set -euo pipefail
+
+          tag="v${RELEASE_VERSION}"
+          temp_root=$(mktemp -d)
+          cleanup() {
+            chmod -R u+w "$temp_root" 2>/dev/null || true
+            rm -rf "$temp_root"
+          }
+          trap cleanup EXIT
+          export GOMODCACHE="$temp_root/gomodcache"
+          export GOCACHE="$temp_root/gocache"
+          export GOPROXY=https://proxy.golang.org
+          module_dir="$temp_root/module"
+          mkdir -p "$GOMODCACHE" "$GOCACHE" "$module_dir"
+          cd "$module_dir"
+
+          go mod init example.com/qoder-release-verification
+          download_json=$(go mod download -json "${MODULE_PATH}@${tag}")
+          origin_hash=$(python3 -c 'import json, sys; print(json.load(sys.stdin).get("Origin", {}).get("Hash", ""))' <<< "$download_json")
+          if [[ "$origin_hash" != "$COMMIT_SHA" ]]; then
+            echo "Public Go proxy origin is $origin_hash, not approved commit $COMMIT_SHA." >&2
+            exit 1
+          fi
+          go get "${MODULE_PATH}@${tag}"
+          selected_version=$(go list -m -f '{{.Version}}' "$MODULE_PATH")
+          if [[ "$selected_version" != "$tag" ]]; then
+            echo "Resolved $MODULE_PATH@$selected_version instead of $tag" >&2
+            exit 1
+          fi
+
+          cat > main.go <<EOF
+          package main
+
+          import (
+          	_ "${MODULE_PATH}/convention"
+          	_ "${MODULE_PATH}/forward"
+          	_ "${MODULE_PATH}/managed"
+          )
+
+          func main() {}
+          EOF
+          gofmt -w main.go
+          go build .

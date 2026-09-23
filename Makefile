@@ -30,16 +30,44 @@ lint:
 		fi
 	go vet ./...
 
-# Run before tagging a release: the reported version is a compile-time constant,
-# so tagging without bumping it makes the SDK report a version it is not.
+# Run before tagging a release. VERSION is the prospective version without the
+# v prefix; it must be canonical Go semver and match both the module path and
+# the compile-time packageVersion reported by the SDK.
 check-version:
-	@const=$$(sed -n 's/^const packageVersion = "\(.*\)"$$/\1/p' convention/version.go); \
-		tag=$$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//'); \
-		if test -z "$$tag"; then echo "no tag reachable; skipped" >&2; exit 0; fi; \
-		if test "$$const" != "$$tag"; then \
-			echo "packageVersion is $$const but the latest tag is v$$tag" >&2; exit 1; \
+	@set -eu; version="$${VERSION:-}"; \
+		if test -z "$$version"; then \
+			echo "VERSION is required (for example: make check-version VERSION=0.1.0)" >&2; exit 1; \
 		fi; \
-		echo "packageVersion matches v$$tag"
+		if ! printf '%s\n' "$$version" | grep -Eq '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$$'; then \
+			echo "VERSION must be canonical Go semver without a v prefix or build metadata: $$version" >&2; exit 1; \
+		fi; \
+		case "$$version" in \
+			*-*) prerelease=$${version#*-}; old_ifs=$$IFS; IFS=.; set -- $$prerelease; IFS=$$old_ifs; \
+				for identifier do \
+					if printf '%s\n' "$$identifier" | grep -Eq '^[0-9]+$$'; then \
+						case "$$identifier" in 0|[1-9]*) ;; *) \
+							echo "VERSION has a numeric prerelease identifier with a leading zero: $$identifier" >&2; exit 1 ;; \
+						esac; \
+					fi; \
+				done ;; \
+		esac; \
+		module=$$(go list -m -f '{{.Path}}'); major=$${version%%.*}; \
+		case "$$major" in \
+			0|1) if printf '%s\n' "$$module" | grep -Eq '/v([2-9]|[1-9][0-9]+)$$'; then \
+				echo "module $$module is incompatible with major version $$major" >&2; exit 1; \
+			fi ;; \
+			*) case "$$module" in */v"$$major") ;; *) \
+				echo "module $$module must end in /v$$major for VERSION=$$version" >&2; exit 1 ;; \
+			esac ;; \
+		esac; \
+		const=$$(sed -n 's/^const packageVersion = "\(.*\)"$$/\1/p' convention/version.go); \
+		if test -z "$$const"; then \
+			echo "could not read packageVersion from convention/version.go" >&2; exit 1; \
+		fi; \
+		if test "$$const" != "$$version"; then \
+			echo "packageVersion is $$const but VERSION is $$version" >&2; exit 1; \
+		fi; \
+		echo "packageVersion and module path are valid for v$$version"
 
 test: test-unit test-contract
 
