@@ -4,10 +4,13 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"io"
 	"mime"
 	"mime/multipart"
+	"net"
 	"net/http"
+	"net/http/httptest"
 	"net/url"
 	"strings"
 	"testing"
@@ -21,10 +24,118 @@ import (
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/pagination"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/param"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/respjson"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/managed"
 )
 
 // Fixed upstream provenance: anthropics/anthropic-sdk-go tag v1.74.0,
 // commit 3cb26e4450dc5294618ab9cc40377e5dd79ac413.
+
+func TestConformanceDefaultResponseHeaderTimeout(t *testing.T) {
+	for name, options := range map[string][]option.RequestOption{
+		"forward": forward.NewClient(option.WithPAT("test-token")).Options,
+		"managed": managed.NewClient(option.WithPAT("test-token")).Options,
+	} {
+		t.Run(name, func(t *testing.T) {
+			cfg, err := convention.NewRequestConfig(context.Background(), http.MethodGet, "models", nil, nil, options...)
+			if err != nil {
+				t.Fatal(err)
+			}
+			transport, ok := cfg.HTTPClient.Transport.(*http.Transport)
+			if !ok || transport == http.DefaultTransport {
+				t.Fatal("client must have its own transport without modifying http.DefaultTransport")
+			}
+			if transport.ResponseHeaderTimeout != 10*time.Minute {
+				t.Fatalf("response header timeout = %v", transport.ResponseHeaderTimeout)
+			}
+			if cfg.HTTPClient.Timeout != 0 || cfg.RequestTimeout != 0 {
+				t.Fatal("default timeout must not limit the response body or total stream duration")
+			}
+			next, err := convention.NewRequestConfig(context.Background(), http.MethodGet, "models", nil, nil, options...)
+			if err != nil || next.HTTPClient != cfg.HTTPClient {
+				t.Fatalf("requests must reuse the client's connection pool: %v", err)
+			}
+			custom := &http.Client{Timeout: time.Second}
+			overridden, err := convention.NewRequestConfig(context.Background(), http.MethodGet, "models", nil, nil, append(options, option.WithHTTPClient(custom))...)
+			if err != nil || overridden.HTTPClient != custom {
+				t.Fatalf("explicit HTTP client must take precedence: %v", err)
+			}
+		})
+	}
+}
+
+func TestConformanceHeaderTimeoutAndStreamLifetime(t *testing.T) {
+	const timeout = 100 * time.Millisecond
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/headers" {
+			<-r.Context().Done()
+			return
+		}
+		w.Header().Set("Content-Type", "text/event-stream")
+		w.WriteHeader(http.StatusOK)
+		w.(http.Flusher).Flush()
+		if r.URL.Path == "/request-timeout" {
+			<-r.Context().Done()
+			return
+		}
+		time.Sleep(2 * timeout)
+		_, _ = io.WriteString(w, "data: {}\n\n")
+	}))
+	defer server.Close()
+	client := convention.DefaultHTTPClient()
+	defer client.CloseIdleConnections()
+	client.Transport.(*http.Transport).ResponseHeaderTimeout = timeout
+	for _, path := range []string{"headers", "stream", "request-timeout"} {
+		t.Run(path, func(t *testing.T) {
+			ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+			defer cancel()
+			opts := []option.RequestOption{option.WithBaseURL(server.URL), option.WithHTTPClient(client), option.WithMaxRetries(0)}
+			if path == "request-timeout" {
+				opts = append(opts, option.WithRequestTimeout(timeout))
+			}
+			var response *http.Response
+			err := convention.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &response, opts...)
+			var body []byte
+			if err == nil {
+				defer response.Body.Close()
+				body, err = io.ReadAll(response.Body)
+			}
+			if path == "stream" {
+				if err != nil || string(body) != "data: {}\n\n" {
+					t.Fatalf("response header timeout interrupted stream body: %q, %v", body, err)
+				}
+			} else {
+				var timeoutError net.Error
+				if !errors.As(err, &timeoutError) || !timeoutError.Timeout() || ctx.Err() != nil {
+					t.Fatalf("expected transport/request timeout before caller deadline, got %v", err)
+				}
+			}
+		})
+	}
+}
+
+func TestConformanceWrappedDefaultTransport(t *testing.T) {
+	previous := http.DefaultTransport
+	t.Cleanup(func() { http.DefaultTransport = previous })
+	calls := 0
+	http.DefaultTransport = roundTripFunc(func(*http.Request) (*http.Response, error) {
+		calls++
+		return jsonResponse(http.StatusOK, `{}`), nil
+	})
+	client := convention.DefaultHTTPClient()
+	request, err := http.NewRequest(http.MethodGet, "https://sdk.test/resource", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	response, err := client.Do(request)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer response.Body.Close()
+	if calls != 1 || client.Timeout != 0 {
+		t.Fatal("custom default transport must be preserved without a total timeout")
+	}
+}
 
 type roundTripFunc func(*http.Request) (*http.Response, error)
 

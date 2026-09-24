@@ -24,6 +24,7 @@ Commands and results:
 ## Impact
 
 - [ ] Public API or behavior changed
+- [ ] User-facing changes added to `CHANGELOG.md` under `Unreleased`, or not applicable (explain below)
 - [ ] Generated API documentation updated
 - [ ] Forward/Managed contract fixtures updated
 - [ ] Python and TypeScript parity considered

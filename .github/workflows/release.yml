@@ -160,6 +160,16 @@ jobs:
               ;;
           esac
 
+      - name: Validate and preview release notes
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          python3 .github/scripts/release_notes.py extract \
+            --version "$RELEASE_VERSION" --output "$RUNNER_TEMP/release-notes.md"
+          echo "## Changelog for v$RELEASE_VERSION" >> "$GITHUB_STEP_SUMMARY"
+          cat "$RUNNER_TEMP/release-notes.md" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Lint
         run: make lint
       - name: Build
@@ -344,3 +354,28 @@ jobs:
           EOF
           gofmt -w main.go
           go build .
+
+  github-release:
+    name: publish release notes
+    needs: [preflight, verify]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_VERSION: ${{ inputs.version }}
+      RELEASE_COMMIT_SHA: ${{ inputs.commit_sha }}
+      RELEASE_PRERELEASE: ${{ contains(inputs.version, '-') }}
+    steps:
+      - name: Check out the approved commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Create or verify GitHub Release
+        run: |
+          python3 .github/scripts/release_notes.py publish \
+            --version "$RELEASE_VERSION" \
+            --commit-sha "$RELEASE_COMMIT_SHA" \
+            --prerelease "$RELEASE_PRERELEASE"

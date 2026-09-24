@@ -42,8 +42,8 @@ type HTTPClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-// WithHTTPClient returns a RequestOption that changes the underlying http client used to make this
-// request, which by default is [http.DefaultClient].
+// WithHTTPClient returns a RequestOption that changes the underlying HTTP client.
+// Forward and Managed clients use [requestconfig.DefaultHTTPClient] by default.
 //
 // For custom uses cases, it is recommended to provide an [*http.Client] with a custom
 // [http.RoundTripper] as its transport, rather than directly implementing [HTTPClient].

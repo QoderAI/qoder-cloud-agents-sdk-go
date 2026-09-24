@@ -1,5 +1,7 @@
 # Qoder Cloud Agents Go SDK
 
+[Changelog](CHANGELOG.md) · [Releases](https://github.com/QoderAI/qoder-cloud-agents-sdk-go/releases)
+
 The Qoder Cloud Agents Go SDK provides access to the Qoder Cloud Agents API from Go. It offers typed request parameters, context cancellation, streamed events and per-request configuration.
 
 The SDK ships two clients that share authentication, transport, retries, error handling, parameter encoding and pagination:
@@ -479,7 +481,9 @@ An idempotency key stands for one logical operation, and the caller generates an
 
 ## Timeouts
 
-There is no default request timeout, and the default HTTP client is `http.DefaultClient`. Bound the whole call and each HTTP attempt separately:
+By default, Forward and Managed clients clone `http.DefaultTransport` and set a 10-minute response-header timeout, matching Anthropic's Go SDK. This bounds the wait for response headers after the request has been fully written; it does not limit reading the response body or the total duration of an SSE stream. A custom `WithHTTPClient` takes precedence; if `http.DefaultTransport` has been replaced by a wrapper, that wrapper is preserved and controls its own timeouts.
+
+There is no default whole-call deadline. Bound the whole call and each HTTP attempt separately:
 
 ```go
 func getWithTimeout(parent context.Context, client forward.Client, sessionID string) (*forward.Session, error) {
@@ -604,11 +608,12 @@ The full list lives in [requestoption.go](convention/option/requestoption.go).
 
 ## HTTP client customization
 
-`WithHTTPClient` configures connection pooling, proxies or a custom transport. The fragment below keeps the default transport's settings and only raises the idle connection limit:
+`WithHTTPClient` configures connection pooling, proxies or a custom transport. The fragment below keeps the standard transport settings, sets the same response-header timeout as the SDK default, and raises the idle connection limit:
 
 ```go
 func clientWithTransport(token string) managed.Client {
 	transport := http.DefaultTransport.(*http.Transport).Clone()
+	transport.ResponseHeaderTimeout = 10 * time.Minute
 	transport.MaxIdleConnsPerHost = 20
 	return managed.NewClient(
 		option.WithPAT(token),

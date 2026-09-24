@@ -54025,6 +54025,7 @@ Package convention implements Qoder authentication, transport, request options, 
 
 ## Index
 
+- [func DefaultHTTPClient\(\) \*http.Client](<#DefaultHTTPClient>)
 - [func DownloadAPITo\(ctx context.Context, client \*http.Client, baseURL string, path string, destination io.Writer\) error](<#DownloadAPITo>)
 - [func DownloadBytes\(ctx context.Context, client \*http.Client, url string\) \(\[\]byte, error\)](<#DownloadBytes>)
 - [func DownloadFile\(ctx context.Context, path string, opts ...RequestOption\) \(\*http.Response, error\)](<#DownloadFile>)
@@ -54062,6 +54063,15 @@ Package convention implements Qoder authentication, transport, request options, 
   - [func \(f UploadFile\) ContentType\(\) string](<#UploadFile.ContentType>)
   - [func \(f UploadFile\) Filename\(\) string](<#UploadFile.Filename>)
 
+
+<a name="DefaultHTTPClient"></a>
+## func [DefaultHTTPClient](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/defaultclient.go>)
+
+```go
+func DefaultHTTPClient() *http.Client
+```
+
+DefaultHTTPClient returns a client with a ten\-minute response\-header timeout. Response bodies, including event streams, have no default total deadline. A custom http.DefaultTransport wrapper is preserved without modification.
 
 <a name="DownloadAPITo"></a>
 ## func [DownloadAPITo](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/files.go>)
@@ -63093,7 +63103,7 @@ WithCredential uses the same token provider as Forward Mode. The provider is eva
 func WithHTTPClient(client HTTPClient) RequestOption
 ```
 
-WithHTTPClient returns a RequestOption that changes the underlying http client used to make this request, which by default is \[http.DefaultClient\].
+WithHTTPClient returns a RequestOption that changes the underlying HTTP client. Forward and Managed clients use \[requestconfig.DefaultHTTPClient\] by default.
 
 For custom uses cases, it is recommended to provide an \[\*http.Client\] with a custom \[http.RoundTripper\] as its transport, rather than directly implementing [HTTPClient](<#HTTPClient>).
 
