@@ -31,7 +31,10 @@ type Client struct {
 
 // NewClient reads QODER_PAT and QODER_BASE_URL. Explicit options win.
 func NewClient(opts ...option.RequestOption) Client {
-	defaults := []option.RequestOption{convention.WithDefaultBaseURL(DefaultBaseURL)}
+	defaults := []option.RequestOption{
+		option.WithHTTPClient(convention.DefaultHTTPClient()),
+		convention.WithDefaultBaseURL(DefaultBaseURL),
+	}
 	if base := os.Getenv("QODER_BASE_URL"); base != "" {
 		defaults = append(defaults, option.WithBaseURL(base))
 	}

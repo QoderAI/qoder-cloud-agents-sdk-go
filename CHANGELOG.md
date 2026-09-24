@@ -5,6 +5,10 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Changed
+
+- Forward and Managed clients now wait at most 10 minutes for response headers by default, matching Anthropic's Go SDK. This timeout does not limit response-body reads or SSE duration; explicit HTTP clients and request/context deadlines retain their own settings.
+
 ## [0.1.0]
 
 ### Added
