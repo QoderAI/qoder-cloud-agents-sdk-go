@@ -36,7 +36,7 @@ lint:
 check-version:
 	@set -eu; version="$${VERSION:-}"; \
 		if test -z "$$version"; then \
-			echo "VERSION is required (for example: make check-version VERSION=0.1.0)" >&2; exit 1; \
+			echo "VERSION is required (for example: make check-version VERSION=0.2.0)" >&2; exit 1; \
 		fi; \
 		if ! printf '%s\n' "$$version" | grep -Eq '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$$'; then \
 			echo "VERSION must be canonical Go semver without a v prefix or build metadata: $$version" >&2; exit 1; \
