@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "operation_count": 110,
+  "operation_count": 113,
   "cases": [
     {
       "operation_id": "addSessionResource",
@@ -4768,6 +4768,162 @@
       ],
       "request_body": null,
       "source": "Forward router POST /environments/{id}/archive; verified against CN production on 2026-09-09"
+    },
+    {
+      "operation_id": "updateVaultCredential",
+      "resource": "Vaults.Credentials",
+      "clients": {
+        "go": "Vaults.Credentials",
+        "typescript": "vaults.credentials"
+      },
+      "methods": {
+        "go": "Update",
+        "typescript": "update"
+      },
+      "http_method": "POST",
+      "path": "/vaults/{id}/credentials/{cred_id}",
+      "parameters": [
+        {
+          "wire_name": "id",
+          "location": "path",
+          "required": true,
+          "value": "path_contract"
+        },
+        {
+          "wire_name": "cred_id",
+          "location": "path",
+          "required": true,
+          "value": "path_contract"
+        },
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": false,
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "auth": {
+            "type": "static_bearer",
+            "token": "rotated-test-token"
+          },
+          "metadata": {
+            "remove": null,
+            "rotated_by": "sdk"
+          }
+        }
+      },
+      "source": "cloud-agent/cloud-agents-api-doc origin/master 1b3f3d023b8631395c3f65577a507050d3893d12 (2026-10-09)"
+    },
+    {
+      "operation_id": "listIdentityUsage",
+      "resource": "Usage",
+      "clients": {
+        "go": "Usage",
+        "typescript": "usage"
+      },
+      "methods": {
+        "go": "ListIdentities",
+        "typescript": "listIdentities"
+      },
+      "http_method": "GET",
+      "path": "/usage/identities",
+      "parameters": [
+        {
+          "wire_name": "start_at",
+          "location": "query",
+          "required": true,
+          "value": "2026-09-14T09:00:00"
+        },
+        {
+          "wire_name": "end_at",
+          "location": "query",
+          "required": true,
+          "value": "2026-09-14T12:00:00"
+        },
+        {
+          "wire_name": "identity_ids",
+          "location": "query",
+          "required": false,
+          "value": [
+            "idn_one",
+            "idn_two"
+          ]
+        },
+        {
+          "wire_name": "template_ids",
+          "location": "query",
+          "required": false,
+          "value": [
+            "tmpl_one",
+            "tmpl_two"
+          ]
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "value": 20
+        }
+      ],
+      "request_body": null,
+      "source": "cloud-agent/cloud-agents-api-doc origin/master 1b3f3d023b8631395c3f65577a507050d3893d12 (2026-10-09)"
+    },
+    {
+      "operation_id": "listTemplateUsage",
+      "resource": "Usage",
+      "clients": {
+        "go": "Usage",
+        "typescript": "usage"
+      },
+      "methods": {
+        "go": "ListTemplates",
+        "typescript": "listTemplates"
+      },
+      "http_method": "GET",
+      "path": "/usage/templates",
+      "parameters": [
+        {
+          "wire_name": "start_at",
+          "location": "query",
+          "required": true,
+          "value": "2026-09-14T09:00:00"
+        },
+        {
+          "wire_name": "end_at",
+          "location": "query",
+          "required": true,
+          "value": "2026-09-14T12:00:00"
+        },
+        {
+          "wire_name": "identity_ids",
+          "location": "query",
+          "required": false,
+          "value": [
+            "idn_one",
+            "idn_two"
+          ]
+        },
+        {
+          "wire_name": "template_ids",
+          "location": "query",
+          "required": false,
+          "value": [
+            "tmpl_one",
+            "tmpl_two"
+          ]
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "value": 20
+        }
+      ],
+      "request_body": null,
+      "source": "cloud-agent/cloud-agents-api-doc origin/master 1b3f3d023b8631395c3f65577a507050d3893d12 (2026-10-09)"
     }
   ]
 }

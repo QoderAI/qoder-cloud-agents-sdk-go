@@ -5,6 +5,12 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Added
+
+- Forward Vault Credential updates for secret rotation and metadata merge patches, with automatic retries disabled for write-only updates.
+- Forward Usage aggregation by Identity and Template using hourly `start_at` / `end_at` windows in Asia/Shanghai, with fractional `active_seconds` and multi-ID filters. Legacy timestamp parameters are not exposed.
+- Managed Session cancellation with the lightweight acknowledgement for both active and idle sessions, plus deployment-scoped Run listing and retrieval.
+
 ## [0.2.0] - 2026-09-24
 
 ### Changed

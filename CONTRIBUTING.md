@@ -36,6 +36,20 @@ go build ./examples/...
 
 Never commit `.env.live`, tokens, credentials, generated logs, or test output. Live tests must register cleanup immediately after creating a resource.
 
+`make test-live-all` includes Forward hourly Usage, Credential merge patches
+and secret redaction, and Managed Session cancellation before and after sending
+a turn. Managed deployment tests cover scoped Run listing/retrieval. Active
+cancellation and scoped Run execution require the corresponding
+`LIVE_ALLOW_WRITE=true` and `LIVE_ALLOW_EXECUTION=true` gates. Use a separate
+`LIVE_ENV_FILE` with matching URL and PAT for CN and Global.
+
+Usage queries the last 24 completed whole hours in Asia/Shanghai in both regions;
+empty pages verify only the collection. A Session may finish before cancellation
+and return HTTP 200 instead of 202; tests record which response occurred. Those
+responses do not prove active cancellation occurred. Cleanup failures remain
+failures; offline replay exercises assertions and cleanup without account
+credentials.
+
 ## API and contract changes
 
 When adding or changing an endpoint:

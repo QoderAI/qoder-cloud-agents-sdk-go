@@ -26,6 +26,7 @@ type Client struct {
 	Skills          SkillService
 	Vaults          VaultService
 	MemoryStores    MemoryStoreService
+	Usage           UsageService
 	Models          ModelService
 }
 
@@ -57,6 +58,7 @@ func NewClient(opts ...option.RequestOption) Client {
 		Skills:          NewSkillService(opts...),
 		Vaults:          NewVaultService(opts...),
 		MemoryStores:    NewMemoryStoreService(opts...),
+		Usage:           NewUsageService(opts...),
 		Models:          NewModelService(opts...),
 	}
 }

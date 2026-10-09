@@ -4,7 +4,9 @@ package managed_test
 
 import (
 	"context"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/managed"
+	"net/http"
 	"testing"
 )
 
@@ -33,5 +35,10 @@ func TestSessionLifecycleLive(t *testing.T) {
 	liveResult(s.client.Sessions.Events.List(ctx, session.ID, managed.SessionEventListParams{})).require(t)
 	liveResult(s.client.Sessions.Resources.List(ctx, session.ID, managed.SessionResourceListParams{})).require(t)
 	liveResult(s.client.Sessions.Threads.List(ctx, session.ID, managed.SessionThreadListParams{})).require(t)
+	var raw *http.Response
+	ack := liveResult(s.client.Sessions.Cancel(ctx, session.ID, managed.SessionCancelParams{}, option.WithResponseInto(&raw))).require(t)
+	if raw.StatusCode != 200 || ack.ID != session.ID || ack.Type != "session" || ack.Status != "canceling" {
+		t.Fatal("idle cancellation did not return the lightweight acknowledgement")
+	}
 
 }

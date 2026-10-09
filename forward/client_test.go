@@ -34,8 +34,8 @@ func TestForwardAPIInventory(t *testing.T) {
 		}
 	}
 	walk(root)
-	if len(actual) != 110 {
-		t.Fatalf("HTTP methods: %d want 110", len(actual))
+	if len(actual) != 113 {
+		t.Fatalf("HTTP methods: %d want 113", len(actual))
 	}
 	baseline := map[string]bool{}
 	for _, c := range operations(t) {
