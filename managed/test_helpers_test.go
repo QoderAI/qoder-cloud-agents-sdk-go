@@ -51,7 +51,7 @@ func services(v reflect.Value, into map[string]reflect.Value) {
 }
 
 // Contract fixtures come from official documentation, independently of the adapted services.
-// The inventory also detects extra HTTP methods outside the authorized 95 endpoints.
+// The inventory also detects extra HTTP methods outside the authorized 98 endpoints.
 
 func checkFields(t *testing.T, v reflect.Value, path string) {
 	t.Helper()

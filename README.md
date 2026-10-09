@@ -8,12 +8,13 @@ The SDK ships two clients that share authentication, transport, retries, error h
 
 | Mode | Package | Resources |
 | --- | --- | --- |
-| Forward | `forward` | Identity, Template, Session, Schedule, Batch, Channel, Environment, File, Skill, Vault, MemoryStore, Model |
+| Forward | `forward` | Identity, Template, Session, Schedule, Batch, Channel, Environment, File, Skill, Vault, MemoryStore, Model, Usage |
 | Managed | `managed` | Agent, Session, Deployment, Dream, Environment, File, Skill, Vault, MemoryStore, Model |
 
 - [Installation](#installation)
 - [Requirements](#requirements)
 - [Usage](#usage)
+- [Usage and cancellation](#usage-and-cancellation)
 - [Conversations](#conversations)
 - [System prompts and tools](#system-prompts-and-tools)
 - [Streaming](#streaming)
@@ -114,6 +115,40 @@ The remaining examples are function fragments meant to be dropped into an applic
 | `convention` | `github.com/QoderAI/qoder-cloud-agents-sdk-go/convention` |
 | `option` | `github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option` |
 | `param` | `github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/param` |
+
+## Usage and cancellation
+
+Forward Usage requires PAT or Admin SAT.
+
+```go
+usage, err := client.Usage.ListIdentities(ctx, forward.UsageListParams{
+    StartAt: "2026-09-14T09:00:00",
+    EndAt: "2026-09-14T12:00:00",
+    IdentityIDs: []string{"idn_one", "idn_two"},
+})
+if err != nil {
+    return err
+}
+for _, item := range usage.Data {
+    fmt.Println(item.IdentityID, item.ActiveSeconds, item.Credits)
+}
+```
+
+`Usage.ListTemplates` uses the same filters. Both bounds are whole hours in
+Asia/Shanghai, including Global: the start is inclusive, the end exclusive, and
+the maximum window is 744 hours. Use `ActiveSeconds` without truncating fractions.
+Legacy `start_time`, `end_time`, and `duration_seconds` are not exposed.
+
+Rotate Forward secrets with `client.Vaults.Credentials.Update`; only `auth` and
+`metadata` are patched, and omitted fields are preserved. Use
+`param.NullMap[map[string]any]()` to clear metadata, or a map value of `nil` to remove
+a key. Updates never retry automatically; secret values are not returned by GET.
+
+Managed adds `client.Sessions.Cancel(ctx, sessionID, managed.SessionCancelParams{})`,
+which returns a lightweight `canceling` acknowledgement (HTTP 202 for active work,
+200 for an idle no-op). It also exposes `client.Deployments.Runs.List` and `Get`,
+with the deployment ID as a path argument; the existing global `DeploymentRuns`
+resource remains available.
 
 ## Conversations
 

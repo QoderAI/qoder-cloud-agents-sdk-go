@@ -3154,5 +3154,101 @@
     "download": false,
     "raw": false,
     "empty": false
+  },
+  {
+    "service": "VaultCredentialService",
+    "name": "Update",
+    "response": {
+      "id": "vcred_xxx",
+      "type": "vault_credential",
+      "vault_id": "vault_xxx",
+      "auth": {
+        "type": "static_bearer",
+        "mcp_server_url": "https://mcp.example.com"
+      },
+      "display_name": "",
+      "metadata": {
+        "rotated_by": "console"
+      },
+      "archived_at": null,
+      "created_at": "2026-07-23T10:00:00Z",
+      "updated_at": "2026-08-27T12:00:00Z"
+    },
+    "operation_id": "updateVaultCredential",
+    "entry": "Vaults.Credentials",
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "service": "UsageService",
+    "name": "ListIdentities",
+    "response": {
+      "type": "identity_usage.list",
+      "start_at": "2026-09-14T09:00:00",
+      "end_at": "2026-09-14T12:00:00",
+      "has_more": false,
+      "first_id": "idn_abc",
+      "last_id": "idn_efg",
+      "data": [
+        {
+          "type": "identity_usage",
+          "identity_id": "idn_abc",
+          "session_count": 3,
+          "active_seconds": 720.222,
+          "credits": 3.1
+        },
+        {
+          "type": "identity_usage",
+          "identity_id": "idn_efg",
+          "session_count": 2,
+          "active_seconds": 480.222,
+          "credits": 1.58
+        }
+      ]
+    },
+    "operation_id": "listIdentityUsage",
+    "entry": "Usage",
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "service": "UsageService",
+    "name": "ListTemplates",
+    "response": {
+      "type": "template_usage.list",
+      "start_at": "2026-09-14T09:00:00",
+      "end_at": "2026-09-14T12:00:00",
+      "has_more": false,
+      "first_id": "tmpl_123",
+      "last_id": "tmpl_456",
+      "data": [
+        {
+          "type": "template_usage",
+          "template_id": "tmpl_123",
+          "active_identities": 2,
+          "session_count": 3,
+          "active_seconds": 900.321,
+          "credits": 3.45
+        },
+        {
+          "type": "template_usage",
+          "template_id": "tmpl_456",
+          "active_identities": 2,
+          "session_count": 2,
+          "active_seconds": 300.123,
+          "credits": 1.23
+        }
+      ]
+    },
+    "operation_id": "listTemplateUsage",
+    "entry": "Usage",
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
   }
 ]

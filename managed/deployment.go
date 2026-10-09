@@ -28,6 +28,7 @@ import (
 // the [NewDeploymentService] method instead.
 type DeploymentService struct {
 	Options []option.RequestOption
+	Runs    DeploymentScopedRunService
 }
 
 // NewDeploymentService generates a new service that applies the given options
@@ -36,6 +37,7 @@ type DeploymentService struct {
 func NewDeploymentService(opts ...option.RequestOption) (r DeploymentService) {
 	r = DeploymentService{}
 	r.Options = opts
+	r.Runs = NewDeploymentScopedRunService(opts...)
 	return
 }
 

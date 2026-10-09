@@ -2890,3 +2890,46 @@ type SessionArchiveParams struct {
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
+
+// Cancel requests cancellation of the current turn (202); an idle session is a safe no-op (200).
+func (r *SessionService) Cancel(ctx context.Context, sessionID string, params SessionCancelParams, opts ...option.RequestOption) (res *SessionCancelResponse, err error) {
+	if sessionID == "" {
+		return nil, fmt.Errorf("missing required sessionID parameter")
+	}
+	if params.WorkspaceID.Valid() {
+		opts = append([]option.RequestOption{option.WithHeader("qoder-workspace-id", params.WorkspaceID.Value)}, opts...)
+	}
+	for _, beta := range params.Betas {
+		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", string(beta)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	path := fmt.Sprintf("sessions/%s/cancel", url.PathEscape(sessionID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
+}
+
+type SessionCancelParams struct {
+	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	Betas       []QoderBeta       `header:"x-qoder-beta,omitzero" json:"-"`
+	paramObj
+}
+
+func (r *SessionCancelParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+type SessionCancelResponse struct {
+	ID     string `json:"id"`
+	Type   string `json:"type"`
+	Status string `json:"status"`
+	JSON   struct {
+		ID          respjson.Field
+		Type        respjson.Field
+		Status      respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+func (r SessionCancelResponse) RawJSON() string { return r.JSON.raw }
+func (r *SessionCancelResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}

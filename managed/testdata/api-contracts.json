@@ -2724,5 +2724,77 @@
       "environment_variables": {},
       "vault_ids": []
     }
+  },
+  {
+    "service": "SessionService",
+    "name": "Cancel",
+    "response": {
+      "id": "sess_019ef30a4f0275678965d496ab542ef0",
+      "type": "session",
+      "status": "canceling"
+    },
+    "method": "POST",
+    "path": "/sessions/{}/cancel",
+    "route": "/sessions/{session_id}/cancel",
+    "doc": "sessions__cancel.md",
+    "source": "cloud-agent/cloud-agents-api-doc origin/master 1b3f3d023b8631395c3f65577a507050d3893d12 (2026-10-09)"
+  },
+  {
+    "service": "DeploymentScopedRunService",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "agent": {
+            "id": "agent_019ebb21ef8e7df6a559052c94875160",
+            "type": "agent",
+            "version": 1
+          },
+          "created_at": "2026-06-14T08:58:17Z",
+          "deployment_id": "dep_019ec55a2b687b3f94eee77dd77e4b2a",
+          "error": null,
+          "id": "drun_019ec55a68af73028afa5b87931cb2f3",
+          "session_id": "sess_019ec55a68b37e1e8d660691af161ab4",
+          "trigger_context": {
+            "type": "manual"
+          },
+          "type": "deployment_run"
+        }
+      ],
+      "first_id": "drun_019ec55a68af73028afa5b87931cb2f3",
+      "has_more": false,
+      "last_id": "drun_019ec55a68af73028afa5b87931cb2f3",
+      "next_page": null
+    },
+    "method": "GET",
+    "path": "/deployments/{}/runs",
+    "route": "/deployments/{deployment_id}/runs",
+    "doc": "deployments__list-runs.md",
+    "source": "cloud-agent/cloud-agents-api-doc origin/master 1b3f3d023b8631395c3f65577a507050d3893d12 (2026-10-09)"
+  },
+  {
+    "service": "DeploymentScopedRunService",
+    "name": "Get",
+    "response": {
+      "agent": {
+        "id": "agent_019ebb21ef8e7df6a559052c94875160",
+        "type": "agent",
+        "version": 1
+      },
+      "created_at": "2026-06-14T08:58:17Z",
+      "deployment_id": "dep_019ec55a2b687b3f94eee77dd77e4b2a",
+      "error": null,
+      "id": "drun_019ec55a68af73028afa5b87931cb2f3",
+      "session_id": "sess_019ec55a68b37e1e8d660691af161ab4",
+      "trigger_context": {
+        "type": "manual"
+      },
+      "type": "deployment_run"
+    },
+    "method": "GET",
+    "path": "/deployments/{}/runs/{}",
+    "route": "/deployments/{deployment_id}/runs/{run_id}",
+    "doc": "deployments__get-run.md",
+    "source": "cloud-agent/cloud-agents-api-doc origin/master 1b3f3d023b8631395c3f65577a507050d3893d12 (2026-10-09)"
   }
 ]

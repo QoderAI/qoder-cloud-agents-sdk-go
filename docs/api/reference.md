@@ -185,6 +185,9 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type EnvironmentVariableOverrideParam](<#EnvironmentVariableOverrideParam>)
   - [func \(r EnvironmentVariableOverrideParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentVariableOverrideParam.MarshalJSON>)
   - [func \(r \*EnvironmentVariableOverrideParam\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentVariableOverrideParam.UnmarshalJSON>)
+- [type EnvironmentVariableUpdateParam](<#EnvironmentVariableUpdateParam>)
+  - [func \(r EnvironmentVariableUpdateParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentVariableUpdateParam.MarshalJSON>)
+  - [func \(r \*EnvironmentVariableUpdateParam\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentVariableUpdateParam.UnmarshalJSON>)
 - [type EnvironmentVariablesUnionParam](<#EnvironmentVariablesUnionParam>)
   - [func \(r EnvironmentVariablesUnionParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentVariablesUnionParam.MarshalJSON>)
   - [func \(r \*EnvironmentVariablesUnionParam\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentVariablesUnionParam.UnmarshalJSON>)
@@ -288,12 +291,21 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type IdentityUpdateParams](<#IdentityUpdateParams>)
   - [func \(r IdentityUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#IdentityUpdateParams.MarshalJSON>)
   - [func \(r \*IdentityUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#IdentityUpdateParams.UnmarshalJSON>)
+- [type IdentityUsage](<#IdentityUsage>)
+  - [func \(r IdentityUsage\) RawJSON\(\) string](<#IdentityUsage.RawJSON>)
+  - [func \(r \*IdentityUsage\) UnmarshalJSON\(data \[\]byte\) error](<#IdentityUsage.UnmarshalJSON>)
 - [type ImageSource](<#ImageSource>)
   - [func \(r ImageSource\) RawJSON\(\) string](<#ImageSource.RawJSON>)
   - [func \(r \*ImageSource\) UnmarshalJSON\(data \[\]byte\) error](<#ImageSource.UnmarshalJSON>)
 - [type ImageSourceParam](<#ImageSourceParam>)
   - [func \(r ImageSourceParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#ImageSourceParam.MarshalJSON>)
   - [func \(r \*ImageSourceParam\) UnmarshalJSON\(data \[\]byte\) error](<#ImageSourceParam.UnmarshalJSON>)
+- [type MCPOAuthRefreshUpdateParam](<#MCPOAuthRefreshUpdateParam>)
+  - [func \(r MCPOAuthRefreshUpdateParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#MCPOAuthRefreshUpdateParam.MarshalJSON>)
+  - [func \(r \*MCPOAuthRefreshUpdateParam\) UnmarshalJSON\(data \[\]byte\) error](<#MCPOAuthRefreshUpdateParam.UnmarshalJSON>)
+- [type MCPOAuthUpdateParam](<#MCPOAuthUpdateParam>)
+  - [func \(r MCPOAuthUpdateParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#MCPOAuthUpdateParam.MarshalJSON>)
+  - [func \(r \*MCPOAuthUpdateParam\) UnmarshalJSON\(data \[\]byte\) error](<#MCPOAuthUpdateParam.UnmarshalJSON>)
 - [type MCPServer](<#MCPServer>)
   - [func \(r MCPServer\) RawJSON\(\) string](<#MCPServer.RawJSON>)
   - [func \(r \*MCPServer\) UnmarshalJSON\(data \[\]byte\) error](<#MCPServer.UnmarshalJSON>)
@@ -630,6 +642,9 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*SkillVersionService\) List\(ctx context.Context, id string, params SkillVersionListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[SkillVersion\], err error\)](<#SkillVersionService.List>)
   - [func \(r \*SkillVersionService\) ListAutoPaging\(ctx context.Context, id string, params SkillVersionListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[SkillVersion\]](<#SkillVersionService.ListAutoPaging>)
   - [func \(r \*SkillVersionService\) New\(ctx context.Context, id string, params SkillVersionNewParams, opts ...option.RequestOption\) \(res \*SkillVersion, err error\)](<#SkillVersionService.New>)
+- [type StaticBearerUpdateParam](<#StaticBearerUpdateParam>)
+  - [func \(r StaticBearerUpdateParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#StaticBearerUpdateParam.MarshalJSON>)
+  - [func \(r \*StaticBearerUpdateParam\) UnmarshalJSON\(data \[\]byte\) error](<#StaticBearerUpdateParam.UnmarshalJSON>)
 - [type SystemOverride](<#SystemOverride>)
   - [func \(r SystemOverride\) RawJSON\(\) string](<#SystemOverride.RawJSON>)
   - [func \(r \*SystemOverride\) UnmarshalJSON\(data \[\]byte\) error](<#SystemOverride.UnmarshalJSON>)
@@ -661,6 +676,9 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type TemplateUpdateParams](<#TemplateUpdateParams>)
   - [func \(r TemplateUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#TemplateUpdateParams.MarshalJSON>)
   - [func \(r \*TemplateUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#TemplateUpdateParams.UnmarshalJSON>)
+- [type TemplateUsage](<#TemplateUsage>)
+  - [func \(r TemplateUsage\) RawJSON\(\) string](<#TemplateUsage.RawJSON>)
+  - [func \(r \*TemplateUsage\) UnmarshalJSON\(data \[\]byte\) error](<#TemplateUsage.UnmarshalJSON>)
 - [type Tool](<#Tool>)
   - [func \(r Tool\) RawJSON\(\) string](<#Tool.RawJSON>)
   - [func \(r \*Tool\) UnmarshalJSON\(data \[\]byte\) error](<#Tool.UnmarshalJSON>)
@@ -679,6 +697,15 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type ToolParam](<#ToolParam>)
   - [func \(r ToolParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#ToolParam.MarshalJSON>)
   - [func \(r \*ToolParam\) UnmarshalJSON\(data \[\]byte\) error](<#ToolParam.UnmarshalJSON>)
+- [type UsageListParams](<#UsageListParams>)
+  - [func \(r UsageListParams\) URLQuery\(\) \(url.Values, error\)](<#UsageListParams.URLQuery>)
+  - [func \(r \*UsageListParams\) UnmarshalJSON\(data \[\]byte\) error](<#UsageListParams.UnmarshalJSON>)
+- [type UsageService](<#UsageService>)
+  - [func NewUsageService\(opts ...option.RequestOption\) UsageService](<#NewUsageService>)
+  - [func \(r \*UsageService\) ListIdentities\(ctx context.Context, params UsageListParams, opts ...option.RequestOption\) \(res \*pagination.Page\[IdentityUsage\], err error\)](<#UsageService.ListIdentities>)
+  - [func \(r \*UsageService\) ListIdentitiesAutoPaging\(ctx context.Context, params UsageListParams, opts ...option.RequestOption\) \*pagination.PageAutoPager\[IdentityUsage\]](<#UsageService.ListIdentitiesAutoPaging>)
+  - [func \(r \*UsageService\) ListTemplates\(ctx context.Context, params UsageListParams, opts ...option.RequestOption\) \(res \*pagination.Page\[TemplateUsage\], err error\)](<#UsageService.ListTemplates>)
+  - [func \(r \*UsageService\) ListTemplatesAutoPaging\(ctx context.Context, params UsageListParams, opts ...option.RequestOption\) \*pagination.PageAutoPager\[TemplateUsage\]](<#UsageService.ListTemplatesAutoPaging>)
 - [type Vault](<#Vault>)
   - [func \(r Vault\) RawJSON\(\) string](<#Vault.RawJSON>)
   - [func \(r \*Vault\) UnmarshalJSON\(data \[\]byte\) error](<#Vault.UnmarshalJSON>)
@@ -700,6 +727,14 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*VaultCredentialService\) List\(ctx context.Context, id string, params VaultCredentialListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[VaultCredential\], err error\)](<#VaultCredentialService.List>)
   - [func \(r \*VaultCredentialService\) ListAutoPaging\(ctx context.Context, id string, params VaultCredentialListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[VaultCredential\]](<#VaultCredentialService.ListAutoPaging>)
   - [func \(r \*VaultCredentialService\) New\(ctx context.Context, id string, params VaultCredentialNewParams, opts ...option.RequestOption\) \(res \*VaultCredential, err error\)](<#VaultCredentialService.New>)
+  - [func \(r \*VaultCredentialService\) Update\(ctx context.Context, id string, credID string, params VaultCredentialUpdateParams, opts ...option.RequestOption\) \(res \*VaultCredential, err error\)](<#VaultCredentialService.Update>)
+- [type VaultCredentialUpdateAuthUnionParam](<#VaultCredentialUpdateAuthUnionParam>)
+  - [func \(r VaultCredentialUpdateAuthUnionParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#VaultCredentialUpdateAuthUnionParam.MarshalJSON>)
+  - [func \(r \*VaultCredentialUpdateAuthUnionParam\) UnmarshalJSON\(data \[\]byte\) error](<#VaultCredentialUpdateAuthUnionParam.UnmarshalJSON>)
+- [type VaultCredentialUpdateParams](<#VaultCredentialUpdateParams>)
+  - [func \(r VaultCredentialUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#VaultCredentialUpdateParams.MarshalJSON>)
+  - [func \(r VaultCredentialUpdateParams\) URLQuery\(\) \(url.Values, error\)](<#VaultCredentialUpdateParams.URLQuery>)
+  - [func \(r \*VaultCredentialUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#VaultCredentialUpdateParams.UnmarshalJSON>)
 - [type VaultListParams](<#VaultListParams>)
   - [func \(r VaultListParams\) URLQuery\(\) \(url.Values, error\)](<#VaultListParams.URLQuery>)
 - [type VaultNewParams](<#VaultNewParams>)
@@ -2000,6 +2035,7 @@ type Client struct {
     Skills          SkillService
     Vaults          VaultService
     MemoryStores    MemoryStoreService
+    Usage           UsageService
     Models          ModelService
 }
 ```
@@ -3007,6 +3043,37 @@ func (r EnvironmentVariableOverrideParam) MarshalJSON() ([]byte, error)
 
 ```go
 func (r *EnvironmentVariableOverrideParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentVariableUpdateParam"></a>
+## type [EnvironmentVariableUpdateParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+
+
+```go
+type EnvironmentVariableUpdateParam struct {
+    Type        string            `json:"type" api:"required"`
+    SecretValue param.Opt[string] `json:"secret_value,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="EnvironmentVariableUpdateParam.MarshalJSON"></a>
+### func \(EnvironmentVariableUpdateParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r EnvironmentVariableUpdateParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="EnvironmentVariableUpdateParam.UnmarshalJSON"></a>
+### func \(\*EnvironmentVariableUpdateParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r *EnvironmentVariableUpdateParam) UnmarshalJSON(data []byte) error
 ```
 
 
@@ -4300,6 +4367,48 @@ func (r *IdentityUpdateParams) UnmarshalJSON(data []byte) error
 
 
 
+<a name="IdentityUsage"></a>
+## type [IdentityUsage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+
+
+```go
+type IdentityUsage struct {
+    Type          string  `json:"type"`
+    IdentityID    string  `json:"identity_id"`
+    SessionCount  int64   `json:"session_count"`
+    ActiveSeconds float64 `json:"active_seconds"`
+    Credits       float64 `json:"credits"`
+    JSON          struct {
+        Type          respjson.Field
+        IdentityID    respjson.Field
+        SessionCount  respjson.Field
+        ActiveSeconds respjson.Field
+        Credits       respjson.Field
+        ExtraFields   map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="IdentityUsage.RawJSON"></a>
+### func \(IdentityUsage\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+```go
+func (r IdentityUsage) RawJSON() string
+```
+
+
+
+<a name="IdentityUsage.UnmarshalJSON"></a>
+### func \(\*IdentityUsage\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+```go
+func (r *IdentityUsage) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="ImageSource"></a>
 ## type [ImageSource](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
 
@@ -4372,6 +4481,71 @@ func (r ImageSourceParam) MarshalJSON() ([]byte, error)
 
 ```go
 func (r *ImageSourceParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="MCPOAuthRefreshUpdateParam"></a>
+## type [MCPOAuthRefreshUpdateParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+
+
+```go
+type MCPOAuthRefreshUpdateParam struct {
+    RefreshToken      param.Opt[string] `json:"refresh_token,omitzero"`
+    Scope             param.Opt[string] `json:"scope,omitzero"`
+    TokenEndpointAuth map[string]any    `json:"token_endpoint_auth,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="MCPOAuthRefreshUpdateParam.MarshalJSON"></a>
+### func \(MCPOAuthRefreshUpdateParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r MCPOAuthRefreshUpdateParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="MCPOAuthRefreshUpdateParam.UnmarshalJSON"></a>
+### func \(\*MCPOAuthRefreshUpdateParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r *MCPOAuthRefreshUpdateParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="MCPOAuthUpdateParam"></a>
+## type [MCPOAuthUpdateParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+
+
+```go
+type MCPOAuthUpdateParam struct {
+    Type        string                     `json:"type" api:"required"`
+    AccessToken param.Opt[string]          `json:"access_token,omitzero"`
+    ExpiresAt   param.Opt[string]          `json:"expires_at,omitzero"`
+    Refresh     MCPOAuthRefreshUpdateParam `json:"refresh,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="MCPOAuthUpdateParam.MarshalJSON"></a>
+### func \(MCPOAuthUpdateParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r MCPOAuthUpdateParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="MCPOAuthUpdateParam.UnmarshalJSON"></a>
+### func \(\*MCPOAuthUpdateParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r *MCPOAuthUpdateParam) UnmarshalJSON(data []byte) error
 ```
 
 
@@ -8653,6 +8827,37 @@ func (r *SkillVersionService) New(ctx context.Context, id string, params SkillVe
 
 Create Skill version
 
+<a name="StaticBearerUpdateParam"></a>
+## type [StaticBearerUpdateParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+
+
+```go
+type StaticBearerUpdateParam struct {
+    Type  string            `json:"type" api:"required"`
+    Token param.Opt[string] `json:"token,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="StaticBearerUpdateParam.MarshalJSON"></a>
+### func \(StaticBearerUpdateParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r StaticBearerUpdateParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="StaticBearerUpdateParam.UnmarshalJSON"></a>
+### func \(\*StaticBearerUpdateParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r *StaticBearerUpdateParam) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="SystemOverride"></a>
 ## type [SystemOverride](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
 
@@ -9098,6 +9303,50 @@ func (r *TemplateUpdateParams) UnmarshalJSON(data []byte) error
 
 
 
+<a name="TemplateUsage"></a>
+## type [TemplateUsage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+
+
+```go
+type TemplateUsage struct {
+    Type             string  `json:"type"`
+    TemplateID       string  `json:"template_id"`
+    ActiveIdentities int64   `json:"active_identities"`
+    SessionCount     int64   `json:"session_count"`
+    ActiveSeconds    float64 `json:"active_seconds"`
+    Credits          float64 `json:"credits"`
+    JSON             struct {
+        Type             respjson.Field
+        TemplateID       respjson.Field
+        ActiveIdentities respjson.Field
+        SessionCount     respjson.Field
+        ActiveSeconds    respjson.Field
+        Credits          respjson.Field
+        ExtraFields      map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="TemplateUsage.RawJSON"></a>
+### func \(TemplateUsage\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+```go
+func (r TemplateUsage) RawJSON() string
+```
+
+
+
+<a name="TemplateUsage.UnmarshalJSON"></a>
+### func \(\*TemplateUsage\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+```go
+func (r *TemplateUsage) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="Tool"></a>
 ## type [Tool](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
 
@@ -9320,6 +9569,100 @@ func (r *ToolParam) UnmarshalJSON(data []byte) error
 
 
 
+<a name="UsageListParams"></a>
+## type [UsageListParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+UsageListParams accepts only hourly parameters. StartAt is inclusive; EndAt is exclusive, with a maximum span of 744 hours. Both use YYYY\-MM\-DDTHH:00:00 in Asia/Shanghai for CN and Global.
+
+```go
+type UsageListParams struct {
+    StartAt    string            `query:"start_at" json:"-" api:"required"`
+    EndAt      string            `query:"end_at" json:"-" api:"required"`
+    Limit      param.Opt[int64]  `query:"limit,omitzero" json:"-"`
+    AfterID    param.Opt[string] `query:"after_id,omitzero" json:"-"`
+    BeforeID   param.Opt[string] `query:"before_id,omitzero" json:"-"`
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
+    // Repeated query values; an entry may also contain comma-separated IDs.
+    IdentityIDs []string          `query:"identity_ids,omitzero" json:"-"`
+    TemplateID  param.Opt[string] `query:"template_id,omitzero" json:"-"`
+    // Repeated query values; an entry may also contain comma-separated IDs.
+    TemplateIDs []string `query:"template_ids,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="UsageListParams.URLQuery"></a>
+### func \(UsageListParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+```go
+func (r UsageListParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="UsageListParams.UnmarshalJSON"></a>
+### func \(\*UsageListParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+```go
+func (r *UsageListParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="UsageService"></a>
+## type [UsageService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+
+
+```go
+type UsageService struct{ Options []option.RequestOption }
+```
+
+<a name="NewUsageService"></a>
+### func [NewUsageService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+```go
+func NewUsageService(opts ...option.RequestOption) UsageService
+```
+
+
+
+<a name="UsageService.ListIdentities"></a>
+### func \(\*UsageService\) [ListIdentities](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+```go
+func (r *UsageService) ListIdentities(ctx context.Context, params UsageListParams, opts ...option.RequestOption) (res *pagination.Page[IdentityUsage], err error)
+```
+
+ListIdentities aggregates an hourly Asia/Shanghai window. PAT or Admin SAT required.
+
+<a name="UsageService.ListIdentitiesAutoPaging"></a>
+### func \(\*UsageService\) [ListIdentitiesAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+```go
+func (r *UsageService) ListIdentitiesAutoPaging(ctx context.Context, params UsageListParams, opts ...option.RequestOption) *pagination.PageAutoPager[IdentityUsage]
+```
+
+
+
+<a name="UsageService.ListTemplates"></a>
+### func \(\*UsageService\) [ListTemplates](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+```go
+func (r *UsageService) ListTemplates(ctx context.Context, params UsageListParams, opts ...option.RequestOption) (res *pagination.Page[TemplateUsage], err error)
+```
+
+ListTemplates aggregates an hourly Asia/Shanghai window. PAT or Admin SAT required.
+
+<a name="UsageService.ListTemplatesAutoPaging"></a>
+### func \(\*UsageService\) [ListTemplatesAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/usage.go>)
+
+```go
+func (r *UsageService) ListTemplatesAutoPaging(ctx context.Context, params UsageListParams, opts ...option.RequestOption) *pagination.PageAutoPager[TemplateUsage]
+```
+
+
+
 <a name="Vault"></a>
 ## type [Vault](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vault.go>)
 
@@ -9392,6 +9735,8 @@ type VaultCredential struct {
     DisplayName string `json:"display_name"`
     // Credential metadata.
     Metadata map[string]any `json:"metadata"`
+    // Archive time, null while active.
+    ArchivedAt time.Time `json:"archived_at" api:"nullable" format:"date-time"`
     // Creation time in RFC 3339 format.
     CreatedAt time.Time `json:"created_at" format:"date-time"`
     // Last update time in RFC 3339 format.
@@ -9403,6 +9748,7 @@ type VaultCredential struct {
         Auth        respjson.Field
         DisplayName respjson.Field
         Metadata    respjson.Field
+        ArchivedAt  respjson.Field
         CreatedAt   respjson.Field
         UpdatedAt   respjson.Field
         ExtraFields map[string]respjson.Field
@@ -9438,9 +9784,11 @@ func (r *VaultCredential) UnmarshalJSON(data []byte) error
 type VaultCredentialAuth struct {
     Type         string `json:"type"`
     MCPServerURL string `json:"mcp_server_url"`
+    SecretName   string `json:"secret_name"`
     JSON         struct {
         Type         respjson.Field
         MCPServerURL respjson.Field
+        SecretName   respjson.Field
         ExtraFields  map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
@@ -9601,6 +9949,88 @@ func (r *VaultCredentialService) New(ctx context.Context, id string, params Vaul
 ```
 
 Create Credential
+
+<a name="VaultCredentialService.Update"></a>
+### func \(\*VaultCredentialService\) [Update](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r *VaultCredentialService) Update(ctx context.Context, id string, credID string, params VaultCredentialUpdateParams, opts ...option.RequestOption) (res *VaultCredential, err error)
+```
+
+Update merges auth or metadata. Write\-only secret rotation is never automatically retried.
+
+<a name="VaultCredentialUpdateAuthUnionParam"></a>
+## type [VaultCredentialUpdateAuthUnionParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+
+
+```go
+type VaultCredentialUpdateAuthUnionParam struct {
+    OfStaticBearer        *StaticBearerUpdateParam        `json:",omitzero,inline"`
+    OfMCPOAuth            *MCPOAuthUpdateParam            `json:",omitzero,inline"`
+    OfEnvironmentVariable *EnvironmentVariableUpdateParam `json:",omitzero,inline"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="VaultCredentialUpdateAuthUnionParam.MarshalJSON"></a>
+### func \(VaultCredentialUpdateAuthUnionParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r VaultCredentialUpdateAuthUnionParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="VaultCredentialUpdateAuthUnionParam.UnmarshalJSON"></a>
+### func \(\*VaultCredentialUpdateAuthUnionParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r *VaultCredentialUpdateAuthUnionParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="VaultCredentialUpdateParams"></a>
+## type [VaultCredentialUpdateParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+
+
+```go
+type VaultCredentialUpdateParams struct {
+    Auth       VaultCredentialUpdateAuthUnionParam `json:"auth,omitzero"`
+    Metadata   map[string]any                      `json:"metadata,omitzero"`
+    IdentityID param.Opt[string]                   `query:"identity_id,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="VaultCredentialUpdateParams.MarshalJSON"></a>
+### func \(VaultCredentialUpdateParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r VaultCredentialUpdateParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="VaultCredentialUpdateParams.URLQuery"></a>
+### func \(VaultCredentialUpdateParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r VaultCredentialUpdateParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="VaultCredentialUpdateParams.UnmarshalJSON"></a>
+### func \(\*VaultCredentialUpdateParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r *VaultCredentialUpdateParams) UnmarshalJSON(data []byte) error
+```
+
+
 
 <a name="VaultListParams"></a>
 ## type [VaultListParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vault.go>)
@@ -10080,6 +10510,16 @@ Qoder managed API definitions.
   - [func \(r \*DeploymentRunService\) Get\(ctx context.Context, deploymentRunID string, query DeploymentRunGetParams, opts ...option.RequestOption\) \(res \*ManagedAgentsDeploymentRun, err error\)](<#DeploymentRunService.Get>)
   - [func \(r \*DeploymentRunService\) List\(ctx context.Context, params DeploymentRunListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[ManagedAgentsDeploymentRun\], err error\)](<#DeploymentRunService.List>)
   - [func \(r \*DeploymentRunService\) ListAutoPaging\(ctx context.Context, params DeploymentRunListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsDeploymentRun\]](<#DeploymentRunService.ListAutoPaging>)
+- [type DeploymentScopedRunGetParams](<#DeploymentScopedRunGetParams>)
+  - [func \(r \*DeploymentScopedRunGetParams\) UnmarshalJSON\(data \[\]byte\) error](<#DeploymentScopedRunGetParams.UnmarshalJSON>)
+- [type DeploymentScopedRunListParams](<#DeploymentScopedRunListParams>)
+  - [func \(r DeploymentScopedRunListParams\) URLQuery\(\) \(url.Values, error\)](<#DeploymentScopedRunListParams.URLQuery>)
+  - [func \(r \*DeploymentScopedRunListParams\) UnmarshalJSON\(data \[\]byte\) error](<#DeploymentScopedRunListParams.UnmarshalJSON>)
+- [type DeploymentScopedRunService](<#DeploymentScopedRunService>)
+  - [func NewDeploymentScopedRunService\(opts ...option.RequestOption\) DeploymentScopedRunService](<#NewDeploymentScopedRunService>)
+  - [func \(r \*DeploymentScopedRunService\) Get\(ctx context.Context, deploymentID string, runID string, params DeploymentScopedRunGetParams, opts ...option.RequestOption\) \(res \*ManagedAgentsDeploymentRun, err error\)](<#DeploymentScopedRunService.Get>)
+  - [func \(r \*DeploymentScopedRunService\) List\(ctx context.Context, deploymentID string, params DeploymentScopedRunListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[ManagedAgentsDeploymentRun\], err error\)](<#DeploymentScopedRunService.List>)
+  - [func \(r \*DeploymentScopedRunService\) ListAutoPaging\(ctx context.Context, deploymentID string, params DeploymentScopedRunListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsDeploymentRun\]](<#DeploymentScopedRunService.ListAutoPaging>)
 - [type DeploymentService](<#DeploymentService>)
   - [func NewDeploymentService\(opts ...option.RequestOption\) \(r DeploymentService\)](<#NewDeploymentService>)
   - [func \(r \*DeploymentService\) Archive\(ctx context.Context, deploymentID string, body DeploymentArchiveParams, opts ...option.RequestOption\) \(res \*ManagedAgentsDeployment, err error\)](<#DeploymentService.Archive>)
@@ -12497,6 +12937,11 @@ Qoder managed API definitions.
   - [func \(u \*ServerToolUseBlockParamCallerUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ServerToolUseBlockParamCallerUnion.UnmarshalJSON>)
 - [type ServerToolUseBlockParamName](<#ServerToolUseBlockParamName>)
 - [type SessionArchiveParams](<#SessionArchiveParams>)
+- [type SessionCancelParams](<#SessionCancelParams>)
+  - [func \(r \*SessionCancelParams\) UnmarshalJSON\(data \[\]byte\) error](<#SessionCancelParams.UnmarshalJSON>)
+- [type SessionCancelResponse](<#SessionCancelResponse>)
+  - [func \(r SessionCancelResponse\) RawJSON\(\) string](<#SessionCancelResponse.RawJSON>)
+  - [func \(r \*SessionCancelResponse\) UnmarshalJSON\(data \[\]byte\) error](<#SessionCancelResponse.UnmarshalJSON>)
 - [type SessionDeleteParams](<#SessionDeleteParams>)
 - [type SessionEventListParams](<#SessionEventListParams>)
   - [func \(r SessionEventListParams\) URLQuery\(\) \(v url.Values, err error\)](<#SessionEventListParams.URLQuery>)
@@ -12586,6 +13031,7 @@ Qoder managed API definitions.
 - [type SessionService](<#SessionService>)
   - [func NewSessionService\(opts ...option.RequestOption\) \(r SessionService\)](<#NewSessionService>)
   - [func \(r \*SessionService\) Archive\(ctx context.Context, sessionID string, body SessionArchiveParams, opts ...option.RequestOption\) \(res \*ManagedAgentsSession, err error\)](<#SessionService.Archive>)
+  - [func \(r \*SessionService\) Cancel\(ctx context.Context, sessionID string, params SessionCancelParams, opts ...option.RequestOption\) \(res \*SessionCancelResponse, err error\)](<#SessionService.Cancel>)
   - [func \(r \*SessionService\) Delete\(ctx context.Context, sessionID string, body SessionDeleteParams, opts ...option.RequestOption\) \(res \*ManagedAgentsDeletedSession, err error\)](<#SessionService.Delete>)
   - [func \(r \*SessionService\) Get\(ctx context.Context, sessionID string, query SessionGetParams, opts ...option.RequestOption\) \(res \*ManagedAgentsSession, err error\)](<#SessionService.Get>)
   - [func \(r \*SessionService\) List\(ctx context.Context, params SessionListParams, opts ...option.RequestOption\) \(res \*pagination.BidirectionalPageCursor\[ManagedAgentsSession\], err error\)](<#SessionService.List>)
@@ -16279,6 +16725,110 @@ func (r *DeploymentRunService) ListAutoPaging(ctx context.Context, params Deploy
 
 List Deployment Runs
 
+<a name="DeploymentScopedRunGetParams"></a>
+## type [DeploymentScopedRunGetParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deploymentscopedrun.go>)
+
+
+
+```go
+type DeploymentScopedRunGetParams struct {
+    WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+    Betas       []QoderBeta       `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DeploymentScopedRunGetParams.UnmarshalJSON"></a>
+### func \(\*DeploymentScopedRunGetParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deploymentscopedrun.go>)
+
+```go
+func (r *DeploymentScopedRunGetParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DeploymentScopedRunListParams"></a>
+## type [DeploymentScopedRunListParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deploymentscopedrun.go>)
+
+
+
+```go
+type DeploymentScopedRunListParams struct {
+    Limit           param.Opt[int64]  `query:"limit,omitzero" json:"-"`
+    Page            param.Opt[string] `query:"page,omitzero" json:"-"`
+    AfterID         param.Opt[string] `query:"after_id,omitzero" json:"-"`
+    BeforeID        param.Opt[string] `query:"before_id,omitzero" json:"-"`
+    TriggeredAfter  param.Opt[string] `query:"triggered_after,omitzero" json:"-"`
+    TriggeredBefore param.Opt[string] `query:"triggered_before,omitzero" json:"-"`
+    WorkspaceID     param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+    Betas           []QoderBeta       `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DeploymentScopedRunListParams.URLQuery"></a>
+### func \(DeploymentScopedRunListParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deploymentscopedrun.go>)
+
+```go
+func (r DeploymentScopedRunListParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="DeploymentScopedRunListParams.UnmarshalJSON"></a>
+### func \(\*DeploymentScopedRunListParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deploymentscopedrun.go>)
+
+```go
+func (r *DeploymentScopedRunListParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DeploymentScopedRunService"></a>
+## type [DeploymentScopedRunService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deploymentscopedrun.go>)
+
+
+
+```go
+type DeploymentScopedRunService struct{ Options []option.RequestOption }
+```
+
+<a name="NewDeploymentScopedRunService"></a>
+### func [NewDeploymentScopedRunService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deploymentscopedrun.go>)
+
+```go
+func NewDeploymentScopedRunService(opts ...option.RequestOption) DeploymentScopedRunService
+```
+
+
+
+<a name="DeploymentScopedRunService.Get"></a>
+### func \(\*DeploymentScopedRunService\) [Get](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deploymentscopedrun.go>)
+
+```go
+func (r *DeploymentScopedRunService) Get(ctx context.Context, deploymentID string, runID string, params DeploymentScopedRunGetParams, opts ...option.RequestOption) (res *ManagedAgentsDeploymentRun, err error)
+```
+
+Get DeploymentScopedRun.
+
+<a name="DeploymentScopedRunService.List"></a>
+### func \(\*DeploymentScopedRunService\) [List](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deploymentscopedrun.go>)
+
+```go
+func (r *DeploymentScopedRunService) List(ctx context.Context, deploymentID string, params DeploymentScopedRunListParams, opts ...option.RequestOption) (res *pagination.PageCursor[ManagedAgentsDeploymentRun], err error)
+```
+
+List DeploymentScopedRun.
+
+<a name="DeploymentScopedRunService.ListAutoPaging"></a>
+### func \(\*DeploymentScopedRunService\) [ListAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deploymentscopedrun.go>)
+
+```go
+func (r *DeploymentScopedRunService) ListAutoPaging(ctx context.Context, deploymentID string, params DeploymentScopedRunListParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[ManagedAgentsDeploymentRun]
+```
+
+
+
 <a name="DeploymentService"></a>
 ## type [DeploymentService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
 
@@ -16289,6 +16839,7 @@ Note, unlike clients, this service does not read variables from the environment 
 ```go
 type DeploymentService struct {
     Options []option.RequestOption
+    Runs    DeploymentScopedRunService
 }
 ```
 
@@ -49395,6 +49946,66 @@ type SessionArchiveParams struct {
 }
 ```
 
+<a name="SessionCancelParams"></a>
+## type [SessionCancelParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+
+
+```go
+type SessionCancelParams struct {
+    WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+    Betas       []QoderBeta       `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="SessionCancelParams.UnmarshalJSON"></a>
+### func \(\*SessionCancelParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (r *SessionCancelParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="SessionCancelResponse"></a>
+## type [SessionCancelResponse](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+
+
+```go
+type SessionCancelResponse struct {
+    ID     string `json:"id"`
+    Type   string `json:"type"`
+    Status string `json:"status"`
+    JSON   struct {
+        ID          respjson.Field
+        Type        respjson.Field
+        Status      respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="SessionCancelResponse.RawJSON"></a>
+### func \(SessionCancelResponse\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (r SessionCancelResponse) RawJSON() string
+```
+
+
+
+<a name="SessionCancelResponse.UnmarshalJSON"></a>
+### func \(\*SessionCancelResponse\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (r *SessionCancelResponse) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="SessionDeleteParams"></a>
 ## type [SessionDeleteParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
 
@@ -50517,6 +51128,15 @@ func (r *SessionService) Archive(ctx context.Context, sessionID string, body Ses
 ```
 
 Archive Session
+
+<a name="SessionService.Cancel"></a>
+### func \(\*SessionService\) [Cancel](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (r *SessionService) Cancel(ctx context.Context, sessionID string, params SessionCancelParams, opts ...option.RequestOption) (res *SessionCancelResponse, err error)
+```
+
+Cancel requests cancellation of the current turn \(202\); an idle session is a safe no\-op \(200\).
 
 <a name="SessionService.Delete"></a>
 ### func \(\*SessionService\) [Delete](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)

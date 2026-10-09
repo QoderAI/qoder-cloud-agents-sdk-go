@@ -85,8 +85,8 @@ func operations(t *testing.T) []operationCase {
 		Cases []operationCase `json:"cases"`
 	}
 	readJSON(t, "testdata/api-operation-cases.json", &fixture)
-	if fixture.Count != 110 || len(fixture.Cases) != 110 {
-		t.Fatal("Forward API scope must contain 110 operations")
+	if fixture.Count != 113 || len(fixture.Cases) != 113 {
+		t.Fatal("Forward API scope must contain 113 operations")
 	}
 	return fixture.Cases
 }
@@ -120,6 +120,9 @@ func contract(t *testing.T, id string) contractCase {
 // The original fixture's converter represented identity_ids
 // as an empty object, though the published API accepts strings or arrays.
 func parameterValue(p parameterCase) any {
+	if p.Name == "template_ids" {
+		return []string{"tmpl_one", "tmpl_two"}
+	}
 	if p.Name == "identity_ids" {
 		return []string{"idn_one", "idn_two"}
 	}

@@ -33,5 +33,11 @@ func TestDeploymentLifecycleLive(t *testing.T) {
 	liveResult(s.client.Deployments.Pause(ctx, created.ID, managed.DeploymentPauseParams{})).require(t)
 	liveResult(s.client.Deployments.Unpause(ctx, created.ID, managed.DeploymentUnpauseParams{})).require(t)
 	liveResult(s.client.DeploymentRuns.List(ctx, managed.DeploymentRunListParams{})).require(t)
+	runs := liveResult(s.client.Deployments.Runs.List(ctx, created.ID, managed.DeploymentScopedRunListParams{Limit: managed.Int(2)})).require(t)
+	for _, run := range runs.Data {
+		if run.DeploymentID != created.ID {
+			t.Fatal("scoped run belongs to another deployment")
+		}
+	}
 
 }
