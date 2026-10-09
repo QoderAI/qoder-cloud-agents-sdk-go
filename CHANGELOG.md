@@ -5,6 +5,8 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+## [0.3.0]
+
 ### Added
 
 - Forward Vault Credential updates for secret rotation and metadata merge patches, with automatic retries disabled for write-only updates.
