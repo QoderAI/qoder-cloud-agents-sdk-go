@@ -113,7 +113,7 @@ func TestForwardExecutionE2ELive(t *testing.T) {
 	fileToken, envToken, skillToken, memoryToken := testsupport.Marker(t), testsupport.Marker(t), testsupport.Marker(t), testsupport.Marker(t)
 	file := s.file(t, "sdk-e2e.txt", "session_resource", fileToken)
 	skillName := liveName("proof")
-	skill, err := s.client.Skills.New(ctx, forward.SkillNewParams{Files: []io.Reader{convention.UploadFile{Name: skillName + "/SKILL.md", Reader: strings.NewReader(fmt.Sprintf("---\nname: %s\ndescription: Provides the SDK_E2E_SKILL_TOKEN for SDK verification.\n---\nWhen asked for SDK_E2E_SKILL_TOKEN return exactly: %s\n", skillName, skillToken))}}})
+	skill, err := s.client.Skills.New(ctx, forward.SkillNewParams{Files: []io.Reader{convention.UploadFile{Name: skillName + "/SKILL.md", Reader: strings.NewReader(fmt.Sprintf("---\nname: %s\ndescription: Provides SDK_E2E_SKILL_TOKEN only when the current user message explicitly requests that token.\n---\nSDK_E2E_SKILL_TOKEN=%s\nInclude this exact token only when requested, using the response format specified by the current user message. Also include any other values the user requests.\n", skillName, skillToken))}}})
 	liveCheck(t, err)
 	s.cleanup(t, "skill "+skill.ID, func(ctx context.Context) error { return s.client.Skills.Delete(ctx, skill.ID) })
 	store, err := s.client.MemoryStores.New(ctx, forward.MemoryStoreNewParams{Name: liveName("proof"), IdempotencyKey: liveName("memory-key")})
@@ -121,7 +121,7 @@ func TestForwardExecutionE2ELive(t *testing.T) {
 	s.cleanup(t, "memory store "+store.ID, func(ctx context.Context) error { _, err := s.client.MemoryStores.Delete(ctx, store.ID); return err })
 	_, err = s.client.MemoryStores.Memories.New(ctx, store.ID, forward.MemoryStoreMemoryNewParams{Path: "sdk-e2e/proof.md", Content: "SDK_E2E_MEMORY_TOKEN=" + memoryToken})
 	liveCheck(t, err)
-	template, err := s.client.Templates.New(ctx, forward.TemplateNewParams{Name: liveName("proof"), EnvironmentID: env.ID, Model: forward.ModelConfigUnionParam{OfString: forward.String(os.Getenv("QODER_FORWARD_MODEL"))}, System: forward.String("Complete the requested SDK verification. Use the available tools to read files, environment variables, skills and memory. Do not guess missing values."), Tools: []forward.ToolParam{{Type: "agent_toolset_20260401"}}, Skills: []forward.SkillBindingParam{{Type: "custom", SkillID: skill.ID, Version: forward.String(skill.LatestVersion)}}, EnvironmentVariables: forward.EnvironmentVariablesUnionParam{OfMap: map[string]any{"SDK_E2E_VALUE": "template-default"}}})
+	template, err := s.client.Templates.New(ctx, forward.TemplateNewParams{Name: liveName("proof"), EnvironmentID: env.ID, Model: forward.ModelConfigUnionParam{OfString: forward.String(os.Getenv("QODER_FORWARD_MODEL"))}, System: forward.String("Each user message is a separate SDK verification step. Follow the current user message and its response format; do not carry over instructions or answers from previous steps. Use tools only to access resources explicitly requested in the current message. Read skills only when that message explicitly requests a skill token. When asked to echo text already supplied in the message, reply directly without using tools. Return every requested value exactly. Do not guess missing values."), Tools: []forward.ToolParam{{Type: "agent_toolset_20260401"}}, Skills: []forward.SkillBindingParam{{Type: "custom", SkillID: skill.ID, Version: forward.String(skill.LatestVersion)}}, EnvironmentVariables: forward.EnvironmentVariablesUnionParam{OfMap: map[string]any{"SDK_E2E_VALUE": "template-default"}}})
 	liveCheck(t, err)
 	s.cleanup(t, "template "+template.ID, func(ctx context.Context) error {
 		_, err := s.client.Templates.Archive(ctx, template.ID, forward.TemplateArchiveParams{})
@@ -146,8 +146,8 @@ func TestForwardExecutionE2ELive(t *testing.T) {
 		tool, stream bool
 	}{
 		{"completion_and_sse", "Reply with exactly " + echo, []string{echo}, false, true},
-		{"file_and_identity_config", "Use tools to read /data/workspace/sdk-e2e.txt and the SDK_E2E_VALUE environment variable. Reply with both exact values.", []string{fileToken, envToken}, true, false},
-		{"skill_and_memory", "Use skill " + skillName + " to obtain SDK_E2E_SKILL_TOKEN. Read sdk-e2e/proof.md from the mounted memory store to obtain SDK_E2E_MEMORY_TOKEN. Reply with both exact tokens.", []string{skillToken, memoryToken}, true, false},
+		{"file_and_identity_config", "Use tools to read /data/workspace/sdk-e2e.txt and the SDK_E2E_VALUE environment variable. Reply with both exact values on two lines: FILE=<exact file contents> and ENV=<exact environment variable value>.", []string{fileToken, envToken}, true, false},
+		{"skill_and_memory", "Use skill " + skillName + " to obtain SDK_E2E_SKILL_TOKEN. Read sdk-e2e/proof.md from the mounted memory store to obtain SDK_E2E_MEMORY_TOKEN. Reply with both exact tokens on two lines: SKILL=<exact skill token> and MEMORY=<exact memory token>.", []string{skillToken, memoryToken}, true, false},
 	} {
 		if !t.Run(scenario.name, func(t *testing.T) {
 			after := s.sendTurn(t, session.ID, scenario.prompt)
