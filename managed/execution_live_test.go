@@ -127,14 +127,14 @@ func TestManagedExecutionE2ELive(t *testing.T) {
 		return err
 	})
 	skillName := managedUnique("proof")
-	skill := liveResult(s.client.Skills.New(ctx, managed.SkillNewParams{Files: []io.Reader{convention.UploadFile{Name: skillName + "/SKILL.md", Reader: strings.NewReader(fmt.Sprintf("---\nname: %s\ndescription: Provides SDK_E2E_SKILL_TOKEN for SDK verification.\n---\nWhen asked for SDK_E2E_SKILL_TOKEN return exactly: %s\n", skillName, skillToken))}}})).require(t)
+	skill := liveResult(s.client.Skills.New(ctx, managed.SkillNewParams{Files: []io.Reader{convention.UploadFile{Name: skillName + "/SKILL.md", Reader: strings.NewReader(fmt.Sprintf("---\nname: %s\ndescription: Provides SDK_E2E_SKILL_TOKEN only when the current user message explicitly requests that token.\n---\nSDK_E2E_SKILL_TOKEN=%s\nInclude this exact token only when requested, using the response format specified by the current user message. Also include any other values the user requests.\n", skillName, skillToken))}}})).require(t)
 	s.cleanup(t, "skill "+skill.ID, func(ctx context.Context) error {
 		_, err := s.client.Skills.Delete(ctx, skill.ID, managed.SkillDeleteParams{})
 		return err
 	})
 	store := s.createMemoryStore(t)
 	liveResult(s.client.MemoryStores.Memories.New(ctx, store.ID, managed.MemoryStoreMemoryNewParams{Path: "sdk-e2e/proof.md", Content: managed.String("SDK_E2E_MEMORY_TOKEN=" + memoryToken)})).require(t)
-	agentParams := liveJSON[managed.AgentNewParams](t, map[string]any{"name": managedUnique("proof"), "model": map[string]any{"id": os.Getenv("QODER_MANAGED_MODEL")}, "system": "Complete the requested SDK verification. Use the available tools to read files, environment variables, skills and memory. Do not guess missing values.", "tools": []any{map[string]any{"type": "agent_toolset_20260401"}}, "skills": []any{map[string]any{"type": "custom", "skill_id": skill.ID, "version": skill.LatestVersionID}}})
+	agentParams := liveJSON[managed.AgentNewParams](t, map[string]any{"name": managedUnique("proof"), "model": map[string]any{"id": os.Getenv("QODER_MANAGED_MODEL")}, "system": "Each user message is a separate SDK verification step. Follow the current user message and its response format; do not carry over instructions or answers from previous steps. Use tools only to access resources explicitly requested in the current message. Read skills only when that message explicitly requests a skill token. When asked to echo text already supplied in the message, reply directly without using tools. Return every requested value exactly. Do not guess missing values.", "tools": []any{map[string]any{"type": "agent_toolset_20260401"}}, "skills": []any{map[string]any{"type": "custom", "skill_id": skill.ID, "version": skill.LatestVersionID}}})
 	agent := liveResult(s.client.Agents.New(ctx, agentParams)).require(t)
 	s.cleanup(t, "agent "+agent.ID, func(ctx context.Context) error {
 		_, err := s.client.Agents.Archive(ctx, agent.ID, managed.AgentArchiveParams{})
@@ -151,8 +151,8 @@ func TestManagedExecutionE2ELive(t *testing.T) {
 		tool, stream bool
 	}{
 		{"completion_and_sse", "Reply with exactly " + echo, []string{echo}, false, true},
-		{"file_and_environment_config", "Use tools to read /data/workspace/sdk-e2e.txt and the SDK_E2E_VALUE environment variable. Reply with both exact values.", []string{fileToken, envToken}, true, false},
-		{"skill_and_memory", "Use skill " + skillName + " to obtain SDK_E2E_SKILL_TOKEN. Read sdk-e2e/proof.md from the mounted memory store to obtain SDK_E2E_MEMORY_TOKEN. Reply with both exact tokens.", []string{skillToken, memoryToken}, true, false},
+		{"file_and_environment_config", "Use tools to read /data/workspace/sdk-e2e.txt and the SDK_E2E_VALUE environment variable. Reply with both exact values on two lines: FILE=<exact file contents> and ENV=<exact environment variable value>.", []string{fileToken, envToken}, true, false},
+		{"skill_and_memory", "Use skill " + skillName + " to obtain SDK_E2E_SKILL_TOKEN. Read sdk-e2e/proof.md from the mounted memory store to obtain SDK_E2E_MEMORY_TOKEN. Reply with both exact tokens on two lines: SKILL=<exact skill token> and MEMORY=<exact memory token>.", []string{skillToken, memoryToken}, true, false},
 	} {
 		if !t.Run(scenario.name, func(t *testing.T) {
 			after := s.sendTurn(t, session.ID, scenario.prompt)
