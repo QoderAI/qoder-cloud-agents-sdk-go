@@ -38,7 +38,7 @@ The SDK ships two clients that share authentication, transport, retries, error h
 ## Installation
 
 ```sh
-go get github.com/QoderAI/qoder-cloud-agents-sdk-go@v0.2.0
+go get github.com/QoderAI/qoder-cloud-agents-sdk-go@v0.3.0
 ```
 
 This SDK is pre-1.0, so pin a version explicitly and keep the version your build resolved in `go.mod` and `go.sum`.
