@@ -217,13 +217,20 @@ type RequestConfig struct {
 	BaseURL        *url.URL
 	// DefaultBaseURL will be used if BaseURL is not explicitly overridden using
 	// WithBaseURL.
-	DefaultBaseURL *url.URL
-	CustomHTTPDoer HTTPDoer
-	HTTPClient     *http.Client
-	Middlewares    []middleware
-	APIKey         string
-	AuthToken      string
-	WebhookKey     string
+	DefaultBaseURL      *url.URL
+	CustomHTTPDoer      HTTPDoer
+	HTTPClient          *http.Client
+	Middlewares         []middleware
+	APIKey              string
+	AuthToken           string
+	AuthMode            string
+	Credential          Credential
+	envAccessToken      string
+	envPAT              string
+	authInstalled       bool
+	authMiddlewareIndex int
+	authDeleted         bool
+	WebhookKey          string
 	// If ResponseBodyInto not nil, then we will attempt to deserialize into
 	// ResponseBodyInto. If Destination is a []byte, then it will return the body as
 	// is.
@@ -636,20 +643,30 @@ func (cfg *RequestConfig) Clone(ctx context.Context) *RequestConfig {
 		return nil
 	}
 	new := &RequestConfig{
-		MaxRetries:     cfg.MaxRetries,
-		RequestTimeout: cfg.RequestTimeout,
-		Context:        ctx,
-		Request:        req,
-		BaseURL:        cfg.BaseURL,
-		HTTPClient:     cfg.HTTPClient,
-		CustomHTTPDoer: cfg.CustomHTTPDoer,
-		DefaultBaseURL: cfg.DefaultBaseURL,
-		Middlewares:    cfg.Middlewares,
-		APIKey:         cfg.APIKey,
-		AuthToken:      cfg.AuthToken,
-		WebhookKey:     cfg.WebhookKey,
+		MaxRetries:          cfg.MaxRetries,
+		RequestTimeout:      cfg.RequestTimeout,
+		Context:             ctx,
+		Request:             req,
+		BaseURL:             cfg.BaseURL,
+		HTTPClient:          cfg.HTTPClient,
+		CustomHTTPDoer:      cfg.CustomHTTPDoer,
+		DefaultBaseURL:      cfg.DefaultBaseURL,
+		Middlewares:         append([]middleware(nil), cfg.Middlewares...),
+		APIKey:              cfg.APIKey,
+		AuthToken:           cfg.AuthToken,
+		AuthMode:            cfg.AuthMode,
+		Credential:          cfg.Credential,
+		envAccessToken:      cfg.envAccessToken,
+		envPAT:              cfg.envPAT,
+		authInstalled:       cfg.authInstalled,
+		authMiddlewareIndex: cfg.authMiddlewareIndex,
+		authDeleted:         cfg.authDeleted,
+		WebhookKey:          cfg.WebhookKey,
 	}
 
+	if new.authInstalled {
+		new.Middlewares[new.authMiddlewareIndex] = credentialMiddleware(new)
+	}
 	return new
 }
 

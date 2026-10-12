@@ -7,7 +7,8 @@
 # doc drift must be judged against exactly one.
 #
 # All jobs are offline: `make test` = test-unit (with the offline live
-# subset) + test-contract, no live tags, no PAT, no external Aliyun deps.
+# subset and SA configuration tests) + test-contract. Live suites are compiled
+# with the live tag, but no account-backed case runs and no credentials are needed.
 name: ci
 
 on:

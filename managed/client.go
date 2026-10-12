@@ -29,7 +29,7 @@ type Client struct {
 	Models         ModelService
 }
 
-// NewClient reads QODER_PAT and QODER_BASE_URL. Explicit options win.
+// NewClient uses common authentication defaults and QODER_BASE_URL. Explicit options win.
 func NewClient(opts ...option.RequestOption) Client {
 	defaults := []option.RequestOption{
 		option.WithHTTPClient(convention.DefaultHTTPClient()),
@@ -38,10 +38,7 @@ func NewClient(opts ...option.RequestOption) Client {
 	if base := os.Getenv("QODER_BASE_URL"); base != "" {
 		defaults = append(defaults, option.WithBaseURL(base))
 	}
-	if token := os.Getenv("QODER_PAT"); token != "" {
-		defaults = append(defaults, option.WithPAT(token))
-	}
-	defaults = append(defaults, convention.RequireCredential())
+	defaults = append(defaults, convention.EnvironmentAuthentication())
 	opts = slices.Concat(defaults, opts)
 	return Client{Options: opts, Agents: NewAgentService(opts...), Sessions: NewSessionService(opts...), Deployments: NewDeploymentService(opts...), DeploymentRuns: NewDeploymentRunService(opts...), Dreams: NewDreamService(opts...), Environments: NewEnvironmentService(opts...), Skills: NewSkillService(opts...), Vaults: NewVaultService(opts...), Files: NewFileService(opts...), MemoryStores: NewMemoryStoreService(opts...), Models: NewModelService(opts...)}
 }

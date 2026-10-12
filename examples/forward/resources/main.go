@@ -69,5 +69,5 @@ func run(ctx context.Context, r *live.Run, s *forwardutil.Example) error {
 	if err = s.Turn(ctx, r, session, "请使用工具读取 /data/workspace/sdk-example.txt 的内容和 SDK_EXAMPLE_VALUE 环境变量，分别返回这两个示例值。", []string{fileToken, envToken}, true, false); err != nil {
 		return err
 	}
-	return s.Turn(ctx, r, session, "请使用技能 "+skillName+"，读取并返回其中的示例校验码 EXAMPLE_SKILL_CODE。", []string{skillToken}, true, false)
+	return s.Turn(ctx, r, session, "请使用技能 "+skillName+"，读取并返回其中的示例校验码 EXAMPLE_SKILL_CODE。", []string{skillToken}, false, false)
 }

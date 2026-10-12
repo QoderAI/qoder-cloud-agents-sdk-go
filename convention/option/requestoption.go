@@ -106,6 +106,9 @@ func WithMaxRetries(retries int) RequestOption {
 func WithHeader(key, value string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
 		r.Request.Header.Set(key, value)
+		if strings.EqualFold(key, "Authorization") && value == "" {
+			r.MarkAuthorizationDeleted()
+		}
 		return nil
 	})
 }
@@ -123,6 +126,9 @@ func WithHeaderAdd(key, value string) RequestOption {
 func WithHeaderDel(key string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
 		r.Request.Header.Del(key)
+		if strings.EqualFold(key, "Authorization") {
+			r.MarkAuthorizationDeleted()
+		}
 		return nil
 	})
 }
@@ -263,6 +269,9 @@ func WithRequestTimeout(dur time.Duration) RequestOption {
 // WithAuthToken authenticates with a Qoder personal or service access token.
 func WithAuthToken(value string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
+		if strings.TrimSpace(value) == "" {
+			return fmt.Errorf("access token must not be empty")
+		}
 		r.AuthToken = value
 		return r.Apply(WithHeader("Authorization", "Bearer "+value))
 	})
@@ -271,22 +280,25 @@ func WithAuthToken(value string) RequestOption {
 // WithPAT is the Qoder spelling of WithAuthToken.
 func WithPAT(value string) RequestOption { return WithAuthToken(value) }
 
+// WithAuthMode selects parallel PAT or SA authentication. Tokens are opaque.
+func WithAuthMode(mode string) RequestOption {
+	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
+		if mode != "pat" && mode != "sa" {
+			return fmt.Errorf("auth mode must be pat or sa")
+		}
+		r.AuthMode = mode
+		return nil
+	})
+}
+
 // WithCredential uses the same token provider as Forward Mode. The provider is
 // evaluated for each request; an explicit Authorization header takes precedence.
 func WithCredential(credential requestconfig.Credential) RequestOption {
-	return WithMiddleware(func(req *http.Request, next MiddlewareNext) (*http.Response, error) {
-		if req.Header.Get("Authorization") != "" {
-			return next(req)
-		}
+	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
 		if credential == nil {
-			return nil, fmt.Errorf("credential must not be nil")
+			return fmt.Errorf("credential must not be nil")
 		}
-		token, err := credential.Token(req.Context())
-		if err != nil {
-			return nil, err
-		}
-		cloned := req.Clone(req.Context())
-		cloned.Header.Set("Authorization", "Bearer "+token)
-		return next(cloned)
+		r.Credential = credential
+		return requestconfig.RequireCredential().Apply(r)
 	})
 }

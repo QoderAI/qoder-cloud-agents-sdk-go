@@ -14,6 +14,7 @@ The SDK ships two clients that share authentication, transport, retries, error h
 - [Installation](#installation)
 - [Requirements](#requirements)
 - [Usage](#usage)
+- [PAT and Service Account authentication](#pat-and-service-account-authentication)
 - [Usage and cancellation](#usage-and-cancellation)
 - [Conversations](#conversations)
 - [System prompts and tools](#system-prompts-and-tools)
@@ -46,7 +47,7 @@ This SDK is pre-1.0, so pin a version explicitly and keep the version your build
 ## Requirements
 
 - Go **1.23** or later.
-- A personal access token (PAT) for the target environment, with access to the resources you call.
+- A PAT or Service Account credential for the target environment, with access to the resources you call. Managed SA access also needs a workspace binding.
 
 ## Usage
 
@@ -96,15 +97,15 @@ Explicit options always win over the environment. When a base URL or token is no
 
 | Setting | Forward | Managed |
 | --- | --- | --- |
-| PAT variable | `QODER_PAT` | `QODER_PAT` |
+| Token variable | `QODER_ACCESS_TOKEN` (PAT mode falls back to `QODER_PAT`) | `QODER_ACCESS_TOKEN` (PAT mode falls back to `QODER_PAT`) |
 | Base URL variable | `QODER_FORWARD_BASE_URL` | `QODER_BASE_URL` |
 | Default base URL | `https://api.qoder.com/api/v1/forward/` | `https://api.qoder.com/api/v1/cloud/` |
 
 The defaults point at the international site; pass the CN base URL explicitly to reach CN. A base URL must include the full API root path, and the trailing `/` is optional. If the two modes use different accounts, pass each token to its own client.
 
-The clients do not read `.env` files. The programs under `examples/` have their own config loader, which prefers real environment variables and otherwise reads `QODER_FORWARD_PAT`, `QODER_MANAGED_PAT` and friends from `.env.live`, falling back to `QODER_PAT`.
+The clients do not read `.env` files. Examples and explicit live-test commands have their own config loaders. Examples default to PAT; see the authentication section for their SA configuration.
 
-For rotating credentials, `option.WithCredential(provider)` accepts any implementation of `convention.Credential`. The provider is evaluated per request, and an `Authorization` header that is already present — including one derived from `QODER_PAT` — takes precedence, so do not configure a static token alongside a dynamic credential.
+For rotating credentials, `option.WithCredential(provider)` accepts any implementation of `convention.Credential`. The provider is evaluated per request. An explicit static token or Authorization header takes precedence; an explicit credential now overrides ambient PAT.
 
 The remaining examples are function fragments meant to be dropped into an application; `package` and `import` blocks are omitted. Import the standard library packages each fragment uses, plus the SDK packages:
 
@@ -115,6 +116,54 @@ The remaining examples are function fragments meant to be dropped into an applic
 | `convention` | `github.com/QoderAI/qoder-cloud-agents-sdk-go/convention` |
 | `option` | `github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option` |
 | `param` | `github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/param` |
+
+## PAT and Service Account authentication
+
+PAT and SA are parallel modes. Existing `option.WithPAT(token)` remains supported.
+For an existing SAT use `option.WithAuthMode("sa")` and `option.WithAuthToken(token)`.
+Tokens are opaque: `WithPAT` remains an alias of `WithAuthToken`; the SDK does not
+inspect a token to infer its owner. `QODER_ACCESS_TOKEN` supplies the selected mode;
+only PAT mode falls back to `QODER_PAT`. Clients never implicitly read an SA Key.
+
+```go
+credential, err := convention.ServiceAccountCredentialFromEnv(
+    convention.ServiceAccountCredentialConfig{
+        Region: "global",
+        Scopes: []string{"qca.access", "forward.access"},
+    },
+)
+if err != nil { return err }
+forwardClient := forward.NewClient(option.WithCredential(credential))
+managedClient := managed.NewClient(option.WithCredential(credential))
+```
+
+Both clients share one cache. Use `Region: "cn"` with matching
+`https://api.qoder.com.cn/api/v1/forward/` and `https://api.qoder.com.cn/api/v1/cloud/`
+BaseURLs. Managed-only integrations can request `[]string{"qca.access"}`.
+Permissions and workspace bindings are configured server-side.
+
+The SA Key is exchanged lazily and sent only to the exchange service. Cache expiry
+uses the server's actual lifetime and a monotonic clock. Concurrent callers share
+results; failures enter a cooldown. A transient failure can reuse a still-safe SAT;
+authentication and invalid-response failures cannot. There is no PAT fallback,
+background refresh, or automatic replay of a 401 write. Existing streams remain
+open. A cancelled caller stops waiting; the shared exchange has its own timeout
+(default 30 seconds) and can finish/cache for other callers.
+
+Do not combine the native SA credential with a static token. Explicit static
+Token + legacy custom Credential retains static precedence. Explicit credentials
+now override ambient PAT. Header overrides/deletion and custom authentication
+middleware remain available. Rotate a Key by constructing a new credential.
+
+Run the separate read-only CN/Global smoke using `make test-live-sa`, with
+`QODER_SA_CN_KEY` and `QODER_SA_GLOBAL_KEY` in `.env.live` or the process environment.
+Process variables take precedence; `LIVE_ENV_FILE` selects another file.
+Both keys are checked before the first API call. For write/read, Session SSE and
+cleanup verification, run `make test-live-sa-execution` with
+`QODER_SA_LIVE_ALLOW_WRITE=true` and `QODER_SA_LIVE_ALLOW_EXECUTION=true`.
+`QODER_SA_MODEL` defaults to `auto`. Offline tests and existing PAT suites remain
+independent; `QODER_AUTH_MODE` switches examples, not the PAT test suites.
+See the [official authentication contract](https://docs.qoder.com/cloud-agents/api/conventions/authentication).
 
 ## Usage and cancellation
 
@@ -748,7 +797,7 @@ func readUnknownField(session *forward.Session) string {
 
 ## Examples
 
-`examples/` holds 18 standalone programs under `examples/forward/` and `examples/managed/`, one `main.go` per scenario, each runnable directly. Each program reads `.env.live` from the working directory — so run them from the repository root, or point `-env` elsewhere. Copy [.env.live.example](.env.live.example) and fill in the URL and PAT for each mode. Unlike the clients, the examples default to the CN hostname, and `-region cn|international` overrides whichever host the configuration names.
+`examples/forward/` and `examples/managed/` hold 18 business programs, one `main.go` per scenario, each runnable directly. They read `.env.live` from the working directory — run them from the repository root, or point `-env` elsewhere. Copy [.env.live.example](.env.live.example) and configure PAT or SA authentication. Examples default to CN; `-region cn|global` overrides the configured Qoder hostname.
 
 ```sh
 # Run from the repository root. Listing models is read-only.
@@ -774,6 +823,39 @@ go run ./examples/managed/memory
 | Scheduling and batches | `schedule`, `batch` | `deployment`, `dream` |
 
 The programs print their steps, messages, assistant replies and cleanup results; `-output json` switches to structured logs, and `-timeout` bounds each scenario, excluding cleanup. Running a scenario creates real resources and consumes model usage.
+
+### Authentication examples
+
+The two read-only examples under `examples/auth/` show client construction directly:
+SA Key exchange with automatic caching/renewal, and direct SAT access with renewal
+managed by the caller. Each lists Forward templates and Managed agents; no model
+execution or resources are created. The SA needs both API scopes/permissions and
+its Managed workspace binding in the selected region.
+
+```sh
+# These standalone demos read process environment variables (not .env.live).
+# Configure QODER_SA_REGION=cn|global and only the credential needed by the demo.
+go run ./examples/auth/sa-key     # QODER_SA_KEY; unset QODER_ACCESS_TOKEN
+go run ./examples/auth/sa-token   # QODER_ACCESS_TOKEN; unset QODER_SA_KEY
+```
+
+The existing business examples keep PAT as the default and read `.env.live`.
+Set `QODER_AUTH_MODE=sa` to select SA explicitly, then configure exactly one of
+`QODER_SA_KEY` and `QODER_ACCESS_TOKEN`. `QODER_SA_REGION=cn|global` selects both the
+business and exchange hosts; `-region` overrides it (`international` remains an
+alias for `global`). Leave the unused credential empty. Ambient PATs are ignored
+in SA mode; missing SA credentials and conflicting Key/SAT inputs fail before a
+request is sent. This selection is example configuration, not implicit SDK behavior.
+
+```sh
+# With the SA credential configured in .env.live, reuse any business example.
+QODER_AUTH_MODE=sa QODER_SA_REGION=cn go run ./examples/forward/models
+QODER_AUTH_MODE=sa QODER_SA_REGION=global go run ./examples/managed/session
+```
+
+For a centralized SAT service, implement `convention.Credential.Token(ctx)` and
+use `option.WithAuthMode("sa"), option.WithCredential(myTokenProvider)`. The provider
+is responsible for obtaining and renewing the SAT; business calls stay the same.
 
 ## Development
 
