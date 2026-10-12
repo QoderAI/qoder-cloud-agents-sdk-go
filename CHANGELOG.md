@@ -5,6 +5,8 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-12
+
 ### Added
 
 - Read-only SA Key and SAT authentication examples, plus explicit PAT/SA selection for existing business examples without duplicating scenarios.
