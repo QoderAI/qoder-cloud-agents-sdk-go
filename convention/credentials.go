@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type Credential interface {
@@ -65,30 +66,83 @@ func (transport *credentialTransport) RoundTrip(request *http.Request) (*http.Re
 type NoCredentialsError struct{}
 
 func (NoCredentialsError) Error() string {
-	return "qca: could not resolve authentication method. Expected one of pat or credential to be set, or the QODER_PAT environment variable to be configured"
+	return "qca: could not resolve authentication method. Configure an access token or credential, or QODER_ACCESS_TOKEN (QODER_PAT is supported in PAT mode)"
 }
 
-// RequireCredential fails a request that reaches the wire without any authentication.
-// It is a defense-in-depth footgun-check on top of the server-side gateway; if the caller
-// installed a credential via option.WithPAT / option.WithCredential / a custom middleware,
-// or set the Authorization header directly, the sentinel steps aside.
+// RequireCredential resolves the selected mode per attempt. Explicit headers
+// override injection; custom authentication middleware remains supported.
 func RequireCredential() RequestOption {
-	preBuiltErr := &NoCredentialsError{}
 	return RequestOptionFunc(func(r *RequestConfig) error {
-		cfg := r
-		check := func(req *http.Request, next func(*http.Request) (*http.Response, error)) (*http.Response, error) {
-			if cfg.AuthToken != "" || cfg.APIKey != "" {
-				return next(req)
-			}
-			if len(cfg.Middlewares) > 1 {
-				return next(req)
-			}
-			if req.Header.Get("Authorization") != "" {
-				return next(req)
-			}
-			return nil, preBuiltErr
+		if r.authInstalled {
+			return nil
 		}
-		r.Middlewares = append(r.Middlewares, check)
+		r.authInstalled = true
+		r.authMiddlewareIndex = len(r.Middlewares)
+		r.Middlewares = append(r.Middlewares, credentialMiddleware(r))
 		return nil
 	})
 }
+
+func credentialMiddleware(cfg *RequestConfig) middleware {
+	return func(req *http.Request, next func(*http.Request) (*http.Response, error)) (*http.Response, error) {
+		mode := cfg.AuthMode
+		if sa, ok := cfg.Credential.(*ServiceAccountCredential); ok {
+			if mode == "pat" || cfg.AuthToken != "" {
+				return nil, fmt.Errorf("qca: ServiceAccountCredential requires SA mode without a static token")
+			}
+			mode = "sa"
+			if err := sa.validateRegion(req.URL.Hostname()); err != nil {
+				return nil, err
+			}
+		}
+		if mode == "" {
+			mode = "pat"
+		}
+		if mode != "pat" && mode != "sa" {
+			return nil, fmt.Errorf("qca: auth mode must be pat or sa")
+		}
+		if req.Header.Get("Authorization") != "" {
+			return next(req)
+		}
+		var token string
+		if cfg.Credential != nil {
+			var err error
+			token, err = cfg.Credential.Token(req.Context())
+			if err != nil {
+				return nil, err
+			}
+			if strings.TrimSpace(token) == "" {
+				return nil, fmt.Errorf("qca: credential returned an empty access token")
+			}
+		} else if !cfg.authDeleted {
+			token = cfg.envAccessToken
+			if token == "" && mode == "pat" {
+				token = cfg.envPAT
+			}
+		}
+		if token != "" {
+			cloned := req.Clone(req.Context())
+			cloned.Header.Set("Authorization", "Bearer "+token)
+			return next(cloned)
+		}
+		if cfg.APIKey != "" || len(cfg.Middlewares) > 1 ||
+			(cfg.authDeleted && (cfg.AuthToken != "" || cfg.envAccessToken != "" || (mode == "pat" && cfg.envPAT != ""))) {
+			return next(req)
+		}
+		return nil, &NoCredentialsError{}
+	}
+}
+
+// EnvironmentAuthentication captures defaults in the common layer. Explicit
+// credentials win; SA mode never falls back to the personal PAT.
+func EnvironmentAuthentication() RequestOption {
+	access, pat := os.Getenv("QODER_ACCESS_TOKEN"), os.Getenv("QODER_PAT")
+	return RequestOptionFunc(func(r *RequestConfig) error {
+		r.envAccessToken, r.envPAT = access, pat
+		return RequireCredential().Apply(r)
+	})
+}
+
+// MarkAuthorizationDeleted suppresses static/environment header restoration;
+// dynamic credentials retain their existing header-deletion behavior.
+func (r *RequestConfig) MarkAuthorizationDeleted() { r.authDeleted = true }

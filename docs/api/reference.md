@@ -2047,7 +2047,7 @@ type Client struct {
 func NewClient(opts ...option.RequestOption) Client
 ```
 
-NewClient reads QODER\_PAT and QODER\_FORWARD\_BASE\_URL. Explicit options win.
+NewClient uses common authentication defaults and QODER\_FORWARD\_BASE\_URL. Explicit options win.
 
 <a name="ContentBlock"></a>
 ## type [ContentBlock](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
@@ -15167,7 +15167,7 @@ type Client struct {
 func NewClient(opts ...option.RequestOption) Client
 ```
 
-NewClient reads QODER\_PAT and QODER\_BASE\_URL. Explicit options win.
+NewClient uses common authentication defaults and QODER\_BASE\_URL. Explicit options win.
 
 <a name="CloudConfig"></a>
 ## type [CloudConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
@@ -54674,11 +54674,20 @@ Package convention implements Qoder authentication, transport, request options, 
   - [func \(cfg \*RequestConfig\) Apply\(opts ...RequestOption\) error](<#RequestConfig.Apply>)
   - [func \(cfg \*RequestConfig\) Clone\(ctx context.Context\) \*RequestConfig](<#RequestConfig.Clone>)
   - [func \(cfg \*RequestConfig\) Execute\(\) \(err error\)](<#RequestConfig.Execute>)
+  - [func \(r \*RequestConfig\) MarkAuthorizationDeleted\(\)](<#RequestConfig.MarkAuthorizationDeleted>)
 - [type RequestOption](<#RequestOption>)
+  - [func EnvironmentAuthentication\(\) RequestOption](<#EnvironmentAuthentication>)
   - [func RequireCredential\(\) RequestOption](<#RequireCredential>)
   - [func WithDefaultBaseURL\(baseURL string\) RequestOption](<#WithDefaultBaseURL>)
 - [type RequestOptionFunc](<#RequestOptionFunc>)
   - [func \(s RequestOptionFunc\) Apply\(r \*RequestConfig\) error](<#RequestOptionFunc.Apply>)
+- [type ServiceAccountCredential](<#ServiceAccountCredential>)
+  - [func NewServiceAccountCredential\(config ServiceAccountCredentialConfig\) \(\*ServiceAccountCredential, error\)](<#NewServiceAccountCredential>)
+  - [func ServiceAccountCredentialFromEnv\(config ServiceAccountCredentialConfig\) \(\*ServiceAccountCredential, error\)](<#ServiceAccountCredentialFromEnv>)
+  - [func \(c \*ServiceAccountCredential\) GoString\(\) string](<#ServiceAccountCredential.GoString>)
+  - [func \(c \*ServiceAccountCredential\) String\(\) string](<#ServiceAccountCredential.String>)
+  - [func \(c \*ServiceAccountCredential\) Token\(ctx context.Context\) \(string, error\)](<#ServiceAccountCredential.Token>)
+- [type ServiceAccountCredentialConfig](<#ServiceAccountCredentialConfig>)
 - [type UploadFile](<#UploadFile>)
   - [func \(f UploadFile\) ContentType\(\) string](<#UploadFile.ContentType>)
   - [func \(f UploadFile\) Filename\(\) string](<#UploadFile.Filename>)
@@ -54937,7 +54946,10 @@ type RequestConfig struct {
     Middlewares    []middleware
     APIKey         string
     AuthToken      string
-    WebhookKey     string
+    AuthMode       string
+    Credential     Credential
+
+    WebhookKey string
     // If ResponseBodyInto not nil, then we will attempt to deserialize into
     // ResponseBodyInto. If Destination is a []byte, then it will return the body as
     // is.
@@ -54946,6 +54958,7 @@ type RequestConfig struct {
     // given address
     ResponseInto **http.Response
     Body         io.Reader
+    // contains filtered or unexported fields
 }
 ```
 
@@ -54996,6 +55009,15 @@ func (cfg *RequestConfig) Execute() (err error)
 
 
 
+<a name="RequestConfig.MarkAuthorizationDeleted"></a>
+### func \(\*RequestConfig\) [MarkAuthorizationDeleted](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/credentials.go>)
+
+```go
+func (r *RequestConfig) MarkAuthorizationDeleted()
+```
+
+MarkAuthorizationDeleted suppresses static/environment header restoration; dynamic credentials retain their existing header\-deletion behavior.
+
 <a name="RequestOption"></a>
 ## type [RequestOption](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/requestconfig.go>)
 
@@ -55007,6 +55029,15 @@ type RequestOption interface {
 }
 ```
 
+<a name="EnvironmentAuthentication"></a>
+### func [EnvironmentAuthentication](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/credentials.go>)
+
+```go
+func EnvironmentAuthentication() RequestOption
+```
+
+EnvironmentAuthentication captures defaults in the common layer. Explicit credentials win; SA mode never falls back to the personal PAT.
+
 <a name="RequireCredential"></a>
 ### func [RequireCredential](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/credentials.go>)
 
@@ -55014,7 +55045,7 @@ type RequestOption interface {
 func RequireCredential() RequestOption
 ```
 
-RequireCredential fails a request that reaches the wire without any authentication. It is a defense\-in\-depth footgun\-check on top of the server\-side gateway; if the caller installed a credential via option.WithPAT / option.WithCredential / a custom middleware, or set the Authorization header directly, the sentinel steps aside.
+RequireCredential resolves the selected mode per attempt. Explicit headers override injection; custom authentication middleware remains supported.
 
 <a name="WithDefaultBaseURL"></a>
 ### func [WithDefaultBaseURL](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/requestconfig.go>)
@@ -55042,6 +55073,78 @@ func (s RequestOptionFunc) Apply(r *RequestConfig) error
 ```
 
 
+
+<a name="ServiceAccountCredential"></a>
+## type [ServiceAccountCredential](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/service_account_credential.go>)
+
+ServiceAccountCredential shares an instance\-owned SAT cache across clients. Key rotation uses a new instance; no refresh runs while idle.
+
+```go
+type ServiceAccountCredential struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a name="NewServiceAccountCredential"></a>
+### func [NewServiceAccountCredential](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/service_account_credential.go>)
+
+```go
+func NewServiceAccountCredential(config ServiceAccountCredentialConfig) (*ServiceAccountCredential, error)
+```
+
+
+
+<a name="ServiceAccountCredentialFromEnv"></a>
+### func [ServiceAccountCredentialFromEnv](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/service_account_credential.go>)
+
+```go
+func ServiceAccountCredentialFromEnv(config ServiceAccountCredentialConfig) (*ServiceAccountCredential, error)
+```
+
+
+
+<a name="ServiceAccountCredential.GoString"></a>
+### func \(\*ServiceAccountCredential\) [GoString](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/service_account_credential.go>)
+
+```go
+func (c *ServiceAccountCredential) GoString() string
+```
+
+
+
+<a name="ServiceAccountCredential.String"></a>
+### func \(\*ServiceAccountCredential\) [String](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/service_account_credential.go>)
+
+```go
+func (c *ServiceAccountCredential) String() string
+```
+
+
+
+<a name="ServiceAccountCredential.Token"></a>
+### func \(\*ServiceAccountCredential\) [Token](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/service_account_credential.go>)
+
+```go
+func (c *ServiceAccountCredential) Token(ctx context.Context) (string, error)
+```
+
+Token permits each waiter to cancel independently; exchange has its own bounded context and may finish/cache after its first caller cancels.
+
+<a name="ServiceAccountCredentialConfig"></a>
+## type [ServiceAccountCredentialConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/service_account_credential.go>)
+
+ServiceAccountCredentialConfig configures lazy SA Key exchange. Region and scopes must be explicit. The supplied HTTP client is copied, not owned.
+
+```go
+type ServiceAccountCredentialConfig struct {
+    SAKey      string
+    Region     string
+    Scopes     []string
+    TTLSeconds int
+    Timeout    time.Duration
+    HTTPClient *http.Client
+}
+```
 
 <a name="UploadFile"></a>
 ## type [UploadFile](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/doc.go>)
@@ -63626,6 +63729,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
 - [type Middleware](<#Middleware>)
 - [type MiddlewareNext](<#MiddlewareNext>)
 - [type RequestOption](<#RequestOption>)
+  - [func WithAuthMode\(mode string\) RequestOption](<#WithAuthMode>)
   - [func WithAuthToken\(value string\) RequestOption](<#WithAuthToken>)
   - [func WithBaseURL\(base string\) RequestOption](<#WithBaseURL>)
   - [func WithCredential\(credential requestconfig.Credential\) RequestOption](<#WithCredential>)
@@ -63686,6 +63790,15 @@ type MiddlewareNext = func(*http.Request) (*http.Response, error)
 ```go
 type RequestOption = requestconfig.RequestOption
 ```
+
+<a name="WithAuthMode"></a>
+### func [WithAuthMode](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/option/requestoption.go>)
+
+```go
+func WithAuthMode(mode string) RequestOption
+```
+
+WithAuthMode selects parallel PAT or SA authentication. Tokens are opaque.
 
 <a name="WithAuthToken"></a>
 ### func [WithAuthToken](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/option/requestoption.go>)

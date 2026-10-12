@@ -18,6 +18,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apierror"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
 )
@@ -26,6 +27,9 @@ type Config struct {
 	BaseURL, PAT, Model   string
 	Mode, EnvFile, Output string
 	Timeout               time.Duration
+	AuthMode              string
+	credential            convention.Credential
+	accessToken, secret   string
 }
 
 // ReadEnv reads assignments as data, never as shell commands. Existing environment
@@ -66,7 +70,7 @@ func ReadEnv(path string) (map[string]string, error) {
 
 func Load(mode string) (Config, error) {
 	file := flag.String("env", ".env.live", "configuration file, relative to the working directory")
-	region := flag.String("region", "cn", "API region: cn or international (overrides the configured Qoder hostname)")
+	region := flag.String("region", "", "API region: cn or global (international is an alias)")
 	timeout := flag.Duration("timeout", 5*time.Minute, "deadline per scenario, excluding cleanup")
 	format := flag.String("output", "text", "output format: text or json")
 	flag.Parse()
@@ -84,13 +88,6 @@ func Load(mode string) (Config, error) {
 		return values[key]
 	}
 	prefix := "QODER_" + strings.ToUpper(mode) + "_"
-	pat := get(prefix + "PAT")
-	if pat == "" {
-		pat = get("QODER_PAT")
-	}
-	if pat == "" {
-		return Config{}, fmt.Errorf("configure %sPAT or QODER_PAT", prefix)
-	}
 	base := get(prefix + "BASE_URL")
 	if base == "" {
 		suffix := mode
@@ -103,22 +100,87 @@ func Load(mode string) (Config, error) {
 	if err != nil || u.Scheme != "https" || u.User != nil || u.RawQuery != "" || (u.Host != "api.qoder.com.cn" && u.Host != "api.qoder.com") {
 		return Config{}, errors.New("examples require an HTTPS api.qoder.com.cn or api.qoder.com base URL without credentials or query parameters")
 	}
-	switch *region {
+	selectedRegion := *region
+	if selectedRegion == "" && get("QODER_AUTH_MODE") == "sa" {
+		selectedRegion = get("QODER_SA_REGION")
+	}
+	if selectedRegion == "" {
+		selectedRegion = "cn"
+	}
+	switch selectedRegion {
 	case "cn":
 		u.Host = "api.qoder.com.cn"
-	case "international":
+	case "global", "international":
 		u.Host = "api.qoder.com"
 	default:
-		return Config{}, errors.New("region must be cn or international")
+		return Config{}, errors.New("region must be cn or global (international is an alias)")
 	}
 	if *timeout <= 0 {
 		return Config{}, errors.New("timeout must be positive")
 	}
-	return Config{Mode: mode, EnvFile: *file, Output: *format, BaseURL: u.String(), PAT: pat, Model: get(prefix + "MODEL"), Timeout: *timeout}, nil
+	config := Config{Mode: mode, EnvFile: *file, Output: *format, BaseURL: u.String(), Model: get(prefix + "MODEL"), Timeout: *timeout}
+	if err := config.configureAuthentication(get); err != nil {
+		return Config{}, err
+	}
+	return config, nil
+}
+
+func (c *Config) configureAuthentication(get func(string) string) error {
+	c.AuthMode = get("QODER_AUTH_MODE")
+	if c.AuthMode == "" {
+		c.AuthMode = "pat"
+	}
+	if c.AuthMode == "pat" {
+		c.PAT = get("QODER_" + strings.ToUpper(c.Mode) + "_PAT")
+		if c.PAT == "" {
+			c.PAT = get("QODER_PAT")
+		}
+		if strings.TrimSpace(c.PAT) == "" {
+			return fmt.Errorf("configure QODER_%s_PAT or QODER_PAT", strings.ToUpper(c.Mode))
+		}
+		c.secret = c.PAT
+		return nil
+	}
+	if c.AuthMode != "sa" {
+		return errors.New("QODER_AUTH_MODE must be pat or sa")
+	}
+	key, token := get("QODER_SA_KEY"), get("QODER_ACCESS_TOKEN")
+	if (strings.TrimSpace(key) == "") == (strings.TrimSpace(token) == "") {
+		return errors.New("SA examples require exactly one of QODER_SA_KEY and QODER_ACCESS_TOKEN")
+	}
+	if strings.TrimSpace(token) != "" {
+		c.accessToken, c.secret = token, token
+		return nil
+	}
+	u, err := url.Parse(c.BaseURL)
+	if err != nil {
+		return errors.New("invalid example base URL")
+	}
+	region := "global"
+	if u.Hostname() == "api.qoder.com.cn" {
+		region = "cn"
+	}
+	scopes := []string{"qca.access"}
+	if c.Mode == "forward" {
+		scopes = append(scopes, "forward.access")
+	}
+	c.credential, err = convention.NewServiceAccountCredential(convention.ServiceAccountCredentialConfig{
+		SAKey: key, Region: region, Scopes: scopes,
+	})
+	c.secret = key
+	return err
 }
 
 func (c Config) Options() []option.RequestOption {
-	return []option.RequestOption{option.WithBaseURL(c.BaseURL), option.WithPAT(c.PAT), option.WithMaxRetries(0), option.WithRequestTimeout(30 * time.Second)}
+	options := []option.RequestOption{option.WithBaseURL(c.BaseURL), option.WithMaxRetries(0), option.WithRequestTimeout(30 * time.Second)}
+	if c.AuthMode == "sa" {
+		options = append(options, option.WithAuthMode("sa"))
+		if c.credential != nil {
+			return append(options, option.WithCredential(c.credential))
+		}
+		return append(options, option.WithAuthToken(c.accessToken))
+	}
+	return append(options, option.WithPAT(c.PAT))
 }
 
 type cleanup struct {
@@ -196,7 +258,11 @@ func Execute(c Config, scenario Scenario) int {
 }
 
 func execute(ctx context.Context, c Config, s Scenario, writer io.Writer) (code int) {
-	out := &output{writer: writer, format: c.Output, pat: c.PAT}
+	secret := c.secret
+	if secret == "" {
+		secret = c.PAT
+	}
+	out := &output{writer: writer, format: c.Output, pat: secret}
 	mode := map[string]string{"forward": "Forward", "managed": "Managed"}[c.Mode]
 	if mode == "" {
 		mode = "SDK"
@@ -222,7 +288,7 @@ func execute(ctx context.Context, c Config, s Scenario, writer io.Writer) (code 
 			label := cleanupLabel(c.Mode, step.kind, step.id)
 			if err != nil {
 				cleanFailed++
-				r.Log("cleanup_failed", label+"\n      "+Explain(err, c.PAT))
+				r.Log("cleanup_failed", label+"\n      "+Explain(err, secret))
 			} else {
 				r.Log("cleaned", label)
 			}
@@ -249,7 +315,7 @@ func execute(ctx context.Context, c Config, s Scenario, writer io.Writer) (code 
 	defer cancel()
 	if err := s.Run(sceneCtx, r); err != nil {
 		sceneFailed = true
-		r.Log("failed", "步骤「"+r.action+"」失败："+Explain(err, c.PAT))
+		r.Log("failed", "步骤「"+r.action+"」失败："+Explain(err, secret))
 	} else {
 		r.Log("verified", "场景验证完成")
 	}
