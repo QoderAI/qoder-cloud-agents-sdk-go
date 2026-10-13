@@ -19,13 +19,14 @@ import (
 
 // IdentityService provides Forward Identity operations.
 type IdentityService struct {
-	Options      []option.RequestOption
-	Configs      IdentityConfigService
-	MemoryStores IdentityMemoryStoreService
+	Options              []option.RequestOption
+	Configs              IdentityConfigService
+	MemoryStores         IdentityMemoryStoreService
+	ServiceAccountTokens IdentityServiceAccountTokenService
 }
 
 func NewIdentityService(opts ...option.RequestOption) IdentityService {
-	return IdentityService{Options: slices.Clone(opts), Configs: NewIdentityConfigService(opts...), MemoryStores: NewIdentityMemoryStoreService(opts...)}
+	return IdentityService{Options: slices.Clone(opts), Configs: NewIdentityConfigService(opts...), MemoryStores: NewIdentityMemoryStoreService(opts...), ServiceAccountTokens: NewIdentityServiceAccountTokenService(opts...)}
 }
 
 // List Identities

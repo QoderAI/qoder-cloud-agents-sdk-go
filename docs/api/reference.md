@@ -282,6 +282,9 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*IdentityService\) New\(ctx context.Context, params IdentityNewParams, opts ...option.RequestOption\) \(res \*Identity, err error\)](<#IdentityService.New>)
   - [func \(r \*IdentityService\) Stats\(ctx context.Context, opts ...option.RequestOption\) \(res \*IdentityStats, err error\)](<#IdentityService.Stats>)
   - [func \(r \*IdentityService\) Update\(ctx context.Context, identityID string, params IdentityUpdateParams, opts ...option.RequestOption\) \(res \*Identity, err error\)](<#IdentityService.Update>)
+- [type IdentityServiceAccountTokenService](<#IdentityServiceAccountTokenService>)
+  - [func NewIdentityServiceAccountTokenService\(opts ...option.RequestOption\) IdentityServiceAccountTokenService](<#NewIdentityServiceAccountTokenService>)
+  - [func \(r \*IdentityServiceAccountTokenService\) New\(ctx context.Context, identityID string, params ServiceAccountTokenNewParams, opts ...option.RequestOption\) \(res \*ServiceAccountToken, err error\)](<#IdentityServiceAccountTokenService.New>)
 - [type IdentityStats](<#IdentityStats>)
   - [func \(r IdentityStats\) RawJSON\(\) string](<#IdentityStats.RawJSON>)
   - [func \(r \*IdentityStats\) UnmarshalJSON\(data \[\]byte\) error](<#IdentityStats.UnmarshalJSON>)
@@ -489,6 +492,28 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type ScheduleUpdateParams](<#ScheduleUpdateParams>)
   - [func \(r ScheduleUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#ScheduleUpdateParams.MarshalJSON>)
   - [func \(r \*ScheduleUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#ScheduleUpdateParams.UnmarshalJSON>)
+- [type ServiceAccountToken](<#ServiceAccountToken>)
+  - [func \(r ServiceAccountToken\) GoString\(\) string](<#ServiceAccountToken.GoString>)
+  - [func \(r ServiceAccountToken\) RawJSON\(\) string](<#ServiceAccountToken.RawJSON>)
+  - [func \(r ServiceAccountToken\) String\(\) string](<#ServiceAccountToken.String>)
+  - [func \(r \*ServiceAccountToken\) UnmarshalJSON\(data \[\]byte\) error](<#ServiceAccountToken.UnmarshalJSON>)
+- [type ServiceAccountTokenNewParams](<#ServiceAccountTokenNewParams>)
+  - [func \(r ServiceAccountTokenNewParams\) GoString\(\) string](<#ServiceAccountTokenNewParams.GoString>)
+  - [func \(r ServiceAccountTokenNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#ServiceAccountTokenNewParams.MarshalJSON>)
+  - [func \(r ServiceAccountTokenNewParams\) String\(\) string](<#ServiceAccountTokenNewParams.String>)
+  - [func \(r \*ServiceAccountTokenNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#ServiceAccountTokenNewParams.UnmarshalJSON>)
+- [type ServiceAccountTokenRevokeParams](<#ServiceAccountTokenRevokeParams>)
+  - [func \(r ServiceAccountTokenRevokeParams\) GoString\(\) string](<#ServiceAccountTokenRevokeParams.GoString>)
+  - [func \(r ServiceAccountTokenRevokeParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#ServiceAccountTokenRevokeParams.MarshalJSON>)
+  - [func \(r ServiceAccountTokenRevokeParams\) String\(\) string](<#ServiceAccountTokenRevokeParams.String>)
+  - [func \(r \*ServiceAccountTokenRevokeParams\) UnmarshalJSON\(data \[\]byte\) error](<#ServiceAccountTokenRevokeParams.UnmarshalJSON>)
+- [type ServiceAccountTokenRevokeResponse](<#ServiceAccountTokenRevokeResponse>)
+  - [func \(r ServiceAccountTokenRevokeResponse\) RawJSON\(\) string](<#ServiceAccountTokenRevokeResponse.RawJSON>)
+  - [func \(r \*ServiceAccountTokenRevokeResponse\) UnmarshalJSON\(data \[\]byte\) error](<#ServiceAccountTokenRevokeResponse.UnmarshalJSON>)
+- [type ServiceAccountTokenService](<#ServiceAccountTokenService>)
+  - [func NewServiceAccountTokenService\(opts ...option.RequestOption\) ServiceAccountTokenService](<#NewServiceAccountTokenService>)
+  - [func \(r \*ServiceAccountTokenService\) New\(ctx context.Context, params ServiceAccountTokenNewParams, opts ...option.RequestOption\) \(res \*ServiceAccountToken, err error\)](<#ServiceAccountTokenService.New>)
+  - [func \(r \*ServiceAccountTokenService\) Revoke\(ctx context.Context, authTokenID string, params ServiceAccountTokenRevokeParams, opts ...option.RequestOption\) \(res \*ServiceAccountTokenRevokeResponse, err error\)](<#ServiceAccountTokenService.Revoke>)
 - [type Session](<#Session>)
   - [func \(r Session\) RawJSON\(\) string](<#Session.RawJSON>)
   - [func \(r \*Session\) UnmarshalJSON\(data \[\]byte\) error](<#Session.UnmarshalJSON>)
@@ -2021,22 +2046,23 @@ Client exposes Forward resources. Configure options before sharing a client.
 
 ```go
 type Client struct {
-    Options         []option.RequestOption
-    Templates       TemplateService
-    Identities      IdentityService
-    Sessions        SessionService
-    Schedules       ScheduleService
-    ScheduleRuns    ScheduleRunService
-    Batches         BatchService
-    Channels        ChannelService
-    ChannelPairings ChannelPairingService
-    Environments    EnvironmentService
-    Files           FileService
-    Skills          SkillService
-    Vaults          VaultService
-    MemoryStores    MemoryStoreService
-    Usage           UsageService
-    Models          ModelService
+    Options              []option.RequestOption
+    Templates            TemplateService
+    Identities           IdentityService
+    Sessions             SessionService
+    Schedules            ScheduleService
+    ScheduleRuns         ScheduleRunService
+    Batches              BatchService
+    Channels             ChannelService
+    ChannelPairings      ChannelPairingService
+    Environments         EnvironmentService
+    Files                FileService
+    Skills               SkillService
+    Vaults               VaultService
+    MemoryStores         MemoryStoreService
+    Usage                UsageService
+    Models               ModelService
+    ServiceAccountTokens ServiceAccountTokenService
 }
 ```
 
@@ -4120,9 +4146,10 @@ IdentityService provides Forward Identity operations.
 
 ```go
 type IdentityService struct {
-    Options      []option.RequestOption
-    Configs      IdentityConfigService
-    MemoryStores IdentityMemoryStoreService
+    Options              []option.RequestOption
+    Configs              IdentityConfigService
+    MemoryStores         IdentityMemoryStoreService
+    ServiceAccountTokens IdentityServiceAccountTokenService
 }
 ```
 
@@ -4242,6 +4269,35 @@ func (r *IdentityService) Update(ctx context.Context, identityID string, params 
 ```
 
 Update Identity
+
+<a name="IdentityServiceAccountTokenService"></a>
+## type [IdentityServiceAccountTokenService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/identityserviceaccounttoken.go>)
+
+IdentityServiceAccountTokenService issues SATs bound to a Forward Identity.
+
+```go
+type IdentityServiceAccountTokenService struct {
+    Options []option.RequestOption
+}
+```
+
+<a name="NewIdentityServiceAccountTokenService"></a>
+### func [NewIdentityServiceAccountTokenService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/identityserviceaccounttoken.go>)
+
+```go
+func NewIdentityServiceAccountTokenService(opts ...option.RequestOption) IdentityServiceAccountTokenService
+```
+
+
+
+<a name="IdentityServiceAccountTokenService.New"></a>
+### func \(\*IdentityServiceAccountTokenService\) [New](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/identityserviceaccounttoken.go>)
+
+```go
+func (r *IdentityServiceAccountTokenService) New(ctx context.Context, identityID string, params ServiceAccountTokenNewParams, opts ...option.RequestOption) (res *ServiceAccountToken, err error)
+```
+
+New issues an Identity SAT using the explicit SA Key. Automatic retries are disabled.
 
 <a name="IdentityStats"></a>
 ## type [IdentityStats](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/identity.go>)
@@ -6843,6 +6899,253 @@ func (r *ScheduleUpdateParams) UnmarshalJSON(data []byte) error
 ```
 
 
+
+<a name="ServiceAccountToken"></a>
+## type [ServiceAccountToken](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+ServiceAccountToken contains a newly issued Forward SAT. Treat AccessToken and RawJSON as secrets. Use WithAuthMode\("sa"\) and WithAuthToken\(AccessToken\) for business calls; renewal is caller\-owned.
+
+```go
+type ServiceAccountToken struct {
+    Type             string    `json:"type"`
+    AccessToken      string    `json:"access_token"`
+    TokenType        string    `json:"token_type"`
+    ExpiresIn        int64     `json:"expires_in"`
+    ExpiresAt        time.Time `json:"expires_at" format:"date-time"`
+    AuthTokenID      string    `json:"auth_token_id"`
+    ServiceAccountID string    `json:"service_account_id"`
+    CredentialID     string    `json:"credential_id"`
+    // admin or identity. IdentityID is absent for admin tokens.
+    SubjectType string `json:"subject_type"`
+    IdentityID  string `json:"identity_id"`
+    JSON        struct {
+        Type             respjson.Field
+        AccessToken      respjson.Field
+        TokenType        respjson.Field
+        ExpiresIn        respjson.Field
+        ExpiresAt        respjson.Field
+        AuthTokenID      respjson.Field
+        ServiceAccountID respjson.Field
+        CredentialID     respjson.Field
+        SubjectType      respjson.Field
+        IdentityID       respjson.Field
+        ExtraFields      map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ServiceAccountToken.GoString"></a>
+### func \(ServiceAccountToken\) [GoString](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r ServiceAccountToken) GoString() string
+```
+
+
+
+<a name="ServiceAccountToken.RawJSON"></a>
+### func \(ServiceAccountToken\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r ServiceAccountToken) RawJSON() string
+```
+
+
+
+<a name="ServiceAccountToken.String"></a>
+### func \(ServiceAccountToken\) [String](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r ServiceAccountToken) String() string
+```
+
+
+
+<a name="ServiceAccountToken.UnmarshalJSON"></a>
+### func \(\*ServiceAccountToken\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r *ServiceAccountToken) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ServiceAccountTokenNewParams"></a>
+## type [ServiceAccountTokenNewParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+
+
+```go
+type ServiceAccountTokenNewParams struct {
+    // SA Key used only in this request's Authorization header; never serialized as JSON.
+    SAKey string `json:"-"`
+    // Lifetime in seconds, 1-43200. Omit to use the issuer's default.
+    TTLSeconds param.Opt[int64] `json:"ttl_seconds,omitzero"`
+    // Business audit metadata; do not include credentials or other secrets.
+    Metadata map[string]any `json:"metadata,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ServiceAccountTokenNewParams.GoString"></a>
+### func \(ServiceAccountTokenNewParams\) [GoString](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r ServiceAccountTokenNewParams) GoString() string
+```
+
+
+
+<a name="ServiceAccountTokenNewParams.MarshalJSON"></a>
+### func \(ServiceAccountTokenNewParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r ServiceAccountTokenNewParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ServiceAccountTokenNewParams.String"></a>
+### func \(ServiceAccountTokenNewParams\) [String](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r ServiceAccountTokenNewParams) String() string
+```
+
+
+
+<a name="ServiceAccountTokenNewParams.UnmarshalJSON"></a>
+### func \(\*ServiceAccountTokenNewParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r *ServiceAccountTokenNewParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ServiceAccountTokenRevokeParams"></a>
+## type [ServiceAccountTokenRevokeParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+
+
+```go
+type ServiceAccountTokenRevokeParams struct {
+    SAKey              string               `json:"-"`
+    TargetCredentialID param.Opt[string]    `json:"target_credential_id,omitzero"`
+    TargetExpiresAt    param.Opt[time.Time] `json:"target_expires_at,omitzero" format:"date-time"`
+    Reason             param.Opt[string]    `json:"reason,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ServiceAccountTokenRevokeParams.GoString"></a>
+### func \(ServiceAccountTokenRevokeParams\) [GoString](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r ServiceAccountTokenRevokeParams) GoString() string
+```
+
+
+
+<a name="ServiceAccountTokenRevokeParams.MarshalJSON"></a>
+### func \(ServiceAccountTokenRevokeParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r ServiceAccountTokenRevokeParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ServiceAccountTokenRevokeParams.String"></a>
+### func \(ServiceAccountTokenRevokeParams\) [String](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r ServiceAccountTokenRevokeParams) String() string
+```
+
+
+
+<a name="ServiceAccountTokenRevokeParams.UnmarshalJSON"></a>
+### func \(\*ServiceAccountTokenRevokeParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r *ServiceAccountTokenRevokeParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ServiceAccountTokenRevokeResponse"></a>
+## type [ServiceAccountTokenRevokeResponse](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+
+
+```go
+type ServiceAccountTokenRevokeResponse struct {
+    Revoked bool `json:"revoked"`
+    JSON    struct {
+        Revoked     respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ServiceAccountTokenRevokeResponse.RawJSON"></a>
+### func \(ServiceAccountTokenRevokeResponse\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r ServiceAccountTokenRevokeResponse) RawJSON() string
+```
+
+
+
+<a name="ServiceAccountTokenRevokeResponse.UnmarshalJSON"></a>
+### func \(\*ServiceAccountTokenRevokeResponse\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r *ServiceAccountTokenRevokeResponse) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ServiceAccountTokenService"></a>
+## type [ServiceAccountTokenService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+ServiceAccountTokenService issues admin SATs and revokes Forward SAT bindings. These methods require a per\-call SA Key, rather than the client's PAT or SAT.
+
+```go
+type ServiceAccountTokenService struct {
+    Options []option.RequestOption
+}
+```
+
+<a name="NewServiceAccountTokenService"></a>
+### func [NewServiceAccountTokenService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func NewServiceAccountTokenService(opts ...option.RequestOption) ServiceAccountTokenService
+```
+
+
+
+<a name="ServiceAccountTokenService.New"></a>
+### func \(\*ServiceAccountTokenService\) [New](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r *ServiceAccountTokenService) New(ctx context.Context, params ServiceAccountTokenNewParams, opts ...option.RequestOption) (res *ServiceAccountToken, err error)
+```
+
+New issues an admin SAT. Automatic retries are disabled to avoid duplicate issuance.
+
+<a name="ServiceAccountTokenService.Revoke"></a>
+### func \(\*ServiceAccountTokenService\) [Revoke](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/serviceaccounttoken.go>)
+
+```go
+func (r *ServiceAccountTokenService) Revoke(ctx context.Context, authTokenID string, params ServiceAccountTokenRevokeParams, opts ...option.RequestOption) (res *ServiceAccountTokenRevokeResponse, err error)
+```
+
+Revoke revokes a Forward SAT binding belonging to the same Service Account. Use the issuance response's CredentialID and ExpiresAt to disambiguate the target.
 
 <a name="Session"></a>
 ## type [Session](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
