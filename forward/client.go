@@ -29,6 +29,7 @@ type Client struct {
 	Usage                UsageService
 	Models               ModelService
 	ServiceAccountTokens ServiceAccountTokenService
+	Realtime             RealtimeService
 }
 
 // NewClient uses common authentication defaults and QODER_FORWARD_BASE_URL. Explicit options win.
@@ -59,5 +60,6 @@ func NewClient(opts ...option.RequestOption) Client {
 		Usage:                NewUsageService(opts...),
 		Models:               NewModelService(opts...),
 		ServiceAccountTokens: NewServiceAccountTokenService(opts...),
+		Realtime:             NewRealtimeService(opts...),
 	}
 }

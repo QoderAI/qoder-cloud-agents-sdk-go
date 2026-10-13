@@ -74,7 +74,7 @@ test: test-unit test-contract
 test-unit:
 	go test ./...
 	go test -tags live -run 'Cleanup.*Offline$$' ./forward ./managed
-	go test -tags live -run '^TestSAConfiguration$$' ./integration
+	go test -tags live -run '^Test(SAConfiguration|RealtimeConfiguration)$$' ./integration
 
 test-contract:
 	go test -v \
@@ -130,6 +130,10 @@ test-live-sa:
 
 test-live-sa-execution:
 	LIVE_ENV_FILE="$(abspath $(LIVE_ENV_FILE))" go test -tags live -count=1 -v -run TestServiceAccountExecutionLive -timeout=15m ./integration
+
+.PHONY: test-live-realtime
+test-live-realtime:
+	LIVE_ENV_FILE="$(abspath $(LIVE_ENV_FILE))" go test -tags live -count=1 -v -run '^TestRealtimeLive$$' -timeout=25m ./integration
 
 test-live-sa-tokens:
 	LIVE_ENV_FILE="$(abspath $(LIVE_ENV_FILE))" go test -tags live -count=1 -v -run '^TestForwardServiceAccountTokensLive$$' -timeout=10m ./integration

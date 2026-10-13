@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-func saEnvironment(path string, environment map[string]string, execution bool) (map[string]string, error) {
+func liveEnvironment(path string, environment map[string]string) (map[string]string, error) {
 	values := map[string]string{}
 	file, err := os.Open(path)
 	if err != nil && !os.IsNotExist(err) {
@@ -49,6 +49,14 @@ func saEnvironment(path string, environment map[string]string, execution bool) (
 	}
 	for key, value := range environment {
 		values[key] = value
+	}
+	return values, nil
+}
+
+func saEnvironment(path string, environment map[string]string, execution bool) (map[string]string, error) {
+	values, err := liveEnvironment(path, environment)
+	if err != nil {
+		return nil, err
 	}
 	for _, name := range []string{"QODER_SA_CN_KEY", "QODER_SA_GLOBAL_KEY"} {
 		if strings.TrimSpace(values[name]) == "" {

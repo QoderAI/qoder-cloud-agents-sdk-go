@@ -62,6 +62,40 @@ When adding or changing an endpoint:
 
 The fixtures are maintained manually. A passing fixture test proves consistency with this repository, not automatically with service routes or the other SDKs.
 
+Realtime protocol regressions use a local WebSocket server, never an account or
+model. Run `go test -race ./forward -run Realtime -count=1` when changing the
+connection, shared upgrade authentication, history or event models. The
+`forward/testdata/realtime-events.json` fixture records the `voice.realtime.v1`
+contract and source snapshot. Real CN/Global Realtime checks additionally need a
+pre-enabled Template and an allowed Identity; the standalone example can perform
+create/ready/ping/close/history, with optional text or raw PCM input. It retains
+Conversation IDs because no public deletion API exists. Mock tests do not prove
+that either production region has deployed the protocol.
+
+`make test-live-realtime` separately verifies CN/Global × PAT/SA with the two
+`QODER_REALTIME_LIVE_ALLOW_WRITE=true` and
+`QODER_REALTIME_LIVE_ALLOW_EXECUTION=true` gates. Configure
+`QODER_FORWARD_{CN,GLOBAL}_PAT`, `QODER_REALTIME_{CN,GLOBAL}_SAT` and the four
+`QODER_REALTIME_{CN,GLOBAL}_{PAT,SA}_TEMPLATE_ID` values in `.env.live` or the
+process environment. Realtime currently requires Forward-issued bound SATs;
+the platform SAT exchanged by `ServiceAccountCredential` does not create the
+Forward binding. Without an explicit regional SAT, the suite falls back to the
+corresponding `QODER_SA_{CN,GLOBAL}_KEY` to retain this platform compatibility
+check, which currently receives 403 from Realtime. Per region, one SA credential
+source must exist. All required inputs are checked before any request.
+The suite creates unique test Identities, creates/connects Conversations,
+checks ready and pong, sends a short text without fixed model wording, decodes
+output PCM, confirms graceful closure, and exercises filtered history at page
+size 1. It finishes the associated Forward Sessions and deletes only its test
+Identities; it retains/logs Conversation IDs and never edits the supplied
+Templates. This entry consumes model usage. Optionally set
+`QODER_REALTIME_LIVE_PCM_FILE` to a raw 16 kHz mono PCM16 little-endian speech
+fixture (at most 30 seconds, including trailing silence). The file is checked
+before requests; the additional audio round requires a user transcript and an
+assistant transcript/audio response. Without this setting, the suite tests text
+input and does not prove microphone ASR. The standalone example also supports
+`-pcm`.
+
 ## Compatibility conventions
 
 The SDK intentionally keeps Qoder-branded `X-Qoder-*` metadata headers and resumable session-event streams. Preserve those extensions unless the change explicitly revises the public contract. Breaking public API changes require a minor-version release while the SDK remains pre-1.0 and must include migration notes.
