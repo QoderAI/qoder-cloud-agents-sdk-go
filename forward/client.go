@@ -28,6 +28,7 @@ type Client struct {
 	MemoryStores    MemoryStoreService
 	Usage           UsageService
 	Models          ModelService
+	Realtime        RealtimeService
 }
 
 // NewClient uses common authentication defaults and QODER_FORWARD_BASE_URL. Explicit options win.
@@ -57,5 +58,6 @@ func NewClient(opts ...option.RequestOption) Client {
 		MemoryStores:    NewMemoryStoreService(opts...),
 		Usage:           NewUsageService(opts...),
 		Models:          NewModelService(opts...),
+		Realtime:        NewRealtimeService(opts...),
 	}
 }

@@ -152,6 +152,11 @@ func call(t *testing.T, method reflect.Value, ctx context.Context, emptyPath int
 			v.SetString("segment /?%#")
 		}
 		if typ.Kind() == reflect.Struct {
+			if typ.Name() == "RealtimeConversationNewParams" {
+				if err := json.Unmarshal([]byte(`"failure-contract"`), v.FieldByName("IdempotencyKey").Addr().Interface()); err != nil {
+					t.Fatal(err)
+				}
+			}
 			if len(bodies) > 0 {
 				if err := json.Unmarshal(bodies[0], v.Addr().Interface()); err != nil {
 					t.Fatalf("request parameters: %v", err)

@@ -407,6 +407,83 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type PermissionPolicyParam](<#PermissionPolicyParam>)
   - [func \(r PermissionPolicyParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#PermissionPolicyParam.MarshalJSON>)
   - [func \(r \*PermissionPolicyParam\) UnmarshalJSON\(data \[\]byte\) error](<#PermissionPolicyParam.UnmarshalJSON>)
+- [type RealtimeAudioConfig](<#RealtimeAudioConfig>)
+- [type RealtimeAudioConfigParam](<#RealtimeAudioConfigParam>)
+  - [func \(r RealtimeAudioConfigParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#RealtimeAudioConfigParam.MarshalJSON>)
+- [type RealtimeAudioFormat](<#RealtimeAudioFormat>)
+- [type RealtimeAudioOutputConfig](<#RealtimeAudioOutputConfig>)
+- [type RealtimeAudioOutputConfigParam](<#RealtimeAudioOutputConfigParam>)
+  - [func \(r RealtimeAudioOutputConfigParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#RealtimeAudioOutputConfigParam.MarshalJSON>)
+- [type RealtimeAudioPayload](<#RealtimeAudioPayload>)
+- [type RealtimeCapabilities](<#RealtimeCapabilities>)
+- [type RealtimeClientEvent](<#RealtimeClientEvent>)
+- [type RealtimeClosedPayload](<#RealtimeClosedPayload>)
+- [type RealtimeConfig](<#RealtimeConfig>)
+- [type RealtimeConfigParam](<#RealtimeConfigParam>)
+  - [func \(r RealtimeConfigParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#RealtimeConfigParam.MarshalJSON>)
+- [type RealtimeConnectParams](<#RealtimeConnectParams>)
+- [type RealtimeConnection](<#RealtimeConnection>)
+  - [func \(c \*RealtimeConnection\) AppendAudio\(ctx context.Context, pcm \[\]byte\) error](<#RealtimeConnection.AppendAudio>)
+  - [func \(c \*RealtimeConnection\) Close\(\) error](<#RealtimeConnection.Close>)
+  - [func \(c \*RealtimeConnection\) CloseGracefully\(ctx context.Context\) \(\*RealtimeClosedPayload, error\)](<#RealtimeConnection.CloseGracefully>)
+  - [func \(c \*RealtimeConnection\) Err\(\) error](<#RealtimeConnection.Err>)
+  - [func \(c \*RealtimeConnection\) Interrupt\(ctx context.Context\) error](<#RealtimeConnection.Interrupt>)
+  - [func \(c \*RealtimeConnection\) Ping\(ctx context.Context\) error](<#RealtimeConnection.Ping>)
+  - [func \(c \*RealtimeConnection\) PlaybackCancelled\(ctx context.Context, r RealtimePlaybackReceipt\) error](<#RealtimeConnection.PlaybackCancelled>)
+  - [func \(c \*RealtimeConnection\) PlaybackEnded\(ctx context.Context, r RealtimePlaybackReceipt\) error](<#RealtimeConnection.PlaybackEnded>)
+  - [func \(c \*RealtimeConnection\) PlaybackStarted\(ctx context.Context, r RealtimePlaybackReceipt\) error](<#RealtimeConnection.PlaybackStarted>)
+  - [func \(c \*RealtimeConnection\) Recv\(ctx context.Context\) \(RealtimeEvent, error\)](<#RealtimeConnection.Recv>)
+  - [func \(c \*RealtimeConnection\) SendEvent\(ctx context.Context, event RealtimeClientEvent\) error](<#RealtimeConnection.SendEvent>)
+  - [func \(c \*RealtimeConnection\) SendText\(ctx context.Context, text string\) error](<#RealtimeConnection.SendText>)
+- [type RealtimeConversation](<#RealtimeConversation>)
+- [type RealtimeConversationHistoryParams](<#RealtimeConversationHistoryParams>)
+  - [func \(r RealtimeConversationHistoryParams\) URLQuery\(\) \(url.Values, error\)](<#RealtimeConversationHistoryParams.URLQuery>)
+- [type RealtimeConversationNewParams](<#RealtimeConversationNewParams>)
+  - [func \(r RealtimeConversationNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#RealtimeConversationNewParams.MarshalJSON>)
+- [type RealtimeConversationService](<#RealtimeConversationService>)
+  - [func NewRealtimeConversationService\(opts ...option.RequestOption\) RealtimeConversationService](<#NewRealtimeConversationService>)
+  - [func \(r \*RealtimeConversationService\) History\(ctx context.Context, conversationID string, params RealtimeConversationHistoryParams, opts ...option.RequestOption\) \(res \*RealtimeHistoryPage, err error\)](<#RealtimeConversationService.History>)
+  - [func \(r \*RealtimeConversationService\) HistoryAutoPaging\(ctx context.Context, conversationID string, params RealtimeConversationHistoryParams, opts ...option.RequestOption\) \*RealtimeHistoryAutoPager](<#RealtimeConversationService.HistoryAutoPaging>)
+  - [func \(r \*RealtimeConversationService\) New\(ctx context.Context, params RealtimeConversationNewParams, opts ...option.RequestOption\) \(res \*RealtimeConversation, err error\)](<#RealtimeConversationService.New>)
+- [type RealtimeErrorPayload](<#RealtimeErrorPayload>)
+- [type RealtimeEvent](<#RealtimeEvent>)
+  - [func \(e RealtimeEvent\) Audio\(\) \(\[\]byte, error\)](<#RealtimeEvent.Audio>)
+  - [func \(e RealtimeEvent\) DecodePayload\(dst any\) error](<#RealtimeEvent.DecodePayload>)
+  - [func \(e RealtimeEvent\) RawJSON\(\) string](<#RealtimeEvent.RawJSON>)
+- [type RealtimeHistoryAutoPager](<#RealtimeHistoryAutoPager>)
+  - [func \(p \*RealtimeHistoryAutoPager\) Current\(\) RealtimeHistoryEvent](<#RealtimeHistoryAutoPager.Current>)
+  - [func \(p \*RealtimeHistoryAutoPager\) Err\(\) error](<#RealtimeHistoryAutoPager.Err>)
+  - [func \(p \*RealtimeHistoryAutoPager\) Next\(\) bool](<#RealtimeHistoryAutoPager.Next>)
+- [type RealtimeHistoryConversation](<#RealtimeHistoryConversation>)
+- [type RealtimeHistoryEvent](<#RealtimeHistoryEvent>)
+  - [func \(e RealtimeHistoryEvent\) RawJSON\(\) string](<#RealtimeHistoryEvent.RawJSON>)
+  - [func \(e \*RealtimeHistoryEvent\) UnmarshalJSON\(b \[\]byte\) error](<#RealtimeHistoryEvent.UnmarshalJSON>)
+- [type RealtimeHistoryPage](<#RealtimeHistoryPage>)
+  - [func \(p \*RealtimeHistoryPage\) GetNextPage\(ctx context.Context\) \(\*RealtimeHistoryPage, error\)](<#RealtimeHistoryPage.GetNextPage>)
+  - [func \(p \*RealtimeHistoryPage\) HasNextPage\(\) bool](<#RealtimeHistoryPage.HasNextPage>)
+- [type RealtimeHistoryPageInfo](<#RealtimeHistoryPageInfo>)
+- [type RealtimePlaybackReceipt](<#RealtimePlaybackReceipt>)
+- [type RealtimeProtocolError](<#RealtimeProtocolError>)
+  - [func \(e \*RealtimeProtocolError\) Error\(\) string](<#RealtimeProtocolError.Error>)
+- [type RealtimeReadyPayload](<#RealtimeReadyPayload>)
+- [type RealtimeReasonPayload](<#RealtimeReasonPayload>)
+- [type RealtimeServerError](<#RealtimeServerError>)
+  - [func \(e \*RealtimeServerError\) Error\(\) string](<#RealtimeServerError.Error>)
+- [type RealtimeService](<#RealtimeService>)
+  - [func NewRealtimeService\(opts ...option.RequestOption\) RealtimeService](<#NewRealtimeService>)
+  - [func \(r \*RealtimeService\) Connect\(ctx context.Context, conversationID string, params RealtimeConnectParams, opts ...option.RequestOption\) \(\*RealtimeConnection, error\)](<#RealtimeService.Connect>)
+- [type RealtimeStatePayload](<#RealtimeStatePayload>)
+- [type RealtimeTranscriptPayload](<#RealtimeTranscriptPayload>)
+- [type RealtimeTransportError](<#RealtimeTransportError>)
+  - [func \(e \*RealtimeTransportError\) Error\(\) string](<#RealtimeTransportError.Error>)
+  - [func \(e \*RealtimeTransportError\) Unwrap\(\) error](<#RealtimeTransportError.Unwrap>)
+- [type RealtimeWorkAcceptedPayload](<#RealtimeWorkAcceptedPayload>)
+- [type RealtimeWorkCompletedPayload](<#RealtimeWorkCompletedPayload>)
+- [type RealtimeWorkError](<#RealtimeWorkError>)
+- [type RealtimeWorkFailedPayload](<#RealtimeWorkFailedPayload>)
+- [type RealtimeWorkMilestonePayload](<#RealtimeWorkMilestonePayload>)
+- [type RealtimeWorkProgressPayload](<#RealtimeWorkProgressPayload>)
+- [type RealtimeWorkRunningPayload](<#RealtimeWorkRunningPayload>)
 - [type ResourceBinding](<#ResourceBinding>)
   - [func \(r ResourceBinding\) RawJSON\(\) string](<#ResourceBinding.RawJSON>)
   - [func \(r \*ResourceBinding\) UnmarshalJSON\(data \[\]byte\) error](<#ResourceBinding.UnmarshalJSON>)
@@ -755,6 +832,18 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 
 ```go
 const DefaultBaseURL = "https://api.qoder.com/api/v1/forward/"
+```
+
+<a name="RealtimeMaxClientMessageBytes"></a>
+
+```go
+const RealtimeMaxClientMessageBytes = 256 * 1024
+```
+
+<a name="RealtimeProtocolVersion"></a>
+
+```go
+const RealtimeProtocolVersion = "voice.realtime.v1"
 ```
 
 <a name="Bool"></a>
@@ -2037,6 +2126,7 @@ type Client struct {
     MemoryStores    MemoryStoreService
     Usage           UsageService
     Models          ModelService
+    Realtime        RealtimeService
 }
 ```
 
@@ -5787,6 +5877,868 @@ func (r *PermissionPolicyParam) UnmarshalJSON(data []byte) error
 ```
 
 
+
+<a name="RealtimeAudioConfig"></a>
+## type [RealtimeAudioConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeAudioConfig struct {
+    Output RealtimeAudioOutputConfig `json:"output"`
+}
+```
+
+<a name="RealtimeAudioConfigParam"></a>
+## type [RealtimeAudioConfigParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeAudioConfigParam struct {
+    Output RealtimeAudioOutputConfigParam `json:"output,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="RealtimeAudioConfigParam.MarshalJSON"></a>
+### func \(RealtimeAudioConfigParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (r RealtimeAudioConfigParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="RealtimeAudioFormat"></a>
+## type [RealtimeAudioFormat](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeAudioFormat struct {
+    Format     string `json:"format"`
+    SampleRate int    `json:"sample_rate"`
+    Channels   int    `json:"channels"`
+}
+```
+
+<a name="RealtimeAudioOutputConfig"></a>
+## type [RealtimeAudioOutputConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeAudioOutputConfig struct {
+    Voice string `json:"voice"`
+}
+```
+
+<a name="RealtimeAudioOutputConfigParam"></a>
+## type [RealtimeAudioOutputConfigParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeAudioOutputConfigParam struct {
+    Voice param.Opt[string] `json:"voice,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="RealtimeAudioOutputConfigParam.MarshalJSON"></a>
+### func \(RealtimeAudioOutputConfigParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (r RealtimeAudioOutputConfigParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="RealtimeAudioPayload"></a>
+## type [RealtimeAudioPayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeAudioPayload struct {
+    Audio string `json:"audio"`
+}
+```
+
+<a name="RealtimeCapabilities"></a>
+## type [RealtimeCapabilities](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeCapabilities struct {
+    GracefulClose bool `json:"graceful_close"`
+}
+```
+
+<a name="RealtimeClientEvent"></a>
+## type [RealtimeClientEvent](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+RealtimeClientEvent is always encoded as a JSON text frame. Use SendEvent for protocol extensions; convenience methods provide validated public events.
+
+```go
+type RealtimeClientEvent struct {
+    Version string         `json:"version"`
+    Type    string         `json:"type"`
+    Payload map[string]any `json:"payload"`
+}
+```
+
+<a name="RealtimeClosedPayload"></a>
+## type [RealtimeClosedPayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeClosedPayload struct {
+    RequestID string `json:"request_id"`
+    Outcome   string `json:"outcome"`
+}
+```
+
+<a name="RealtimeConfig"></a>
+## type [RealtimeConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeConfig struct {
+    Audio RealtimeAudioConfig `json:"audio"`
+}
+```
+
+<a name="RealtimeConfigParam"></a>
+## type [RealtimeConfigParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeConfigParam struct {
+    Audio RealtimeAudioConfigParam `json:"audio,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="RealtimeConfigParam.MarshalJSON"></a>
+### func \(RealtimeConfigParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (r RealtimeConfigParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="RealtimeConnectParams"></a>
+## type [RealtimeConnectParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+RealtimeConnectParams controls per\-stage timeouts and bounded buffering. Zero values select defaults; negative values are rejected. The caller's ctx spans the connection lifetime, independently of ordinary HTTP timeouts.
+
+```go
+type RealtimeConnectParams struct {
+    HandshakeTimeout time.Duration // Default 30s.
+    ReadyTimeout     time.Duration // Default 60s.
+    SendTimeout      time.Duration // Default 30s.
+    CloseTimeout     time.Duration // Default 10s.
+    QueueCapacity    int           // Default 256 events.
+    QueueBytes       int64         // Default 4 MiB.
+    ReadLimit        int64         // Default 1 MiB per server message.
+}
+```
+
+<a name="RealtimeConnection"></a>
+## type [RealtimeConnection](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+RealtimeConnection has one receiver and serializes sends. Ready is immutable after Connect returns. Applications own audio playback and its receipts.
+
+```go
+type RealtimeConnection struct {
+    ConversationID string
+    RequestID      string
+    Ready          RealtimeReadyPayload
+    // contains filtered or unexported fields
+}
+```
+
+<a name="RealtimeConnection.AppendAudio"></a>
+### func \(\*RealtimeConnection\) [AppendAudio](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) AppendAudio(ctx context.Context, pcm []byte) error
+```
+
+AppendAudio sends nonempty 16 kHz mono PCM16 little\-endian bytes. It does not resample, decode WAV or send binary WebSocket frames.
+
+<a name="RealtimeConnection.Close"></a>
+### func \(\*RealtimeConnection\) [Close](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) Close() error
+```
+
+Close releases transport resources without confirming history persistence.
+
+<a name="RealtimeConnection.CloseGracefully"></a>
+### func \(\*RealtimeConnection\) [CloseGracefully](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) CloseGracefully(ctx context.Context) (*RealtimeClosedPayload, error)
+```
+
+CloseGracefully sends a unique close request, waits for matching persistence acknowledgement, then closes the transport. Ordinary Close does not confirm persistence. Repeated successful calls return the same acknowledgement.
+
+<a name="RealtimeConnection.Err"></a>
+### func \(\*RealtimeConnection\) [Err](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) Err() error
+```
+
+Err returns the terminal receive/transport error, if any.
+
+<a name="RealtimeConnection.Interrupt"></a>
+### func \(\*RealtimeConnection\) [Interrupt](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) Interrupt(ctx context.Context) error
+```
+
+
+
+<a name="RealtimeConnection.Ping"></a>
+### func \(\*RealtimeConnection\) [Ping](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) Ping(ctx context.Context) error
+```
+
+
+
+<a name="RealtimeConnection.PlaybackCancelled"></a>
+### func \(\*RealtimeConnection\) [PlaybackCancelled](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) PlaybackCancelled(ctx context.Context, r RealtimePlaybackReceipt) error
+```
+
+
+
+<a name="RealtimeConnection.PlaybackEnded"></a>
+### func \(\*RealtimeConnection\) [PlaybackEnded](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) PlaybackEnded(ctx context.Context, r RealtimePlaybackReceipt) error
+```
+
+
+
+<a name="RealtimeConnection.PlaybackStarted"></a>
+### func \(\*RealtimeConnection\) [PlaybackStarted](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) PlaybackStarted(ctx context.Context, r RealtimePlaybackReceipt) error
+```
+
+
+
+<a name="RealtimeConnection.Recv"></a>
+### func \(\*RealtimeConnection\) [Recv](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) Recv(ctx context.Context) (RealtimeEvent, error)
+```
+
+Recv preserves receive order and drains buffered events before reporting a terminal error. Cancelling this wait does not close the connection.
+
+<a name="RealtimeConnection.SendEvent"></a>
+### func \(\*RealtimeConnection\) [SendEvent](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) SendEvent(ctx context.Context, event RealtimeClientEvent) error
+```
+
+
+
+<a name="RealtimeConnection.SendText"></a>
+### func \(\*RealtimeConnection\) [SendText](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (c *RealtimeConnection) SendText(ctx context.Context, text string) error
+```
+
+
+
+<a name="RealtimeConversation"></a>
+## type [RealtimeConversation](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+RealtimeConversation timestamps remain text to preserve the wire precision.
+
+```go
+type RealtimeConversation struct {
+    ID        string         `json:"id"`
+    Type      string         `json:"type"`
+    Status    string         `json:"status"`
+    Title     *string        `json:"title"`
+    Metadata  map[string]any `json:"metadata"`
+    Config    RealtimeConfig `json:"config"`
+    CreatedAt string         `json:"created_at"`
+    UpdatedAt string         `json:"updated_at"`
+}
+```
+
+<a name="RealtimeConversationHistoryParams"></a>
+## type [RealtimeConversationHistoryParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeConversationHistoryParams struct {
+    Limit  param.Opt[int64]  `query:"limit,omitzero" json:"-"`
+    Before param.Opt[string] `query:"before,omitzero" json:"-"`
+    // "message", "work", or "message,work"; the default includes both.
+    Types param.Opt[string] `query:"types,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="RealtimeConversationHistoryParams.URLQuery"></a>
+### func \(RealtimeConversationHistoryParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (r RealtimeConversationHistoryParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="RealtimeConversationNewParams"></a>
+## type [RealtimeConversationNewParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeConversationNewParams struct {
+    IdentityID     string              `json:"identity_id" api:"required"`
+    TemplateID     string              `json:"template_id" api:"required"`
+    Title          param.Opt[string]   `json:"title,omitzero"`
+    Metadata       map[string]any      `json:"metadata,omitzero"`
+    Config         RealtimeConfigParam `json:"config,omitzero"`
+    IdempotencyKey param.Opt[string]   `header:"Idempotency-Key,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="RealtimeConversationNewParams.MarshalJSON"></a>
+### func \(RealtimeConversationNewParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (r RealtimeConversationNewParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="RealtimeConversationService"></a>
+## type [RealtimeConversationService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+RealtimeConversationService creates Realtime Conversations and queries their persisted history. Realtime is Beta; a Template must already have it enabled.
+
+```go
+type RealtimeConversationService struct{ Options []option.RequestOption }
+```
+
+<a name="NewRealtimeConversationService"></a>
+### func [NewRealtimeConversationService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func NewRealtimeConversationService(opts ...option.RequestOption) RealtimeConversationService
+```
+
+
+
+<a name="RealtimeConversationService.History"></a>
+### func \(\*RealtimeConversationService\) [History](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (r *RealtimeConversationService) History(ctx context.Context, conversationID string, params RealtimeConversationHistoryParams, opts ...option.RequestOption) (res *RealtimeHistoryPage, err error)
+```
+
+History fetches a page of persisted events. Its cursor points towards older history, and is unrelated to WebSocket event IDs or sequence numbers.
+
+<a name="RealtimeConversationService.HistoryAutoPaging"></a>
+### func \(\*RealtimeConversationService\) [HistoryAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (r *RealtimeConversationService) HistoryAutoPaging(ctx context.Context, conversationID string, params RealtimeConversationHistoryParams, opts ...option.RequestOption) *RealtimeHistoryAutoPager
+```
+
+HistoryAutoPaging iterates persisted history towards older records.
+
+<a name="RealtimeConversationService.New"></a>
+### func \(\*RealtimeConversationService\) [New](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (r *RealtimeConversationService) New(ctx context.Context, params RealtimeConversationNewParams, opts ...option.RequestOption) (res *RealtimeConversation, err error)
+```
+
+New creates a Conversation. Supply a stable Idempotency\-Key for this operation with IdempotencyKey or option.WithHeader; it is required by the service.
+
+<a name="RealtimeErrorPayload"></a>
+## type [RealtimeErrorPayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeErrorPayload struct {
+    Code         string `json:"code"`
+    Message      string `json:"message"`
+    Retryable    *bool  `json:"retryable,omitempty"`
+    RetryAfterMS *int64 `json:"retry_after_ms,omitempty"`
+}
+```
+
+<a name="RealtimeEvent"></a>
+## type [RealtimeEvent](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+RealtimeEvent is a server event. Payload and RawJSON preserve Beta extension fields; Timestamp preserves nanosecond precision. Sequence is not a cursor.
+
+```go
+type RealtimeEvent struct {
+    Version        string          `json:"version"`
+    Type           string          `json:"type"`
+    EventID        string          `json:"event_id"`
+    Sequence       int64           `json:"sequence"`
+    ConversationID string          `json:"conversation_id"`
+    Timestamp      string          `json:"timestamp"`
+    WorkID         string          `json:"work_id,omitempty"`
+    AnnouncementID string          `json:"announcement_id,omitempty"`
+    Payload        json.RawMessage `json:"payload"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="RealtimeEvent.Audio"></a>
+### func \(RealtimeEvent\) [Audio](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+```go
+func (e RealtimeEvent) Audio() ([]byte, error)
+```
+
+Audio decodes audio.delta PCM16. It does not decode WAV or play audio.
+
+<a name="RealtimeEvent.DecodePayload"></a>
+### func \(RealtimeEvent\) [DecodePayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+```go
+func (e RealtimeEvent) DecodePayload(dst any) error
+```
+
+DecodePayload decodes a known typed payload or an application's extension.
+
+<a name="RealtimeEvent.RawJSON"></a>
+### func \(RealtimeEvent\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+```go
+func (e RealtimeEvent) RawJSON() string
+```
+
+
+
+<a name="RealtimeHistoryAutoPager"></a>
+## type [RealtimeHistoryAutoPager](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeHistoryAutoPager struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a name="RealtimeHistoryAutoPager.Current"></a>
+### func \(\*RealtimeHistoryAutoPager\) [Current](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (p *RealtimeHistoryAutoPager) Current() RealtimeHistoryEvent
+```
+
+
+
+<a name="RealtimeHistoryAutoPager.Err"></a>
+### func \(\*RealtimeHistoryAutoPager\) [Err](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (p *RealtimeHistoryAutoPager) Err() error
+```
+
+
+
+<a name="RealtimeHistoryAutoPager.Next"></a>
+### func \(\*RealtimeHistoryAutoPager\) [Next](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (p *RealtimeHistoryAutoPager) Next() bool
+```
+
+
+
+<a name="RealtimeHistoryConversation"></a>
+## type [RealtimeHistoryConversation](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeHistoryConversation struct {
+    ID                   string         `json:"id"`
+    Title                *string        `json:"title"`
+    InitializationStatus string         `json:"initialization_status"`
+    Metadata             map[string]any `json:"metadata"`
+    CreatedAt            string         `json:"created_at"`
+    UpdatedAt            string         `json:"updated_at"`
+}
+```
+
+<a name="RealtimeHistoryEvent"></a>
+## type [RealtimeHistoryEvent](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+RealtimeHistoryEvent retains unknown fields through RawJSON. ID is a history ID \(vevt\_\*\), not an ephemeral WebSocket event\_id.
+
+```go
+type RealtimeHistoryEvent struct {
+    ID                 string             `json:"id"`
+    Type               string             `json:"type"`
+    Status             string             `json:"status"`
+    OccurredAt         string             `json:"occurred_at"`
+    Role               string             `json:"role,omitempty"`
+    Text               string             `json:"text,omitempty"`
+    WorkID             string             `json:"work_id,omitempty"`
+    Objective          string             `json:"objective,omitempty"`
+    Result             string             `json:"result,omitempty"`
+    Error              *RealtimeWorkError `json:"error,omitempty"`
+    TurnID             string             `json:"turn_id,omitempty"`
+    UserMessageEventID string             `json:"user_message_event_id,omitempty"`
+    AnnouncementID     string             `json:"announcement_id,omitempty"`
+    MilestoneType      string             `json:"milestone_type,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="RealtimeHistoryEvent.RawJSON"></a>
+### func \(RealtimeHistoryEvent\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (e RealtimeHistoryEvent) RawJSON() string
+```
+
+
+
+<a name="RealtimeHistoryEvent.UnmarshalJSON"></a>
+### func \(\*RealtimeHistoryEvent\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (e *RealtimeHistoryEvent) UnmarshalJSON(b []byte) error
+```
+
+
+
+<a name="RealtimeHistoryPage"></a>
+## type [RealtimeHistoryPage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeHistoryPage struct {
+    Conversation RealtimeHistoryConversation `json:"conversation"`
+    Events       []RealtimeHistoryEvent      `json:"events"`
+    Page         RealtimeHistoryPageInfo     `json:"page"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="RealtimeHistoryPage.GetNextPage"></a>
+### func \(\*RealtimeHistoryPage\) [GetNextPage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (p *RealtimeHistoryPage) GetNextPage(ctx context.Context) (*RealtimeHistoryPage, error)
+```
+
+GetNextPage returns older history, or nil at the end.
+
+<a name="RealtimeHistoryPage.HasNextPage"></a>
+### func \(\*RealtimeHistoryPage\) [HasNextPage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+```go
+func (p *RealtimeHistoryPage) HasNextPage() bool
+```
+
+
+
+<a name="RealtimeHistoryPageInfo"></a>
+## type [RealtimeHistoryPageInfo](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeconversation.go>)
+
+
+
+```go
+type RealtimeHistoryPageInfo struct {
+    NextBefore *string `json:"next_before"`
+    HasMore    bool    `json:"has_more"`
+}
+```
+
+<a name="RealtimePlaybackReceipt"></a>
+## type [RealtimePlaybackReceipt](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimePlaybackReceipt struct {
+    WorkID         string `json:"work_id,omitempty"`
+    AnnouncementID string `json:"announcement_id,omitempty"`
+}
+```
+
+<a name="RealtimeProtocolError"></a>
+## type [RealtimeProtocolError](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeProtocolError struct{ Message string }
+```
+
+<a name="RealtimeProtocolError.Error"></a>
+### func \(\*RealtimeProtocolError\) [Error](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+```go
+func (e *RealtimeProtocolError) Error() string
+```
+
+
+
+<a name="RealtimeReadyPayload"></a>
+## type [RealtimeReadyPayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeReadyPayload struct {
+    Config       RealtimeConfig       `json:"config"`
+    Provider     string               `json:"provider"`
+    InputAudio   RealtimeAudioFormat  `json:"input_audio"`
+    OutputAudio  RealtimeAudioFormat  `json:"output_audio"`
+    Capabilities RealtimeCapabilities `json:"capabilities"`
+}
+```
+
+<a name="RealtimeReasonPayload"></a>
+## type [RealtimeReasonPayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeReasonPayload struct {
+    Reason string `json:"reason"`
+}
+```
+
+<a name="RealtimeServerError"></a>
+## type [RealtimeServerError](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeServerError struct {
+    RealtimeErrorPayload
+    ConversationID string
+}
+```
+
+<a name="RealtimeServerError.Error"></a>
+### func \(\*RealtimeServerError\) [Error](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+```go
+func (e *RealtimeServerError) Error() string
+```
+
+
+
+<a name="RealtimeService"></a>
+## type [RealtimeService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+
+
+```go
+type RealtimeService struct {
+    Options       []option.RequestOption
+    Conversations RealtimeConversationService
+}
+```
+
+<a name="NewRealtimeService"></a>
+### func [NewRealtimeService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func NewRealtimeService(opts ...option.RequestOption) RealtimeService
+```
+
+
+
+<a name="RealtimeService.Connect"></a>
+### func \(\*RealtimeService\) [Connect](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (r *RealtimeService) Connect(ctx context.Context, conversationID string, params RealtimeConnectParams, opts ...option.RequestOption) (*RealtimeConnection, error)
+```
+
+Connect upgrades once and waits for a validated voice.ready. It never follows redirects or automatically reconnects/replays input. Events received while waiting for ready, including ready itself, remain available through Recv.
+
+<a name="RealtimeStatePayload"></a>
+## type [RealtimeStatePayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeStatePayload struct {
+    State string `json:"state"`
+}
+```
+
+<a name="RealtimeTranscriptPayload"></a>
+## type [RealtimeTranscriptPayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeTranscriptPayload struct {
+    Role       string `json:"role"`
+    Text       string `json:"text"`
+    ItemID     string `json:"item_id,omitempty"`
+    ResponseID string `json:"response_id,omitempty"`
+}
+```
+
+<a name="RealtimeTransportError"></a>
+## type [RealtimeTransportError](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+
+
+```go
+type RealtimeTransportError struct {
+    ConversationID string
+    CloseCode      int
+    Reason         string
+    Err            error
+}
+```
+
+<a name="RealtimeTransportError.Error"></a>
+### func \(\*RealtimeTransportError\) [Error](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (e *RealtimeTransportError) Error() string
+```
+
+
+
+<a name="RealtimeTransportError.Unwrap"></a>
+### func \(\*RealtimeTransportError\) [Unwrap](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtime.go>)
+
+```go
+func (e *RealtimeTransportError) Unwrap() error
+```
+
+
+
+<a name="RealtimeWorkAcceptedPayload"></a>
+## type [RealtimeWorkAcceptedPayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeWorkAcceptedPayload struct {
+    Status    string `json:"status"`
+    Objective string `json:"objective"`
+}
+```
+
+<a name="RealtimeWorkCompletedPayload"></a>
+## type [RealtimeWorkCompletedPayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeWorkCompletedPayload struct {
+    Status  string `json:"status"`
+    Result  string `json:"result"`
+    EventID string `json:"event_id,omitempty"`
+}
+```
+
+<a name="RealtimeWorkError"></a>
+## type [RealtimeWorkError](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeWorkError struct {
+    Code string `json:"code"`
+}
+```
+
+<a name="RealtimeWorkFailedPayload"></a>
+## type [RealtimeWorkFailedPayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeWorkFailedPayload struct {
+    Status  string            `json:"status"`
+    Error   RealtimeWorkError `json:"error"`
+    EventID string            `json:"event_id,omitempty"`
+}
+```
+
+<a name="RealtimeWorkMilestonePayload"></a>
+## type [RealtimeWorkMilestonePayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeWorkMilestonePayload struct {
+    AnnouncementID string `json:"announcement_id"`
+    MilestoneType  string `json:"milestone_type"`
+    Summary        string `json:"summary"`
+}
+```
+
+<a name="RealtimeWorkProgressPayload"></a>
+## type [RealtimeWorkProgressPayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeWorkProgressPayload struct {
+    Kind    string `json:"kind"`
+    Detail  string `json:"detail"`
+    Title   string `json:"title,omitempty"`
+    IsError bool   `json:"is_error,omitempty"`
+    EventID string `json:"event_id,omitempty"`
+}
+```
+
+<a name="RealtimeWorkRunningPayload"></a>
+## type [RealtimeWorkRunningPayload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/realtimeevent.go>)
+
+
+
+```go
+type RealtimeWorkRunningPayload struct {
+    Status string `json:"status"`
+}
+```
 
 <a name="ResourceBinding"></a>
 ## type [ResourceBinding](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
@@ -54675,6 +55627,7 @@ Package convention implements Qoder authentication, transport, request options, 
   - [func \(cfg \*RequestConfig\) Clone\(ctx context.Context\) \*RequestConfig](<#RequestConfig.Clone>)
   - [func \(cfg \*RequestConfig\) Execute\(\) \(err error\)](<#RequestConfig.Execute>)
   - [func \(r \*RequestConfig\) MarkAuthorizationDeleted\(\)](<#RequestConfig.MarkAuthorizationDeleted>)
+  - [func \(cfg \*RequestConfig\) WebSocketHandshake\(\) \(\*http.Client, \*http.Request, error\)](<#RequestConfig.WebSocketHandshake>)
 - [type RequestOption](<#RequestOption>)
   - [func EnvironmentAuthentication\(\) RequestOption](<#EnvironmentAuthentication>)
   - [func RequireCredential\(\) RequestOption](<#RequireCredential>)
@@ -55017,6 +55970,15 @@ func (r *RequestConfig) MarkAuthorizationDeleted()
 ```
 
 MarkAuthorizationDeleted suppresses static/environment header restoration; dynamic credentials retain their existing header\-deletion behavior.
+
+<a name="RequestConfig.WebSocketHandshake"></a>
+### func \(\*RequestConfig\) [WebSocketHandshake](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/websocket.go>)
+
+```go
+func (cfg *RequestConfig) WebSocketHandshake() (*http.Client, *http.Request, error)
+```
+
+WebSocketHandshake prepares a single upgrade using the same headers, authentication and middleware as HTTP requests. RequestTimeout and the HTTP client's Timeout do not limit the lifetime of the upgraded connection. Custom HTTP doers cannot guarantee WebSocket upgrades; use a native http.Client.
 
 <a name="RequestOption"></a>
 ## type [RequestOption](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/requestconfig.go>)

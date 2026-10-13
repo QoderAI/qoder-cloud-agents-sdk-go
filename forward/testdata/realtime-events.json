@@ -1,0 +1,277 @@
+{
+  "source": "knowledge/api_specs/realtime/Cloud Agents Realtime API.md; voice gateway 8f50fa0494ab6f57bad1b3b839aef8a645ef6810",
+  "events": [
+    {
+      "version": "voice.realtime.v1",
+      "type": "voice.state",
+      "event_id": "evt_1",
+      "sequence": 1,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "state": "connecting"
+      },
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "voice.ready",
+      "event_id": "evt_2",
+      "sequence": 2,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "config": {
+          "audio": {
+            "output": {
+              "voice": "longanqian"
+            }
+          }
+        },
+        "provider": "qoder",
+        "input_audio": {
+          "format": "pcm16",
+          "sample_rate": 16000,
+          "channels": 1
+        },
+        "output_audio": {
+          "format": "pcm16",
+          "sample_rate": 24000,
+          "channels": 1
+        },
+        "capabilities": {
+          "graceful_close": true
+        }
+      },
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "transcript.delta",
+      "event_id": "evt_3",
+      "sequence": 3,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "role": "assistant",
+        "text": "\u4f60",
+        "item_id": "item_one",
+        "response_id": "resp_one"
+      },
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "transcript.final",
+      "event_id": "evt_4",
+      "sequence": 4,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "role": "assistant",
+        "text": "\u4f60\u597d"
+      },
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "audio.delta",
+      "event_id": "evt_5",
+      "sequence": 5,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "audio": "AAABAA=="
+      },
+      "work_id": "work_one",
+      "announcement_id": "ann_one",
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "audio.done",
+      "event_id": "evt_6",
+      "sequence": 6,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {},
+      "work_id": "work_one",
+      "announcement_id": "ann_one",
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "playback.interrupt",
+      "event_id": "evt_7",
+      "sequence": 7,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "reason": "barge_in"
+      },
+      "work_id": "work_one",
+      "announcement_id": "ann_one",
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "work.accepted",
+      "event_id": "evt_8",
+      "sequence": 8,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "status": "accepted",
+        "objective": "check"
+      },
+      "work_id": "work_one",
+      "announcement_id": "ann_one",
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "work.running",
+      "event_id": "evt_9",
+      "sequence": 9,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "status": "running"
+      },
+      "work_id": "work_one",
+      "announcement_id": "ann_one",
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "work.progress",
+      "event_id": "evt_10",
+      "sequence": 10,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "kind": "tool",
+        "detail": "read file",
+        "title": "Read",
+        "is_error": false,
+        "event_id": "evt_forward"
+      },
+      "work_id": "work_one",
+      "announcement_id": "ann_one",
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "work.milestone",
+      "event_id": "evt_11",
+      "sequence": 11,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "announcement_id": "ann_one",
+        "milestone_type": "progress",
+        "summary": "done"
+      },
+      "work_id": "work_one",
+      "announcement_id": "ann_one",
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "work.completed",
+      "event_id": "evt_12",
+      "sequence": 12,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "status": "completed",
+        "result": "ok",
+        "event_id": "evt_forward"
+      },
+      "work_id": "work_one",
+      "announcement_id": "ann_one",
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "work.failed",
+      "event_id": "evt_13",
+      "sequence": 13,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "status": "failed",
+        "error": {
+          "code": "task_error"
+        }
+      },
+      "work_id": "work_one",
+      "announcement_id": "ann_one",
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "pong",
+      "event_id": "evt_14",
+      "sequence": 14,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {},
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "error",
+      "event_id": "evt_15",
+      "sequence": 15,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "code": "work_busy",
+        "message": "busy",
+        "retryable": true,
+        "retry_after_ms": 20
+      },
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "future.extension",
+      "event_id": "evt_16",
+      "sequence": 16,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "future": {
+          "value": true
+        }
+      },
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "connection.closed",
+      "event_id": "evt_17",
+      "sequence": 17,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "request_id": "fixture_close",
+        "outcome": "saved"
+      },
+      "future_envelope": "preserved"
+    },
+    {
+      "version": "voice.realtime.v1",
+      "type": "voice.replaced",
+      "event_id": "evt_18",
+      "sequence": 18,
+      "conversation_id": "conv_test",
+      "timestamp": "2026-10-13T01:02:03.123456789Z",
+      "payload": {
+        "reason": "new_connection"
+      },
+      "future_envelope": "preserved"
+    }
+  ]
+}

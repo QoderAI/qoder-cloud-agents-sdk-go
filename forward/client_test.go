@@ -26,7 +26,7 @@ func TestForwardAPIInventory(t *testing.T) {
 			for j := 0; j < methods.NumMethod(); j++ {
 				name := methods.Method(j).Name
 				key := field.Type().Name() + "." + name
-				if !strings.HasSuffix(name, "AutoPaging") && key != "SessionEventService.NewResumableStream" {
+				if !strings.HasSuffix(name, "AutoPaging") && key != "SessionEventService.NewResumableStream" && key != "RealtimeService.Connect" {
 					actual[key] = true
 				}
 			}
@@ -34,8 +34,8 @@ func TestForwardAPIInventory(t *testing.T) {
 		}
 	}
 	walk(root)
-	if len(actual) != 113 {
-		t.Fatalf("HTTP methods: %d want 113", len(actual))
+	if len(actual) != 115 {
+		t.Fatalf("HTTP methods: %d want 115", len(actual))
 	}
 	baseline := map[string]bool{}
 	for _, c := range operations(t) {

@@ -5,6 +5,11 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Added
+
+- Forward Realtime Beta: create Conversations with a stable idempotency key, connect over WebSocket using PAT/SAT or shared Credentials, exchange text and PCM16 audio, observe typed events and Work progress, report playback, interrupt, and confirm graceful closure.
+- Realtime Conversation history with independent `before` pagination, persisted history IDs and preserved unknown event fields. Connections have separate stage timeouts, bounded receive queues, and explicit protocol failures; they do not follow redirects, reconnect, or replay input automatically.
+
 ## [0.4.0] - 2026-10-12
 
 ### Added

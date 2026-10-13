@@ -8,7 +8,7 @@ The SDK ships two clients that share authentication, transport, retries, error h
 
 | Mode | Package | Resources |
 | --- | --- | --- |
-| Forward | `forward` | Identity, Template, Session, Schedule, Batch, Channel, Environment, File, Skill, Vault, MemoryStore, Model, Usage |
+| Forward | `forward` | Identity, Template, Session, Schedule, Batch, Channel, Environment, File, Skill, Vault, MemoryStore, Model, Usage, Realtime |
 | Managed | `managed` | Agent, Session, Deployment, Dream, Environment, File, Skill, Vault, MemoryStore, Model |
 
 - [Installation](#installation)
@@ -19,6 +19,7 @@ The SDK ships two clients that share authentication, transport, retries, error h
 - [Conversations](#conversations)
 - [System prompts and tools](#system-prompts-and-tools)
 - [Streaming](#streaming)
+- [Realtime Beta](#realtime-beta)
 - [Request fields](#request-fields)
 - [Response objects](#response-objects)
 - [Error handling](#error-handling)
@@ -796,6 +797,135 @@ func readUnknownField(session *forward.Session) string {
 `RawJSON()` on the entity returns the whole body it was decoded from.
 
 ## Examples
+
+### Realtime Beta
+
+`client.Realtime` connects to the public Forward gateway. Realtime must already
+be enabled on the Template; this SDK does not change its Realtime configuration.
+Creating a Conversation requires a stable `Idempotency-Key` (1–256 UTF-8 bytes)
+for that operation. It stays in a header during retries, rather than the JSON body.
+
+```go
+conversation, err := client.Realtime.Conversations.New(ctx,
+	forward.RealtimeConversationNewParams{
+		IdentityID: identityID,
+		TemplateID: templateID,
+		IdempotencyKey: forward.String(operationKey),
+	})
+if err != nil { return err }
+connection, err := client.Realtime.Connect(ctx, conversation.ID,
+	forward.RealtimeConnectParams{})
+if err != nil { return err }
+defer connection.Close()
+// Connect returns after voice.ready; that event and earlier voice.state events
+// remain in the receive queue. ctx spans the connection lifetime.
+if err := connection.SendText(ctx, "Hello"); err != nil { return err }
+event, err := connection.Recv(ctx)
+if err != nil { return err }
+var transcript forward.RealtimeTranscriptPayload
+if event.Type == "transcript.final" {
+	if err := event.DecodePayload(&transcript); err != nil { return err }
+}
+// Stop capture/playback before graceful close. Ordinary Close only releases
+// transport resources; it does not confirm that history was saved.
+closed, err := connection.CloseGracefully(ctx)
+if err != nil { return err }
+fmt.Println(closed.Outcome)
+```
+
+REST and each new WebSocket connection use the same PAT, direct SAT, or shared
+`Credential`. A credential provider is called on each new connection; an
+established socket cannot update its Authorization header. The current Realtime
+service requires an SA Token bound through Forward's Token issuance APIs.
+The platform SAT obtained by `ServiceAccountCredential` alone does not create
+this binding and is currently rejected by Realtime. Use
+`option.WithAuthMode("sa")` and `option.WithAuthToken(boundSAT)` for a directly
+supplied bound SAT, or a custom Credential that supplies one. SDK transport
+support does not grant additional Token permissions. Credentials stay in headers,
+and upgrade redirects are rejected. Native `*http.Client` transports (including
+TLS and proxy configuration), headers and middleware apply to the upgrade;
+arbitrary custom HTTP doers are unsupported. The client's HTTP `Timeout` and
+`option.WithRequestTimeout` do not limit a Realtime connection's lifetime.
+
+`RealtimeConnectParams` defaults to 30s handshake, 60s ready, 30s send, 10s
+graceful close, 256 queued events / 4 MiB, and 1 MiB per received message.
+Exceeding receive limits terminates the connection with an explicit error.
+`Recv(ctx)` preserves order, including buffered events before a terminal error.
+Known payload types cover transcripts, audio, state, errors, close and Work
+events; `Payload`, `DecodePayload` and `RawJSON()` preserve unknown extensions.
+The timestamp stays text, including nanosecond precision. `voice.replaced`
+ends the old connection; a nonterminal `error` or `work.failed` remains an event.
+
+`AppendAudio` takes raw **16 kHz mono PCM16 little-endian** bytes, not WAV, and
+sends Base64 in JSON text frames. Output is **24 kHz mono PCM16**;
+`RealtimeEvent.Audio()` decodes `audio.delta`. The final client JSON message
+must fit within 256 KiB; text is limited to 16 KiB after trimming whitespace.
+Applications own sampling, playback and its lifecycle: `audio.done` means
+generation finished, while `PlaybackStarted`, `PlaybackEnded` and
+`PlaybackCancelled` report what the speaker actually did. Copy `work_id` and
+`announcement_id` from the corresponding audio event into the receipt.
+`Interrupt` does not stop an application's speaker by itself.
+
+The service limits a connection to 60 minutes. The SDK does not automatically
+reconnect or replay text/audio; applications may reconnect to the same
+Conversation. Closing a connection neither cancels background Work nor deletes
+the Conversation. Graceful closure succeeds only after a matching request ID
+and successful persistence outcome; timeouts and persistence failures stay errors.
+
+History has its own `conversation / events / page` envelope and `before` cursor,
+and iterates towards older records. Historical `id` values are independent of
+the WebSocket `event_id` and sequence. Filters are `message`, `work` or
+`message,work`, and page size is 1–100. `HasNextPage` / `GetNextPage(ctx)` expose
+manual paging; `HistoryAutoPaging` also crosses empty pages and detects cursor cycles.
+
+```go
+history := client.Realtime.Conversations.HistoryAutoPaging(ctx, conversation.ID,
+	forward.RealtimeConversationHistoryParams{
+		Types: forward.String("message,work"), Limit: forward.Int(50),
+	})
+for history.Next() {
+	event := history.Current()
+	fmt.Println(event.ID, event.Type, event.OccurredAt)
+}
+if err := history.Err(); err != nil { return err }
+```
+
+The standalone [Realtime example](examples/forward/realtime/main.go) uses
+process environment variables and a pre-enabled Template/Identity. It defaults
+to ping/close/history without sending model input. Optional `-text` and `-pcm`
+use model quota; choose either text or raw speech PCM (at most 30 seconds,
+including trailing silence), sent in 20 ms chunks. The demo does not play audio and
+reports received output as cancelled. New Conversations remain stored because
+the API exposes no Conversation deletion endpoint.
+
+```sh
+# PAT defaults; SA uses the same QODER_AUTH_MODE/SA_KEY/ACCESS_TOKEN convention.
+QODER_SA_REGION=cn go run ./examples/forward/realtime \
+  -identity "$QODER_IDENTITY_ID" -template "$QODER_TEMPLATE_ID" \
+  -idempotency-key "$QODER_IDEMPOTENCY_KEY"
+# Supply a Forward-issued bound SAT through QODER_ACCESS_TOKEN; do not set QODER_SA_KEY.
+QODER_AUTH_MODE=sa QODER_SA_REGION=global go run ./examples/forward/realtime \
+  -conversation "$QODER_CONVERSATION_ID" -text "Hello"
+go run ./examples/forward/realtime -conversation "$QODER_CONVERSATION_ID" -history-only
+```
+
+Maintainers can run `make test-live-realtime` for an explicit CN/Global × PAT/SA
+acceptance suite. Configure the four pre-enabled
+`QODER_REALTIME_{CN,GLOBAL}_{PAT,SA}_TEMPLATE_ID` values and matching
+`QODER_FORWARD_{CN,GLOBAL}_PAT` / `QODER_REALTIME_{CN,GLOBAL}_SAT` credentials, then
+set both `QODER_REALTIME_LIVE_ALLOW_WRITE=true` and
+`QODER_REALTIME_LIVE_ALLOW_EXECUTION=true`. The suite validates all inputs
+before creating test Identities, verifies text/output PCM and persisted history,
+and cleans up its Sessions/Identities. It retains Conversation IDs and leaves
+the supplied Templates intact. The SA cases use the supplied Forward-issued
+bound SATs. Without them, they use `QODER_SA_{CN,GLOBAL}_KEY` through
+`ServiceAccountCredential` to retain platform Token compatibility checks; the
+current service rejects such unbound platform SATs. No Token issuance is
+performed implicitly. Optionally set `QODER_REALTIME_LIVE_PCM_FILE` to
+a raw 16 kHz mono PCM16 little-endian speech fixture of at most 30 seconds,
+including trailing silence. It adds an audio round requiring a user transcript
+and an assistant transcript/audio response. Without it, acceptance covers text
+input; the standalone example also supports `-pcm`.
 
 `examples/forward/` and `examples/managed/` hold 18 business programs, one `main.go` per scenario, each runnable directly. They read `.env.live` from the working directory — run them from the repository root, or point `-env` elsewhere. Copy [.env.live.example](.env.live.example) and configure PAT or SA authentication. Examples default to CN; `-region cn|global` overrides the configured Qoder hostname.
 

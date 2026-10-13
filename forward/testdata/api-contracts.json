@@ -3250,5 +3250,68 @@
     "download": false,
     "raw": false,
     "empty": false
+  },
+  {
+    "operation_id": "createRealtimeConversation",
+    "service": "RealtimeConversationService",
+    "entry": "Realtime.Conversations",
+    "name": "New",
+    "response": {
+      "id": "conv_contract",
+      "type": "voice.conversation",
+      "status": "ready",
+      "title": "test",
+      "metadata": {
+        "source": "sdk"
+      },
+      "config": {
+        "audio": {
+          "output": {
+            "voice": "longanqian"
+          }
+        }
+      },
+      "created_at": "2026-10-13T01:02:03.123456789Z",
+      "updated_at": "2026-10-13T01:02:03.123456789Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getRealtimeConversationHistory",
+    "service": "RealtimeConversationService",
+    "entry": "Realtime.Conversations",
+    "name": "History",
+    "response": {
+      "conversation": {
+        "id": "conv_contract",
+        "title": "test",
+        "initialization_status": "ready",
+        "metadata": {},
+        "created_at": "2026-10-13T01:02:03Z",
+        "updated_at": "2026-10-13T01:02:03Z"
+      },
+      "events": [
+        {
+          "id": "vevt_contract",
+          "type": "voice.user_message.completed",
+          "status": "completed",
+          "text": "hello",
+          "occurred_at": "2026-10-13T01:02:03Z",
+          "role": "user",
+          "future": true
+        }
+      ],
+      "page": {
+        "has_more": false,
+        "next_before": null
+      }
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
   }
 ]
