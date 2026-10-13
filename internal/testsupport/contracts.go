@@ -163,6 +163,9 @@ func call(t *testing.T, method reflect.Value, ctx context.Context, emptyPath int
 				}
 			}
 			for j := 0; j < typ.NumField(); j++ {
+				if typ.Field(j).Name == "SAKey" && v.Field(j).Kind() == reflect.String {
+					v.Field(j).SetString("contract-sa-key")
+				}
 				if typ.Field(j).Tag.Get("path") != "" && v.Field(j).Kind() == reflect.String && emptyPath != 1000*i+j {
 					v.Field(j).SetString("segment /?%#")
 				}

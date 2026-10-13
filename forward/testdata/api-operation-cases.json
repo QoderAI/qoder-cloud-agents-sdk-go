@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "operation_count": 115,
+  "operation_count": 118,
   "cases": [
     {
       "operation_id": "addSessionResource",
@@ -4991,6 +4991,70 @@
       ],
       "request_body": null,
       "source": "knowledge/api_specs/realtime/Cloud Agents Realtime API.md"
+    },
+    {
+      "operation_id": "createServiceAccountToken",
+      "http_method": "POST",
+      "path": "/service_account_tokens",
+      "auth": "sa_key",
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/service-account-tokens/create",
+      "parameters": [],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "ttl_seconds": 3600,
+          "metadata": {
+            "purpose": "admin automation"
+          }
+        }
+      }
+    },
+    {
+      "operation_id": "createIdentityServiceAccountToken",
+      "http_method": "POST",
+      "path": "/identities/{identity_id}/service_account_tokens",
+      "auth": "sa_key",
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/service-account-tokens/create-identity",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "path",
+          "required": true,
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "ttl_seconds": 3600,
+          "metadata": {
+            "purpose": "identity runtime"
+          }
+        }
+      }
+    },
+    {
+      "operation_id": "revokeServiceAccountToken",
+      "http_method": "POST",
+      "path": "/service_account_tokens/{auth_token_id}/revoke",
+      "auth": "sa_key",
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/service-account-tokens/revoke",
+      "parameters": [
+        {
+          "wire_name": "auth_token_id",
+          "location": "path",
+          "required": true,
+          "value": "auth_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "target_credential_id": "sak_contract",
+          "target_expires_at": "2026-10-13T12:00:00Z",
+          "reason": "session ended"
+        }
+      }
     }
   ]
 }

@@ -36,6 +36,7 @@ func testClient(fn roundTripFunc, opts ...option.RequestOption) forward.Client {
 
 type operationCase struct {
 	OperationID string          `json:"operation_id"`
+	Auth        string          `json:"auth"`
 	Method      string          `json:"http_method"`
 	Path        string          `json:"path"`
 	Parameters  []parameterCase `json:"parameters"`
@@ -85,8 +86,8 @@ func operations(t *testing.T) []operationCase {
 		Cases []operationCase `json:"cases"`
 	}
 	readJSON(t, "testdata/api-operation-cases.json", &fixture)
-	if fixture.Count != 115 || len(fixture.Cases) != 115 {
-		t.Fatal("Forward API scope must contain 115 operations")
+	if fixture.Count != 118 || len(fixture.Cases) != 118 {
+		t.Fatal("Forward API scope must contain 118 operations")
 	}
 	return fixture.Cases
 }
@@ -173,6 +174,9 @@ func contractParams[T any](t *testing.T, id string) T {
 		}
 	}
 	v := reflect.ValueOf(&params).Elem()
+	if c.Auth == "sa_key" {
+		v.FieldByName("SAKey").SetString("contract-sa-key")
+	}
 	for _, p := range c.Parameters {
 		if p.Location != "path" {
 			setField(t, v, p.Location, p.Name, parameterValue(p))
@@ -233,7 +237,11 @@ func contractClient(t *testing.T, id string, status int) forward.Client {
 		if r.URL.EscapedPath() != "/api/v1/forward"+path {
 			t.Errorf("path: %s want %s", r.URL.EscapedPath(), path)
 		}
-		if r.Header.Get("Authorization") != "Bearer secret-pat" {
+		wantAuth := "Bearer secret-pat"
+		if c.Auth == "sa_key" {
+			wantAuth = "Bearer contract-sa-key"
+		}
+		if r.Header.Get("Authorization") != wantAuth {
 			t.Error("missing bearer authentication")
 		}
 		for _, p := range c.Parameters {

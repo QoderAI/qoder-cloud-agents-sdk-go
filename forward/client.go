@@ -12,23 +12,24 @@ const DefaultBaseURL = "https://api.qoder.com/api/v1/forward/"
 
 // Client exposes Forward resources. Configure options before sharing a client.
 type Client struct {
-	Options         []option.RequestOption
-	Templates       TemplateService
-	Identities      IdentityService
-	Sessions        SessionService
-	Schedules       ScheduleService
-	ScheduleRuns    ScheduleRunService
-	Batches         BatchService
-	Channels        ChannelService
-	ChannelPairings ChannelPairingService
-	Environments    EnvironmentService
-	Files           FileService
-	Skills          SkillService
-	Vaults          VaultService
-	MemoryStores    MemoryStoreService
-	Usage           UsageService
-	Models          ModelService
-	Realtime        RealtimeService
+	Options              []option.RequestOption
+	Templates            TemplateService
+	Identities           IdentityService
+	Sessions             SessionService
+	Schedules            ScheduleService
+	ScheduleRuns         ScheduleRunService
+	Batches              BatchService
+	Channels             ChannelService
+	ChannelPairings      ChannelPairingService
+	Environments         EnvironmentService
+	Files                FileService
+	Skills               SkillService
+	Vaults               VaultService
+	MemoryStores         MemoryStoreService
+	Usage                UsageService
+	Models               ModelService
+	ServiceAccountTokens ServiceAccountTokenService
+	Realtime             RealtimeService
 }
 
 // NewClient uses common authentication defaults and QODER_FORWARD_BASE_URL. Explicit options win.
@@ -43,21 +44,22 @@ func NewClient(opts ...option.RequestOption) Client {
 	defaults = append(defaults, convention.EnvironmentAuthentication())
 	opts = slices.Concat(defaults, opts)
 	return Client{Options: opts,
-		Templates:       NewTemplateService(opts...),
-		Identities:      NewIdentityService(opts...),
-		Sessions:        NewSessionService(opts...),
-		Schedules:       NewScheduleService(opts...),
-		ScheduleRuns:    NewScheduleRunService(opts...),
-		Batches:         NewBatchService(opts...),
-		Channels:        NewChannelService(opts...),
-		ChannelPairings: NewChannelPairingService(opts...),
-		Environments:    NewEnvironmentService(opts...),
-		Files:           NewFileService(opts...),
-		Skills:          NewSkillService(opts...),
-		Vaults:          NewVaultService(opts...),
-		MemoryStores:    NewMemoryStoreService(opts...),
-		Usage:           NewUsageService(opts...),
-		Models:          NewModelService(opts...),
-		Realtime:        NewRealtimeService(opts...),
+		Templates:            NewTemplateService(opts...),
+		Identities:           NewIdentityService(opts...),
+		Sessions:             NewSessionService(opts...),
+		Schedules:            NewScheduleService(opts...),
+		ScheduleRuns:         NewScheduleRunService(opts...),
+		Batches:              NewBatchService(opts...),
+		Channels:             NewChannelService(opts...),
+		ChannelPairings:      NewChannelPairingService(opts...),
+		Environments:         NewEnvironmentService(opts...),
+		Files:                NewFileService(opts...),
+		Skills:               NewSkillService(opts...),
+		Vaults:               NewVaultService(opts...),
+		MemoryStores:         NewMemoryStoreService(opts...),
+		Usage:                NewUsageService(opts...),
+		Models:               NewModelService(opts...),
+		ServiceAccountTokens: NewServiceAccountTokenService(opts...),
+		Realtime:             NewRealtimeService(opts...),
 	}
 }

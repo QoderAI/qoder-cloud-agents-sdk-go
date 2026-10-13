@@ -124,7 +124,7 @@ test-e2e: test-unit
 			-json -run 'E2ELive$$' ./forward ./managed > build/test-results/e2e.json; \
 		result=$$?; echo "E2E result: build/test-results/e2e.json (exit $$result)"; exit $$result
 
-.PHONY: test-live-sa test-live-sa-execution
+.PHONY: test-live-sa test-live-sa-execution test-live-sa-tokens
 test-live-sa:
 	LIVE_ENV_FILE="$(abspath $(LIVE_ENV_FILE))" go test -tags live -count=1 -v -run TestServiceAccountReadOnlyLive -timeout=5m ./integration
 
@@ -134,3 +134,6 @@ test-live-sa-execution:
 .PHONY: test-live-realtime
 test-live-realtime:
 	LIVE_ENV_FILE="$(abspath $(LIVE_ENV_FILE))" go test -tags live -count=1 -v -run '^TestRealtimeLive$$' -timeout=25m ./integration
+
+test-live-sa-tokens:
+	LIVE_ENV_FILE="$(abspath $(LIVE_ENV_FILE))" go test -tags live -count=1 -v -run '^TestForwardServiceAccountTokensLive$$' -timeout=10m ./integration
