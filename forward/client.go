@@ -22,6 +22,7 @@ type Client struct {
 	Channels             ChannelService
 	ChannelPairings      ChannelPairingService
 	Environments         EnvironmentService
+	Drives               DriveService
 	Files                FileService
 	Skills               SkillService
 	Vaults               VaultService
@@ -53,6 +54,7 @@ func NewClient(opts ...option.RequestOption) Client {
 		Channels:             NewChannelService(opts...),
 		ChannelPairings:      NewChannelPairingService(opts...),
 		Environments:         NewEnvironmentService(opts...),
+		Drives:               NewDriveService(opts...),
 		Files:                NewFileService(opts...),
 		Skills:               NewSkillService(opts...),
 		Vaults:               NewVaultService(opts...),

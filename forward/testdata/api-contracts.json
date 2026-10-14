@@ -80,7 +80,13 @@
       },
       "metadata": {},
       "created_at": "2026-06-18T10:00:00Z",
-      "updated_at": "2026-06-18T10:00:00Z"
+      "updated_at": "2026-06-18T10:00:00Z",
+      "managed_tool_config": {
+        "enabled_tools": [
+          "drive",
+          "schedule"
+        ]
+      }
     },
     "stream": false,
     "download": false,
@@ -121,7 +127,13 @@
       },
       "metadata": {},
       "created_at": "2026-06-18T10:00:00Z",
-      "updated_at": "2026-06-18T10:00:00Z"
+      "updated_at": "2026-06-18T10:00:00Z",
+      "managed_tool_config": {
+        "enabled_tools": [
+          "drive",
+          "schedule"
+        ]
+      }
     },
     "stream": false,
     "download": false,
@@ -186,7 +198,13 @@
       },
       "metadata": {},
       "created_at": "2026-06-18T10:00:00Z",
-      "updated_at": "2026-06-18T10:30:00Z"
+      "updated_at": "2026-06-18T10:30:00Z",
+      "managed_tool_config": {
+        "enabled_tools": [
+          "drive",
+          "schedule"
+        ]
+      }
     },
     "stream": false,
     "download": false,
@@ -3372,5 +3390,94 @@
     "download": false,
     "raw": false,
     "empty": false
+  },
+  {
+    "operation_id": "listDriveEntries",
+    "entry": "Drives",
+    "response": {
+      "entries": [
+        {
+          "path": "reports/a.txt",
+          "name": "a.txt",
+          "type": "file",
+          "size": 0
+        },
+        {
+          "path": "reports/a",
+          "name": "a",
+          "type": "directory"
+        }
+      ],
+      "next_page_token": "opaque-page-2"
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "service": "DriveService",
+    "name": "ListEntries"
+  },
+  {
+    "operation_id": "createDriveUploadURL",
+    "entry": "Drives",
+    "response": {
+      "url": "https://storage.test/drive?signature=example",
+      "headers": {
+        "Content-Type": "text/plain"
+      },
+      "expires_at": "2026-10-14T02:15:00Z",
+      "method": "PUT"
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "service": "DriveService",
+    "name": "CreateUploadURL"
+  },
+  {
+    "operation_id": "createDriveDownloadURL",
+    "entry": "Drives",
+    "response": {
+      "url": "https://storage.test/drive?signature=example",
+      "headers": {},
+      "expires_at": "2026-10-14T02:15:00Z",
+      "method": "GET",
+      "size": 12,
+      "etag": "etag-contract",
+      "content_type": "text/plain"
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "service": "DriveService",
+    "name": "CreateDownloadURL"
+  },
+  {
+    "operation_id": "deleteDriveEntry",
+    "entry": "Drives",
+    "response": {
+      "deleted_count": 2
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "service": "DriveService",
+    "name": "DeleteEntry"
+  },
+  {
+    "operation_id": "clearDrive",
+    "entry": "Drives",
+    "response": {
+      "deleted_count": 0
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "service": "DriveService",
+    "name": "Clear"
   }
 ]
