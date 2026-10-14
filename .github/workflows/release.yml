@@ -334,7 +334,10 @@ jobs:
             echo "Public Go proxy origin is $origin_hash, not approved commit $COMMIT_SHA." >&2
             exit 1
           fi
-          go get "${MODULE_PATH}@${tag}"
+          go get \
+            "${MODULE_PATH}/convention@${tag}" \
+            "${MODULE_PATH}/forward@${tag}" \
+            "${MODULE_PATH}/managed@${tag}"
           selected_version=$(go list -m -f '{{.Version}}' "$MODULE_PATH")
           if [[ "$selected_version" != "$tag" ]]; then
             echo "Resolved $MODULE_PATH@$selected_version instead of $tag" >&2
