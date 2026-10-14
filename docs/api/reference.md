@@ -135,6 +135,49 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type DeletedSkillVersion](<#DeletedSkillVersion>)
   - [func \(r DeletedSkillVersion\) RawJSON\(\) string](<#DeletedSkillVersion.RawJSON>)
   - [func \(r \*DeletedSkillVersion\) UnmarshalJSON\(data \[\]byte\) error](<#DeletedSkillVersion.UnmarshalJSON>)
+- [type DriveClearParams](<#DriveClearParams>)
+  - [func \(r DriveClearParams\) URLQuery\(\) \(url.Values, error\)](<#DriveClearParams.URLQuery>)
+  - [func \(r \*DriveClearParams\) UnmarshalJSON\(data \[\]byte\) error](<#DriveClearParams.UnmarshalJSON>)
+- [type DriveClearResponse](<#DriveClearResponse>)
+  - [func \(r DriveClearResponse\) RawJSON\(\) string](<#DriveClearResponse.RawJSON>)
+  - [func \(r \*DriveClearResponse\) UnmarshalJSON\(data \[\]byte\) error](<#DriveClearResponse.UnmarshalJSON>)
+- [type DriveCreateDownloadURLParams](<#DriveCreateDownloadURLParams>)
+  - [func \(r DriveCreateDownloadURLParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#DriveCreateDownloadURLParams.MarshalJSON>)
+  - [func \(r DriveCreateDownloadURLParams\) URLQuery\(\) \(url.Values, error\)](<#DriveCreateDownloadURLParams.URLQuery>)
+  - [func \(r \*DriveCreateDownloadURLParams\) UnmarshalJSON\(data \[\]byte\) error](<#DriveCreateDownloadURLParams.UnmarshalJSON>)
+- [type DriveCreateUploadURLParams](<#DriveCreateUploadURLParams>)
+  - [func \(r DriveCreateUploadURLParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#DriveCreateUploadURLParams.MarshalJSON>)
+  - [func \(r DriveCreateUploadURLParams\) URLQuery\(\) \(url.Values, error\)](<#DriveCreateUploadURLParams.URLQuery>)
+  - [func \(r \*DriveCreateUploadURLParams\) UnmarshalJSON\(data \[\]byte\) error](<#DriveCreateUploadURLParams.UnmarshalJSON>)
+- [type DriveDeleteEntryParams](<#DriveDeleteEntryParams>)
+  - [func \(r DriveDeleteEntryParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#DriveDeleteEntryParams.MarshalJSON>)
+  - [func \(r DriveDeleteEntryParams\) URLQuery\(\) \(url.Values, error\)](<#DriveDeleteEntryParams.URLQuery>)
+  - [func \(r \*DriveDeleteEntryParams\) UnmarshalJSON\(data \[\]byte\) error](<#DriveDeleteEntryParams.UnmarshalJSON>)
+- [type DriveDeleteEntryResponse](<#DriveDeleteEntryResponse>)
+  - [func \(r DriveDeleteEntryResponse\) RawJSON\(\) string](<#DriveDeleteEntryResponse.RawJSON>)
+  - [func \(r \*DriveDeleteEntryResponse\) UnmarshalJSON\(data \[\]byte\) error](<#DriveDeleteEntryResponse.UnmarshalJSON>)
+- [type DriveDownloadURL](<#DriveDownloadURL>)
+  - [func \(r DriveDownloadURL\) RawJSON\(\) string](<#DriveDownloadURL.RawJSON>)
+  - [func \(r \*DriveDownloadURL\) UnmarshalJSON\(data \[\]byte\) error](<#DriveDownloadURL.UnmarshalJSON>)
+- [type DriveEntry](<#DriveEntry>)
+  - [func \(r DriveEntry\) RawJSON\(\) string](<#DriveEntry.RawJSON>)
+  - [func \(r \*DriveEntry\) UnmarshalJSON\(data \[\]byte\) error](<#DriveEntry.UnmarshalJSON>)
+- [type DriveListEntriesParams](<#DriveListEntriesParams>)
+  - [func \(r DriveListEntriesParams\) URLQuery\(\) \(url.Values, error\)](<#DriveListEntriesParams.URLQuery>)
+  - [func \(r \*DriveListEntriesParams\) UnmarshalJSON\(data \[\]byte\) error](<#DriveListEntriesParams.UnmarshalJSON>)
+- [type DriveListEntriesResponse](<#DriveListEntriesResponse>)
+  - [func \(r DriveListEntriesResponse\) RawJSON\(\) string](<#DriveListEntriesResponse.RawJSON>)
+  - [func \(r \*DriveListEntriesResponse\) UnmarshalJSON\(data \[\]byte\) error](<#DriveListEntriesResponse.UnmarshalJSON>)
+- [type DriveService](<#DriveService>)
+  - [func NewDriveService\(opts ...option.RequestOption\) DriveService](<#NewDriveService>)
+  - [func \(r \*DriveService\) Clear\(ctx context.Context, params DriveClearParams, opts ...option.RequestOption\) \(res \*DriveClearResponse, err error\)](<#DriveService.Clear>)
+  - [func \(r \*DriveService\) CreateDownloadURL\(ctx context.Context, params DriveCreateDownloadURLParams, opts ...option.RequestOption\) \(res \*DriveDownloadURL, err error\)](<#DriveService.CreateDownloadURL>)
+  - [func \(r \*DriveService\) CreateUploadURL\(ctx context.Context, params DriveCreateUploadURLParams, opts ...option.RequestOption\) \(res \*DriveUploadURL, err error\)](<#DriveService.CreateUploadURL>)
+  - [func \(r \*DriveService\) DeleteEntry\(ctx context.Context, params DriveDeleteEntryParams, opts ...option.RequestOption\) \(res \*DriveDeleteEntryResponse, err error\)](<#DriveService.DeleteEntry>)
+  - [func \(r \*DriveService\) ListEntries\(ctx context.Context, params DriveListEntriesParams, opts ...option.RequestOption\) \(res \*DriveListEntriesResponse, err error\)](<#DriveService.ListEntries>)
+- [type DriveUploadURL](<#DriveUploadURL>)
+  - [func \(r DriveUploadURL\) RawJSON\(\) string](<#DriveUploadURL.RawJSON>)
+  - [func \(r \*DriveUploadURL\) UnmarshalJSON\(data \[\]byte\) error](<#DriveUploadURL.UnmarshalJSON>)
 - [type EffectiveConfig](<#EffectiveConfig>)
   - [func \(r EffectiveConfig\) RawJSON\(\) string](<#EffectiveConfig.RawJSON>)
   - [func \(r \*EffectiveConfig\) UnmarshalJSON\(data \[\]byte\) error](<#EffectiveConfig.UnmarshalJSON>)
@@ -321,6 +364,12 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type MCPServerParam](<#MCPServerParam>)
   - [func \(r MCPServerParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#MCPServerParam.MarshalJSON>)
   - [func \(r \*MCPServerParam\) UnmarshalJSON\(data \[\]byte\) error](<#MCPServerParam.UnmarshalJSON>)
+- [type ManagedToolConfig](<#ManagedToolConfig>)
+  - [func \(r ManagedToolConfig\) RawJSON\(\) string](<#ManagedToolConfig.RawJSON>)
+  - [func \(r \*ManagedToolConfig\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedToolConfig.UnmarshalJSON>)
+- [type ManagedToolConfigParam](<#ManagedToolConfigParam>)
+  - [func \(r ManagedToolConfigParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedToolConfigParam.MarshalJSON>)
+  - [func \(r \*ManagedToolConfigParam\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedToolConfigParam.UnmarshalJSON>)
 - [type Memory](<#Memory>)
   - [func \(r Memory\) RawJSON\(\) string](<#Memory.RawJSON>)
   - [func \(r \*Memory\) UnmarshalJSON\(data \[\]byte\) error](<#Memory.UnmarshalJSON>)
@@ -2145,6 +2194,7 @@ type Client struct {
     Channels             ChannelService
     ChannelPairings      ChannelPairingService
     Environments         EnvironmentService
+    Drives               DriveService
     Files                FileService
     Skills               SkillService
     Vaults               VaultService
@@ -2514,6 +2564,488 @@ func (r DeletedSkillVersion) RawJSON() string
 
 ```go
 func (r *DeletedSkillVersion) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DriveClearParams"></a>
+## type [DriveClearParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+
+
+```go
+type DriveClearParams struct {
+    IdentityID string `query:"identity_id" json:"-" api:"required"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DriveClearParams.URLQuery"></a>
+### func \(DriveClearParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveClearParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="DriveClearParams.UnmarshalJSON"></a>
+### func \(\*DriveClearParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveClearParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DriveClearResponse"></a>
+## type [DriveClearResponse](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+
+
+```go
+type DriveClearResponse struct {
+    DeletedCount int64 `json:"deleted_count"`
+    JSON         struct {
+        DeletedCount respjson.Field
+        ExtraFields  map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DriveClearResponse.RawJSON"></a>
+### func \(DriveClearResponse\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveClearResponse) RawJSON() string
+```
+
+
+
+<a name="DriveClearResponse.UnmarshalJSON"></a>
+### func \(\*DriveClearResponse\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveClearResponse) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DriveCreateDownloadURLParams"></a>
+## type [DriveCreateDownloadURLParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+
+
+```go
+type DriveCreateDownloadURLParams struct {
+    IdentityID string `query:"identity_id" json:"-" api:"required"`
+    Path       string `json:"path" api:"required"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DriveCreateDownloadURLParams.MarshalJSON"></a>
+### func \(DriveCreateDownloadURLParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveCreateDownloadURLParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="DriveCreateDownloadURLParams.URLQuery"></a>
+### func \(DriveCreateDownloadURLParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveCreateDownloadURLParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="DriveCreateDownloadURLParams.UnmarshalJSON"></a>
+### func \(\*DriveCreateDownloadURLParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveCreateDownloadURLParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DriveCreateUploadURLParams"></a>
+## type [DriveCreateUploadURLParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+
+
+```go
+type DriveCreateUploadURLParams struct {
+    IdentityID  string            `query:"identity_id" json:"-" api:"required"`
+    Path        string            `json:"path" api:"required"`
+    ContentType param.Opt[string] `json:"content_type,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DriveCreateUploadURLParams.MarshalJSON"></a>
+### func \(DriveCreateUploadURLParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveCreateUploadURLParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="DriveCreateUploadURLParams.URLQuery"></a>
+### func \(DriveCreateUploadURLParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveCreateUploadURLParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="DriveCreateUploadURLParams.UnmarshalJSON"></a>
+### func \(\*DriveCreateUploadURLParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveCreateUploadURLParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DriveDeleteEntryParams"></a>
+## type [DriveDeleteEntryParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+
+
+```go
+type DriveDeleteEntryParams struct {
+    IdentityID string          `query:"identity_id" json:"-" api:"required"`
+    Path       string          `json:"path" api:"required"`
+    Recursive  param.Opt[bool] `json:"recursive,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DriveDeleteEntryParams.MarshalJSON"></a>
+### func \(DriveDeleteEntryParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveDeleteEntryParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="DriveDeleteEntryParams.URLQuery"></a>
+### func \(DriveDeleteEntryParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveDeleteEntryParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="DriveDeleteEntryParams.UnmarshalJSON"></a>
+### func \(\*DriveDeleteEntryParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveDeleteEntryParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DriveDeleteEntryResponse"></a>
+## type [DriveDeleteEntryResponse](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+
+
+```go
+type DriveDeleteEntryResponse struct {
+    DeletedCount int64 `json:"deleted_count"`
+    JSON         struct {
+        DeletedCount respjson.Field
+        ExtraFields  map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DriveDeleteEntryResponse.RawJSON"></a>
+### func \(DriveDeleteEntryResponse\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveDeleteEntryResponse) RawJSON() string
+```
+
+
+
+<a name="DriveDeleteEntryResponse.UnmarshalJSON"></a>
+### func \(\*DriveDeleteEntryResponse\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveDeleteEntryResponse) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DriveDownloadURL"></a>
+## type [DriveDownloadURL](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+
+
+```go
+type DriveDownloadURL struct {
+    URL         string            `json:"url"`
+    Method      string            `json:"method"`
+    Headers     map[string]string `json:"headers"`
+    ExpiresAt   time.Time         `json:"expires_at" format:"date-time"`
+    Size        int64             `json:"size"`
+    ETag        string            `json:"etag"`
+    ContentType string            `json:"content_type"`
+    JSON        struct {
+        URL         respjson.Field
+        Method      respjson.Field
+        Headers     respjson.Field
+        ExpiresAt   respjson.Field
+        Size        respjson.Field
+        ETag        respjson.Field
+        ContentType respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DriveDownloadURL.RawJSON"></a>
+### func \(DriveDownloadURL\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveDownloadURL) RawJSON() string
+```
+
+
+
+<a name="DriveDownloadURL.UnmarshalJSON"></a>
+### func \(\*DriveDownloadURL\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveDownloadURL) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DriveEntry"></a>
+## type [DriveEntry](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+DriveEntry represents a file or directory. JSON.Size.Valid\(\) distinguishes a zero\-byte file from a directory.
+
+```go
+type DriveEntry struct {
+    Path         string    `json:"path"`
+    Name         string    `json:"name"`
+    Type         string    `json:"type"`
+    Size         int64     `json:"size"`
+    ETag         string    `json:"etag"`
+    LastModified time.Time `json:"last_modified" format:"date-time"`
+    JSON         struct {
+        Path         respjson.Field
+        Name         respjson.Field
+        Type         respjson.Field
+        Size         respjson.Field
+        ETag         respjson.Field
+        LastModified respjson.Field
+        ExtraFields  map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DriveEntry.RawJSON"></a>
+### func \(DriveEntry\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveEntry) RawJSON() string
+```
+
+
+
+<a name="DriveEntry.UnmarshalJSON"></a>
+### func \(\*DriveEntry\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveEntry) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DriveListEntriesParams"></a>
+## type [DriveListEntriesParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+
+
+```go
+type DriveListEntriesParams struct {
+    IdentityID string            `query:"identity_id" json:"-" api:"required"`
+    Path       param.Opt[string] `query:"path,omitzero" json:"-"`
+    Limit      param.Opt[int64]  `query:"limit,omitzero" json:"-"`
+    PageToken  param.Opt[string] `query:"page_token,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DriveListEntriesParams.URLQuery"></a>
+### func \(DriveListEntriesParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveListEntriesParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="DriveListEntriesParams.UnmarshalJSON"></a>
+### func \(\*DriveListEntriesParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveListEntriesParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DriveListEntriesResponse"></a>
+## type [DriveListEntriesResponse](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+
+
+```go
+type DriveListEntriesResponse struct {
+    Entries       []DriveEntry `json:"entries"`
+    NextPageToken string       `json:"next_page_token"`
+    JSON          struct {
+        Entries       respjson.Field
+        NextPageToken respjson.Field
+        ExtraFields   map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DriveListEntriesResponse.RawJSON"></a>
+### func \(DriveListEntriesResponse\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveListEntriesResponse) RawJSON() string
+```
+
+
+
+<a name="DriveListEntriesResponse.UnmarshalJSON"></a>
+### func \(\*DriveListEntriesResponse\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveListEntriesResponse) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DriveService"></a>
+## type [DriveService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+DriveService manages persistent Identity files. Drive is a Beta API. Every method requires IdentityID, including when using an Identity SAT.
+
+```go
+type DriveService struct{ Options []option.RequestOption }
+```
+
+<a name="NewDriveService"></a>
+### func [NewDriveService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func NewDriveService(opts ...option.RequestOption) DriveService
+```
+
+
+
+<a name="DriveService.Clear"></a>
+### func \(\*DriveService\) [Clear](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveService) Clear(ctx context.Context, params DriveClearParams, opts ...option.RequestOption) (res *DriveClearResponse, err error)
+```
+
+Clear clears the selected Identity Drive. Use only with an Identity whose files you intend to delete.
+
+<a name="DriveService.CreateDownloadURL"></a>
+### func \(\*DriveService\) [CreateDownloadURL](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveService) CreateDownloadURL(ctx context.Context, params DriveCreateDownloadURLParams, opts ...option.RequestOption) (res *DriveDownloadURL, err error)
+```
+
+CreateDownloadURL returns a short\-lived GET URL. Use a new Idempotency\-Key or omit it to refresh an expired URL.
+
+<a name="DriveService.CreateUploadURL"></a>
+### func \(\*DriveService\) [CreateUploadURL](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveService) CreateUploadURL(ctx context.Context, params DriveCreateUploadURLParams, opts ...option.RequestOption) (res *DriveUploadURL, err error)
+```
+
+CreateUploadURL returns a short\-lived PUT URL. Use only its returned headers for the storage request. Replaying an Idempotency\-Key does not renew expiry.
+
+<a name="DriveService.DeleteEntry"></a>
+### func \(\*DriveService\) [DeleteEntry](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveService) DeleteEntry(ctx context.Context, params DriveDeleteEntryParams, opts ...option.RequestOption) (res *DriveDeleteEntryResponse, err error)
+```
+
+DeleteEntry deletes a file or directory. Recursive must be true for a nonempty directory. Partial failures retain deleted\_count in the API error raw body.
+
+<a name="DriveService.ListEntries"></a>
+### func \(\*DriveService\) [ListEntries](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveService) ListEntries(ctx context.Context, params DriveListEntriesParams, opts ...option.RequestOption) (res *DriveListEntriesResponse, err error)
+```
+
+ListEntries returns one directory page in service order. Pass NextPageToken unchanged as PageToken to continue within the same Identity and directory.
+
+<a name="DriveUploadURL"></a>
+## type [DriveUploadURL](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+
+
+```go
+type DriveUploadURL struct {
+    URL       string            `json:"url"`
+    Method    string            `json:"method"`
+    Headers   map[string]string `json:"headers"`
+    ExpiresAt time.Time         `json:"expires_at" format:"date-time"`
+    JSON      struct {
+        URL         respjson.Field
+        Method      respjson.Field
+        Headers     respjson.Field
+        ExpiresAt   respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DriveUploadURL.RawJSON"></a>
+### func \(DriveUploadURL\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r DriveUploadURL) RawJSON() string
+```
+
+
+
+<a name="DriveUploadURL.UnmarshalJSON"></a>
+### func \(\*DriveUploadURL\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/drive.go>)
+
+```go
+func (r *DriveUploadURL) UnmarshalJSON(data []byte) error
 ```
 
 
@@ -4832,6 +5364,70 @@ func (r MCPServerParam) MarshalJSON() ([]byte, error)
 
 ```go
 func (r *MCPServerParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedToolConfig"></a>
+## type [ManagedToolConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
+
+
+
+```go
+type ManagedToolConfig struct {
+    EnabledTools []string `json:"enabled_tools"`
+    JSON         struct {
+        EnabledTools respjson.Field
+        ExtraFields  map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ManagedToolConfig.RawJSON"></a>
+### func \(ManagedToolConfig\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
+
+```go
+func (r ManagedToolConfig) RawJSON() string
+```
+
+
+
+<a name="ManagedToolConfig.UnmarshalJSON"></a>
+### func \(\*ManagedToolConfig\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
+
+```go
+func (r *ManagedToolConfig) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedToolConfigParam"></a>
+## type [ManagedToolConfigParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
+
+ManagedToolConfigParam replaces the complete enabled tool list. Include other tools you want to keep. An empty list disables all managed tools.
+
+```go
+type ManagedToolConfigParam struct {
+    EnabledTools []string `json:"enabled_tools" api:"required"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ManagedToolConfigParam.MarshalJSON"></a>
+### func \(ManagedToolConfigParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
+
+```go
+func (r ManagedToolConfigParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ManagedToolConfigParam.UnmarshalJSON"></a>
+### func \(\*ManagedToolConfigParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
+
+```go
+func (r *ManagedToolConfigParam) UnmarshalJSON(data []byte) error
 ```
 
 
@@ -10187,6 +10783,7 @@ func (r *SystemOverrideParam) UnmarshalJSON(data []byte) error
 
 ```go
 type Template struct {
+    ManagedToolConfig ManagedToolConfig `json:"managed_tool_config"`
     // Always `template`.
     Type string `json:"type"`
     // Template ID.
@@ -10215,6 +10812,7 @@ type Template struct {
     // Custom metadata.
     Metadata map[string]any `json:"metadata"`
     JSON     struct {
+        ManagedToolConfig    respjson.Field
         Type                 respjson.Field
         ID                   respjson.Field
         Name                 respjson.Field
@@ -10350,6 +10948,8 @@ func (r TemplateListParams) URLQuery() (url.Values, error)
 
 ```go
 type TemplateNewParams struct {
+    // Replaces the complete managed tool list; use an empty list to disable all.
+    ManagedToolConfig ManagedToolConfigParam `json:"managed_tool_config,omitzero" api:"nullable"`
     // Template name, 1-256 characters, unique per user.
     Name string `json:"name" api:"required"`
     // Model identifier. Accepts a string (such as `"ultimate"`), or an Agent model
@@ -10498,6 +11098,8 @@ Update Template
 
 ```go
 type TemplateUpdateParams struct {
+    // Replaces the complete managed tool list; use an empty list to disable all.
+    ManagedToolConfig ManagedToolConfigParam `json:"managed_tool_config,omitzero" api:"nullable"`
     // New Template name.
     Name param.Opt[string] `json:"name,omitzero"`
     // New Template description.

@@ -658,6 +658,61 @@ For Session, Schedule, Batch, Deployment and Dream, the response to a create or 
 
 Server-side windows and local deadlines are independent: a Batch `completion_window: "24h"` is submitted to the server, while the examples' `-timeout 5m` is only how long the local program waits. A Batch sitting in `queued` may not have started, and waiting longer does not change how the server schedules it. The examples cancel the work they created when they time out, so that run's output cannot be used to judge later execution.
 
+## Forward Drive (Beta)
+
+Drive is a Beta API. It uses `entries` / `next_page_token`, not the ordinary
+resource paginator. Pass `identity_id` even with an Identity SAT, preserve the
+server order, and reuse a cursor only within the same Identity, directory and
+authentication scope. Paths are relative; the SDK preserves slashes when encoding
+the list query and leaves path validation to the service.
+
+Upload/download methods return a signed URL, method, headers and expiry. Send the
+storage request with a separate HTTP client using only those returned headers;
+do not attach QCA credentials or log signed URLs. Replaying an `Idempotency-Key`
+does not renew the URL: use a new key or omit it when requesting a fresh URL.
+
+Deleting a nonempty directory requires `recursive=true`; `clear` deletes the
+entire selected Identity Drive. Partial failures retain `drive_delete_partial`
+and `deleted_count` in the standard API error body. Direct Drive APIs do not
+require Template tool configuration.
+
+```go
+page, err := client.Drives.ListEntries(ctx, forward.DriveListEntriesParams{
+    IdentityID: identityID, Path: forward.String("reports"), Limit: forward.Int(20),
+})
+if err != nil { return err }
+for _, entry := range page.Entries { fmt.Println(entry.Path) }
+if page.NextPageToken != "" {
+    page, err = client.Drives.ListEntries(ctx, forward.DriveListEntriesParams{
+        IdentityID: identityID, Path: forward.String("reports"),
+        PageToken: forward.String(page.NextPageToken),
+    })
+}
+// Replace the complete managed-tool list, retaining any other tools you need.
+_, err = client.Templates.Update(ctx, templateID, forward.TemplateUpdateParams{
+    ManagedToolConfig: forward.ManagedToolConfigParam{EnabledTools: []string{"drive"}},
+})
+```
+
+Run the [file lifecycle example](examples/forward/drive/main.go) with
+`go run ./examples/forward/drive -env .env.live -region cn` (or `global`).
+It supports the existing PAT/SA configuration and creates a fresh Identity.
+`DriveEntry.JSON.Size.Valid()` distinguishes zero-byte files from directories.
+For maintainers, `make test-live-drive` tests CN/Global × PAT/admin SAT/Identity SAT.
+
+To enable Agent-managed Drive tools, use Template `managed_tool_config.enabled_tools`.
+It is separate from `tools[].enabled_tools` and replaces the entire list; an empty
+list disables managed tools, omission preserves the setting, and `null` clears it.
+Full Agent Drive usage also requires the DeliverArtifacts tool. Internal
+`/forward-mcp` routes are invoked by the runtime and are not public SDK methods.
+
+The Drive live suite requires `QODER_DRIVE_LIVE_ALLOW_WRITE=true`,
+`QODER_FORWARD_CN_PAT`, `QODER_FORWARD_GLOBAL_PAT`, `QODER_SA_CN_KEY`, and
+`QODER_SA_GLOBAL_KEY` in `.env.live` (or `LIVE_ENV_FILE`). It creates isolated
+Identities, verifies storage transfers, pagination, deletion, Identity isolation,
+and Template configuration, then clears only those new Identities. It does not
+run Agent/model tool execution.
+
 ## File uploads and downloads
 
 Upload parameters accept an `io.Reader`. Use `convention.UploadFile` to set the filename and media type:

@@ -137,3 +137,7 @@ test-live-realtime:
 
 test-live-sa-tokens:
 	LIVE_ENV_FILE="$(abspath $(LIVE_ENV_FILE))" go test -tags live -count=1 -v -run '^TestForwardServiceAccountTokensLive$$' -timeout=10m ./integration
+
+.PHONY: test-live-drive
+test-live-drive:
+	LIVE_ENV_FILE="$(abspath $(LIVE_ENV_FILE))" go test -tags live -count=1 -v -run '^TestDriveLive$$' -timeout=15m ./integration

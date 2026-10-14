@@ -5,6 +5,11 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Added
+
+- Forward Drive Beta: typed directory listing, upload/download signed URLs, entry deletion and Drive clearing, with required Identity scope, independent cursor pagination, service ordering and canonical directory query encoding.
+- Template `managed_tool_config.enabled_tools` in create/update requests and responses, including omission, empty-list and null semantics. Runnable Drive examples keep storage requests separate from QCA authentication; opt-in CN/Global lifecycle tests cover PAT, admin SAT and Identity SAT.
+
 ## [0.5.0]
 
 ### Added

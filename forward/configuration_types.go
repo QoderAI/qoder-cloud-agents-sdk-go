@@ -596,3 +596,30 @@ func (r SessionEventParam) MarshalJSON() ([]byte, error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *SessionEventParam) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+type ManagedToolConfig struct {
+	EnabledTools []string `json:"enabled_tools"`
+	JSON         struct {
+		EnabledTools respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (r ManagedToolConfig) RawJSON() string                  { return r.JSON.raw }
+func (r *ManagedToolConfig) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+// ManagedToolConfigParam replaces the complete enabled tool list. Include other
+// tools you want to keep. An empty list disables all managed tools.
+type ManagedToolConfigParam struct {
+	EnabledTools []string `json:"enabled_tools" api:"required"`
+	paramObj
+}
+
+func (r ManagedToolConfigParam) MarshalJSON() ([]byte, error) {
+	type shadow ManagedToolConfigParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ManagedToolConfigParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}

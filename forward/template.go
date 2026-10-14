@@ -78,6 +78,8 @@ func (r *TemplateService) New(ctx context.Context, params TemplateNewParams, opt
 }
 
 type TemplateNewParams struct {
+	// Replaces the complete managed tool list; use an empty list to disable all.
+	ManagedToolConfig ManagedToolConfigParam `json:"managed_tool_config,omitzero" api:"nullable"`
 	// Template name, 1-256 characters, unique per user.
 	Name string `json:"name" api:"required"`
 	// Model identifier. Accepts a string (such as `"ultimate"`), or an Agent model
@@ -153,6 +155,8 @@ func (r *TemplateService) Update(ctx context.Context, templateID string, params 
 }
 
 type TemplateUpdateParams struct {
+	// Replaces the complete managed tool list; use an empty list to disable all.
+	ManagedToolConfig ManagedToolConfigParam `json:"managed_tool_config,omitzero" api:"nullable"`
 	// New Template name.
 	Name param.Opt[string] `json:"name,omitzero"`
 	// New Template description.
@@ -257,6 +261,7 @@ func (r TemplateCloneParams) MarshalJSON() ([]byte, error) {
 func (r *TemplateCloneParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type Template struct {
+	ManagedToolConfig ManagedToolConfig `json:"managed_tool_config"`
 	// Always `template`.
 	Type string `json:"type"`
 	// Template ID.
@@ -285,6 +290,7 @@ type Template struct {
 	// Custom metadata.
 	Metadata map[string]any `json:"metadata"`
 	JSON     struct {
+		ManagedToolConfig    respjson.Field
 		Type                 respjson.Field
 		ID                   respjson.Field
 		Name                 respjson.Field

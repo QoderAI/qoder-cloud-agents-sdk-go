@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "operation_count": 118,
+  "operation_count": 123,
   "cases": [
     {
       "operation_id": "addSessionResource",
@@ -884,7 +884,13 @@
         "value": {
           "name": "sdk-contract",
           "model": "ultimate",
-          "environment_id": "env_contract"
+          "environment_id": "env_contract",
+          "managed_tool_config": {
+            "enabled_tools": [
+              "drive",
+              "schedule"
+            ]
+          }
         }
       }
     },
@@ -4646,7 +4652,14 @@
         "python_name": "update_template_request",
         "typescript_name": "updateTemplateRequest",
         "go_name": "UpdateTemplateRequest",
-        "value": {}
+        "value": {
+          "managed_tool_config": {
+            "enabled_tools": [
+              "drive",
+              "schedule"
+            ]
+          }
+        }
       }
     },
     {
@@ -5055,6 +5068,171 @@
           "reason": "session ended"
         }
       }
+    },
+    {
+      "operation_id": "listDriveEntries",
+      "resource": "Drives",
+      "clients": {
+        "go": "Drives",
+        "typescript": "drives",
+        "python": "drives"
+      },
+      "methods": {
+        "go": "ListEntries",
+        "typescript": "listEntries",
+        "python": "list_entries"
+      },
+      "http_method": "GET",
+      "path": "/drives/entries",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": true,
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "path",
+          "location": "query",
+          "required": false,
+          "value": "reports"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "value": 2
+        },
+        {
+          "wire_name": "page_token",
+          "location": "query",
+          "required": false,
+          "value": "opaque-page-1"
+        }
+      ],
+      "request_body": null,
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/drives/overview (2026-10-14)"
+    },
+    {
+      "operation_id": "createDriveUploadURL",
+      "resource": "Drives",
+      "clients": {
+        "go": "Drives",
+        "typescript": "drives",
+        "python": "drives"
+      },
+      "methods": {
+        "go": "CreateUploadURL",
+        "typescript": "createUploadUrl",
+        "python": "create_upload_url"
+      },
+      "http_method": "POST",
+      "path": "/drives/upload-url",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": true,
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "path": "reports/readme.txt",
+          "content_type": "text/plain"
+        }
+      },
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/drives/overview (2026-10-14)"
+    },
+    {
+      "operation_id": "createDriveDownloadURL",
+      "resource": "Drives",
+      "clients": {
+        "go": "Drives",
+        "typescript": "drives",
+        "python": "drives"
+      },
+      "methods": {
+        "go": "CreateDownloadURL",
+        "typescript": "createDownloadUrl",
+        "python": "create_download_url"
+      },
+      "http_method": "POST",
+      "path": "/drives/download-url",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": true,
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "path": "reports/readme.txt"
+        }
+      },
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/drives/overview (2026-10-14)"
+    },
+    {
+      "operation_id": "deleteDriveEntry",
+      "resource": "Drives",
+      "clients": {
+        "go": "Drives",
+        "typescript": "drives",
+        "python": "drives"
+      },
+      "methods": {
+        "go": "DeleteEntry",
+        "typescript": "deleteEntry",
+        "python": "delete_entry"
+      },
+      "http_method": "DELETE",
+      "path": "/drives/entries",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": true,
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "path": "reports",
+          "recursive": true
+        }
+      },
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/drives/overview (2026-10-14)"
+    },
+    {
+      "operation_id": "clearDrive",
+      "resource": "Drives",
+      "clients": {
+        "go": "Drives",
+        "typescript": "drives",
+        "python": "drives"
+      },
+      "methods": {
+        "go": "Clear",
+        "typescript": "clear",
+        "python": "clear"
+      },
+      "http_method": "DELETE",
+      "path": "/drives",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": true,
+          "value": "idn_contract"
+        }
+      ],
+      "request_body": null,
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/drives/overview (2026-10-14)"
     }
   ]
 }
