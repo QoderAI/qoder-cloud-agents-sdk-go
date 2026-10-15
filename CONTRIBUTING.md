@@ -36,6 +36,15 @@ go build ./examples/...
 
 Never commit `.env.live`, tokens, credentials, generated logs, or test output. Live tests must register cleanup immediately after creating a resource.
 
+Managed execution tests log the user prompt and resource IDs. If a turn fails,
+they also log observed public events before session cleanup: event IDs/types,
+Read/Bash inputs, text results and stop reasons. The diagnostic tail is limited
+to 128 events / 256 KiB with 4 KiB per text field; omissions are reported.
+Reasoning and binary blocks are excluded, and the configured PAT and URLs are
+redacted. Retain the `go test -json` output (`build/test-results/e2e.json` for
+`make test-e2e`) to investigate after the test deletes the session. These logs
+contain test-account content and must not be committed or published.
+
 `make test-live-all` includes Forward hourly Usage, Credential merge patches
 and secret redaction, and Managed Session cancellation before and after sending
 a turn. Managed deployment tests cover scoped Run listing/retrieval. Active

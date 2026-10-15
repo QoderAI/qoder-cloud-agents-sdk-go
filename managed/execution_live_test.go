@@ -21,8 +21,18 @@ func (s *managedScenarioSuite) waitTurn(t *testing.T, id, after string, expected
 	ctx, cancel := context.WithTimeout(context.Background(), testsupport.ExecutionTimeout(t))
 	defer cancel()
 	result := testsupport.TurnResult{LastID: after}
+	diagnostics := managedTurnDiagnostics{secret: os.Getenv("QODER_MANAGED_PAT")}
+	defer func() {
+		if t.Failed() {
+			t.Logf("failed turn session=%s after=%s last_event_id=%s complete=%t tool_used=%t expected_markers=%q omitted_events=%d", id, after, result.LastID, result.Complete, result.ToolUsed, expected, diagnostics.omitted)
+			for _, event := range diagnostics.events {
+				t.Logf("observed event: %s", event)
+			}
+		}
+	}()
 	observe := func(raw string) bool {
 		t.Helper()
+		diagnostics.observe(raw)
 		if err := result.Observe(raw); err != nil {
 			t.Fatalf("session=%s: %v", id, err)
 		}
@@ -80,6 +90,8 @@ func (s *managedScenarioSuite) sendTurn(t *testing.T, id, prompt string) string 
 	if res == nil || len(res.Data) != 1 || res.Data[0].ID == "" {
 		t.Fatal("send did not return one user event ID")
 	}
+	diagnostics := managedTurnDiagnostics{secret: os.Getenv("QODER_MANAGED_PAT")}
+	t.Logf("sent session=%s user_event_id=%s prompt=%q", id, res.Data[0].ID, diagnostics.text(prompt))
 	return res.Data[0].ID
 }
 func (s *managedScenarioSuite) cleanupSession(t *testing.T, id string) {
@@ -126,24 +138,28 @@ func TestManagedExecutionE2ELive(t *testing.T) {
 		_, err := s.client.Files.Delete(ctx, file.ID, managed.FileDeleteParams{})
 		return err
 	})
-	skillName := managedUnique("proof")
+	skillName := managedUnique("skill")
+	skillPath := "/data/.agent/skills/" + skillName + "/SKILL.md"
+	const memoryPath = "sdk-e2e/proof.md"
+	const memoryMountPath = "/data/.agent/awareness/" + memoryPath
 	skill := liveResult(s.client.Skills.New(ctx, managed.SkillNewParams{Files: []io.Reader{convention.UploadFile{Name: skillName + "/SKILL.md", Reader: strings.NewReader(fmt.Sprintf("---\nname: %s\ndescription: Provides SDK_E2E_SKILL_TOKEN only when the current user message explicitly requests that token.\n---\nSDK_E2E_SKILL_TOKEN=%s\nInclude this exact token only when requested, using the response format specified by the current user message. Also include any other values the user requests.\n", skillName, skillToken))}}})).require(t)
 	s.cleanup(t, "skill "+skill.ID, func(ctx context.Context) error {
 		_, err := s.client.Skills.Delete(ctx, skill.ID, managed.SkillDeleteParams{})
 		return err
 	})
 	store := s.createMemoryStore(t)
-	liveResult(s.client.MemoryStores.Memories.New(ctx, store.ID, managed.MemoryStoreMemoryNewParams{Path: "sdk-e2e/proof.md", Content: managed.String("SDK_E2E_MEMORY_TOKEN=" + memoryToken)})).require(t)
-	agentParams := liveJSON[managed.AgentNewParams](t, map[string]any{"name": managedUnique("proof"), "model": map[string]any{"id": os.Getenv("QODER_MANAGED_MODEL")}, "system": "Each user message is a separate SDK verification step. Follow the current user message and its response format; do not carry over instructions or answers from previous steps. Use tools only to access resources explicitly requested in the current message. Read skills only when that message explicitly requests a skill token. When asked to echo text already supplied in the message, reply directly without using tools. Return every requested value exactly. Do not guess missing values.", "tools": []any{map[string]any{"type": "agent_toolset_20260401"}}, "skills": []any{map[string]any{"type": "custom", "skill_id": skill.ID, "version": skill.LatestVersionID}}})
+	liveResult(s.client.MemoryStores.Memories.New(ctx, store.ID, managed.MemoryStoreMemoryNewParams{Path: memoryPath, Content: managed.String("SDK_E2E_MEMORY_TOKEN=" + memoryToken)})).require(t)
+	agentParams := liveJSON[managed.AgentNewParams](t, map[string]any{"name": managedUnique("agent"), "model": map[string]any{"id": os.Getenv("QODER_MANAGED_MODEL")}, "system": "Each user message is a separate SDK verification step. Follow the current user message and its response format; do not carry over instructions or answers from previous steps. Use tools only to access resources explicitly requested in the current message. Read skills only when that message explicitly requests a skill token. When asked to echo text already supplied in the message, reply directly without using tools. Return every requested value exactly. Do not guess missing values.", "tools": []any{map[string]any{"type": "agent_toolset_20260401"}}, "skills": []any{map[string]any{"type": "custom", "skill_id": skill.ID, "version": skill.LatestVersionID}}})
 	agent := liveResult(s.client.Agents.New(ctx, agentParams)).require(t)
 	s.cleanup(t, "agent "+agent.ID, func(ctx context.Context) error {
 		_, err := s.client.Agents.Archive(ctx, agent.ID, managed.AgentArchiveParams{})
 		return err
 	})
-	sessionParams := liveJSON[managed.SessionNewParams](t, map[string]any{"agent": agent.ID, "environment_id": env.ID, "environment_variables": map[string]string{"SDK_E2E_VALUE": envToken}, "resources": []any{map[string]any{"type": "file", "file_id": file.ID, "mount_path": "/data/workspace/sdk-e2e.txt"}, map[string]any{"type": "memory_store", "memory_store_id": store.ID, "access": "read_only", "instructions": "Read sdk-e2e/proof.md when asked for SDK_E2E_MEMORY_TOKEN."}}})
+	sessionParams := liveJSON[managed.SessionNewParams](t, map[string]any{"agent": agent.ID, "environment_id": env.ID, "environment_variables": map[string]string{"SDK_E2E_VALUE": envToken}, "resources": []any{map[string]any{"type": "file", "file_id": file.ID, "mount_path": "/data/workspace/sdk-e2e.txt"}, map[string]any{"type": "memory_store", "memory_store_id": store.ID, "access": "read_only", "instructions": "Read " + memoryMountPath + " when asked for SDK_E2E_MEMORY_TOKEN."}}})
 	session := liveResult(s.client.Sessions.New(ctx, sessionParams)).require(t)
 	s.cleanupSession(t, session.ID)
 	t.Logf("model=%s agent=%s file=%s skill=%s memory_store=%s", os.Getenv("QODER_MANAGED_MODEL"), agent.ID, file.ID, skill.ID, store.ID)
+	t.Logf("skill_name=%s skill_path=%s memory_path=%s", skillName, skillPath, memoryMountPath)
 	echo := testsupport.Marker(t)
 	for _, scenario := range []struct {
 		name, prompt string
@@ -152,7 +168,7 @@ func TestManagedExecutionE2ELive(t *testing.T) {
 	}{
 		{"completion_and_sse", "Reply with exactly " + echo, []string{echo}, false, true},
 		{"file_and_environment_config", "Use tools to read /data/workspace/sdk-e2e.txt and the SDK_E2E_VALUE environment variable. Reply with both exact values on two lines: FILE=<exact file contents> and ENV=<exact environment variable value>.", []string{fileToken, envToken}, true, false},
-		{"skill_and_memory", "Use skill " + skillName + " to obtain SDK_E2E_SKILL_TOKEN. Read sdk-e2e/proof.md from the mounted memory store to obtain SDK_E2E_MEMORY_TOKEN. Reply with both exact tokens on two lines: SKILL=<exact skill token> and MEMORY=<exact memory token>.", []string{skillToken, memoryToken}, true, false},
+		{"skill_and_memory", "Use the Read tool to read " + skillPath + " for skill " + skillName + " and obtain SDK_E2E_SKILL_TOKEN. Also read the mounted memory file " + memoryMountPath + " to obtain SDK_E2E_MEMORY_TOKEN. Reply with both exact tokens on two lines: SKILL=<exact skill token> and MEMORY=<exact memory token>.", []string{skillToken, memoryToken}, true, false},
 	} {
 		if !t.Run(scenario.name, func(t *testing.T) {
 			after := s.sendTurn(t, session.ID, scenario.prompt)
