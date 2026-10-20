@@ -369,7 +369,7 @@ const (
 	ManagedAgentsMemoryStoreResourceAccessReadOnly  ManagedAgentsMemoryStoreResourceAccess = "read_only"
 )
 
-// ManagedAgentsSessionResourceUnion contains all possible properties and
+// ManagedAgentsSessionResourceUnion includes [ManagedAgentsGitRepositoryResource] and contains all possible properties and
 // values from [ManagedAgentsGitHubRepositoryResource],
 // [ManagedAgentsFileResource], [ManagedAgentsMemoryStoreResource].
 //
@@ -440,6 +440,8 @@ func (ManagedAgentsMemoryStoreResource) implManagedAgentsSessionResourceUnion() 
 //	}
 func (u ManagedAgentsSessionResourceUnion) AsAny() anyManagedAgentsSessionResource {
 	switch u.Type {
+	case "git_repository":
+		return u.AsGitRepository()
 	case "github_repository":
 		return u.AsGitHubRepository()
 	case "file":
@@ -472,7 +474,7 @@ func (r *ManagedAgentsSessionResourceUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// SessionResourceGetResponseUnion contains all possible properties and values
+// SessionResourceGetResponseUnion includes [ManagedAgentsGitRepositoryResource] and contains all possible properties and values
 // from [ManagedAgentsGitHubRepositoryResource],
 // [ManagedAgentsFileResource], [ManagedAgentsMemoryStoreResource].
 //
@@ -543,6 +545,8 @@ func (ManagedAgentsMemoryStoreResource) implSessionResourceGetResponseUnion()   
 //	}
 func (u SessionResourceGetResponseUnion) AsAny() anySessionResourceGetResponse {
 	switch u.Type {
+	case "git_repository":
+		return u.AsGitRepository()
 	case "github_repository":
 		return u.AsGitHubRepository()
 	case "file":
@@ -575,7 +579,7 @@ func (r *SessionResourceGetResponseUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// SessionResourceUpdateResponseUnion contains all possible properties and
+// SessionResourceUpdateResponseUnion includes [ManagedAgentsGitRepositoryResource] and contains all possible properties and
 // values from [ManagedAgentsGitHubRepositoryResource],
 // [ManagedAgentsFileResource], [ManagedAgentsMemoryStoreResource].
 //
@@ -646,6 +650,8 @@ func (ManagedAgentsMemoryStoreResource) implSessionResourceUpdateResponseUnion()
 //	}
 func (u SessionResourceUpdateResponseUnion) AsAny() anySessionResourceUpdateResponse {
 	switch u.Type {
+	case "git_repository":
+		return u.AsGitRepository()
 	case "github_repository":
 		return u.AsGitHubRepository()
 	case "file":
@@ -689,8 +695,8 @@ type SessionResourceUpdateParams struct {
 	Password param.Opt[string] `json:"password,omitzero"`
 
 	SessionID string `path:"session_id" api:"required" json:"-"`
-	// New authorization token for the resource. Currently only `github_repository`
-	// resources support token rotation.
+	// GitHub access token; also accepted for legacy generic Git clients.
+	// For generic Git, prefer Password and do not send conflicting credentials.
 	AuthorizationToken string `json:"authorization_token,omitzero"`
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
@@ -748,4 +754,64 @@ func (r SessionResourceAddParams) MarshalJSON() (data []byte, err error) {
 }
 func (r *SessionResourceAddParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, &r.ManagedAgentsFileResourceParams)
+}
+
+type ManagedAgentsGitRepositoryResource struct {
+	ID string `json:"id" api:"required"`
+	// A timestamp in RFC 3339 format
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	MountPath string    `json:"mount_path" api:"required"`
+	// Any of "git_repository".
+	Type ManagedAgentsGitRepositoryResourceType `json:"type" api:"required"`
+	// A timestamp in RFC 3339 format
+	UpdatedAt time.Time                                       `json:"updated_at" api:"required" format:"date-time"`
+	URL       string                                          `json:"url" api:"required"`
+	Checkout  ManagedAgentsGitRepositoryResourceCheckoutUnion `json:"checkout" api:"nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		CreatedAt   respjson.Field
+		MountPath   respjson.Field
+		Type        respjson.Field
+		UpdatedAt   respjson.Field
+		URL         respjson.Field
+		Checkout    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ManagedAgentsGitRepositoryResource) RawJSON() string { return r.JSON.raw }
+func (r *ManagedAgentsGitRepositoryResource) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ManagedAgentsGitRepositoryResourceType string
+
+const (
+	ManagedAgentsGitRepositoryResourceTypeGitRepository ManagedAgentsGitRepositoryResourceType = "git_repository"
+)
+
+type ManagedAgentsGitRepositoryResourceCheckoutUnion = ManagedAgentsGitHubRepositoryResourceCheckoutUnion
+
+func (ManagedAgentsGitRepositoryResource) implManagedAgentsSessionResourceUnion() {}
+
+func (u ManagedAgentsSessionResourceUnion) AsGitRepository() (v ManagedAgentsGitRepositoryResource) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (ManagedAgentsGitRepositoryResource) implSessionResourceGetResponseUnion() {}
+
+func (u SessionResourceGetResponseUnion) AsGitRepository() (v ManagedAgentsGitRepositoryResource) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (ManagedAgentsGitRepositoryResource) implSessionResourceUpdateResponseUnion() {}
+
+func (u SessionResourceUpdateResponseUnion) AsGitRepository() (v ManagedAgentsGitRepositoryResource) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
 }

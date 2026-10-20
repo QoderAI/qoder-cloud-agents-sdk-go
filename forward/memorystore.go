@@ -76,6 +76,8 @@ func (r *MemoryStoreService) New(ctx context.Context, params MemoryStoreNewParam
 }
 
 type MemoryStoreNewParams struct {
+	// Establish this mount before returning. Retry with the same key and body to resume creation.
+	Mount MemoryStoreNewParamsMount `json:"mount,omitzero"`
 	// Display name for the store, non-empty. Non-printable control characters
 	// (`U+0000`–`U+001F`, `U+007F`) are not allowed, except newline `\n`, carriage return
 	// `\r` and tab `\t`.
@@ -225,3 +227,19 @@ type MemoryStore struct {
 
 func (r MemoryStore) RawJSON() string                  { return r.JSON.raw }
 func (r *MemoryStore) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+type MemoryStoreNewParamsMount struct {
+	IdentityID string `json:"identity_id" api:"required"`
+	TemplateID string `json:"template_id" api:"required"`
+	// read_only (default) or read_write.
+	Access param.Opt[string] `json:"access,omitzero"`
+	paramObj
+}
+
+func (r MemoryStoreNewParamsMount) MarshalJSON() ([]byte, error) {
+	type shadow MemoryStoreNewParamsMount
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *MemoryStoreNewParamsMount) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}

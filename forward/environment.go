@@ -177,17 +177,21 @@ func (r *EnvironmentService) Delete(ctx context.Context, id string, opts ...opti
 }
 
 type Environment struct {
-	ID          string            `json:"id"`
-	Type        string            `json:"type"`
-	Name        string            `json:"name"`
-	Description string            `json:"description"`
-	Config      EnvironmentConfig `json:"config"`
-	Metadata    map[string]any    `json:"metadata"`
-	CreatedAt   time.Time         `json:"created_at" format:"date-time"`
-	UpdatedAt   time.Time         `json:"updated_at" format:"date-time"`
-	IdentityID  string            `json:"identity_id" api:"nullable"`
-	ArchivedAt  time.Time         `json:"archived_at" api:"nullable" format:"date-time"`
+	IconURL     string                 `json:"icon_url" api:"nullable"`
+	BindingInfo EnvironmentBindingInfo `json:"binding_info"`
+	ID          string                 `json:"id"`
+	Type        string                 `json:"type"`
+	Name        string                 `json:"name"`
+	Description string                 `json:"description"`
+	Config      EnvironmentConfig      `json:"config"`
+	Metadata    map[string]any         `json:"metadata"`
+	CreatedAt   time.Time              `json:"created_at" format:"date-time"`
+	UpdatedAt   time.Time              `json:"updated_at" format:"date-time"`
+	IdentityID  string                 `json:"identity_id" api:"nullable"`
+	ArchivedAt  time.Time              `json:"archived_at" api:"nullable" format:"date-time"`
 	JSON        struct {
+		IconURL     respjson.Field
+		BindingInfo respjson.Field
 		ID          respjson.Field
 		Type        respjson.Field
 		Name        respjson.Field
@@ -207,9 +211,11 @@ func (r Environment) RawJSON() string                  { return r.JSON.raw }
 func (r *Environment) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type EnvironmentConfig struct {
-	Type     string                    `json:"type"`
-	Packages EnvironmentConfigPackages `json:"packages"`
-	JSON     struct {
+	SetupScript string                    `json:"setup_script"`
+	Type        string                    `json:"type"`
+	Packages    EnvironmentConfigPackages `json:"packages"`
+	JSON        struct {
+		SetupScript respjson.Field
 		Type        respjson.Field
 		Packages    respjson.Field
 		ExtraFields map[string]respjson.Field
@@ -252,4 +258,18 @@ func (r EnvironmentNewParams) URLQuery() (url.Values, error) {
 
 func (r EnvironmentUpdateParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
+}
+
+type EnvironmentBindingInfo struct {
+	AgentTemplateCount int64 `json:"agent_template_count"`
+	JSON               struct {
+		AgentTemplateCount respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
+	} `json:"-"`
+}
+
+func (r EnvironmentBindingInfo) RawJSON() string { return r.JSON.raw }
+func (r *EnvironmentBindingInfo) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }

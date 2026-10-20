@@ -1644,6 +1644,8 @@ func (ManagedAgentsMemoryStoreResourceConfig) implManagedAgentsSessionResourceCo
 //	}
 func (u ManagedAgentsSessionResourceConfigUnion) AsAny() anyManagedAgentsSessionResourceConfig {
 	switch u.Type {
+	case "git_repository":
+		return u.AsGitRepository()
 	case "github_repository":
 		return u.AsGitHubRepository()
 	case "file":
@@ -1905,6 +1907,7 @@ func (u *DeploymentNewParamsAgentUnion) asAny() any {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type DeploymentNewParamsResourceUnion struct {
+	OfGitRepository    *ManagedAgentsGitRepositoryResourceParams    `json:",omitzero,inline"`
 	OfGitHubRepository *ManagedAgentsGitHubRepositoryResourceParams `json:",omitzero,inline"`
 	OfFile             *ManagedAgentsFileResourceParams             `json:",omitzero,inline"`
 	OfMemoryStore      *ManagedAgentsMemoryStoreResourceParam       `json:",omitzero,inline"`
@@ -1912,13 +1915,16 @@ type DeploymentNewParamsResourceUnion struct {
 }
 
 func (u DeploymentNewParamsResourceUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfGitHubRepository, u.OfFile, u.OfMemoryStore)
+	return param.MarshalUnion(u, u.OfGitRepository, u.OfGitHubRepository, u.OfFile, u.OfMemoryStore)
 }
 func (u *DeploymentNewParamsResourceUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *DeploymentNewParamsResourceUnion) asAny() any {
+	if !param.IsOmitted(u.OfGitRepository) {
+		return u.OfGitRepository
+	}
 	if !param.IsOmitted(u.OfGitHubRepository) {
 		return u.OfGitHubRepository
 	} else if !param.IsOmitted(u.OfFile) {
@@ -1939,6 +1945,9 @@ func (u DeploymentNewParamsResourceUnion) GetAuthorizationToken() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u DeploymentNewParamsResourceUnion) GetURL() *string {
+	if v := u.OfGitRepository; v != nil {
+		return &v.URL
+	}
 	if vt := u.OfGitHubRepository; vt != nil {
 		return &vt.URL
 	}
@@ -1947,6 +1956,9 @@ func (u DeploymentNewParamsResourceUnion) GetURL() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u DeploymentNewParamsResourceUnion) GetCheckout() *ManagedAgentsGitHubRepositoryResourceParamsCheckoutUnion {
+	if v := u.OfGitRepository; v != nil {
+		return &v.Checkout
+	}
 	if vt := u.OfGitHubRepository; vt != nil {
 		return &vt.Checkout
 	}
@@ -1987,6 +1999,9 @@ func (u DeploymentNewParamsResourceUnion) GetInstructions() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u DeploymentNewParamsResourceUnion) GetType() *string {
+	if v := u.OfGitRepository; v != nil {
+		return (*string)(&v.Type)
+	}
 	if vt := u.OfGitHubRepository; vt != nil {
 		return (*string)(&vt.Type)
 	} else if vt := u.OfFile; vt != nil {
@@ -1999,6 +2014,9 @@ func (u DeploymentNewParamsResourceUnion) GetType() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u DeploymentNewParamsResourceUnion) GetMountPath() *string {
+	if v := u.OfGitRepository; v != nil && v.MountPath.Valid() {
+		return &v.MountPath.Value
+	}
 	if vt := u.OfGitHubRepository; vt != nil && vt.MountPath.Valid() {
 		return &vt.MountPath.Value
 	} else if vt := u.OfFile; vt != nil && vt.MountPath.Valid() {
@@ -2010,6 +2028,7 @@ func (u DeploymentNewParamsResourceUnion) GetMountPath() *string {
 func init() {
 	apijson.RegisterUnion[DeploymentNewParamsResourceUnion](
 		"type",
+		apijson.Discriminator[ManagedAgentsGitRepositoryResourceParams]("git_repository"),
 		apijson.Discriminator[ManagedAgentsGitHubRepositoryResourceParams]("github_repository"),
 		apijson.Discriminator[ManagedAgentsFileResourceParams]("file"),
 		apijson.Discriminator[ManagedAgentsMemoryStoreResourceParam]("memory_store"),
@@ -2096,6 +2115,7 @@ func (u *DeploymentUpdateParamsAgentUnion) asAny() any {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type DeploymentUpdateParamsResourceUnion struct {
+	OfGitRepository    *ManagedAgentsGitRepositoryResourceParams    `json:",omitzero,inline"`
 	OfGitHubRepository *ManagedAgentsGitHubRepositoryResourceParams `json:",omitzero,inline"`
 	OfFile             *ManagedAgentsFileResourceParams             `json:",omitzero,inline"`
 	OfMemoryStore      *ManagedAgentsMemoryStoreResourceParam       `json:",omitzero,inline"`
@@ -2103,13 +2123,16 @@ type DeploymentUpdateParamsResourceUnion struct {
 }
 
 func (u DeploymentUpdateParamsResourceUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfGitHubRepository, u.OfFile, u.OfMemoryStore)
+	return param.MarshalUnion(u, u.OfGitRepository, u.OfGitHubRepository, u.OfFile, u.OfMemoryStore)
 }
 func (u *DeploymentUpdateParamsResourceUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *DeploymentUpdateParamsResourceUnion) asAny() any {
+	if !param.IsOmitted(u.OfGitRepository) {
+		return u.OfGitRepository
+	}
 	if !param.IsOmitted(u.OfGitHubRepository) {
 		return u.OfGitHubRepository
 	} else if !param.IsOmitted(u.OfFile) {
@@ -2130,6 +2153,9 @@ func (u DeploymentUpdateParamsResourceUnion) GetAuthorizationToken() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u DeploymentUpdateParamsResourceUnion) GetURL() *string {
+	if v := u.OfGitRepository; v != nil {
+		return &v.URL
+	}
 	if vt := u.OfGitHubRepository; vt != nil {
 		return &vt.URL
 	}
@@ -2138,6 +2164,9 @@ func (u DeploymentUpdateParamsResourceUnion) GetURL() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u DeploymentUpdateParamsResourceUnion) GetCheckout() *ManagedAgentsGitHubRepositoryResourceParamsCheckoutUnion {
+	if v := u.OfGitRepository; v != nil {
+		return &v.Checkout
+	}
 	if vt := u.OfGitHubRepository; vt != nil {
 		return &vt.Checkout
 	}
@@ -2178,6 +2207,9 @@ func (u DeploymentUpdateParamsResourceUnion) GetInstructions() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u DeploymentUpdateParamsResourceUnion) GetType() *string {
+	if v := u.OfGitRepository; v != nil {
+		return (*string)(&v.Type)
+	}
 	if vt := u.OfGitHubRepository; vt != nil {
 		return (*string)(&vt.Type)
 	} else if vt := u.OfFile; vt != nil {
@@ -2190,6 +2222,9 @@ func (u DeploymentUpdateParamsResourceUnion) GetType() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u DeploymentUpdateParamsResourceUnion) GetMountPath() *string {
+	if v := u.OfGitRepository; v != nil && v.MountPath.Valid() {
+		return &v.MountPath.Value
+	}
 	if vt := u.OfGitHubRepository; vt != nil && vt.MountPath.Valid() {
 		return &vt.MountPath.Value
 	} else if vt := u.OfFile; vt != nil && vt.MountPath.Valid() {
@@ -2201,6 +2236,7 @@ func (u DeploymentUpdateParamsResourceUnion) GetMountPath() *string {
 func init() {
 	apijson.RegisterUnion[DeploymentUpdateParamsResourceUnion](
 		"type",
+		apijson.Discriminator[ManagedAgentsGitRepositoryResourceParams]("git_repository"),
 		apijson.Discriminator[ManagedAgentsGitHubRepositoryResourceParams]("github_repository"),
 		apijson.Discriminator[ManagedAgentsFileResourceParams]("file"),
 		apijson.Discriminator[ManagedAgentsMemoryStoreResourceParam]("memory_store"),
@@ -2264,4 +2300,58 @@ type DeploymentUnpauseParams struct {
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
+}
+
+type ManagedAgentsGitRepositoryResourceConfig struct {
+	// Any of "git_repository".
+	Type ManagedAgentsGitRepositoryResourceConfigType `json:"type" api:"required"`
+	// HTTP(S) URL of the repository
+	URL string `json:"url" api:"required"`
+	// Branch or commit to check out. Defaults to the repository's default branch.
+	Checkout ManagedAgentsGitRepositoryResourceConfigCheckoutUnion `json:"checkout" api:"nullable"`
+	// Mount path in the container. Derived from the repository name when omitted.
+	MountPath string `json:"mount_path" api:"nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Type        respjson.Field
+		URL         respjson.Field
+		Checkout    respjson.Field
+		MountPath   respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ManagedAgentsGitRepositoryResourceConfig) RawJSON() string { return r.JSON.raw }
+func (r *ManagedAgentsGitRepositoryResourceConfig) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ManagedAgentsGitRepositoryResourceConfigType string
+
+const (
+	ManagedAgentsGitRepositoryResourceConfigTypeGitRepository ManagedAgentsGitRepositoryResourceConfigType = "git_repository"
+)
+
+type ManagedAgentsGitRepositoryResourceConfigCheckoutUnion = ManagedAgentsGitHubRepositoryResourceConfigCheckoutUnion
+
+func (ManagedAgentsGitRepositoryResourceConfig) implManagedAgentsSessionResourceConfigUnion() {}
+func (u ManagedAgentsSessionResourceConfigUnion) AsGitRepository() (v ManagedAgentsGitRepositoryResourceConfig) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u DeploymentNewParamsResourceUnion) GetPassword() *string {
+	if v := u.OfGitRepository; v != nil && v.Password.Valid() {
+		return &v.Password.Value
+	}
+	return nil
+}
+
+func (u DeploymentUpdateParamsResourceUnion) GetPassword() *string {
+	if v := u.OfGitRepository; v != nil && v.Password.Valid() {
+		return &v.Password.Value
+	}
+	return nil
 }

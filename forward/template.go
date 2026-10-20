@@ -78,6 +78,8 @@ func (r *TemplateService) New(ctx context.Context, params TemplateNewParams, opt
 }
 
 type TemplateNewParams struct {
+	// Maximum tool-call rounds per Turn; must be positive. Omit or pass null to use the platform default.
+	MaxToolRounds param.Opt[int64] `json:"max_tool_rounds,omitzero" api:"nullable"`
 	// Replaces the complete managed tool list; use an empty list to disable all.
 	ManagedToolConfig ManagedToolConfigParam `json:"managed_tool_config,omitzero" api:"nullable"`
 	// Template name, 1-256 characters, unique per user.
@@ -155,6 +157,8 @@ func (r *TemplateService) Update(ctx context.Context, templateID string, params 
 }
 
 type TemplateUpdateParams struct {
+	// Maximum tool-call rounds per Turn; must be positive. Omit to preserve the limit; pass null to clear it.
+	MaxToolRounds param.Opt[int64] `json:"max_tool_rounds,omitzero" api:"nullable"`
 	// Replaces the complete managed tool list; use an empty list to disable all.
 	ManagedToolConfig ManagedToolConfigParam `json:"managed_tool_config,omitzero" api:"nullable"`
 	// New Template name.
@@ -261,6 +265,8 @@ func (r TemplateCloneParams) MarshalJSON() ([]byte, error) {
 func (r *TemplateCloneParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type Template struct {
+	// Maximum tool-call rounds per Turn; omitted when unset.
+	MaxToolRounds     int64             `json:"max_tool_rounds"`
 	ManagedToolConfig ManagedToolConfig `json:"managed_tool_config"`
 	// Always `template`.
 	Type string `json:"type"`
@@ -290,6 +296,7 @@ type Template struct {
 	// Custom metadata.
 	Metadata map[string]any `json:"metadata"`
 	JSON     struct {
+		MaxToolRounds        respjson.Field
 		ManagedToolConfig    respjson.Field
 		Type                 respjson.Field
 		ID                   respjson.Field

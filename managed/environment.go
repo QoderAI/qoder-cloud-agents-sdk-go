@@ -395,6 +395,7 @@ func (r *Environment) UnmarshalJSON(data []byte) error {
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type EnvironmentConfigUnion struct {
+	SetupScript string `json:"setup_script"`
 	// This field is from variant [CloudConfig].
 	Networking CloudConfigNetworkingUnion `json:"networking"`
 	// This field is from variant [CloudConfig].
@@ -402,10 +403,11 @@ type EnvironmentConfigUnion struct {
 	// Any of "cloud", "self_hosted".
 	Type string `json:"type"`
 	JSON struct {
-		Networking respjson.Field
-		Packages   respjson.Field
-		Type       respjson.Field
-		raw        string
+		SetupScript respjson.Field
+		Networking  respjson.Field
+		Packages    respjson.Field
+		Type        respjson.Field
+		raw         string
 	} `json:"-"`
 }
 
@@ -642,10 +644,12 @@ const (
 
 // Configuration for self-hosted environments.
 type SelfHostedConfig struct {
+	SetupScript string `json:"setup_script"`
 	// Environment type
 	Type constant.SelfHosted `json:"type" default:"self_hosted"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		SetupScript respjson.Field
 		Type        respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
@@ -669,6 +673,7 @@ func NewSelfHostedConfigParams() SelfHostedConfigParams {
 // This struct has a constant value, construct it with
 // [NewSelfHostedConfigParams].
 type SelfHostedConfigParams struct {
+	SetupScript param.Opt[string] `json:"setup_script,omitzero"`
 	// Environment type
 	Type constant.SelfHosted `json:"type" default:"self_hosted"`
 	paramObj
@@ -972,4 +977,24 @@ type EnvironmentArchiveParams struct {
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
+}
+
+// Returns the setup script from the selected configuration, if present.
+func (u EnvironmentNewParamsConfigUnion) GetSetupScript() *string {
+	if v := u.OfCloud; v != nil && v.SetupScript.Valid() {
+		return &v.SetupScript.Value
+	} else if v := u.OfSelfHosted; v != nil && v.SetupScript.Valid() {
+		return &v.SetupScript.Value
+	}
+	return nil
+}
+
+// Returns the setup script from the selected configuration, if present.
+func (u EnvironmentUpdateParamsConfigUnion) GetSetupScript() *string {
+	if v := u.OfCloud; v != nil && v.SetupScript.Valid() {
+		return &v.SetupScript.Value
+	} else if v := u.OfSelfHosted; v != nil && v.SetupScript.Valid() {
+		return &v.SetupScript.Value
+	}
+	return nil
 }
