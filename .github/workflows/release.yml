@@ -140,7 +140,8 @@ jobs:
 
           proxy_tag=$(python3 -c 'import sys; print("".join("!" + c.lower() if c.isupper() else c for c in sys.argv[1]))' "$tag")
           proxy_response="$RUNNER_TEMP/go-proxy-version"
-          proxy_url="https://proxy.golang.org/${PROXY_MODULE_PATH}/@v/${proxy_tag}.info"
+          # Do not fetch a missing tag from origin and seed a 30-minute negative cache.
+          proxy_url="https://proxy.golang.org/cached-only/${PROXY_MODULE_PATH}/@v/${proxy_tag}.info"
           if ! proxy_status=$(curl --connect-timeout 10 --max-time 30 --silent --show-error --output "$proxy_response" --write-out '%{http_code}' "$proxy_url"); then
             echo "Failed to query the public Go proxy" >&2
             exit 1
@@ -241,7 +242,8 @@ jobs:
           fi
 
           proxy_tag=$(python3 -c 'import sys; print("".join("!" + c.lower() if c.isupper() else c for c in sys.argv[1]))' "$tag")
-          proxy_url="https://proxy.golang.org/${PROXY_MODULE_PATH}/@v/${proxy_tag}.info"
+          # Check for an existing publication without fetching an unpublished tag.
+          proxy_url="https://proxy.golang.org/cached-only/${PROXY_MODULE_PATH}/@v/${proxy_tag}.info"
           proxy_status=$(curl --connect-timeout 10 --max-time 30 --silent --show-error --output /dev/null --write-out '%{http_code}' "$proxy_url")
           if [[ "$proxy_status" == 200 && "$tag_exists" != true ]]; then
             echo "Public Go proxy already has $tag but the remote tag is absent." >&2
@@ -268,6 +270,7 @@ jobs:
     name: verify public module
     needs: publish
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     permissions:
       contents: read
     steps:
@@ -288,21 +291,25 @@ jobs:
           proxy_tag=$(python3 -c 'import sys; print("".join("!" + c.lower() if c.isupper() else c for c in sys.argv[1]))' "$tag")
           proxy_url="https://proxy.golang.org/${PROXY_MODULE_PATH}/@v/${proxy_tag}.info"
           proxy_response="$RUNNER_TEMP/go-proxy-version-info"
-          for ((attempt = 1; attempt <= 30; attempt++)); do
+          proxy_headers="$RUNNER_TEMP/go-proxy-version-headers"
+          # An external request before tag creation can still cache a miss for 30 minutes.
+          max_attempts=71
+          for ((attempt = 1; attempt <= max_attempts; attempt++)); do
             proxy_status=000
-            if status=$(curl --connect-timeout 10 --max-time 30 --silent --show-error --output "$proxy_response" --write-out '%{http_code}' "$proxy_url"); then
+            if status=$(curl --connect-timeout 10 --max-time 30 --silent --show-error --dump-header "$proxy_headers" --output "$proxy_response" --write-out '%{http_code}' "$proxy_url"); then
               proxy_status=$status
             fi
             if [[ "$proxy_status" == 200 ]]; then
               echo "Public Go proxy serves $tag"
               break
             fi
-            if [[ "$attempt" == 30 ]]; then
-              echo "Public Go proxy did not serve $tag after 30 attempts (last HTTP status: $proxy_status)" >&2
+            if [[ "$attempt" == "$max_attempts" ]]; then
+              echo "Public Go proxy did not serve $tag after $max_attempts attempts (last HTTP status: $proxy_status)" >&2
+              cat "$proxy_headers" "$proxy_response" >&2 || true
               exit 1
             fi
-            echo "Waiting for $tag on the public Go proxy (attempt $attempt/30, HTTP $proxy_status)"
-            sleep 10
+            echo "Waiting for $tag on the public Go proxy (attempt $attempt/$max_attempts, HTTP $proxy_status)"
+            sleep 30
           done
 
       - name: Verify clean module consumption
