@@ -5,6 +5,20 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Fixed
+
+- Align Managed Session budgets with the official decimal-string `max_credit_cost` contract, shared by Deployment budgets. The limit covers cumulative model and sandbox Credits; reaching it rejects the next user message without interrupting the current turn.
+- Expose Managed and Forward Session `model_credits`, `sandbox_runtime_credits`, and `total_credits`; decode top-level `session.usage` Credits and per-call `model_usage.credits` / compaction `usage.credits`. Session usage may be absent. Legacy response token/list-cost fields remain available.
+- Route Identity ownership through query parameters on existing Forward Environment, Skill/Version, Vault/Credential, and File operations, including multipart uploads and content downloads.
+- Allow existing channel pairing creation with either a code or `channel_pairing_id`, and expose pairing scope details. No additional API endpoints are introduced.
+
+### Migration
+
+- **Breaking budget field change:** Replace `MaxListCost: managed.MonetaryAmountParam{...}` with `MaxCreditCost: "100.00"` in `ManagedAgentsBudgetLimitParam` (keep `Type: "limit"`). Amounts are positive decimal strings, not currency objects. Omitting a budget update preserves the limit; explicit null removes it.
+- Consume the three top-level Credits fields from `session.usage` events. Replace cumulative snapshots rather than adding them; compaction Credits are already included in Session totals.
+- Set `IdentityID: forward.String("idn_...")` in resource params; for methods without params, pass `forward.WithIdentityID("idn_...")`. Use this only with a PAT. With a SAT, omit `identity_id`; the server infers ownership from the token and rejects explicit values (including an empty string).
+- Channel pairing requests must provide exactly one of `code` or `channel_pairing_id`; existing code-based calls remain supported.
+
 ## [0.6.0]
 
 ### Added

@@ -52,6 +52,8 @@ func (r *SkillVersionService) ListAutoPaging(ctx context.Context, id string, par
 }
 
 type SkillVersionListParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Page size, maximum 100, default 20.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Cursor for paging forward; take the value from `next_page` in the previous
@@ -77,6 +79,8 @@ func (r *SkillVersionService) New(ctx context.Context, id string, params SkillVe
 }
 
 type SkillVersionNewParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Upload field, which may appear **multiple** times. Two shapes are supported: • a
 	// single `.zip` archive; • a bare file tree, where every part uploads one file and
 	// `filename` carries its relative path (e.g. `customer-reply/SKILL.md`,
@@ -185,3 +189,7 @@ type SkillVersion struct {
 
 func (r SkillVersion) RawJSON() string                  { return r.JSON.raw }
 func (r *SkillVersion) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+func (r SkillVersionNewParams) URLQuery() (url.Values, error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
+}

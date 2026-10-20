@@ -51,6 +51,8 @@ func (r *VaultCredentialService) ListAutoPaging(ctx context.Context, id string, 
 }
 
 type VaultCredentialListParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Pagination cursor (recommended), taken from `next_page` in the previous response;
@@ -84,6 +86,8 @@ func (r *VaultCredentialService) New(ctx context.Context, id string, params Vaul
 }
 
 type VaultCredentialNewParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Credential authentication material; supports `static_bearer` and `mcp_oauth`. The
 	// response only returns redacted, non-secret fields.
 	Auth map[string]any `json:"auth" api:"required"`
@@ -292,4 +296,8 @@ func (r MCPOAuthRefreshUpdateParam) MarshalJSON() ([]byte, error) {
 }
 func (r *MCPOAuthRefreshUpdateParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r VaultCredentialNewParams) URLQuery() (url.Values, error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }

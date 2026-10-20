@@ -243,8 +243,8 @@ type ManagedAgentsDeployment struct {
 	// Vault IDs supplying stored credentials for sessions created from this
 	// deployment.
 	VaultIDs []string `json:"vault_ids" api:"required"`
-	// A hard spend ceiling. The session stops issuing new model requests once the
-	// tracked list cost reaches `max_list_cost`.
+	// A total model and sandbox credit limit. Once reached, new user messages are
+	// rejected; an already running turn continues to completion.
 	Budget ManagedAgentsBudgetLimit `json:"budget" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -1848,8 +1848,8 @@ type DeploymentNewParams struct {
 	Name string `json:"name" api:"required"`
 	// Description of what the deployment does.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// A hard spend ceiling. The session stops issuing new model requests once the
-	// tracked list cost reaches `max_list_cost`.
+	// A total model and sandbox credit limit. Once reached, new user messages are
+	// rejected; an already running turn continues to completion.
 	Budget ManagedAgentsBudgetLimitParam `json:"budget,omitzero"`
 	// Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
 	// to 512 chars.
@@ -2045,8 +2045,8 @@ type DeploymentUpdateParams struct {
 	// version, or an `agent` object with both id and version specified. Omit to
 	// preserve. Cannot be cleared.
 	Agent DeploymentUpdateParamsAgentUnion `json:"agent,omitzero"`
-	// A hard spend ceiling. The session stops issuing new model requests once the
-	// tracked list cost reaches `max_list_cost`.
+	// A total model and sandbox credit limit. Once reached, new user messages are
+	// rejected; an already running turn continues to completion.
 	Budget ManagedAgentsBudgetLimitParam `json:"budget,omitzero"`
 	// Initial events. Full replacement. Omit to preserve. Cannot be cleared. At least
 	// 1, maximum 50.

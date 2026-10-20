@@ -50,6 +50,8 @@ func (r *SkillService) ListAutoPaging(ctx context.Context, params SkillListParam
 }
 
 type SkillListParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Pagination cursor (recommended), taken from `next_page` in the previous response;
@@ -86,6 +88,8 @@ func (r *SkillService) New(ctx context.Context, params SkillNewParams, opts ...o
 }
 
 type SkillNewParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Recommended upload field, which may **repeat** several times. Two shapes are
 	// supported: (1) a single `.zip` archive; (2) a bare file tree — each part uploads
 	// one file and carries its relative path in `filename` (such as
@@ -133,6 +137,8 @@ func (r *SkillService) Get(ctx context.Context, id string, params SkillGetParams
 }
 
 type SkillGetParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// ⚠️ **Deprecated**: when `true`, the response also carries `content` and
 	// `content_encoding` (a base64 zip). Responses carry the `Deprecation: true` header
 	// when it is used. Use [Download Skill version content](./Versions/download.md)
@@ -158,6 +164,8 @@ func (r *SkillService) Update(ctx context.Context, id string, params SkillUpdate
 }
 
 type SkillUpdateParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// New description.
 	Description param.Opt[string] `json:"description,omitzero"`
 	// New content (the contents of a zip archive). Neither the archive itself nor its
@@ -233,3 +241,11 @@ type Skill struct {
 
 func (r Skill) RawJSON() string                  { return r.JSON.raw }
 func (r *Skill) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+func (r SkillNewParams) URLQuery() (url.Values, error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
+}
+
+func (r SkillUpdateParams) URLQuery() (url.Values, error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
+}

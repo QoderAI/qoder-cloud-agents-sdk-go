@@ -540,19 +540,19 @@ func (r *ManagedAgentsBranchCheckoutParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// A hard spend ceiling. The session stops issuing new model requests once the
-// tracked list cost reaches `max_list_cost`.
+// A total model and sandbox credit limit. Once reached, new user messages are rejected;
+// an already running turn continues to completion.
 type ManagedAgentsBudgetLimit struct {
-	// A monetary amount in a specific currency.
-	MaxListCost MonetaryAmount `json:"max_list_cost" api:"required"`
+	// Positive decimal Credits, with at most 12 integer and 2 fractional digits.
+	MaxCreditCost string `json:"max_credit_cost" api:"required"`
 	// Any of "limit".
 	Type ManagedAgentsBudgetLimitType `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		MaxListCost respjson.Field
-		Type        respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		MaxCreditCost respjson.Field
+		Type          respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
 	} `json:"-"`
 }
 
@@ -578,13 +578,13 @@ const (
 	ManagedAgentsBudgetLimitTypeLimit ManagedAgentsBudgetLimitType = "limit"
 )
 
-// A hard spend ceiling. The session stops issuing new model requests once the
-// tracked list cost reaches `max_list_cost`.
+// A total model and sandbox credit limit. Once reached, new user messages are rejected;
+// an already running turn continues to completion.
 //
-// The properties MaxListCost, Type are required.
+// The properties MaxCreditCost, Type are required.
 type ManagedAgentsBudgetLimitParam struct {
-	// A monetary amount in a specific currency.
-	MaxListCost MonetaryAmountParam `json:"max_list_cost,omitzero" api:"required"`
+	// Positive decimal Credits, with at most 12 integer and 2 fractional digits.
+	MaxCreditCost string `json:"max_credit_cost" api:"required"`
 	// Any of "limit".
 	Type ManagedAgentsBudgetLimitType `json:"type,omitzero" api:"required"`
 	paramObj
@@ -1226,9 +1226,9 @@ type ManagedAgentsSession struct {
 	Agent ManagedAgentsSessionAgent `json:"agent" api:"required"`
 	// A timestamp in RFC 3339 format
 	ArchivedAt time.Time `json:"archived_at" api:"required" format:"date-time"`
-	// A hard spend ceiling. The session stops issuing new model requests once the
-	// tracked list cost reaches `max_list_cost`.
-	Budget ManagedAgentsBudgetLimit `json:"budget" api:"required"`
+	// A total model and sandbox credit limit. Once reached, new user messages are
+	// rejected; an already running turn continues to completion.
+	Budget ManagedAgentsBudgetLimit `json:"budget" api:"nullable"`
 	// A timestamp in RFC 3339 format
 	CreatedAt     time.Time         `json:"created_at" api:"required" format:"date-time"`
 	EnvironmentID string            `json:"environment_id" api:"required"`
@@ -1248,8 +1248,9 @@ type ManagedAgentsSession struct {
 	Type ManagedAgentsSessionType `json:"type" api:"required"`
 	// A timestamp in RFC 3339 format
 	UpdatedAt time.Time `json:"updated_at" api:"required" format:"date-time"`
-	// Cumulative token usage for a session across all turns.
-	Usage ManagedAgentsSessionUsage `json:"usage" api:"required"`
+	// Cumulative Credits snapshot. Replace previous values; do not sum snapshots.
+	// Legacy token and list-cost fields remain available for older responses.
+	Usage ManagedAgentsSessionUsage `json:"usage"`
 	// Vault IDs attached to the session at creation. Empty when no vaults were
 	// supplied.
 	VaultIDs []string `json:"vault_ids" api:"required"`
@@ -1983,8 +1984,8 @@ type ManagedAgentsSessionUpdatedEvent struct {
 	// Resolved `agent` definition for a `session`. Snapshot of the `agent` at
 	// `session` creation time.
 	Agent ManagedAgentsSessionAgent `json:"agent" api:"nullable"`
-	// A hard spend ceiling. The session stops issuing new model requests once the
-	// tracked list cost reaches `max_list_cost`.
+	// A total model and sandbox credit limit. Once reached, new user messages are
+	// rejected; an already running turn continues to completion.
 	Budget ManagedAgentsBudgetLimit `json:"budget" api:"nullable"`
 	// The session's full metadata bag after the update. Present when the update set
 	// non-empty metadata; absent when metadata was unchanged or cleared to empty.
@@ -2017,8 +2018,12 @@ const (
 	ManagedAgentsSessionUpdatedEventTypeSessionUpdated ManagedAgentsSessionUpdatedEventType = "session.updated"
 )
 
-// Cumulative token usage for a session across all turns.
+// Cumulative Credits snapshot. Replace previous values; do not sum snapshots.
+// Legacy token and list-cost fields remain available for older responses.
 type ManagedAgentsSessionUsage struct {
+	ModelCredits          float64 `json:"model_credits"`
+	SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+	TotalCredits          float64 `json:"total_credits"`
 	// Cumulative time in seconds during which the session had at least one thread in
 	// running status. Overlapping activity from concurrent threads is counted once,
 	// unlike `stats.active_seconds`, which sums each thread's own active time. This is
@@ -2038,15 +2043,18 @@ type ManagedAgentsSessionUsage struct {
 	ServerToolUse ManagedAgentsServerToolUsage `json:"server_tool_use" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		ActiveSeconds        respjson.Field
-		CacheCreation        respjson.Field
-		CacheReadInputTokens respjson.Field
-		InputTokens          respjson.Field
-		ListCost             respjson.Field
-		OutputTokens         respjson.Field
-		ServerToolUse        respjson.Field
-		ExtraFields          map[string]respjson.Field
-		raw                  string
+		ModelCredits          respjson.Field
+		SandboxRuntimeCredits respjson.Field
+		TotalCredits          respjson.Field
+		ActiveSeconds         respjson.Field
+		CacheCreation         respjson.Field
+		CacheReadInputTokens  respjson.Field
+		InputTokens           respjson.Field
+		ListCost              respjson.Field
+		OutputTokens          respjson.Field
+		ServerToolUse         respjson.Field
+		ExtraFields           map[string]respjson.Field
+		raw                   string
 	} `json:"-"`
 }
 
@@ -2056,8 +2064,12 @@ func (r *ManagedAgentsSessionUsage) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Periodic snapshot of the session's cumulative usage and tracked list cost.
+// Cumulative Credits emitted before session.status_idle when usage is available.
+// Credits are top-level fields; Usage and Budget are legacy response fields.
 type ManagedAgentsSessionUsageEvent struct {
+	ModelCredits          float64 `json:"model_credits"`
+	SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+	TotalCredits          float64 `json:"total_credits"`
 	// Unique identifier for this event.
 	ID string `json:"id" api:"required"`
 	// A timestamp in RFC 3339 format
@@ -2065,19 +2077,22 @@ type ManagedAgentsSessionUsageEvent struct {
 	// Any of "session.usage".
 	Type ManagedAgentsSessionUsageEventType `json:"type" api:"required"`
 	// Point-in-time snapshot of a session's cumulative usage.
-	Usage ManagedAgentsSessionUsageSnapshot `json:"usage" api:"required"`
-	// A hard spend ceiling. The session stops issuing new model requests once the
-	// tracked list cost reaches `max_list_cost`.
+	Usage ManagedAgentsSessionUsageSnapshot `json:"usage"`
+	// A total model and sandbox credit limit. Once reached, new user messages are
+	// rejected; an already running turn continues to completion.
 	Budget ManagedAgentsBudgetLimit `json:"budget" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		ID          respjson.Field
-		ProcessedAt respjson.Field
-		Type        respjson.Field
-		Usage       respjson.Field
-		Budget      respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		ModelCredits          respjson.Field
+		SandboxRuntimeCredits respjson.Field
+		TotalCredits          respjson.Field
+		ID                    respjson.Field
+		ProcessedAt           respjson.Field
+		Type                  respjson.Field
+		Usage                 respjson.Field
+		Budget                respjson.Field
+		ExtraFields           map[string]respjson.Field
+		raw                   string
 	} `json:"-"`
 }
 
@@ -2472,8 +2487,8 @@ type SessionNewParams struct {
 	EnvironmentID string `json:"environment_id" api:"required"`
 	// Human-readable session title.
 	Title param.Opt[string] `json:"title,omitzero"`
-	// A hard spend ceiling. The session stops issuing new model requests once the
-	// tracked list cost reaches `max_list_cost`.
+	// A total model and sandbox credit limit. Once reached, new user messages are
+	// rejected; an already running turn continues to completion.
 	Budget ManagedAgentsBudgetLimitParam `json:"budget,omitzero"`
 	// Initial events to send to the `session` at creation, processed in order.
 	// Supports `user.message` and `user.define_outcome` events. Maximum 50 events.
@@ -2804,8 +2819,8 @@ type SessionUpdateParams struct {
 	// updatable. Full replacement: the provided array becomes the new value. To
 	// preserve existing entries, GET the session, modify the array, and POST it back.
 	Agent ManagedAgentsSessionAgentUpdateParam `json:"agent,omitzero"`
-	// A hard spend ceiling. The session stops issuing new model requests once the
-	// tracked list cost reaches `max_list_cost`.
+	// A total model and sandbox credit limit. Once reached, new user messages are
+	// rejected; an already running turn continues to completion.
 	Budget ManagedAgentsBudgetLimitParam `json:"budget,omitzero"`
 	// Vault IDs (`vlt_*`) to attach to the session. Not yet supported; requests
 	// setting this field are rejected. Reserved for future use.

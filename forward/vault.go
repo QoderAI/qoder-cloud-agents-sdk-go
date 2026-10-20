@@ -49,6 +49,8 @@ func (r *VaultService) ListAutoPaging(ctx context.Context, params VaultListParam
 }
 
 type VaultListParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Pagination cursor (recommended), taken from `next_page` in the previous
@@ -79,6 +81,8 @@ func (r *VaultService) New(ctx context.Context, params VaultNewParams, opts ...o
 }
 
 type VaultNewParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Vault display name.
 	DisplayName string `json:"display_name" api:"required"`
 	// Metadata object; `created_by` is reserved and cannot be supplied (supplying it
@@ -150,3 +154,7 @@ type Vault struct {
 
 func (r Vault) RawJSON() string                  { return r.JSON.raw }
 func (r *Vault) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+func (r VaultNewParams) URLQuery() (url.Values, error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
+}

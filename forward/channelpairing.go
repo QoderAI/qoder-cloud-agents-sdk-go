@@ -35,8 +35,10 @@ func (r *ChannelPairingService) New(ctx context.Context, params ChannelPairingNe
 }
 
 type ChannelPairingNewParams struct {
-	// Six-digit pairing code shown in the Channel message.
-	Code string `json:"code" api:"required"`
+	// Pairing code. Supply exactly one of Code or ChannelPairingID.
+	Code string `json:"code,omitzero"`
+	// Pending pairing ID. Supply exactly one of Code or ChannelPairingID.
+	ChannelPairingID string `json:"channel_pairing_id,omitzero"`
 	// Forward Identity ID to bind.
 	IdentityID string `json:"identity_id" api:"required"`
 	// Forward Template ID to bind.
@@ -86,6 +88,11 @@ func (r *DeletedChannelPairing) UnmarshalJSON(data []byte) error {
 }
 
 type ChannelPairing struct {
+	ScopeType        string `json:"scope_type"`
+	ScopeExternalID  string `json:"scope_external_id"`
+	ScopeDisplayName string `json:"scope_display_name"`
+	CreatedAt        string `json:"created_at"`
+	UpdatedAt        string `json:"updated_at"`
 	// Pairing ID, used when removing the pairing.
 	ID string `json:"id"`
 	// Always `channel_pairing`.
@@ -101,15 +108,20 @@ type ChannelPairing struct {
 	// Time the pairing completed.
 	PairedAt string `json:"paired_at"`
 	JSON     struct {
-		ID          respjson.Field
-		Type        respjson.Field
-		ChannelID   respjson.Field
-		IdentityID  respjson.Field
-		TemplateID  respjson.Field
-		Status      respjson.Field
-		PairedAt    respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		ScopeType        respjson.Field
+		ScopeExternalID  respjson.Field
+		ScopeDisplayName respjson.Field
+		CreatedAt        respjson.Field
+		UpdatedAt        respjson.Field
+		ID               respjson.Field
+		Type             respjson.Field
+		ChannelID        respjson.Field
+		IdentityID       respjson.Field
+		TemplateID       respjson.Field
+		Status           respjson.Field
+		PairedAt         respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
 	} `json:"-"`
 }
 

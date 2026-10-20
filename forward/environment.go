@@ -48,6 +48,8 @@ func (r *EnvironmentService) ListAutoPaging(ctx context.Context, params Environm
 }
 
 type EnvironmentListParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Pagination cursor (recommended); take the value from `next_page` in the previous
@@ -76,6 +78,8 @@ func (r *EnvironmentService) New(ctx context.Context, params EnvironmentNewParam
 }
 
 type EnvironmentNewParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Environment name; must not be empty after trimming surrounding whitespace.
 	Name string `json:"name" api:"required"`
 	// Description.
@@ -126,6 +130,8 @@ func (r *EnvironmentService) Update(ctx context.Context, id string, params Envir
 }
 
 type EnvironmentUpdateParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// New name.
 	Name param.Opt[string] `json:"name,omitzero"`
 	// New description.
@@ -238,4 +244,12 @@ type EnvironmentConfigPackages struct {
 func (r EnvironmentConfigPackages) RawJSON() string { return r.JSON.raw }
 func (r *EnvironmentConfigPackages) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r EnvironmentNewParams) URLQuery() (url.Values, error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
+}
+
+func (r EnvironmentUpdateParams) URLQuery() (url.Values, error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
