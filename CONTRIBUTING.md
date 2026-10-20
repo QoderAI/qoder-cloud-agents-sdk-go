@@ -162,6 +162,15 @@ For each release, merge a focused pull request that updates `convention/version.
 
 The workflow revalidates `main`, runs the offline lint, build, test, documentation, and example gates, and creates the annotated module tag after Environment approval. It then waits for the public Go proxy and verifies that the exact tag resolves to the approved commit from empty module and build caches, then publishes the changelog entry as a GitHub Release. Release tags are immutable: never move, delete, or overwrite one. Fix a bad release forward with a new version bump and a new workflow run.
 
+Before creating the tag, proxy checks use the `/cached-only` endpoint so they do
+not fetch an unpublished version and cache a miss. After publishing, verification
+uses the normal public proxy, with 35 minutes of retry delays and a 45-minute job
+timeout. This accommodates the [proxy's 30-minute negative cache](https://proxy.golang.org/)
+if another client requested the version before its tag existed. A final failure
+prints the response headers and body for diagnosis. Once the proxy serves the
+expected version, rerun the failed jobs with the original version, SHA and batch;
+do not recreate the tag.
+
 ## Pull requests
 
 Complete the pull request template, include exact verification commands and results, and identify public API, documentation, integration-test, and cross-SDK effects. Do not combine unrelated refactors with behavior changes.
