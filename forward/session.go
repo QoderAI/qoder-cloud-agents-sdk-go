@@ -287,11 +287,15 @@ func (r Session) RawJSON() string                  { return r.JSON.raw }
 func (r *Session) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type SessionUsage struct {
-	TotalCredits float64 `json:"total_credits"`
-	JSON         struct {
-		TotalCredits respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
+	TotalCredits          float64 `json:"total_credits"`
+	ModelCredits          float64 `json:"model_credits"`
+	SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+	JSON                  struct {
+		ModelCredits          respjson.Field
+		SandboxRuntimeCredits respjson.Field
+		TotalCredits          respjson.Field
+		ExtraFields           map[string]respjson.Field
+		raw                   string
 	} `json:"-"`
 }
 

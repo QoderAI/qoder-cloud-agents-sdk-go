@@ -67,6 +67,11 @@ func TestQoderFieldAlignment(t *testing.T) {
 	}
 	for name, fields := range expected {
 		for _, f := range fields {
+			// QCA uses decimal Credits, not the upstream monetary budget.
+			// https://docs.qoder.com/cloud-agents/api/sessions/schemas#session-budget
+			if (name == "ManagedAgentsBudgetLimit" || name == "ManagedAgentsBudgetLimitParam") && f == "MaxListCost" {
+				f = "MaxCreditCost"
+			}
 			if !actual[name][f] {
 				t.Errorf("upstream field missing: %s.%s", name, f)
 			}

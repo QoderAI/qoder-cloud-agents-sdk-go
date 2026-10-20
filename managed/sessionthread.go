@@ -407,7 +407,10 @@ func (r *ManagedAgentsSessionThreadUsage) UnmarshalJSON(data []byte) error {
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ManagedAgentsStreamSessionThreadEventsUnion struct {
-	ID string `json:"id"`
+	ModelCredits          float64 `json:"model_credits"`
+	SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+	TotalCredits          float64 `json:"total_credits"`
+	ID                    string  `json:"id"`
 	// This field is a union of [[]ManagedAgentsUserMessageEventContentUnion],
 	// [[]ManagedAgentsUserCustomToolResultEventContentUnion],
 	// [[]ManagedAgentsAgentMessageEventContentUnion],
@@ -498,6 +501,9 @@ type ManagedAgentsStreamSessionThreadEventsUnion struct {
 	// This field is from variant [ManagedAgentsDeltaEvent].
 	EventID string `json:"event_id"`
 	JSON    struct {
+		ModelCredits             respjson.Field
+		SandboxRuntimeCredits    respjson.Field
+		TotalCredits             respjson.Field
 		ID                       respjson.Field
 		Content                  respjson.Field
 		Type                     respjson.Field
@@ -1021,6 +1027,7 @@ func (r *ManagedAgentsStreamSessionThreadEventsUnionStopReason) UnmarshalJSON(da
 // For type safety it is recommended to directly use a variant of the
 // [ManagedAgentsStreamSessionThreadEventsUnion].
 type ManagedAgentsStreamSessionThreadEventsUnionUsage struct {
+	Credits float64 `json:"credits"`
 	// This field is from variant [ManagedAgentsSpanModelUsage].
 	CacheCreationInputTokens int64 `json:"cache_creation_input_tokens"`
 	CacheReadInputTokens     int64 `json:"cache_read_input_tokens"`
@@ -1037,6 +1044,7 @@ type ManagedAgentsStreamSessionThreadEventsUnionUsage struct {
 	// This field is from variant [ManagedAgentsSessionUsageSnapshot].
 	ServerToolUse ManagedAgentsServerToolUsage `json:"server_tool_use"`
 	JSON          struct {
+		Credits                  respjson.Field
 		CacheCreationInputTokens respjson.Field
 		CacheReadInputTokens     respjson.Field
 		InputTokens              respjson.Field

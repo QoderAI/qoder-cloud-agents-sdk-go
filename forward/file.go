@@ -49,6 +49,8 @@ func (r *FileService) ListAutoPaging(ctx context.Context, params FileListParams,
 }
 
 type FileListParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Page size, maximum 100.
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Pagination cursor (recommended), taken from `next_page` in the previous response;
@@ -83,6 +85,8 @@ func (r *FileService) Upload(ctx context.Context, params FileUploadParams, opts 
 }
 
 type FileUploadParams struct {
+	// Select identity ownership with a PAT. Omit when using a SAT.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	// Content of the file to upload. For accepted types see
 	// [Supported upload file types](./schemas.md).
 	File io.Reader `json:"file" api:"required" format:"binary"`
@@ -183,3 +187,7 @@ type FileMetadata struct {
 
 func (r FileMetadata) RawJSON() string                  { return r.JSON.raw }
 func (r *FileMetadata) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+func (r FileUploadParams) URLQuery() (url.Values, error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
+}

@@ -13,6 +13,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [func Float\(v float64\) param.Opt\[float64\]](<#Float>)
 - [func Int\(v int64\) param.Opt\[int64\]](<#Int>)
 - [func String\(v string\) param.Opt\[string\]](<#String>)
+- [func WithIdentityID\(identityID string\) option.RequestOption](<#WithIdentityID>)
 - [type Batch](<#Batch>)
   - [func \(r Batch\) RawJSON\(\) string](<#Batch.RawJSON>)
   - [func \(r \*Batch\) UnmarshalJSON\(data \[\]byte\) error](<#Batch.UnmarshalJSON>)
@@ -209,6 +210,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r EnvironmentListParams\) URLQuery\(\) \(url.Values, error\)](<#EnvironmentListParams.URLQuery>)
 - [type EnvironmentNewParams](<#EnvironmentNewParams>)
   - [func \(r EnvironmentNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentNewParams.MarshalJSON>)
+  - [func \(r EnvironmentNewParams\) URLQuery\(\) \(url.Values, error\)](<#EnvironmentNewParams.URLQuery>)
   - [func \(r \*EnvironmentNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentNewParams.UnmarshalJSON>)
 - [type EnvironmentService](<#EnvironmentService>)
   - [func NewEnvironmentService\(opts ...option.RequestOption\) EnvironmentService](<#NewEnvironmentService>)
@@ -221,6 +223,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*EnvironmentService\) Update\(ctx context.Context, id string, params EnvironmentUpdateParams, opts ...option.RequestOption\) \(res \*Environment, err error\)](<#EnvironmentService.Update>)
 - [type EnvironmentUpdateParams](<#EnvironmentUpdateParams>)
   - [func \(r EnvironmentUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentUpdateParams.MarshalJSON>)
+  - [func \(r EnvironmentUpdateParams\) URLQuery\(\) \(url.Values, error\)](<#EnvironmentUpdateParams.URLQuery>)
   - [func \(r \*EnvironmentUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentUpdateParams.UnmarshalJSON>)
 - [type EnvironmentVariableOverride](<#EnvironmentVariableOverride>)
   - [func \(r EnvironmentVariableOverride\) RawJSON\(\) string](<#EnvironmentVariableOverride.RawJSON>)
@@ -253,6 +256,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*FileService\) Upload\(ctx context.Context, params FileUploadParams, opts ...option.RequestOption\) \(res \*FileMetadata, err error\)](<#FileService.Upload>)
 - [type FileUploadParams](<#FileUploadParams>)
   - [func \(r FileUploadParams\) MarshalMultipart\(\) \(\[\]byte, string, error\)](<#FileUploadParams.MarshalMultipart>)
+  - [func \(r FileUploadParams\) URLQuery\(\) \(url.Values, error\)](<#FileUploadParams.URLQuery>)
 - [type GitHubRepository](<#GitHubRepository>)
   - [func \(r GitHubRepository\) RawJSON\(\) string](<#GitHubRepository.RawJSON>)
   - [func \(r \*GitHubRepository\) UnmarshalJSON\(data \[\]byte\) error](<#GitHubRepository.UnmarshalJSON>)
@@ -761,6 +765,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r SkillListParams\) URLQuery\(\) \(url.Values, error\)](<#SkillListParams.URLQuery>)
 - [type SkillNewParams](<#SkillNewParams>)
   - [func \(r SkillNewParams\) MarshalMultipart\(\) \(\[\]byte, string, error\)](<#SkillNewParams.MarshalMultipart>)
+  - [func \(r SkillNewParams\) URLQuery\(\) \(url.Values, error\)](<#SkillNewParams.URLQuery>)
 - [type SkillOverride](<#SkillOverride>)
   - [func \(r SkillOverride\) RawJSON\(\) string](<#SkillOverride.RawJSON>)
   - [func \(r \*SkillOverride\) UnmarshalJSON\(data \[\]byte\) error](<#SkillOverride.UnmarshalJSON>)
@@ -777,6 +782,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*SkillService\) Update\(ctx context.Context, id string, params SkillUpdateParams, opts ...option.RequestOption\) \(res \*Skill, err error\)](<#SkillService.Update>)
 - [type SkillUpdateParams](<#SkillUpdateParams>)
   - [func \(r SkillUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#SkillUpdateParams.MarshalJSON>)
+  - [func \(r SkillUpdateParams\) URLQuery\(\) \(url.Values, error\)](<#SkillUpdateParams.URLQuery>)
   - [func \(r \*SkillUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#SkillUpdateParams.UnmarshalJSON>)
 - [type SkillVersion](<#SkillVersion>)
   - [func \(r SkillVersion\) RawJSON\(\) string](<#SkillVersion.RawJSON>)
@@ -785,6 +791,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r SkillVersionListParams\) URLQuery\(\) \(url.Values, error\)](<#SkillVersionListParams.URLQuery>)
 - [type SkillVersionNewParams](<#SkillVersionNewParams>)
   - [func \(r SkillVersionNewParams\) MarshalMultipart\(\) \(\[\]byte, string, error\)](<#SkillVersionNewParams.MarshalMultipart>)
+  - [func \(r SkillVersionNewParams\) URLQuery\(\) \(url.Values, error\)](<#SkillVersionNewParams.URLQuery>)
 - [type SkillVersionService](<#SkillVersionService>)
   - [func NewSkillVersionService\(opts ...option.RequestOption\) SkillVersionService](<#NewSkillVersionService>)
   - [func \(r \*SkillVersionService\) Delete\(ctx context.Context, id string, version string, opts ...option.RequestOption\) \(res \*DeletedSkillVersion, err error\)](<#SkillVersionService.Delete>)
@@ -870,6 +877,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r VaultCredentialListParams\) URLQuery\(\) \(url.Values, error\)](<#VaultCredentialListParams.URLQuery>)
 - [type VaultCredentialNewParams](<#VaultCredentialNewParams>)
   - [func \(r VaultCredentialNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#VaultCredentialNewParams.MarshalJSON>)
+  - [func \(r VaultCredentialNewParams\) URLQuery\(\) \(url.Values, error\)](<#VaultCredentialNewParams.URLQuery>)
   - [func \(r \*VaultCredentialNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#VaultCredentialNewParams.UnmarshalJSON>)
 - [type VaultCredentialService](<#VaultCredentialService>)
   - [func NewVaultCredentialService\(opts ...option.RequestOption\) VaultCredentialService](<#NewVaultCredentialService>)
@@ -890,6 +898,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r VaultListParams\) URLQuery\(\) \(url.Values, error\)](<#VaultListParams.URLQuery>)
 - [type VaultNewParams](<#VaultNewParams>)
   - [func \(r VaultNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#VaultNewParams.MarshalJSON>)
+  - [func \(r VaultNewParams\) URLQuery\(\) \(url.Values, error\)](<#VaultNewParams.URLQuery>)
   - [func \(r \*VaultNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#VaultNewParams.UnmarshalJSON>)
 - [type VaultService](<#VaultService>)
   - [func NewVaultService\(opts ...option.RequestOption\) VaultService](<#NewVaultService>)
@@ -955,6 +964,15 @@ func String(v string) param.Opt[string]
 ```
 
 
+
+<a name="WithIdentityID"></a>
+## func [WithIdentityID](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/params.go>)
+
+```go
+func WithIdentityID(identityID string) option.RequestOption
+```
+
+WithIdentityID selects identity ownership for Forward resources using a PAT. Omit this option when using a SAT; its identity is inferred by the server. Use it on retrieval, deletion, archive, and download methods without params.
 
 <a name="Batch"></a>
 ## type [Batch](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/batch.go>)
@@ -1821,6 +1839,11 @@ func (r *ChannelNewParams) UnmarshalJSON(data []byte) error
 
 ```go
 type ChannelPairing struct {
+    ScopeType        string `json:"scope_type"`
+    ScopeExternalID  string `json:"scope_external_id"`
+    ScopeDisplayName string `json:"scope_display_name"`
+    CreatedAt        string `json:"created_at"`
+    UpdatedAt        string `json:"updated_at"`
     // Pairing ID, used when removing the pairing.
     ID  string `json:"id"`
     // Always `channel_pairing`.
@@ -1836,14 +1859,19 @@ type ChannelPairing struct {
     // Time the pairing completed.
     PairedAt string `json:"paired_at"`
     JSON     struct {
-        ID          respjson.Field
-        Type        respjson.Field
-        ChannelID   respjson.Field
-        IdentityID  respjson.Field
-        TemplateID  respjson.Field
-        Status      respjson.Field
-        PairedAt    respjson.Field
-        ExtraFields map[string]respjson.Field
+        ScopeType        respjson.Field
+        ScopeExternalID  respjson.Field
+        ScopeDisplayName respjson.Field
+        CreatedAt        respjson.Field
+        UpdatedAt        respjson.Field
+        ID               respjson.Field
+        Type             respjson.Field
+        ChannelID        respjson.Field
+        IdentityID       respjson.Field
+        TemplateID       respjson.Field
+        Status           respjson.Field
+        PairedAt         respjson.Field
+        ExtraFields      map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -1874,8 +1902,10 @@ func (r *ChannelPairing) UnmarshalJSON(data []byte) error
 
 ```go
 type ChannelPairingNewParams struct {
-    // Six-digit pairing code shown in the Channel message.
-    Code string `json:"code" api:"required"`
+    // Pairing code. Supply exactly one of Code or ChannelPairingID.
+    Code string `json:"code,omitzero"`
+    // Pending pairing ID. Supply exactly one of Code or ChannelPairingID.
+    ChannelPairingID string `json:"channel_pairing_id,omitzero"`
     // Forward Identity ID to bind.
     IdentityID string `json:"identity_id" api:"required"`
     // Forward Template ID to bind.
@@ -3441,6 +3471,8 @@ func (r *EnvironmentConfigPackages) UnmarshalJSON(data []byte) error
 
 ```go
 type EnvironmentListParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Page size, maximum 100.
     Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
     // Pagination cursor (recommended); take the value from `next_page` in the previous
@@ -3470,6 +3502,8 @@ func (r EnvironmentListParams) URLQuery() (url.Values, error)
 
 ```go
 type EnvironmentNewParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Environment name; must not be empty after trimming surrounding whitespace.
     Name string `json:"name" api:"required"`
     // Description.
@@ -3493,6 +3527,15 @@ type EnvironmentNewParams struct {
 
 ```go
 func (r EnvironmentNewParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="EnvironmentNewParams.URLQuery"></a>
+### func \(EnvironmentNewParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+```go
+func (r EnvironmentNewParams) URLQuery() (url.Values, error)
 ```
 
 
@@ -3596,6 +3639,8 @@ Update Environment
 
 ```go
 type EnvironmentUpdateParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // New name.
     Name param.Opt[string] `json:"name,omitzero"`
     // New description.
@@ -3615,6 +3660,15 @@ type EnvironmentUpdateParams struct {
 
 ```go
 func (r EnvironmentUpdateParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="EnvironmentUpdateParams.URLQuery"></a>
+### func \(EnvironmentUpdateParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+```go
+func (r EnvironmentUpdateParams) URLQuery() (url.Values, error)
 ```
 
 
@@ -3805,6 +3859,8 @@ func (r *EventContentUnionParam) UnmarshalJSON(data []byte) error
 
 ```go
 type FileListParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Page size, maximum 100.
     Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
     // Pagination cursor (recommended), taken from `next_page` in the previous response;
@@ -3979,6 +4035,8 @@ Upload File
 
 ```go
 type FileUploadParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Content of the file to upload. For accepted types see
     // [Supported upload file types](./schemas.md).
     File io.Reader `json:"file" api:"required" format:"binary"`
@@ -4004,6 +4062,15 @@ type FileUploadParams struct {
 
 ```go
 func (r FileUploadParams) MarshalMultipart() ([]byte, string, error)
+```
+
+
+
+<a name="FileUploadParams.URLQuery"></a>
+### func \(FileUploadParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/file.go>)
+
+```go
+func (r FileUploadParams) URLQuery() (url.Values, error)
 ```
 
 
@@ -10039,10 +10106,14 @@ func (r *SessionUpdateParamsConfigParam) UnmarshalJSON(data []byte) error
 
 ```go
 type SessionUsage struct {
-    TotalCredits float64 `json:"total_credits"`
-    JSON         struct {
-        TotalCredits respjson.Field
-        ExtraFields  map[string]respjson.Field
+    TotalCredits          float64 `json:"total_credits"`
+    ModelCredits          float64 `json:"model_credits"`
+    SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+    JSON                  struct {
+        ModelCredits          respjson.Field
+        SandboxRuntimeCredits respjson.Field
+        TotalCredits          respjson.Field
+        ExtraFields           map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -10202,6 +10273,8 @@ func (r *SkillBindingParam) UnmarshalJSON(data []byte) error
 
 ```go
 type SkillGetParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // ⚠️ **Deprecated**: when `true`, the response also carries `content` and
     // `content_encoding` (a base64 zip). Responses carry the `Deprecation: true` header
     // when it is used. Use [Download Skill version content](./Versions/download.md)
@@ -10227,6 +10300,8 @@ func (r SkillGetParams) URLQuery() (url.Values, error)
 
 ```go
 type SkillListParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Page size, maximum 100.
     Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
     // Pagination cursor (recommended), taken from `next_page` in the previous response;
@@ -10264,6 +10339,8 @@ func (r SkillListParams) URLQuery() (url.Values, error)
 
 ```go
 type SkillNewParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Recommended upload field, which may **repeat** several times. Two shapes are
     // supported: (1) a single `.zip` archive; (2) a bare file tree — each part uploads
     // one file and carries its relative path in `filename` (such as
@@ -10300,6 +10377,15 @@ type SkillNewParams struct {
 
 ```go
 func (r SkillNewParams) MarshalMultipart() ([]byte, string, error)
+```
+
+
+
+<a name="SkillNewParams.URLQuery"></a>
+### func \(SkillNewParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/skill.go>)
+
+```go
+func (r SkillNewParams) URLQuery() (url.Values, error)
 ```
 
 
@@ -10456,6 +10542,8 @@ Update Skill
 
 ```go
 type SkillUpdateParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // New description.
     Description param.Opt[string] `json:"description,omitzero"`
     // New content (the contents of a zip archive). Neither the archive itself nor its
@@ -10486,6 +10574,15 @@ type SkillUpdateParams struct {
 
 ```go
 func (r SkillUpdateParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="SkillUpdateParams.URLQuery"></a>
+### func \(SkillUpdateParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/skill.go>)
+
+```go
+func (r SkillUpdateParams) URLQuery() (url.Values, error)
 ```
 
 
@@ -10560,6 +10657,8 @@ func (r *SkillVersion) UnmarshalJSON(data []byte) error
 
 ```go
 type SkillVersionListParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Page size, maximum 100, default 20.
     Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
     // Cursor for paging forward; take the value from `next_page` in the previous
@@ -10585,6 +10684,8 @@ func (r SkillVersionListParams) URLQuery() (url.Values, error)
 
 ```go
 type SkillVersionNewParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Upload field, which may appear **multiple** times. Two shapes are supported: • a
     // single `.zip` archive; • a bare file tree, where every part uploads one file and
     // `filename` carries its relative path (e.g. `customer-reply/SKILL.md`,
@@ -10600,6 +10701,15 @@ type SkillVersionNewParams struct {
 
 ```go
 func (r SkillVersionNewParams) MarshalMultipart() ([]byte, string, error)
+```
+
+
+
+<a name="SkillVersionNewParams.URLQuery"></a>
+### func \(SkillVersionNewParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/skillversion.go>)
+
+```go
+func (r SkillVersionNewParams) URLQuery() (url.Values, error)
 ```
 
 
@@ -11677,6 +11787,8 @@ func (r *VaultCredentialAuth) UnmarshalJSON(data []byte) error
 
 ```go
 type VaultCredentialListParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Page size, maximum 100.
     Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
     // Pagination cursor (recommended), taken from `next_page` in the previous response;
@@ -11708,6 +11820,8 @@ func (r VaultCredentialListParams) URLQuery() (url.Values, error)
 
 ```go
 type VaultCredentialNewParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Credential authentication material; supports `static_bearer` and `mcp_oauth`. The
     // response only returns redacted, non-secret fields.
     Auth map[string]any `json:"auth" api:"required"`
@@ -11729,6 +11843,15 @@ type VaultCredentialNewParams struct {
 
 ```go
 func (r VaultCredentialNewParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="VaultCredentialNewParams.URLQuery"></a>
+### func \(VaultCredentialNewParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vaultcredential.go>)
+
+```go
+func (r VaultCredentialNewParams) URLQuery() (url.Values, error)
 ```
 
 
@@ -11896,6 +12019,8 @@ func (r *VaultCredentialUpdateParams) UnmarshalJSON(data []byte) error
 
 ```go
 type VaultListParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Page size, maximum 100.
     Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
     // Pagination cursor (recommended), taken from `next_page` in the previous
@@ -11927,6 +12052,8 @@ func (r VaultListParams) URLQuery() (url.Values, error)
 
 ```go
 type VaultNewParams struct {
+    // Select identity ownership with a PAT. Omit when using a SAT.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
     // Vault display name.
     DisplayName string `json:"display_name" api:"required"`
     // Metadata object; `created_by` is reserved and cannot be supplied (supplying it
@@ -11944,6 +12071,15 @@ type VaultNewParams struct {
 
 ```go
 func (r VaultNewParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="VaultNewParams.URLQuery"></a>
+### func \(VaultNewParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vault.go>)
+
+```go
+func (r VaultNewParams) URLQuery() (url.Values, error)
 ```
 
 
@@ -18258,8 +18394,8 @@ type DeploymentNewParams struct {
     Name string `json:"name" api:"required"`
     // Description of what the deployment does.
     Description param.Opt[string] `json:"description,omitzero"`
-    // A hard spend ceiling. The session stops issuing new model requests once the
-    // tracked list cost reaches `max_list_cost`.
+    // A total model and sandbox credit limit. Once reached, new user messages are
+    // rejected; an already running turn continues to completion.
     Budget ManagedAgentsBudgetLimitParam `json:"budget,omitzero"`
     // Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
     // to 512 chars.
@@ -18832,8 +18968,8 @@ type DeploymentUpdateParams struct {
     // version, or an `agent` object with both id and version specified. Omit to
     // preserve. Cannot be cleared.
     Agent DeploymentUpdateParamsAgentUnion `json:"agent,omitzero"`
-    // A hard spend ceiling. The session stops issuing new model requests once the
-    // tracked list cost reaches `max_list_cost`.
+    // A total model and sandbox credit limit. Once reached, new user messages are
+    // rejected; an already running turn continues to completion.
     Budget ManagedAgentsBudgetLimitParam `json:"budget,omitzero"`
     // Initial events. Full replacement. Omit to preserve. Cannot be cleared. At least
     // 1, maximum 50.
@@ -23202,6 +23338,8 @@ Indicates that context compaction \(summarization\) occurred during the session.
 
 ```go
 type ManagedAgentsAgentThreadContextCompactedEvent struct {
+    // Credits for this compaction call, already included in Session totals.
+    Usage ManagedAgentsSpanModelUsage `json:"usage"`
     // Unique identifier for this event.
     ID  string `json:"id" api:"required"`
     // A timestamp in RFC 3339 format
@@ -23210,6 +23348,7 @@ type ManagedAgentsAgentThreadContextCompactedEvent struct {
     Type ManagedAgentsAgentThreadContextCompactedEventType `json:"type" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
+        Usage       respjson.Field
         ID          respjson.Field
         ProcessedAt respjson.Field
         Type        respjson.Field
@@ -26101,19 +26240,19 @@ const (
 <a name="ManagedAgentsBudgetLimit"></a>
 ## type [ManagedAgentsBudgetLimit](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
 
-A hard spend ceiling. The session stops issuing new model requests once the tracked list cost reaches \`max\_list\_cost\`.
+A total model and sandbox credit limit. Once reached, new user messages are rejected; an already running turn continues to completion.
 
 ```go
 type ManagedAgentsBudgetLimit struct {
-    // A monetary amount in a specific currency.
-    MaxListCost MonetaryAmount `json:"max_list_cost" api:"required"`
+    // Positive decimal Credits, with at most 12 integer and 2 fractional digits.
+    MaxCreditCost string `json:"max_credit_cost" api:"required"`
     // Any of "limit".
     Type ManagedAgentsBudgetLimitType `json:"type" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        MaxListCost respjson.Field
-        Type        respjson.Field
-        ExtraFields map[string]respjson.Field
+        MaxCreditCost respjson.Field
+        Type          respjson.Field
+        ExtraFields   map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -26151,14 +26290,14 @@ func (r *ManagedAgentsBudgetLimit) UnmarshalJSON(data []byte) error
 <a name="ManagedAgentsBudgetLimitParam"></a>
 ## type [ManagedAgentsBudgetLimitParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
 
-A hard spend ceiling. The session stops issuing new model requests once the tracked list cost reaches \`max\_list\_cost\`.
+A total model and sandbox credit limit. Once reached, new user messages are rejected; an already running turn continues to completion.
 
-The properties MaxListCost, Type are required.
+The properties MaxCreditCost, Type are required.
 
 ```go
 type ManagedAgentsBudgetLimitParam struct {
-    // A monetary amount in a specific currency.
-    MaxListCost MonetaryAmountParam `json:"max_list_cost,omitzero" api:"required"`
+    // Positive decimal Credits, with at most 12 integer and 2 fractional digits.
+    MaxCreditCost string `json:"max_credit_cost" api:"required"`
     // Any of "limit".
     Type ManagedAgentsBudgetLimitType `json:"type,omitzero" api:"required"`
     // contains filtered or unexported fields
@@ -27667,8 +27806,8 @@ type ManagedAgentsDeployment struct {
     // Vault IDs supplying stored credentials for sessions created from this
     // deployment.
     VaultIDs []string `json:"vault_ids" api:"required"`
-    // A hard spend ceiling. The session stops issuing new model requests once the
-    // tracked list cost reaches `max_list_cost`.
+    // A total model and sandbox credit limit. Once reached, new user messages are
+    // rejected; an already running turn continues to completion.
     Budget ManagedAgentsBudgetLimit `json:"budget" api:"nullable"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
@@ -38150,9 +38289,9 @@ type ManagedAgentsSession struct {
     Agent ManagedAgentsSessionAgent `json:"agent" api:"required"`
     // A timestamp in RFC 3339 format
     ArchivedAt time.Time `json:"archived_at" api:"required" format:"date-time"`
-    // A hard spend ceiling. The session stops issuing new model requests once the
-    // tracked list cost reaches `max_list_cost`.
-    Budget ManagedAgentsBudgetLimit `json:"budget" api:"required"`
+    // A total model and sandbox credit limit. Once reached, new user messages are
+    // rejected; an already running turn continues to completion.
+    Budget ManagedAgentsBudgetLimit `json:"budget" api:"nullable"`
     // A timestamp in RFC 3339 format
     CreatedAt     time.Time         `json:"created_at" api:"required" format:"date-time"`
     EnvironmentID string            `json:"environment_id" api:"required"`
@@ -38172,8 +38311,9 @@ type ManagedAgentsSession struct {
     Type ManagedAgentsSessionType `json:"type" api:"required"`
     // A timestamp in RFC 3339 format
     UpdatedAt time.Time `json:"updated_at" api:"required" format:"date-time"`
-    // Cumulative token usage for a session across all turns.
-    Usage ManagedAgentsSessionUsage `json:"usage" api:"required"`
+    // Cumulative Credits snapshot. Replace previous values; do not sum snapshots.
+    // Legacy token and list-cost fields remain available for older responses.
+    Usage ManagedAgentsSessionUsage `json:"usage"`
     // Vault IDs attached to the session at creation. Empty when no vaults were
     // supplied.
     VaultIDs []string `json:"vault_ids" api:"required"`
@@ -39255,7 +39395,10 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 
 ```go
 type ManagedAgentsSessionEventUnion struct {
-    ID  string `json:"id"`
+    ModelCredits          float64 `json:"model_credits"`
+    SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+    TotalCredits          float64 `json:"total_credits"`
+    ID                    string  `json:"id"`
     // This field is a union of [[]ManagedAgentsUserMessageEventContentUnion],
     // [[]ManagedAgentsUserCustomToolResultEventContentUnion],
     // [[]ManagedAgentsAgentMessageEventContentUnion],
@@ -39340,6 +39483,9 @@ type ManagedAgentsSessionEventUnion struct {
     // This field is from variant [ManagedAgentsSessionUpdatedEvent].
     Title string `json:"title"`
     JSON  struct {
+        ModelCredits             respjson.Field
+        SandboxRuntimeCredits    respjson.Field
+        TotalCredits             respjson.Field
         ID                       respjson.Field
         Content                  respjson.Field
         Type                     respjson.Field
@@ -39869,6 +40015,7 @@ For type safety it is recommended to directly use a variant of the [ManagedAgent
 
 ```go
 type ManagedAgentsSessionEventUnionUsage struct {
+    Credits float64 `json:"credits"`
     // This field is from variant [ManagedAgentsSpanModelUsage].
     CacheCreationInputTokens int64 `json:"cache_creation_input_tokens"`
     CacheReadInputTokens     int64 `json:"cache_read_input_tokens"`
@@ -39885,6 +40032,7 @@ type ManagedAgentsSessionEventUnionUsage struct {
     // This field is from variant [ManagedAgentsSessionUsageSnapshot].
     ServerToolUse ManagedAgentsServerToolUsage `json:"server_tool_use"`
     JSON          struct {
+        Credits                  respjson.Field
         CacheCreationInputTokens respjson.Field
         CacheReadInputTokens     respjson.Field
         InputTokens              respjson.Field
@@ -42154,8 +42302,8 @@ type ManagedAgentsSessionUpdatedEvent struct {
     // Resolved `agent` definition for a `session`. Snapshot of the `agent` at
     // `session` creation time.
     Agent ManagedAgentsSessionAgent `json:"agent" api:"nullable"`
-    // A hard spend ceiling. The session stops issuing new model requests once the
-    // tracked list cost reaches `max_list_cost`.
+    // A total model and sandbox credit limit. Once reached, new user messages are
+    // rejected; an already running turn continues to completion.
     Budget ManagedAgentsBudgetLimit `json:"budget" api:"nullable"`
     // The session's full metadata bag after the update. Present when the update set
     // non-empty metadata; absent when metadata was unchanged or cleared to empty.
@@ -42215,10 +42363,13 @@ const (
 <a name="ManagedAgentsSessionUsage"></a>
 ## type [ManagedAgentsSessionUsage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
 
-Cumulative token usage for a session across all turns.
+Cumulative Credits snapshot. Replace previous values; do not sum snapshots. Legacy token and list\-cost fields remain available for older responses.
 
 ```go
 type ManagedAgentsSessionUsage struct {
+    ModelCredits          float64 `json:"model_credits"`
+    SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+    TotalCredits          float64 `json:"total_credits"`
     // Cumulative time in seconds during which the session had at least one thread in
     // running status. Overlapping activity from concurrent threads is counted once,
     // unlike `stats.active_seconds`, which sums each thread's own active time. This is
@@ -42238,14 +42389,17 @@ type ManagedAgentsSessionUsage struct {
     ServerToolUse ManagedAgentsServerToolUsage `json:"server_tool_use" api:"nullable"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        ActiveSeconds        respjson.Field
-        CacheCreation        respjson.Field
-        CacheReadInputTokens respjson.Field
-        InputTokens          respjson.Field
-        ListCost             respjson.Field
-        OutputTokens         respjson.Field
-        ServerToolUse        respjson.Field
-        ExtraFields          map[string]respjson.Field
+        ModelCredits          respjson.Field
+        SandboxRuntimeCredits respjson.Field
+        TotalCredits          respjson.Field
+        ActiveSeconds         respjson.Field
+        CacheCreation         respjson.Field
+        CacheReadInputTokens  respjson.Field
+        InputTokens           respjson.Field
+        ListCost              respjson.Field
+        OutputTokens          respjson.Field
+        ServerToolUse         respjson.Field
+        ExtraFields           map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -42272,10 +42426,13 @@ func (r *ManagedAgentsSessionUsage) UnmarshalJSON(data []byte) error
 <a name="ManagedAgentsSessionUsageEvent"></a>
 ## type [ManagedAgentsSessionUsageEvent](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
 
-Periodic snapshot of the session's cumulative usage and tracked list cost.
+Cumulative Credits emitted before session.status\_idle when usage is available. Credits are top\-level fields; Usage and Budget are legacy response fields.
 
 ```go
 type ManagedAgentsSessionUsageEvent struct {
+    ModelCredits          float64 `json:"model_credits"`
+    SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+    TotalCredits          float64 `json:"total_credits"`
     // Unique identifier for this event.
     ID  string `json:"id" api:"required"`
     // A timestamp in RFC 3339 format
@@ -42283,18 +42440,21 @@ type ManagedAgentsSessionUsageEvent struct {
     // Any of "session.usage".
     Type ManagedAgentsSessionUsageEventType `json:"type" api:"required"`
     // Point-in-time snapshot of a session's cumulative usage.
-    Usage ManagedAgentsSessionUsageSnapshot `json:"usage" api:"required"`
-    // A hard spend ceiling. The session stops issuing new model requests once the
-    // tracked list cost reaches `max_list_cost`.
+    Usage ManagedAgentsSessionUsageSnapshot `json:"usage"`
+    // A total model and sandbox credit limit. Once reached, new user messages are
+    // rejected; an already running turn continues to completion.
     Budget ManagedAgentsBudgetLimit `json:"budget" api:"nullable"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        ID          respjson.Field
-        ProcessedAt respjson.Field
-        Type        respjson.Field
-        Usage       respjson.Field
-        Budget      respjson.Field
-        ExtraFields map[string]respjson.Field
+        ModelCredits          respjson.Field
+        SandboxRuntimeCredits respjson.Field
+        TotalCredits          respjson.Field
+        ID                    respjson.Field
+        ProcessedAt           respjson.Field
+        Type                  respjson.Field
+        Usage                 respjson.Field
+        Budget                respjson.Field
+        ExtraFields           map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -42591,8 +42751,8 @@ type ManagedAgentsSpanModelRequestEndEvent struct {
     IsError bool `json:"is_error" api:"required"`
     // The id of the corresponding `span.model_request_start` event.
     ModelRequestStartID string `json:"model_request_start_id" api:"required"`
-    // Token usage for a single model request.
-    ModelUsage ManagedAgentsSpanModelUsage `json:"model_usage" api:"required"`
+    // Credits for a single model request; legacy token fields may appear in older responses.
+    ModelUsage ManagedAgentsSpanModelUsage `json:"model_usage"`
     // A timestamp in RFC 3339 format
     ProcessedAt time.Time `json:"processed_at" api:"required" format:"date-time"`
     // Any of "span.model_request_end".
@@ -42708,18 +42868,19 @@ const (
 <a name="ManagedAgentsSpanModelUsage"></a>
 ## type [ManagedAgentsSpanModelUsage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionevent.go>)
 
-Token usage for a single model request.
+Credits for a single model request; legacy token fields may appear in older responses.
 
 ```go
 type ManagedAgentsSpanModelUsage struct {
+    Credits float64 `json:"credits"`
     // Tokens used to create prompt cache in this request.
-    CacheCreationInputTokens int64 `json:"cache_creation_input_tokens" api:"required"`
+    CacheCreationInputTokens int64 `json:"cache_creation_input_tokens"`
     // Tokens read from prompt cache in this request.
-    CacheReadInputTokens int64 `json:"cache_read_input_tokens" api:"required"`
+    CacheReadInputTokens int64 `json:"cache_read_input_tokens"`
     // Input tokens consumed by this request.
-    InputTokens int64 `json:"input_tokens" api:"required"`
+    InputTokens int64 `json:"input_tokens"`
     // Output tokens generated by this request.
-    OutputTokens int64 `json:"output_tokens" api:"required"`
+    OutputTokens int64 `json:"output_tokens"`
     // Inference speed mode. `fast` provides significantly faster output token
     // generation at premium pricing. Not all models support `fast`; invalid
     // combinations are rejected at create time.
@@ -42728,6 +42889,7 @@ type ManagedAgentsSpanModelUsage struct {
     Speed ManagedAgentsSpanModelUsageSpeed `json:"speed" api:"nullable"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
+        Credits                  respjson.Field
         CacheCreationInputTokens respjson.Field
         CacheReadInputTokens     respjson.Field
         InputTokens              respjson.Field
@@ -42806,7 +42968,7 @@ type ManagedAgentsSpanOutcomeEvaluationEndEvent struct {
     Result string `json:"result" api:"required"`
     // Any of "span.outcome_evaluation_end".
     Type ManagedAgentsSpanOutcomeEvaluationEndEventType `json:"type" api:"required"`
-    // Token usage for a single model request.
+    // Credits for a single model request; legacy token fields may appear in older responses.
     Usage ManagedAgentsSpanModelUsage `json:"usage" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
@@ -43300,7 +43462,10 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 
 ```go
 type ManagedAgentsStreamSessionEventsUnion struct {
-    ID  string `json:"id"`
+    ModelCredits          float64 `json:"model_credits"`
+    SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+    TotalCredits          float64 `json:"total_credits"`
+    ID                    string  `json:"id"`
     // This field is a union of [[]ManagedAgentsUserMessageEventContentUnion],
     // [[]ManagedAgentsUserCustomToolResultEventContentUnion],
     // [[]ManagedAgentsAgentMessageEventContentUnion],
@@ -43391,6 +43556,9 @@ type ManagedAgentsStreamSessionEventsUnion struct {
     // This field is from variant [ManagedAgentsDeltaEvent].
     EventID string `json:"event_id"`
     JSON    struct {
+        ModelCredits             respjson.Field
+        SandboxRuntimeCredits    respjson.Field
+        TotalCredits             respjson.Field
         ID                       respjson.Field
         Content                  respjson.Field
         Type                     respjson.Field
@@ -43943,6 +44111,7 @@ For type safety it is recommended to directly use a variant of the [ManagedAgent
 
 ```go
 type ManagedAgentsStreamSessionEventsUnionUsage struct {
+    Credits float64 `json:"credits"`
     // This field is from variant [ManagedAgentsSpanModelUsage].
     CacheCreationInputTokens int64 `json:"cache_creation_input_tokens"`
     CacheReadInputTokens     int64 `json:"cache_read_input_tokens"`
@@ -43959,6 +44128,7 @@ type ManagedAgentsStreamSessionEventsUnionUsage struct {
     // This field is from variant [ManagedAgentsSessionUsageSnapshot].
     ServerToolUse ManagedAgentsServerToolUsage `json:"server_tool_use"`
     JSON          struct {
+        Credits                  respjson.Field
         CacheCreationInputTokens respjson.Field
         CacheReadInputTokens     respjson.Field
         InputTokens              respjson.Field
@@ -43993,7 +44163,10 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 
 ```go
 type ManagedAgentsStreamSessionThreadEventsUnion struct {
-    ID  string `json:"id"`
+    ModelCredits          float64 `json:"model_credits"`
+    SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+    TotalCredits          float64 `json:"total_credits"`
+    ID                    string  `json:"id"`
     // This field is a union of [[]ManagedAgentsUserMessageEventContentUnion],
     // [[]ManagedAgentsUserCustomToolResultEventContentUnion],
     // [[]ManagedAgentsAgentMessageEventContentUnion],
@@ -44084,6 +44257,9 @@ type ManagedAgentsStreamSessionThreadEventsUnion struct {
     // This field is from variant [ManagedAgentsDeltaEvent].
     EventID string `json:"event_id"`
     JSON    struct {
+        ModelCredits             respjson.Field
+        SandboxRuntimeCredits    respjson.Field
+        TotalCredits             respjson.Field
         ID                       respjson.Field
         Content                  respjson.Field
         Type                     respjson.Field
@@ -44636,6 +44812,7 @@ For type safety it is recommended to directly use a variant of the [ManagedAgent
 
 ```go
 type ManagedAgentsStreamSessionThreadEventsUnionUsage struct {
+    Credits float64 `json:"credits"`
     // This field is from variant [ManagedAgentsSpanModelUsage].
     CacheCreationInputTokens int64 `json:"cache_creation_input_tokens"`
     CacheReadInputTokens     int64 `json:"cache_read_input_tokens"`
@@ -44652,6 +44829,7 @@ type ManagedAgentsStreamSessionThreadEventsUnionUsage struct {
     // This field is from variant [ManagedAgentsSessionUsageSnapshot].
     ServerToolUse ManagedAgentsServerToolUsage `json:"server_tool_use"`
     JSON          struct {
+        Credits                  respjson.Field
         CacheCreationInputTokens respjson.Field
         CacheReadInputTokens     respjson.Field
         InputTokens              respjson.Field
@@ -52180,8 +52358,8 @@ type SessionNewParams struct {
     EnvironmentID string `json:"environment_id" api:"required"`
     // Human-readable session title.
     Title param.Opt[string] `json:"title,omitzero"`
-    // A hard spend ceiling. The session stops issuing new model requests once the
-    // tracked list cost reaches `max_list_cost`.
+    // A total model and sandbox credit limit. Once reached, new user messages are
+    // rejected; an already running turn continues to completion.
     Budget ManagedAgentsBudgetLimitParam `json:"budget,omitzero"`
     // Initial events to send to the `session` at creation, processed in order.
     // Supports `user.message` and `user.define_outcome` events. Maximum 50 events.
@@ -53293,8 +53471,8 @@ type SessionUpdateParams struct {
     // updatable. Full replacement: the provided array becomes the new value. To
     // preserve existing entries, GET the session, modify the array, and POST it back.
     Agent ManagedAgentsSessionAgentUpdateParam `json:"agent,omitzero"`
-    // A hard spend ceiling. The session stops issuing new model requests once the
-    // tracked list cost reaches `max_list_cost`.
+    // A total model and sandbox credit limit. Once reached, new user messages are
+    // rejected; an already running turn continues to completion.
     Budget ManagedAgentsBudgetLimitParam `json:"budget,omitzero"`
     // Vault IDs (`vlt_*`) to attach to the session. Not yet supported; requests
     // setting this field are rejected. Reserved for future use.

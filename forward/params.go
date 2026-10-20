@@ -10,6 +10,7 @@ import (
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apiform"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apijson"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/param"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/respjson"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/thirdparty/gjson"
@@ -23,6 +24,13 @@ func String(v string) param.Opt[string]  { return param.NewOpt(v) }
 func Int(v int64) param.Opt[int64]       { return param.NewOpt(v) }
 func Bool(v bool) param.Opt[bool]        { return param.NewOpt(v) }
 func Float(v float64) param.Opt[float64] { return param.NewOpt(v) }
+
+// WithIdentityID selects identity ownership for Forward resources using a PAT.
+// Omit this option when using a SAT; its identity is inferred by the server.
+// Use it on retrieval, deletion, archive, and download methods without params.
+func WithIdentityID(identityID string) option.RequestOption {
+	return option.WithQuery("identity_id", identityID)
+}
 
 // ModelConfig preserves either a model ID string or an object from the API.
 // ID is populated for both shapes; RawJSON retains the original representation.
