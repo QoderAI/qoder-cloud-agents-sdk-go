@@ -407,6 +407,10 @@ func (r *ManagedAgentsSessionThreadUsage) UnmarshalJSON(data []byte) error {
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ManagedAgentsStreamSessionThreadEventsUnion struct {
+	FileID                string  `json:"file_id"`
+	OriginalFilename      string  `json:"original_filename"`
+	Size                  int64   `json:"size"`
+	ContentType           string  `json:"content_type"`
 	ModelCredits          float64 `json:"model_credits"`
 	SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
 	TotalCredits          float64 `json:"total_credits"`
@@ -501,6 +505,10 @@ type ManagedAgentsStreamSessionThreadEventsUnion struct {
 	// This field is from variant [ManagedAgentsDeltaEvent].
 	EventID string `json:"event_id"`
 	JSON    struct {
+		FileID                   respjson.Field
+		OriginalFilename         respjson.Field
+		Size                     respjson.Field
+		ContentType              respjson.Field
 		ModelCredits             respjson.Field
 		SandboxRuntimeCredits    respjson.Field
 		TotalCredits             respjson.Field
@@ -659,6 +667,8 @@ func (ManagedAgentsSessionUsageEvent) implManagedAgentsStreamSessionThreadEvents
 //	}
 func (u ManagedAgentsStreamSessionThreadEventsUnion) AsAny() anyManagedAgentsStreamSessionThreadEvents {
 	switch u.Type {
+	case "agent.artifact_delivered":
+		return u.AsAgentArtifactDelivered()
 	case "user.message":
 		return u.AsUserMessage()
 	case "user.interrupt":
@@ -1093,4 +1103,10 @@ type SessionThreadArchiveParams struct {
 	// Optional header to specify the beta version(s) you want to use.
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
+}
+
+func (ManagedAgentsAgentArtifactDeliveredEvent) implManagedAgentsStreamSessionThreadEventsUnion() {}
+func (u ManagedAgentsStreamSessionThreadEventsUnion) AsAgentArtifactDelivered() (v ManagedAgentsAgentArtifactDeliveredEvent) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
 }

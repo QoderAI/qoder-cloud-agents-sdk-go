@@ -804,10 +804,10 @@ const (
 
 // Mount a GitHub repository into the session's container.
 //
-// The properties AuthorizationToken, Type, URL are required.
+// The properties Type and URL are required.
 type ManagedAgentsGitHubRepositoryResourceParams struct {
 	// GitHub authorization token used to clone the repository.
-	AuthorizationToken string `json:"authorization_token" api:"required"`
+	AuthorizationToken string `json:"authorization_token,omitzero"`
 	// Any of "github_repository".
 	Type ManagedAgentsGitHubRepositoryResourceParamsType `json:"type,omitzero" api:"required"`
 	// Github URL of the repository
@@ -2690,6 +2690,7 @@ func init() {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type SessionNewParamsResourceUnion struct {
+	OfGitRepository    *ManagedAgentsGitRepositoryResourceParams    `json:",omitzero,inline"`
 	OfGitHubRepository *ManagedAgentsGitHubRepositoryResourceParams `json:",omitzero,inline"`
 	OfFile             *ManagedAgentsFileResourceParams             `json:",omitzero,inline"`
 	OfMemoryStore      *ManagedAgentsMemoryStoreResourceParam       `json:",omitzero,inline"`
@@ -2697,13 +2698,16 @@ type SessionNewParamsResourceUnion struct {
 }
 
 func (u SessionNewParamsResourceUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfGitHubRepository, u.OfFile, u.OfMemoryStore)
+	return param.MarshalUnion(u, u.OfGitRepository, u.OfGitHubRepository, u.OfFile, u.OfMemoryStore)
 }
 func (u *SessionNewParamsResourceUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *SessionNewParamsResourceUnion) asAny() any {
+	if !param.IsOmitted(u.OfGitRepository) {
+		return u.OfGitRepository
+	}
 	if !param.IsOmitted(u.OfGitHubRepository) {
 		return u.OfGitHubRepository
 	} else if !param.IsOmitted(u.OfFile) {
@@ -2724,6 +2728,9 @@ func (u SessionNewParamsResourceUnion) GetAuthorizationToken() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u SessionNewParamsResourceUnion) GetURL() *string {
+	if v := u.OfGitRepository; v != nil {
+		return &v.URL
+	}
 	if vt := u.OfGitHubRepository; vt != nil {
 		return &vt.URL
 	}
@@ -2732,6 +2739,9 @@ func (u SessionNewParamsResourceUnion) GetURL() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u SessionNewParamsResourceUnion) GetCheckout() *ManagedAgentsGitHubRepositoryResourceParamsCheckoutUnion {
+	if v := u.OfGitRepository; v != nil {
+		return &v.Checkout
+	}
 	if vt := u.OfGitHubRepository; vt != nil {
 		return &vt.Checkout
 	}
@@ -2772,6 +2782,9 @@ func (u SessionNewParamsResourceUnion) GetInstructions() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u SessionNewParamsResourceUnion) GetType() *string {
+	if v := u.OfGitRepository; v != nil {
+		return (*string)(&v.Type)
+	}
 	if vt := u.OfGitHubRepository; vt != nil {
 		return (*string)(&vt.Type)
 	} else if vt := u.OfFile; vt != nil {
@@ -2784,6 +2797,9 @@ func (u SessionNewParamsResourceUnion) GetType() *string {
 
 // Returns a pointer to the underlying variant's property, if present.
 func (u SessionNewParamsResourceUnion) GetMountPath() *string {
+	if v := u.OfGitRepository; v != nil && v.MountPath.Valid() {
+		return &v.MountPath.Value
+	}
 	if vt := u.OfGitHubRepository; vt != nil && vt.MountPath.Valid() {
 		return &vt.MountPath.Value
 	} else if vt := u.OfFile; vt != nil && vt.MountPath.Valid() {
@@ -2795,6 +2811,7 @@ func (u SessionNewParamsResourceUnion) GetMountPath() *string {
 func init() {
 	apijson.RegisterUnion[SessionNewParamsResourceUnion](
 		"type",
+		apijson.Discriminator[ManagedAgentsGitRepositoryResourceParams]("git_repository"),
 		apijson.Discriminator[ManagedAgentsGitHubRepositoryResourceParams]("github_repository"),
 		apijson.Discriminator[ManagedAgentsFileResourceParams]("file"),
 		apijson.Discriminator[ManagedAgentsMemoryStoreResourceParam]("memory_store"),
@@ -2947,4 +2964,36 @@ type SessionCancelResponse struct {
 func (r SessionCancelResponse) RawJSON() string { return r.JSON.raw }
 func (r *SessionCancelResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+// Mount an HTTP(S) Git repository. For authenticated access, put the username in
+// the URL and supply a password or access token; credentials are never returned.
+type ManagedAgentsGitRepositoryResourceParams struct {
+	Type      ManagedAgentsGitRepositoryResourceParamsType          `json:"type,omitzero" api:"required"`
+	URL       string                                                `json:"url" api:"required"`
+	Password  param.Opt[string]                                     `json:"password,omitzero"`
+	MountPath param.Opt[string]                                     `json:"mount_path,omitzero"`
+	Checkout  ManagedAgentsGitRepositoryResourceParamsCheckoutUnion `json:"checkout,omitzero"`
+	paramObj
+}
+
+func (r ManagedAgentsGitRepositoryResourceParams) MarshalJSON() ([]byte, error) {
+	type shadow ManagedAgentsGitRepositoryResourceParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ManagedAgentsGitRepositoryResourceParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ManagedAgentsGitRepositoryResourceParamsType string
+
+const ManagedAgentsGitRepositoryResourceParamsTypeGitRepository ManagedAgentsGitRepositoryResourceParamsType = "git_repository"
+
+type ManagedAgentsGitRepositoryResourceParamsCheckoutUnion = ManagedAgentsGitHubRepositoryResourceParamsCheckoutUnion
+
+func (u SessionNewParamsResourceUnion) GetPassword() *string {
+	if v := u.OfGitRepository; v != nil && v.Password.Valid() {
+		return &v.Password.Value
+	}
+	return nil
 }

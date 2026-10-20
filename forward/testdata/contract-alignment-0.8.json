@@ -1,0 +1,120 @@
+{
+  "source": "https://docs.qoder.com/cloud-agents/api/sessions/schemas",
+  "retrieved_at": "2026-10-20",
+  "git": {
+    "type": "git_repository",
+    "url": "https://user@git.example.test/team/repo.git",
+    "password": "contract-placeholder",
+    "mount_path": "/repos/demo",
+    "checkout": {
+      "type": "branch",
+      "name": "main"
+    }
+  },
+  "github": {
+    "type": "github_repository",
+    "url": "https://github.com/QoderAI/forward-quickstart"
+  },
+  "mount": {
+    "identity_id": "idn_one",
+    "template_id": "tmpl_one",
+    "access": "read_write"
+  },
+  "environment": {
+    "id": "env_one",
+    "config": {
+      "type": "self_hosted",
+      "setup_script": "echo sdk-contract"
+    },
+    "icon_url": null,
+    "binding_info": {
+      "agent_template_count": 0
+    }
+  },
+  "session": {
+    "id": "sess_one",
+    "outcome_evaluations": [
+      {
+        "type": "outcome_evaluation",
+        "outcome_id": "out_one",
+        "description": "Deliver report",
+        "iteration": 0,
+        "result": "pending",
+        "explanation": null,
+        "completed_at": null
+      }
+    ]
+  },
+  "thread": {
+    "id": "sthr_one",
+    "stats": {
+      "active_seconds": 0,
+      "duration_seconds": 0,
+      "startup_seconds": 0
+    },
+    "usage": {
+      "total_credits": 0
+    }
+  },
+  "schedule": {
+    "id": "sch_one",
+    "source": "api",
+    "source_session_id": null,
+    "initial_events_version": 2,
+    "trigger_policy": {
+      "type": "cron",
+      "expression": "0 * * * *",
+      "timezone": "UTC",
+      "start_at": "2026-10-20T00:00:00Z",
+      "stop_at": "2026-10-21T00:00:00Z",
+      "last_run_at": null
+    }
+  },
+  "run": {
+    "id": "run_one",
+    "source": "tool",
+    "source_session_id": "sess_one"
+  },
+  "memory_store": {
+    "id": "mem_one",
+    "status": "active",
+    "entry_count": 0,
+    "total_size": 0
+  },
+  "dream": {
+    "id": "dream_one",
+    "outputs": [
+      {
+        "type": "memory_store",
+        "memory_store_id": "mem_one",
+        "files_touched": [
+          "notes.md",
+          "summary.md"
+        ]
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "evt_artifact",
+      "type": "agent.artifact_delivered",
+      "file_id": "file_one",
+      "original_filename": "report.txt",
+      "size": 0,
+      "content_type": "text/plain",
+      "processed_at": "2026-10-20T00:00:00Z"
+    },
+    {
+      "id": "evt_error",
+      "type": "session.error",
+      "error": {
+        "type": "model_request_failed_error",
+        "message": "Contract fixture",
+        "qoder_error_code": "TEST_DIAGNOSTIC",
+        "retry_status": {
+          "type": "terminal"
+        }
+      }
+    }
+  ]
+}

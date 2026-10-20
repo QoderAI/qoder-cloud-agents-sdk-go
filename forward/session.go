@@ -51,6 +51,8 @@ func (r *SessionService) ListAutoPaging(ctx context.Context, params SessionListP
 }
 
 type SessionListParams struct {
+	// Match an exact sess_ ID or search Session titles.
+	Search param.Opt[string] `query:"search,omitzero" json:"-"`
 	// Filter by one or more Identity IDs, comma-separated.
 	IdentityIDs []string `query:"identity_ids,omitzero" json:"-"`
 	// Filter by Forward Template ID.
@@ -241,6 +243,7 @@ func (r SessionCancelParams) URLQuery() (url.Values, error) {
 }
 
 type Session struct {
+	OutcomeEvaluations []SessionOutcomeEvaluation `json:"outcome_evaluations"`
 	// Session ID.
 	ID string `json:"id"`
 	// Always `session`.
@@ -263,23 +266,24 @@ type Session struct {
 	CreatedAt  time.Time         `json:"created_at" format:"date-time"`
 	UpdatedAt  time.Time         `json:"updated_at" format:"date-time"`
 	JSON       struct {
-		ID          respjson.Field
-		Type        respjson.Field
-		IdentityID  respjson.Field
-		Template    respjson.Field
-		SourceType  respjson.Field
-		Status      respjson.Field
-		Title       respjson.Field
-		Metadata    respjson.Field
-		Config      respjson.Field
-		Resources   respjson.Field
-		Stats       respjson.Field
-		Usage       respjson.Field
-		ArchivedAt  respjson.Field
-		CreatedAt   respjson.Field
-		UpdatedAt   respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		OutcomeEvaluations respjson.Field
+		ID                 respjson.Field
+		Type               respjson.Field
+		IdentityID         respjson.Field
+		Template           respjson.Field
+		SourceType         respjson.Field
+		Status             respjson.Field
+		Title              respjson.Field
+		Metadata           respjson.Field
+		Config             respjson.Field
+		Resources          respjson.Field
+		Stats              respjson.Field
+		Usage              respjson.Field
+		ArchivedAt         respjson.Field
+		CreatedAt          respjson.Field
+		UpdatedAt          respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -347,3 +351,29 @@ type SessionTemplate struct {
 
 func (r SessionTemplate) RawJSON() string                  { return r.JSON.raw }
 func (r *SessionTemplate) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+type SessionOutcomeEvaluation struct {
+	Type        string    `json:"type"`
+	OutcomeID   string    `json:"outcome_id"`
+	Description string    `json:"description"`
+	Iteration   int64     `json:"iteration"`
+	Result      string    `json:"result"`
+	Explanation string    `json:"explanation" api:"nullable"`
+	CompletedAt time.Time `json:"completed_at" api:"nullable" format:"date-time"`
+	JSON        struct {
+		Type        respjson.Field
+		OutcomeID   respjson.Field
+		Description respjson.Field
+		Iteration   respjson.Field
+		Result      respjson.Field
+		Explanation respjson.Field
+		CompletedAt respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+func (r SessionOutcomeEvaluation) RawJSON() string { return r.JSON.raw }
+func (r *SessionOutcomeEvaluation) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}

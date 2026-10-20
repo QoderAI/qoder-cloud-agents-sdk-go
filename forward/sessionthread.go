@@ -109,6 +109,8 @@ func (r SessionThreadArchiveParams) URLQuery() (url.Values, error) {
 }
 
 type SessionThread struct {
+	Stats              SessionThreadStats      `json:"stats"`
+	Usage              SessionThreadUsage      `json:"usage"`
 	ID                 string                  `json:"id"`
 	Type               string                  `json:"type"`
 	SessionID          string                  `json:"session_id"`
@@ -123,6 +125,8 @@ type SessionThread struct {
 	CreatedByToolUseID string                  `json:"created_by_tool_use_id"`
 	ArchivedAt         time.Time               `json:"archived_at" format:"date-time"`
 	JSON               struct {
+		Stats              respjson.Field
+		Usage              respjson.Field
 		ID                 respjson.Field
 		Type               respjson.Field
 		SessionID          respjson.Field
@@ -157,3 +161,31 @@ func (r SessionThreadStopReason) RawJSON() string { return r.JSON.raw }
 func (r *SessionThreadStopReason) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+type SessionThreadStats struct {
+	ActiveSeconds   int64 `json:"active_seconds"`
+	DurationSeconds int64 `json:"duration_seconds"`
+	StartupSeconds  int64 `json:"startup_seconds"`
+	JSON            struct {
+		ActiveSeconds   respjson.Field
+		DurationSeconds respjson.Field
+		StartupSeconds  respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
+	} `json:"-"`
+}
+
+func (r SessionThreadStats) RawJSON() string                  { return r.JSON.raw }
+func (r *SessionThreadStats) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+type SessionThreadUsage struct {
+	TotalCredits float64 `json:"total_credits"`
+	JSON         struct {
+		TotalCredits respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (r SessionThreadUsage) RawJSON() string                  { return r.JSON.raw }
+func (r *SessionThreadUsage) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }

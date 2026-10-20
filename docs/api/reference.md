@@ -200,6 +200,9 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type Environment](<#Environment>)
   - [func \(r Environment\) RawJSON\(\) string](<#Environment.RawJSON>)
   - [func \(r \*Environment\) UnmarshalJSON\(data \[\]byte\) error](<#Environment.UnmarshalJSON>)
+- [type EnvironmentBindingInfo](<#EnvironmentBindingInfo>)
+  - [func \(r EnvironmentBindingInfo\) RawJSON\(\) string](<#EnvironmentBindingInfo.RawJSON>)
+  - [func \(r \*EnvironmentBindingInfo\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentBindingInfo.UnmarshalJSON>)
 - [type EnvironmentConfig](<#EnvironmentConfig>)
   - [func \(r EnvironmentConfig\) RawJSON\(\) string](<#EnvironmentConfig.RawJSON>)
   - [func \(r \*EnvironmentConfig\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentConfig.UnmarshalJSON>)
@@ -412,6 +415,9 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type MemoryStoreNewParams](<#MemoryStoreNewParams>)
   - [func \(r MemoryStoreNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#MemoryStoreNewParams.MarshalJSON>)
   - [func \(r \*MemoryStoreNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#MemoryStoreNewParams.UnmarshalJSON>)
+- [type MemoryStoreNewParamsMount](<#MemoryStoreNewParamsMount>)
+  - [func \(r MemoryStoreNewParamsMount\) MarshalJSON\(\) \(\[\]byte, error\)](<#MemoryStoreNewParamsMount.MarshalJSON>)
+  - [func \(r \*MemoryStoreNewParamsMount\) UnmarshalJSON\(data \[\]byte\) error](<#MemoryStoreNewParamsMount.UnmarshalJSON>)
 - [type MemoryStoreService](<#MemoryStoreService>)
   - [func NewMemoryStoreService\(opts ...option.RequestOption\) MemoryStoreService](<#NewMemoryStoreService>)
   - [func \(r \*MemoryStoreService\) Archive\(ctx context.Context, memoryStoreID string, opts ...option.RequestOption\) \(res \*MemoryStore, err error\)](<#MemoryStoreService.Archive>)
@@ -686,6 +692,9 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type SessionNewParamsConfigParam](<#SessionNewParamsConfigParam>)
   - [func \(r SessionNewParamsConfigParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#SessionNewParamsConfigParam.MarshalJSON>)
   - [func \(r \*SessionNewParamsConfigParam\) UnmarshalJSON\(data \[\]byte\) error](<#SessionNewParamsConfigParam.UnmarshalJSON>)
+- [type SessionOutcomeEvaluation](<#SessionOutcomeEvaluation>)
+  - [func \(r SessionOutcomeEvaluation\) RawJSON\(\) string](<#SessionOutcomeEvaluation.RawJSON>)
+  - [func \(r \*SessionOutcomeEvaluation\) UnmarshalJSON\(data \[\]byte\) error](<#SessionOutcomeEvaluation.UnmarshalJSON>)
 - [type SessionResource](<#SessionResource>)
   - [func \(r SessionResource\) RawJSON\(\) string](<#SessionResource.RawJSON>)
   - [func \(r \*SessionResource\) UnmarshalJSON\(data \[\]byte\) error](<#SessionResource.UnmarshalJSON>)
@@ -738,9 +747,15 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*SessionThreadService\) Get\(ctx context.Context, sessionID string, threadID string, opts ...option.RequestOption\) \(res \*SessionThread, err error\)](<#SessionThreadService.Get>)
   - [func \(r \*SessionThreadService\) List\(ctx context.Context, sessionID string, params SessionThreadListParams, opts ...option.RequestOption\) \(res \*pagination.Page\[SessionThread\], err error\)](<#SessionThreadService.List>)
   - [func \(r \*SessionThreadService\) ListAutoPaging\(ctx context.Context, sessionID string, params SessionThreadListParams, opts ...option.RequestOption\) \*pagination.PageAutoPager\[SessionThread\]](<#SessionThreadService.ListAutoPaging>)
+- [type SessionThreadStats](<#SessionThreadStats>)
+  - [func \(r SessionThreadStats\) RawJSON\(\) string](<#SessionThreadStats.RawJSON>)
+  - [func \(r \*SessionThreadStats\) UnmarshalJSON\(data \[\]byte\) error](<#SessionThreadStats.UnmarshalJSON>)
 - [type SessionThreadStopReason](<#SessionThreadStopReason>)
   - [func \(r SessionThreadStopReason\) RawJSON\(\) string](<#SessionThreadStopReason.RawJSON>)
   - [func \(r \*SessionThreadStopReason\) UnmarshalJSON\(data \[\]byte\) error](<#SessionThreadStopReason.UnmarshalJSON>)
+- [type SessionThreadUsage](<#SessionThreadUsage>)
+  - [func \(r SessionThreadUsage\) RawJSON\(\) string](<#SessionThreadUsage.RawJSON>)
+  - [func \(r \*SessionThreadUsage\) UnmarshalJSON\(data \[\]byte\) error](<#SessionThreadUsage.UnmarshalJSON>)
 - [type SessionUpdateParams](<#SessionUpdateParams>)
   - [func \(r SessionUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#SessionUpdateParams.MarshalJSON>)
   - [func \(r \*SessionUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#SessionUpdateParams.UnmarshalJSON>)
@@ -981,6 +996,9 @@ WithIdentityID selects identity ownership for Forward resources using a PAT. Omi
 
 ```go
 type Batch struct {
+    IgnoreIdleWindow bool `json:"ignore_idle_window"`
+    // Dynamic queue reason, present only when applicable to validating or queued Batches.
+    QueueReason string `json:"queue_reason"`
     // Batch ID, prefixed with `batch_`.
     ID  string `json:"id"`
     // Always `batch`.
@@ -1023,6 +1041,8 @@ type Batch struct {
     // Batch-level error description; present only in the `failed` status.
     ErrorMessage string `json:"error_message"`
     JSON         struct {
+        IgnoreIdleWindow respjson.Field
+        QueueReason      respjson.Field
         ID               respjson.Field
         Object           respjson.Field
         Status           respjson.Field
@@ -1163,6 +1183,8 @@ func (r BatchListParams) URLQuery() (url.Values, error)
 
 ```go
 type BatchNewParams struct {
+    // Ignore the scheduling time window; does not change capacity or FIFO priority.
+    IgnoreIdleWindow param.Opt[bool] `json:"ignore_idle_window,omitzero"`
     // ID of a JSONL file uploaded through the Files API.
     InputFileID string `json:"input_file_id" api:"required"`
     // Completion window: `24h`, `48h` or `72h`. The Batch moves to `expired` when it elapses.
@@ -3337,17 +3359,21 @@ func (r *EffectiveConfigSessionResourcesItem) UnmarshalJSON(data []byte) error
 
 ```go
 type Environment struct {
-    ID          string            `json:"id"`
-    Type        string            `json:"type"`
-    Name        string            `json:"name"`
-    Description string            `json:"description"`
-    Config      EnvironmentConfig `json:"config"`
-    Metadata    map[string]any    `json:"metadata"`
-    CreatedAt   time.Time         `json:"created_at" format:"date-time"`
-    UpdatedAt   time.Time         `json:"updated_at" format:"date-time"`
-    IdentityID  string            `json:"identity_id" api:"nullable"`
-    ArchivedAt  time.Time         `json:"archived_at" api:"nullable" format:"date-time"`
+    IconURL     string                 `json:"icon_url" api:"nullable"`
+    BindingInfo EnvironmentBindingInfo `json:"binding_info"`
+    ID          string                 `json:"id"`
+    Type        string                 `json:"type"`
+    Name        string                 `json:"name"`
+    Description string                 `json:"description"`
+    Config      EnvironmentConfig      `json:"config"`
+    Metadata    map[string]any         `json:"metadata"`
+    CreatedAt   time.Time              `json:"created_at" format:"date-time"`
+    UpdatedAt   time.Time              `json:"updated_at" format:"date-time"`
+    IdentityID  string                 `json:"identity_id" api:"nullable"`
+    ArchivedAt  time.Time              `json:"archived_at" api:"nullable" format:"date-time"`
     JSON        struct {
+        IconURL     respjson.Field
+        BindingInfo respjson.Field
         ID          respjson.Field
         Type        respjson.Field
         Name        respjson.Field
@@ -3382,6 +3408,40 @@ func (r *Environment) UnmarshalJSON(data []byte) error
 
 
 
+<a name="EnvironmentBindingInfo"></a>
+## type [EnvironmentBindingInfo](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+
+
+```go
+type EnvironmentBindingInfo struct {
+    AgentTemplateCount int64 `json:"agent_template_count"`
+    JSON               struct {
+        AgentTemplateCount respjson.Field
+        ExtraFields        map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="EnvironmentBindingInfo.RawJSON"></a>
+### func \(EnvironmentBindingInfo\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+```go
+func (r EnvironmentBindingInfo) RawJSON() string
+```
+
+
+
+<a name="EnvironmentBindingInfo.UnmarshalJSON"></a>
+### func \(\*EnvironmentBindingInfo\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+```go
+func (r *EnvironmentBindingInfo) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="EnvironmentConfig"></a>
 ## type [EnvironmentConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
 
@@ -3389,9 +3449,11 @@ func (r *Environment) UnmarshalJSON(data []byte) error
 
 ```go
 type EnvironmentConfig struct {
-    Type     string                    `json:"type"`
-    Packages EnvironmentConfigPackages `json:"packages"`
-    JSON     struct {
+    SetupScript string                    `json:"setup_script"`
+    Type        string                    `json:"type"`
+    Packages    EnvironmentConfigPackages `json:"packages"`
+    JSON        struct {
+        SetupScript respjson.Field
         Type        respjson.Field
         Packages    respjson.Field
         ExtraFields map[string]respjson.Field
@@ -5958,6 +6020,8 @@ func (r *MemoryStoreMount) UnmarshalJSON(data []byte) error
 
 ```go
 type MemoryStoreNewParams struct {
+    // Establish this mount before returning. Retry with the same key and body to resume creation.
+    Mount MemoryStoreNewParamsMount `json:"mount,omitzero"`
     // Display name for the store, non-empty. Non-printable control characters
     // (`U+0000`–`U+001F`, `U+007F`) are not allowed, except newline `\n`, carriage return
     // `\r` and tab `\t`.
@@ -5991,6 +6055,39 @@ func (r MemoryStoreNewParams) MarshalJSON() ([]byte, error)
 
 ```go
 func (r *MemoryStoreNewParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="MemoryStoreNewParamsMount"></a>
+## type [MemoryStoreNewParamsMount](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/memorystore.go>)
+
+
+
+```go
+type MemoryStoreNewParamsMount struct {
+    IdentityID string `json:"identity_id" api:"required"`
+    TemplateID string `json:"template_id" api:"required"`
+    // read_only (default) or read_write.
+    Access param.Opt[string] `json:"access,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="MemoryStoreNewParamsMount.MarshalJSON"></a>
+### func \(MemoryStoreNewParamsMount\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/memorystore.go>)
+
+```go
+func (r MemoryStoreNewParamsMount) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="MemoryStoreNewParamsMount.UnmarshalJSON"></a>
+### func \(\*MemoryStoreNewParamsMount\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/memorystore.go>)
+
+```go
+func (r *MemoryStoreNewParamsMount) UnmarshalJSON(data []byte) error
 ```
 
 
@@ -7586,40 +7683,48 @@ func (s *ResumableSessionEventStream) Next() bool
 
 ```go
 type Schedule struct {
-    ID            string                      `json:"id"`
-    IdentityID    string                      `json:"identity_id"`
-    TemplateID    string                      `json:"template_id"`
-    Name          string                      `json:"name"`
-    Description   string                      `json:"description"`
-    Status        string                      `json:"status"`
-    InitialEvents []ScheduleInitialEventsItem `json:"initial_events"`
-    Execution     ScheduleExecution           `json:"execution"`
-    TriggerPolicy ScheduleTriggerPolicy       `json:"trigger_policy"`
-    EnvironmentID string                      `json:"environment_id"`
-    Sinks         []ScheduleSinksItem         `json:"sinks"`
-    Metadata      map[string]any              `json:"metadata"`
-    CreatedAt     time.Time                   `json:"created_at" format:"date-time"`
-    UpdatedAt     time.Time                   `json:"updated_at" format:"date-time"`
-    ArchivedAt    time.Time                   `json:"archived_at" format:"date-time"`
-    PausedReason  SchedulePausedReason        `json:"paused_reason"`
-    JSON          struct {
-        ID            respjson.Field
-        IdentityID    respjson.Field
-        TemplateID    respjson.Field
-        Name          respjson.Field
-        Description   respjson.Field
-        Status        respjson.Field
-        InitialEvents respjson.Field
-        Execution     respjson.Field
-        TriggerPolicy respjson.Field
-        EnvironmentID respjson.Field
-        Sinks         respjson.Field
-        Metadata      respjson.Field
-        CreatedAt     respjson.Field
-        UpdatedAt     respjson.Field
-        ArchivedAt    respjson.Field
-        PausedReason  respjson.Field
-        ExtraFields   map[string]respjson.Field
+    // Authoritative creation method of the Schedule: api or tool.
+    Source          string `json:"source"`
+    SourceSessionID string `json:"source_session_id" api:"nullable"`
+    // Server-maintained input version, incremented when initial_events changes.
+    InitialEventsVersion int64                       `json:"initial_events_version"`
+    ID                   string                      `json:"id"`
+    IdentityID           string                      `json:"identity_id"`
+    TemplateID           string                      `json:"template_id"`
+    Name                 string                      `json:"name"`
+    Description          string                      `json:"description"`
+    Status               string                      `json:"status"`
+    InitialEvents        []ScheduleInitialEventsItem `json:"initial_events"`
+    Execution            ScheduleExecution           `json:"execution"`
+    TriggerPolicy        ScheduleTriggerPolicy       `json:"trigger_policy"`
+    EnvironmentID        string                      `json:"environment_id"`
+    Sinks                []ScheduleSinksItem         `json:"sinks"`
+    Metadata             map[string]any              `json:"metadata"`
+    CreatedAt            time.Time                   `json:"created_at" format:"date-time"`
+    UpdatedAt            time.Time                   `json:"updated_at" format:"date-time"`
+    ArchivedAt           time.Time                   `json:"archived_at" format:"date-time"`
+    PausedReason         SchedulePausedReason        `json:"paused_reason"`
+    JSON                 struct {
+        Source               respjson.Field
+        SourceSessionID      respjson.Field
+        InitialEventsVersion respjson.Field
+        ID                   respjson.Field
+        IdentityID           respjson.Field
+        TemplateID           respjson.Field
+        Name                 respjson.Field
+        Description          respjson.Field
+        Status               respjson.Field
+        InitialEvents        respjson.Field
+        Execution            respjson.Field
+        TriggerPolicy        respjson.Field
+        EnvironmentID        respjson.Field
+        Sinks                respjson.Field
+        Metadata             respjson.Field
+        CreatedAt            respjson.Field
+        UpdatedAt            respjson.Field
+        ArchivedAt           respjson.Field
+        PausedReason         respjson.Field
+        ExtraFields          map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -7968,6 +8073,11 @@ func (r *SchedulePausedReason) UnmarshalJSON(data []byte) error
 
 ```go
 type ScheduleRun struct {
+    // Authoritative creation method of the Schedule: api or tool.
+    Source          string `json:"source"`
+    SourceSessionID string `json:"source_session_id" api:"nullable"`
+    // Server-selected input version; a missing Run version is unknown.
+    InitialEventsVersion int64 `json:"initial_events_version"`
     // Schedule Run ID.
     ID  string `json:"id"`
     // ID of the owning Schedule.
@@ -8009,26 +8119,29 @@ type ScheduleRun struct {
     // null|Human-readable error message; structured details stay in `error`.
     ErrorMessage string `json:"error_message"`
     JSON         struct {
-        ID             respjson.Field
-        ScheduleID     respjson.Field
-        IdentityID     respjson.Field
-        TemplateID     respjson.Field
-        SessionID      respjson.Field
-        Status         respjson.Field
-        TriggerContext respjson.Field
-        ResultPayload  respjson.Field
-        PushSink       respjson.Field
-        PushStatus     respjson.Field
-        PushFinishedAt respjson.Field
-        Attempt        respjson.Field
-        TriggeredAt    respjson.Field
-        StartedAt      respjson.Field
-        CompletedAt    respjson.Field
-        DurationMs     respjson.Field
-        CreatedAt      respjson.Field
-        Error          respjson.Field
-        ErrorMessage   respjson.Field
-        ExtraFields    map[string]respjson.Field
+        Source               respjson.Field
+        SourceSessionID      respjson.Field
+        InitialEventsVersion respjson.Field
+        ID                   respjson.Field
+        ScheduleID           respjson.Field
+        IdentityID           respjson.Field
+        TemplateID           respjson.Field
+        SessionID            respjson.Field
+        Status               respjson.Field
+        TriggerContext       respjson.Field
+        ResultPayload        respjson.Field
+        PushSink             respjson.Field
+        PushStatus           respjson.Field
+        PushFinishedAt       respjson.Field
+        Attempt              respjson.Field
+        TriggeredAt          respjson.Field
+        StartedAt            respjson.Field
+        CompletedAt          respjson.Field
+        DurationMs           respjson.Field
+        CreatedAt            respjson.Field
+        Error                respjson.Field
+        ErrorMessage         respjson.Field
+        ExtraFields          map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -8410,11 +8523,17 @@ func (r *ScheduleSinksItemTarget) UnmarshalJSON(data []byte) error
 
 ```go
 type ScheduleTriggerPolicy struct {
+    StartAt        time.Time   `json:"start_at" format:"date-time"`
+    StopAt         time.Time   `json:"stop_at" format:"date-time"`
+    LastRunAt      time.Time   `json:"last_run_at" api:"nullable" format:"date-time"`
     Type           string      `json:"type"`
     Expression     string      `json:"expression"`
     Timezone       string      `json:"timezone"`
     UpcomingRunsAt []time.Time `json:"upcoming_runs_at"`
     JSON           struct {
+        StartAt        respjson.Field
+        StopAt         respjson.Field
+        LastRunAt      respjson.Field
         Type           respjson.Field
         Expression     respjson.Field
         Timezone       respjson.Field
@@ -8769,6 +8888,7 @@ Revoke revokes a Forward SAT binding belonging to the same Service Account. Use 
 
 ```go
 type Session struct {
+    OutcomeEvaluations []SessionOutcomeEvaluation `json:"outcome_evaluations"`
     // Session ID.
     ID  string `json:"id"`
     // Always `session`.
@@ -8791,22 +8911,23 @@ type Session struct {
     CreatedAt  time.Time         `json:"created_at" format:"date-time"`
     UpdatedAt  time.Time         `json:"updated_at" format:"date-time"`
     JSON       struct {
-        ID          respjson.Field
-        Type        respjson.Field
-        IdentityID  respjson.Field
-        Template    respjson.Field
-        SourceType  respjson.Field
-        Status      respjson.Field
-        Title       respjson.Field
-        Metadata    respjson.Field
-        Config      respjson.Field
-        Resources   respjson.Field
-        Stats       respjson.Field
-        Usage       respjson.Field
-        ArchivedAt  respjson.Field
-        CreatedAt   respjson.Field
-        UpdatedAt   respjson.Field
-        ExtraFields map[string]respjson.Field
+        OutcomeEvaluations respjson.Field
+        ID                 respjson.Field
+        Type               respjson.Field
+        IdentityID         respjson.Field
+        Template           respjson.Field
+        SourceType         respjson.Field
+        Status             respjson.Field
+        Title              respjson.Field
+        Metadata           respjson.Field
+        Config             respjson.Field
+        Resources          respjson.Field
+        Stats              respjson.Field
+        Usage              respjson.Field
+        ArchivedAt         respjson.Field
+        CreatedAt          respjson.Field
+        UpdatedAt          respjson.Field
+        ExtraFields        map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -9275,6 +9396,8 @@ func (r SessionEventStreamParams) URLQuery() (url.Values, error)
 
 ```go
 type SessionListParams struct {
+    // Match an exact sess_ ID or search Session titles.
+    Search param.Opt[string] `query:"search,omitzero" json:"-"`
     // Filter by one or more Identity IDs, comma-separated.
     IdentityIDs []string `query:"identity_ids,omitzero" json:"-"`
     // Filter by Forward Template ID.
@@ -9387,6 +9510,52 @@ func (r SessionNewParamsConfigParam) MarshalJSON() ([]byte, error)
 
 ```go
 func (r *SessionNewParamsConfigParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="SessionOutcomeEvaluation"></a>
+## type [SessionOutcomeEvaluation](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
+
+
+
+```go
+type SessionOutcomeEvaluation struct {
+    Type        string    `json:"type"`
+    OutcomeID   string    `json:"outcome_id"`
+    Description string    `json:"description"`
+    Iteration   int64     `json:"iteration"`
+    Result      string    `json:"result"`
+    Explanation string    `json:"explanation" api:"nullable"`
+    CompletedAt time.Time `json:"completed_at" api:"nullable" format:"date-time"`
+    JSON        struct {
+        Type        respjson.Field
+        OutcomeID   respjson.Field
+        Description respjson.Field
+        Iteration   respjson.Field
+        Result      respjson.Field
+        Explanation respjson.Field
+        CompletedAt respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="SessionOutcomeEvaluation.RawJSON"></a>
+### func \(SessionOutcomeEvaluation\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
+
+```go
+func (r SessionOutcomeEvaluation) RawJSON() string
+```
+
+
+
+<a name="SessionOutcomeEvaluation.UnmarshalJSON"></a>
+### func \(\*SessionOutcomeEvaluation\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
+
+```go
+func (r *SessionOutcomeEvaluation) UnmarshalJSON(data []byte) error
 ```
 
 
@@ -9747,6 +9916,8 @@ func (r *SessionTemplate) UnmarshalJSON(data []byte) error
 
 ```go
 type SessionThread struct {
+    Stats              SessionThreadStats      `json:"stats"`
+    Usage              SessionThreadUsage      `json:"usage"`
     ID                 string                  `json:"id"`
     Type               string                  `json:"type"`
     SessionID          string                  `json:"session_id"`
@@ -9761,6 +9932,8 @@ type SessionThread struct {
     CreatedByToolUseID string                  `json:"created_by_tool_use_id"`
     ArchivedAt         time.Time               `json:"archived_at" format:"date-time"`
     JSON               struct {
+        Stats              respjson.Field
+        Usage              respjson.Field
         ID                 respjson.Field
         Type               respjson.Field
         SessionID          respjson.Field
@@ -9999,6 +10172,44 @@ func (r *SessionThreadService) ListAutoPaging(ctx context.Context, sessionID str
 
 
 
+<a name="SessionThreadStats"></a>
+## type [SessionThreadStats](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionthread.go>)
+
+
+
+```go
+type SessionThreadStats struct {
+    ActiveSeconds   int64 `json:"active_seconds"`
+    DurationSeconds int64 `json:"duration_seconds"`
+    StartupSeconds  int64 `json:"startup_seconds"`
+    JSON            struct {
+        ActiveSeconds   respjson.Field
+        DurationSeconds respjson.Field
+        StartupSeconds  respjson.Field
+        ExtraFields     map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="SessionThreadStats.RawJSON"></a>
+### func \(SessionThreadStats\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionthread.go>)
+
+```go
+func (r SessionThreadStats) RawJSON() string
+```
+
+
+
+<a name="SessionThreadStats.UnmarshalJSON"></a>
+### func \(\*SessionThreadStats\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionthread.go>)
+
+```go
+func (r *SessionThreadStats) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="SessionThreadStopReason"></a>
 ## type [SessionThreadStopReason](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionthread.go>)
 
@@ -10029,6 +10240,40 @@ func (r SessionThreadStopReason) RawJSON() string
 
 ```go
 func (r *SessionThreadStopReason) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="SessionThreadUsage"></a>
+## type [SessionThreadUsage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionthread.go>)
+
+
+
+```go
+type SessionThreadUsage struct {
+    TotalCredits float64 `json:"total_credits"`
+    JSON         struct {
+        TotalCredits respjson.Field
+        ExtraFields  map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="SessionThreadUsage.RawJSON"></a>
+### func \(SessionThreadUsage\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionthread.go>)
+
+```go
+func (r SessionThreadUsage) RawJSON() string
+```
+
+
+
+<a name="SessionThreadUsage.UnmarshalJSON"></a>
+### func \(\*SessionThreadUsage\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionthread.go>)
+
+```go
+func (r *SessionThreadUsage) UnmarshalJSON(data []byte) error
 ```
 
 
@@ -10893,6 +11138,8 @@ func (r *SystemOverrideParam) UnmarshalJSON(data []byte) error
 
 ```go
 type Template struct {
+    // Maximum tool-call rounds per Turn; omitted when unset.
+    MaxToolRounds     int64             `json:"max_tool_rounds"`
     ManagedToolConfig ManagedToolConfig `json:"managed_tool_config"`
     // Always `template`.
     Type string `json:"type"`
@@ -10922,6 +11169,7 @@ type Template struct {
     // Custom metadata.
     Metadata map[string]any `json:"metadata"`
     JSON     struct {
+        MaxToolRounds        respjson.Field
         ManagedToolConfig    respjson.Field
         Type                 respjson.Field
         ID                   respjson.Field
@@ -11058,6 +11306,8 @@ func (r TemplateListParams) URLQuery() (url.Values, error)
 
 ```go
 type TemplateNewParams struct {
+    // Maximum tool-call rounds per Turn; must be positive. Omit or pass null to use the platform default.
+    MaxToolRounds param.Opt[int64] `json:"max_tool_rounds,omitzero" api:"nullable"`
     // Replaces the complete managed tool list; use an empty list to disable all.
     ManagedToolConfig ManagedToolConfigParam `json:"managed_tool_config,omitzero" api:"nullable"`
     // Template name, 1-256 characters, unique per user.
@@ -11208,6 +11458,8 @@ Update Template
 
 ```go
 type TemplateUpdateParams struct {
+    // Maximum tool-call rounds per Turn; must be positive. Omit to preserve the limit; pass null to clear it.
+    MaxToolRounds param.Opt[int64] `json:"max_tool_rounds,omitzero" api:"nullable"`
     // Replaces the complete managed tool list; use an empty list to disable all.
     ManagedToolConfig ManagedToolConfigParam `json:"managed_tool_config,omitzero" api:"nullable"`
     // New Template name.
@@ -12489,6 +12741,7 @@ Qoder managed API definitions.
   - [func \(u DeploymentNewParamsResourceUnion\) GetInstructions\(\) \*string](<#DeploymentNewParamsResourceUnion.GetInstructions>)
   - [func \(u DeploymentNewParamsResourceUnion\) GetMemoryStoreID\(\) \*string](<#DeploymentNewParamsResourceUnion.GetMemoryStoreID>)
   - [func \(u DeploymentNewParamsResourceUnion\) GetMountPath\(\) \*string](<#DeploymentNewParamsResourceUnion.GetMountPath>)
+  - [func \(u DeploymentNewParamsResourceUnion\) GetPassword\(\) \*string](<#DeploymentNewParamsResourceUnion.GetPassword>)
   - [func \(u DeploymentNewParamsResourceUnion\) GetType\(\) \*string](<#DeploymentNewParamsResourceUnion.GetType>)
   - [func \(u DeploymentNewParamsResourceUnion\) GetURL\(\) \*string](<#DeploymentNewParamsResourceUnion.GetURL>)
   - [func \(u DeploymentNewParamsResourceUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#DeploymentNewParamsResourceUnion.MarshalJSON>)
@@ -12539,6 +12792,7 @@ Qoder managed API definitions.
   - [func \(u DeploymentUpdateParamsResourceUnion\) GetInstructions\(\) \*string](<#DeploymentUpdateParamsResourceUnion.GetInstructions>)
   - [func \(u DeploymentUpdateParamsResourceUnion\) GetMemoryStoreID\(\) \*string](<#DeploymentUpdateParamsResourceUnion.GetMemoryStoreID>)
   - [func \(u DeploymentUpdateParamsResourceUnion\) GetMountPath\(\) \*string](<#DeploymentUpdateParamsResourceUnion.GetMountPath>)
+  - [func \(u DeploymentUpdateParamsResourceUnion\) GetPassword\(\) \*string](<#DeploymentUpdateParamsResourceUnion.GetPassword>)
   - [func \(u DeploymentUpdateParamsResourceUnion\) GetType\(\) \*string](<#DeploymentUpdateParamsResourceUnion.GetType>)
   - [func \(u DeploymentUpdateParamsResourceUnion\) GetURL\(\) \*string](<#DeploymentUpdateParamsResourceUnion.GetURL>)
   - [func \(u DeploymentUpdateParamsResourceUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#DeploymentUpdateParamsResourceUnion.MarshalJSON>)
@@ -12649,6 +12903,7 @@ Qoder managed API definitions.
 - [type EnvironmentNewParamsConfigUnion](<#EnvironmentNewParamsConfigUnion>)
   - [func \(u EnvironmentNewParamsConfigUnion\) GetNetworking\(\) \*CloudConfigParamsNetworkingUnion](<#EnvironmentNewParamsConfigUnion.GetNetworking>)
   - [func \(u EnvironmentNewParamsConfigUnion\) GetPackages\(\) \*PackagesParams](<#EnvironmentNewParamsConfigUnion.GetPackages>)
+  - [func \(u EnvironmentNewParamsConfigUnion\) GetSetupScript\(\) \*string](<#EnvironmentNewParamsConfigUnion.GetSetupScript>)
   - [func \(u EnvironmentNewParamsConfigUnion\) GetType\(\) \*string](<#EnvironmentNewParamsConfigUnion.GetType>)
   - [func \(u EnvironmentNewParamsConfigUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentNewParamsConfigUnion.MarshalJSON>)
   - [func \(u \*EnvironmentNewParamsConfigUnion\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentNewParamsConfigUnion.UnmarshalJSON>)
@@ -12669,6 +12924,7 @@ Qoder managed API definitions.
 - [type EnvironmentUpdateParamsConfigUnion](<#EnvironmentUpdateParamsConfigUnion>)
   - [func \(u EnvironmentUpdateParamsConfigUnion\) GetNetworking\(\) \*CloudConfigParamsNetworkingUnion](<#EnvironmentUpdateParamsConfigUnion.GetNetworking>)
   - [func \(u EnvironmentUpdateParamsConfigUnion\) GetPackages\(\) \*PackagesParams](<#EnvironmentUpdateParamsConfigUnion.GetPackages>)
+  - [func \(u EnvironmentUpdateParamsConfigUnion\) GetSetupScript\(\) \*string](<#EnvironmentUpdateParamsConfigUnion.GetSetupScript>)
   - [func \(u EnvironmentUpdateParamsConfigUnion\) GetType\(\) \*string](<#EnvironmentUpdateParamsConfigUnion.GetType>)
   - [func \(u EnvironmentUpdateParamsConfigUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentUpdateParamsConfigUnion.MarshalJSON>)
   - [func \(u \*EnvironmentUpdateParamsConfigUnion\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentUpdateParamsConfigUnion.UnmarshalJSON>)
@@ -12792,6 +13048,10 @@ Qoder managed API definitions.
   - [func \(r ManagedAgentsAgentArchivedRunError\) RawJSON\(\) string](<#ManagedAgentsAgentArchivedRunError.RawJSON>)
   - [func \(r \*ManagedAgentsAgentArchivedRunError\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsAgentArchivedRunError.UnmarshalJSON>)
 - [type ManagedAgentsAgentArchivedRunErrorType](<#ManagedAgentsAgentArchivedRunErrorType>)
+- [type ManagedAgentsAgentArtifactDeliveredEvent](<#ManagedAgentsAgentArtifactDeliveredEvent>)
+  - [func \(r ManagedAgentsAgentArtifactDeliveredEvent\) RawJSON\(\) string](<#ManagedAgentsAgentArtifactDeliveredEvent.RawJSON>)
+  - [func \(r \*ManagedAgentsAgentArtifactDeliveredEvent\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsAgentArtifactDeliveredEvent.UnmarshalJSON>)
+- [type ManagedAgentsAgentArtifactDeliveredEventType](<#ManagedAgentsAgentArtifactDeliveredEventType>)
 - [type ManagedAgentsAgentCustomToolUseEvent](<#ManagedAgentsAgentCustomToolUseEvent>)
   - [func \(r ManagedAgentsAgentCustomToolUseEvent\) RawJSON\(\) string](<#ManagedAgentsAgentCustomToolUseEvent.RawJSON>)
   - [func \(r \*ManagedAgentsAgentCustomToolUseEvent\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsAgentCustomToolUseEvent.UnmarshalJSON>)
@@ -13489,6 +13749,21 @@ Qoder managed API definitions.
   - [func \(u \*ManagedAgentsGitHubRepositoryResourceParamsCheckoutUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsGitHubRepositoryResourceParamsCheckoutUnion.UnmarshalJSON>)
 - [type ManagedAgentsGitHubRepositoryResourceParamsType](<#ManagedAgentsGitHubRepositoryResourceParamsType>)
 - [type ManagedAgentsGitHubRepositoryResourceType](<#ManagedAgentsGitHubRepositoryResourceType>)
+- [type ManagedAgentsGitRepositoryResource](<#ManagedAgentsGitRepositoryResource>)
+  - [func \(r ManagedAgentsGitRepositoryResource\) RawJSON\(\) string](<#ManagedAgentsGitRepositoryResource.RawJSON>)
+  - [func \(r \*ManagedAgentsGitRepositoryResource\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsGitRepositoryResource.UnmarshalJSON>)
+- [type ManagedAgentsGitRepositoryResourceCheckoutUnion](<#ManagedAgentsGitRepositoryResourceCheckoutUnion>)
+- [type ManagedAgentsGitRepositoryResourceConfig](<#ManagedAgentsGitRepositoryResourceConfig>)
+  - [func \(r ManagedAgentsGitRepositoryResourceConfig\) RawJSON\(\) string](<#ManagedAgentsGitRepositoryResourceConfig.RawJSON>)
+  - [func \(r \*ManagedAgentsGitRepositoryResourceConfig\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsGitRepositoryResourceConfig.UnmarshalJSON>)
+- [type ManagedAgentsGitRepositoryResourceConfigCheckoutUnion](<#ManagedAgentsGitRepositoryResourceConfigCheckoutUnion>)
+- [type ManagedAgentsGitRepositoryResourceConfigType](<#ManagedAgentsGitRepositoryResourceConfigType>)
+- [type ManagedAgentsGitRepositoryResourceParams](<#ManagedAgentsGitRepositoryResourceParams>)
+  - [func \(r ManagedAgentsGitRepositoryResourceParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedAgentsGitRepositoryResourceParams.MarshalJSON>)
+  - [func \(r \*ManagedAgentsGitRepositoryResourceParams\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsGitRepositoryResourceParams.UnmarshalJSON>)
+- [type ManagedAgentsGitRepositoryResourceParamsCheckoutUnion](<#ManagedAgentsGitRepositoryResourceParamsCheckoutUnion>)
+- [type ManagedAgentsGitRepositoryResourceParamsType](<#ManagedAgentsGitRepositoryResourceParamsType>)
+- [type ManagedAgentsGitRepositoryResourceType](<#ManagedAgentsGitRepositoryResourceType>)
 - [type ManagedAgentsGlobToolConfig](<#ManagedAgentsGlobToolConfig>)
   - [func \(r ManagedAgentsGlobToolConfig\) RawJSON\(\) string](<#ManagedAgentsGlobToolConfig.RawJSON>)
   - [func \(r \*ManagedAgentsGlobToolConfig\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsGlobToolConfig.UnmarshalJSON>)
@@ -14037,6 +14312,7 @@ Qoder managed API definitions.
   - [func \(r \*ManagedAgentsSessionErrorEventErrorUnionRetryStatus\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsSessionErrorEventErrorUnionRetryStatus.UnmarshalJSON>)
 - [type ManagedAgentsSessionErrorEventType](<#ManagedAgentsSessionErrorEventType>)
 - [type ManagedAgentsSessionEventUnion](<#ManagedAgentsSessionEventUnion>)
+  - [func \(u ManagedAgentsSessionEventUnion\) AsAgentArtifactDelivered\(\) \(v ManagedAgentsAgentArtifactDeliveredEvent\)](<#ManagedAgentsSessionEventUnion.AsAgentArtifactDelivered>)
   - [func \(u ManagedAgentsSessionEventUnion\) AsAgentCustomToolUse\(\) \(v ManagedAgentsAgentCustomToolUseEvent\)](<#ManagedAgentsSessionEventUnion.AsAgentCustomToolUse>)
   - [func \(u ManagedAgentsSessionEventUnion\) AsAgentMCPToolResult\(\) \(v ManagedAgentsAgentMCPToolResultEvent\)](<#ManagedAgentsSessionEventUnion.AsAgentMCPToolResult>)
   - [func \(u ManagedAgentsSessionEventUnion\) AsAgentMCPToolUse\(\) \(v ManagedAgentsAgentMCPToolUseEvent\)](<#ManagedAgentsSessionEventUnion.AsAgentMCPToolUse>)
@@ -14105,6 +14381,7 @@ Qoder managed API definitions.
   - [func \(u ManagedAgentsSessionResourceConfigUnion\) AsAny\(\) anyManagedAgentsSessionResourceConfig](<#ManagedAgentsSessionResourceConfigUnion.AsAny>)
   - [func \(u ManagedAgentsSessionResourceConfigUnion\) AsFile\(\) \(v ManagedAgentsFileResourceConfig\)](<#ManagedAgentsSessionResourceConfigUnion.AsFile>)
   - [func \(u ManagedAgentsSessionResourceConfigUnion\) AsGitHubRepository\(\) \(v ManagedAgentsGitHubRepositoryResourceConfig\)](<#ManagedAgentsSessionResourceConfigUnion.AsGitHubRepository>)
+  - [func \(u ManagedAgentsSessionResourceConfigUnion\) AsGitRepository\(\) \(v ManagedAgentsGitRepositoryResourceConfig\)](<#ManagedAgentsSessionResourceConfigUnion.AsGitRepository>)
   - [func \(u ManagedAgentsSessionResourceConfigUnion\) AsMemoryStore\(\) \(v ManagedAgentsMemoryStoreResourceConfig\)](<#ManagedAgentsSessionResourceConfigUnion.AsMemoryStore>)
   - [func \(u ManagedAgentsSessionResourceConfigUnion\) RawJSON\(\) string](<#ManagedAgentsSessionResourceConfigUnion.RawJSON>)
   - [func \(r \*ManagedAgentsSessionResourceConfigUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsSessionResourceConfigUnion.UnmarshalJSON>)
@@ -14120,6 +14397,7 @@ Qoder managed API definitions.
   - [func \(u ManagedAgentsSessionResourceUnion\) AsAny\(\) anyManagedAgentsSessionResource](<#ManagedAgentsSessionResourceUnion.AsAny>)
   - [func \(u ManagedAgentsSessionResourceUnion\) AsFile\(\) \(v ManagedAgentsFileResource\)](<#ManagedAgentsSessionResourceUnion.AsFile>)
   - [func \(u ManagedAgentsSessionResourceUnion\) AsGitHubRepository\(\) \(v ManagedAgentsGitHubRepositoryResource\)](<#ManagedAgentsSessionResourceUnion.AsGitHubRepository>)
+  - [func \(u ManagedAgentsSessionResourceUnion\) AsGitRepository\(\) \(v ManagedAgentsGitRepositoryResource\)](<#ManagedAgentsSessionResourceUnion.AsGitRepository>)
   - [func \(u ManagedAgentsSessionResourceUnion\) AsMemoryStore\(\) \(v ManagedAgentsMemoryStoreResource\)](<#ManagedAgentsSessionResourceUnion.AsMemoryStore>)
   - [func \(u ManagedAgentsSessionResourceUnion\) RawJSON\(\) string](<#ManagedAgentsSessionResourceUnion.RawJSON>)
   - [func \(r \*ManagedAgentsSessionResourceUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsSessionResourceUnion.UnmarshalJSON>)
@@ -14303,6 +14581,7 @@ Qoder managed API definitions.
   - [func \(r \*ManagedAgentsStaticBearerUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsStaticBearerUpdateParams.UnmarshalJSON>)
 - [type ManagedAgentsStaticBearerUpdateParamsType](<#ManagedAgentsStaticBearerUpdateParamsType>)
 - [type ManagedAgentsStreamSessionEventsUnion](<#ManagedAgentsStreamSessionEventsUnion>)
+  - [func \(u ManagedAgentsStreamSessionEventsUnion\) AsAgentArtifactDelivered\(\) \(v ManagedAgentsAgentArtifactDeliveredEvent\)](<#ManagedAgentsStreamSessionEventsUnion.AsAgentArtifactDelivered>)
   - [func \(u ManagedAgentsStreamSessionEventsUnion\) AsAgentCustomToolUse\(\) \(v ManagedAgentsAgentCustomToolUseEvent\)](<#ManagedAgentsStreamSessionEventsUnion.AsAgentCustomToolUse>)
   - [func \(u ManagedAgentsStreamSessionEventsUnion\) AsAgentMCPToolResult\(\) \(v ManagedAgentsAgentMCPToolResultEvent\)](<#ManagedAgentsStreamSessionEventsUnion.AsAgentMCPToolResult>)
   - [func \(u ManagedAgentsStreamSessionEventsUnion\) AsAgentMCPToolUse\(\) \(v ManagedAgentsAgentMCPToolUseEvent\)](<#ManagedAgentsStreamSessionEventsUnion.AsAgentMCPToolUse>)
@@ -14350,6 +14629,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsStreamSessionEventsUnionUsage](<#ManagedAgentsStreamSessionEventsUnionUsage>)
   - [func \(r \*ManagedAgentsStreamSessionEventsUnionUsage\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsStreamSessionEventsUnionUsage.UnmarshalJSON>)
 - [type ManagedAgentsStreamSessionThreadEventsUnion](<#ManagedAgentsStreamSessionThreadEventsUnion>)
+  - [func \(u ManagedAgentsStreamSessionThreadEventsUnion\) AsAgentArtifactDelivered\(\) \(v ManagedAgentsAgentArtifactDeliveredEvent\)](<#ManagedAgentsStreamSessionThreadEventsUnion.AsAgentArtifactDelivered>)
   - [func \(u ManagedAgentsStreamSessionThreadEventsUnion\) AsAgentCustomToolUse\(\) \(v ManagedAgentsAgentCustomToolUseEvent\)](<#ManagedAgentsStreamSessionThreadEventsUnion.AsAgentCustomToolUse>)
   - [func \(u ManagedAgentsStreamSessionThreadEventsUnion\) AsAgentMCPToolResult\(\) \(v ManagedAgentsAgentMCPToolResultEvent\)](<#ManagedAgentsStreamSessionThreadEventsUnion.AsAgentMCPToolResult>)
   - [func \(u ManagedAgentsStreamSessionThreadEventsUnion\) AsAgentMCPToolUse\(\) \(v ManagedAgentsAgentMCPToolUseEvent\)](<#ManagedAgentsStreamSessionThreadEventsUnion.AsAgentMCPToolUse>)
@@ -14985,6 +15265,7 @@ Qoder managed API definitions.
   - [func \(u SessionNewParamsResourceUnion\) GetInstructions\(\) \*string](<#SessionNewParamsResourceUnion.GetInstructions>)
   - [func \(u SessionNewParamsResourceUnion\) GetMemoryStoreID\(\) \*string](<#SessionNewParamsResourceUnion.GetMemoryStoreID>)
   - [func \(u SessionNewParamsResourceUnion\) GetMountPath\(\) \*string](<#SessionNewParamsResourceUnion.GetMountPath>)
+  - [func \(u SessionNewParamsResourceUnion\) GetPassword\(\) \*string](<#SessionNewParamsResourceUnion.GetPassword>)
   - [func \(u SessionNewParamsResourceUnion\) GetType\(\) \*string](<#SessionNewParamsResourceUnion.GetType>)
   - [func \(u SessionNewParamsResourceUnion\) GetURL\(\) \*string](<#SessionNewParamsResourceUnion.GetURL>)
   - [func \(u SessionNewParamsResourceUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#SessionNewParamsResourceUnion.MarshalJSON>)
@@ -14998,6 +15279,7 @@ Qoder managed API definitions.
   - [func \(u SessionResourceGetResponseUnion\) AsAny\(\) anySessionResourceGetResponse](<#SessionResourceGetResponseUnion.AsAny>)
   - [func \(u SessionResourceGetResponseUnion\) AsFile\(\) \(v ManagedAgentsFileResource\)](<#SessionResourceGetResponseUnion.AsFile>)
   - [func \(u SessionResourceGetResponseUnion\) AsGitHubRepository\(\) \(v ManagedAgentsGitHubRepositoryResource\)](<#SessionResourceGetResponseUnion.AsGitHubRepository>)
+  - [func \(u SessionResourceGetResponseUnion\) AsGitRepository\(\) \(v ManagedAgentsGitRepositoryResource\)](<#SessionResourceGetResponseUnion.AsGitRepository>)
   - [func \(u SessionResourceGetResponseUnion\) AsMemoryStore\(\) \(v ManagedAgentsMemoryStoreResource\)](<#SessionResourceGetResponseUnion.AsMemoryStore>)
   - [func \(u SessionResourceGetResponseUnion\) RawJSON\(\) string](<#SessionResourceGetResponseUnion.RawJSON>)
   - [func \(r \*SessionResourceGetResponseUnion\) UnmarshalJSON\(data \[\]byte\) error](<#SessionResourceGetResponseUnion.UnmarshalJSON>)
@@ -15018,6 +15300,7 @@ Qoder managed API definitions.
   - [func \(u SessionResourceUpdateResponseUnion\) AsAny\(\) anySessionResourceUpdateResponse](<#SessionResourceUpdateResponseUnion.AsAny>)
   - [func \(u SessionResourceUpdateResponseUnion\) AsFile\(\) \(v ManagedAgentsFileResource\)](<#SessionResourceUpdateResponseUnion.AsFile>)
   - [func \(u SessionResourceUpdateResponseUnion\) AsGitHubRepository\(\) \(v ManagedAgentsGitHubRepositoryResource\)](<#SessionResourceUpdateResponseUnion.AsGitHubRepository>)
+  - [func \(u SessionResourceUpdateResponseUnion\) AsGitRepository\(\) \(v ManagedAgentsGitRepositoryResource\)](<#SessionResourceUpdateResponseUnion.AsGitRepository>)
   - [func \(u SessionResourceUpdateResponseUnion\) AsMemoryStore\(\) \(v ManagedAgentsMemoryStoreResource\)](<#SessionResourceUpdateResponseUnion.AsMemoryStore>)
   - [func \(u SessionResourceUpdateResponseUnion\) RawJSON\(\) string](<#SessionResourceUpdateResponseUnion.RawJSON>)
   - [func \(r \*SessionResourceUpdateResponseUnion\) UnmarshalJSON\(data \[\]byte\) error](<#SessionResourceUpdateResponseUnion.UnmarshalJSON>)
@@ -18475,6 +18758,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 
 ```go
 type DeploymentNewParamsResourceUnion struct {
+    OfGitRepository    *ManagedAgentsGitRepositoryResourceParams    `json:",omitzero,inline"`
     OfGitHubRepository *ManagedAgentsGitHubRepositoryResourceParams `json:",omitzero,inline"`
     OfFile             *ManagedAgentsFileResourceParams             `json:",omitzero,inline"`
     OfMemoryStore      *ManagedAgentsMemoryStoreResourceParam       `json:",omitzero,inline"`
@@ -18544,6 +18828,15 @@ func (u DeploymentNewParamsResourceUnion) GetMountPath() *string
 ```
 
 Returns a pointer to the underlying variant's property, if present.
+
+<a name="DeploymentNewParamsResourceUnion.GetPassword"></a>
+### func \(DeploymentNewParamsResourceUnion\) [GetPassword](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+```go
+func (u DeploymentNewParamsResourceUnion) GetPassword() *string
+```
+
+
 
 <a name="DeploymentNewParamsResourceUnion.GetType"></a>
 ### func \(DeploymentNewParamsResourceUnion\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
@@ -19043,6 +19336,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 
 ```go
 type DeploymentUpdateParamsResourceUnion struct {
+    OfGitRepository    *ManagedAgentsGitRepositoryResourceParams    `json:",omitzero,inline"`
     OfGitHubRepository *ManagedAgentsGitHubRepositoryResourceParams `json:",omitzero,inline"`
     OfFile             *ManagedAgentsFileResourceParams             `json:",omitzero,inline"`
     OfMemoryStore      *ManagedAgentsMemoryStoreResourceParam       `json:",omitzero,inline"`
@@ -19112,6 +19406,15 @@ func (u DeploymentUpdateParamsResourceUnion) GetMountPath() *string
 ```
 
 Returns a pointer to the underlying variant's property, if present.
+
+<a name="DeploymentUpdateParamsResourceUnion.GetPassword"></a>
+### func \(DeploymentUpdateParamsResourceUnion\) [GetPassword](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+```go
+func (u DeploymentUpdateParamsResourceUnion) GetPassword() *string
+```
+
+
 
 <a name="DeploymentUpdateParamsResourceUnion.GetType"></a>
 ### func \(DeploymentUpdateParamsResourceUnion\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
@@ -19835,11 +20138,14 @@ An output memory store the dream writes consolidated memories into.
 
 ```go
 type DreamOutput struct {
-    MemoryStoreID string `json:"memory_store_id" api:"required"`
+    // Paths of memory files created, modified or deleted.
+    FilesTouched  []string `json:"files_touched"`
+    MemoryStoreID string   `json:"memory_store_id" api:"required"`
     // Any of "memory_store".
     Type DreamOutputType `json:"type" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
+        FilesTouched  respjson.Field
         MemoryStoreID respjson.Field
         Type          respjson.Field
         ExtraFields   map[string]respjson.Field
@@ -20321,6 +20627,7 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 
 ```go
 type EnvironmentConfigUnion struct {
+    SetupScript string `json:"setup_script"`
     // This field is from variant [CloudConfig].
     Networking CloudConfigNetworkingUnion `json:"networking"`
     // This field is from variant [CloudConfig].
@@ -20328,9 +20635,10 @@ type EnvironmentConfigUnion struct {
     // Any of "cloud", "self_hosted".
     Type string `json:"type"`
     JSON struct {
-        Networking respjson.Field
-        Packages   respjson.Field
-        Type       respjson.Field
+        SetupScript respjson.Field
+        Networking  respjson.Field
+        Packages    respjson.Field
+        Type        respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -20585,6 +20893,15 @@ func (u EnvironmentNewParamsConfigUnion) GetPackages() *PackagesParams
 
 Returns a pointer to the underlying variant's property, if present.
 
+<a name="EnvironmentNewParamsConfigUnion.GetSetupScript"></a>
+### func \(EnvironmentNewParamsConfigUnion\) [GetSetupScript](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
+
+```go
+func (u EnvironmentNewParamsConfigUnion) GetSetupScript() *string
+```
+
+Returns the setup script from the selected configuration, if present.
+
 <a name="EnvironmentNewParamsConfigUnion.GetType"></a>
 ### func \(EnvironmentNewParamsConfigUnion\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
 
@@ -20813,6 +21130,15 @@ func (u EnvironmentUpdateParamsConfigUnion) GetPackages() *PackagesParams
 ```
 
 Returns a pointer to the underlying variant's property, if present.
+
+<a name="EnvironmentUpdateParamsConfigUnion.GetSetupScript"></a>
+### func \(EnvironmentUpdateParamsConfigUnion\) [GetSetupScript](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
+
+```go
+func (u EnvironmentUpdateParamsConfigUnion) GetSetupScript() *string
+```
+
+Returns the setup script from the selected configuration, if present.
 
 <a name="EnvironmentUpdateParamsConfigUnion.GetType"></a>
 ### func \(EnvironmentUpdateParamsConfigUnion\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
@@ -22440,6 +22766,67 @@ type ManagedAgentsAgentArchivedRunErrorType string
 const (
     ManagedAgentsAgentArchivedRunErrorTypeAgentArchivedError ManagedAgentsAgentArchivedRunErrorType = "agent_archived_error"
 )
+```
+
+<a name="ManagedAgentsAgentArtifactDeliveredEvent"></a>
+## type [ManagedAgentsAgentArtifactDeliveredEvent](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionevent.go>)
+
+
+
+```go
+type ManagedAgentsAgentArtifactDeliveredEvent struct {
+    ID               string                                       `json:"id" api:"required"`
+    Type             ManagedAgentsAgentArtifactDeliveredEventType `json:"type" api:"required"`
+    FileID           string                                       `json:"file_id" api:"required"`
+    OriginalFilename string                                       `json:"original_filename" api:"required"`
+    Size             int64                                        `json:"size" api:"required"`
+    ContentType      string                                       `json:"content_type" api:"required"`
+    ProcessedAt      time.Time                                    `json:"processed_at" format:"date-time"`
+    JSON             struct {
+        ID               respjson.Field
+        Type             respjson.Field
+        FileID           respjson.Field
+        OriginalFilename respjson.Field
+        Size             respjson.Field
+        ContentType      respjson.Field
+        ProcessedAt      respjson.Field
+        ExtraFields      map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ManagedAgentsAgentArtifactDeliveredEvent.RawJSON"></a>
+### func \(ManagedAgentsAgentArtifactDeliveredEvent\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionevent.go>)
+
+```go
+func (r ManagedAgentsAgentArtifactDeliveredEvent) RawJSON() string
+```
+
+
+
+<a name="ManagedAgentsAgentArtifactDeliveredEvent.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsAgentArtifactDeliveredEvent\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionevent.go>)
+
+```go
+func (r *ManagedAgentsAgentArtifactDeliveredEvent) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedAgentsAgentArtifactDeliveredEventType"></a>
+## type [ManagedAgentsAgentArtifactDeliveredEventType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionevent.go>)
+
+
+
+```go
+type ManagedAgentsAgentArtifactDeliveredEventType string
+```
+
+<a name="ManagedAgentsAgentArtifactDeliveredEventTypeAgentArtifactDelivered"></a>
+
+```go
+const ManagedAgentsAgentArtifactDeliveredEventTypeAgentArtifactDelivered ManagedAgentsAgentArtifactDeliveredEventType = "agent.artifact_delivered"
 ```
 
 <a name="ManagedAgentsAgentCustomToolUseEvent"></a>
@@ -26001,6 +26388,8 @@ The caller's organization or workspace cannot make model requests — out of cre
 
 ```go
 type ManagedAgentsBillingError struct {
+    // Diagnostic only; use retry_status to determine retry behavior.
+    QoderErrorCode string `json:"qoder_error_code"`
     // Human-readable error description.
     Message string `json:"message" api:"required"`
     // What the client should do next in response to this error.
@@ -26009,10 +26398,11 @@ type ManagedAgentsBillingError struct {
     Type ManagedAgentsBillingErrorType `json:"type" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        Message     respjson.Field
-        RetryStatus respjson.Field
-        Type        respjson.Field
-        ExtraFields map[string]respjson.Field
+        QoderErrorCode respjson.Field
+        Message        respjson.Field
+        RetryStatus    respjson.Field
+        Type           respjson.Field
+        ExtraFields    map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -26646,6 +27036,8 @@ An \`environment\_variable\` credential's \`auth.networking.allowed\_hosts\` inc
 
 ```go
 type ManagedAgentsCredentialHostUnreachableError struct {
+    // Diagnostic only; use retry_status to determine retry behavior.
+    QoderErrorCode string `json:"qoder_error_code"`
     // ID of the affected credential.
     CredentialID string `json:"credential_id" api:"required"`
     // Human-readable error description.
@@ -26658,12 +27050,13 @@ type ManagedAgentsCredentialHostUnreachableError struct {
     VaultID string `json:"vault_id" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        CredentialID respjson.Field
-        Message      respjson.Field
-        RetryStatus  respjson.Field
-        Type         respjson.Field
-        VaultID      respjson.Field
-        ExtraFields  map[string]respjson.Field
+        QoderErrorCode respjson.Field
+        CredentialID   respjson.Field
+        Message        respjson.Field
+        RetryStatus    respjson.Field
+        Type           respjson.Field
+        VaultID        respjson.Field
+        ExtraFields    map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -31703,12 +32096,12 @@ const (
 
 Mount a GitHub repository into the session's container.
 
-The properties AuthorizationToken, Type, URL are required.
+The properties Type and URL are required.
 
 ```go
 type ManagedAgentsGitHubRepositoryResourceParams struct {
     // GitHub authorization token used to clone the repository.
-    AuthorizationToken string `json:"authorization_token" api:"required"`
+    AuthorizationToken string `json:"authorization_token,omitzero"`
     // Any of "github_repository".
     Type ManagedAgentsGitHubRepositoryResourceParamsType `json:"type,omitzero" api:"required"`
     // Github URL of the repository
@@ -31830,6 +32223,211 @@ type ManagedAgentsGitHubRepositoryResourceType string
 ```go
 const (
     ManagedAgentsGitHubRepositoryResourceTypeGitHubRepository ManagedAgentsGitHubRepositoryResourceType = "github_repository"
+)
+```
+
+<a name="ManagedAgentsGitRepositoryResource"></a>
+## type [ManagedAgentsGitRepositoryResource](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionresource.go>)
+
+
+
+```go
+type ManagedAgentsGitRepositoryResource struct {
+    ID  string `json:"id" api:"required"`
+    // A timestamp in RFC 3339 format
+    CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+    MountPath string    `json:"mount_path" api:"required"`
+    // Any of "git_repository".
+    Type ManagedAgentsGitRepositoryResourceType `json:"type" api:"required"`
+    // A timestamp in RFC 3339 format
+    UpdatedAt time.Time                                       `json:"updated_at" api:"required" format:"date-time"`
+    URL       string                                          `json:"url" api:"required"`
+    Checkout  ManagedAgentsGitRepositoryResourceCheckoutUnion `json:"checkout" api:"nullable"`
+    // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+    JSON struct {
+        ID          respjson.Field
+        CreatedAt   respjson.Field
+        MountPath   respjson.Field
+        Type        respjson.Field
+        UpdatedAt   respjson.Field
+        URL         respjson.Field
+        Checkout    respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ManagedAgentsGitRepositoryResource.RawJSON"></a>
+### func \(ManagedAgentsGitRepositoryResource\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionresource.go>)
+
+```go
+func (r ManagedAgentsGitRepositoryResource) RawJSON() string
+```
+
+Returns the unmodified JSON received from the API
+
+<a name="ManagedAgentsGitRepositoryResource.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsGitRepositoryResource\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionresource.go>)
+
+```go
+func (r *ManagedAgentsGitRepositoryResource) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedAgentsGitRepositoryResourceCheckoutUnion"></a>
+## type [ManagedAgentsGitRepositoryResourceCheckoutUnion](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionresource.go>)
+
+
+
+```go
+type ManagedAgentsGitRepositoryResourceCheckoutUnion = ManagedAgentsGitHubRepositoryResourceCheckoutUnion
+```
+
+<a name="ManagedAgentsGitRepositoryResourceConfig"></a>
+## type [ManagedAgentsGitRepositoryResourceConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+
+
+```go
+type ManagedAgentsGitRepositoryResourceConfig struct {
+    // Any of "git_repository".
+    Type ManagedAgentsGitRepositoryResourceConfigType `json:"type" api:"required"`
+    // HTTP(S) URL of the repository
+    URL string `json:"url" api:"required"`
+    // Branch or commit to check out. Defaults to the repository's default branch.
+    Checkout ManagedAgentsGitRepositoryResourceConfigCheckoutUnion `json:"checkout" api:"nullable"`
+    // Mount path in the container. Derived from the repository name when omitted.
+    MountPath string `json:"mount_path" api:"nullable"`
+    // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+    JSON struct {
+        Type        respjson.Field
+        URL         respjson.Field
+        Checkout    respjson.Field
+        MountPath   respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ManagedAgentsGitRepositoryResourceConfig.RawJSON"></a>
+### func \(ManagedAgentsGitRepositoryResourceConfig\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+```go
+func (r ManagedAgentsGitRepositoryResourceConfig) RawJSON() string
+```
+
+Returns the unmodified JSON received from the API
+
+<a name="ManagedAgentsGitRepositoryResourceConfig.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsGitRepositoryResourceConfig\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+```go
+func (r *ManagedAgentsGitRepositoryResourceConfig) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedAgentsGitRepositoryResourceConfigCheckoutUnion"></a>
+## type [ManagedAgentsGitRepositoryResourceConfigCheckoutUnion](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+
+
+```go
+type ManagedAgentsGitRepositoryResourceConfigCheckoutUnion = ManagedAgentsGitHubRepositoryResourceConfigCheckoutUnion
+```
+
+<a name="ManagedAgentsGitRepositoryResourceConfigType"></a>
+## type [ManagedAgentsGitRepositoryResourceConfigType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+
+
+```go
+type ManagedAgentsGitRepositoryResourceConfigType string
+```
+
+<a name="ManagedAgentsGitRepositoryResourceConfigTypeGitRepository"></a>
+
+```go
+const (
+    ManagedAgentsGitRepositoryResourceConfigTypeGitRepository ManagedAgentsGitRepositoryResourceConfigType = "git_repository"
+)
+```
+
+<a name="ManagedAgentsGitRepositoryResourceParams"></a>
+## type [ManagedAgentsGitRepositoryResourceParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+Mount an HTTP\(S\) Git repository. For authenticated access, put the username in the URL and supply a password or access token; credentials are never returned.
+
+```go
+type ManagedAgentsGitRepositoryResourceParams struct {
+    Type      ManagedAgentsGitRepositoryResourceParamsType          `json:"type,omitzero" api:"required"`
+    URL       string                                                `json:"url" api:"required"`
+    Password  param.Opt[string]                                     `json:"password,omitzero"`
+    MountPath param.Opt[string]                                     `json:"mount_path,omitzero"`
+    Checkout  ManagedAgentsGitRepositoryResourceParamsCheckoutUnion `json:"checkout,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ManagedAgentsGitRepositoryResourceParams.MarshalJSON"></a>
+### func \(ManagedAgentsGitRepositoryResourceParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (r ManagedAgentsGitRepositoryResourceParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ManagedAgentsGitRepositoryResourceParams.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsGitRepositoryResourceParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (r *ManagedAgentsGitRepositoryResourceParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedAgentsGitRepositoryResourceParamsCheckoutUnion"></a>
+## type [ManagedAgentsGitRepositoryResourceParamsCheckoutUnion](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+
+
+```go
+type ManagedAgentsGitRepositoryResourceParamsCheckoutUnion = ManagedAgentsGitHubRepositoryResourceParamsCheckoutUnion
+```
+
+<a name="ManagedAgentsGitRepositoryResourceParamsType"></a>
+## type [ManagedAgentsGitRepositoryResourceParamsType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+
+
+```go
+type ManagedAgentsGitRepositoryResourceParamsType string
+```
+
+<a name="ManagedAgentsGitRepositoryResourceParamsTypeGitRepository"></a>
+
+```go
+const ManagedAgentsGitRepositoryResourceParamsTypeGitRepository ManagedAgentsGitRepositoryResourceParamsType = "git_repository"
+```
+
+<a name="ManagedAgentsGitRepositoryResourceType"></a>
+## type [ManagedAgentsGitRepositoryResourceType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionresource.go>)
+
+
+
+```go
+type ManagedAgentsGitRepositoryResourceType string
+```
+
+<a name="ManagedAgentsGitRepositoryResourceTypeGitRepository"></a>
+
+```go
+const (
+    ManagedAgentsGitRepositoryResourceTypeGitRepository ManagedAgentsGitRepositoryResourceType = "git_repository"
 )
 ```
 
@@ -32769,6 +33367,8 @@ Authentication to an MCP server failed.
 
 ```go
 type ManagedAgentsMCPAuthenticationFailedError struct {
+    // Diagnostic only; use retry_status to determine retry behavior.
+    QoderErrorCode string `json:"qoder_error_code"`
     // Name of the MCP server that failed authentication.
     MCPServerName string `json:"mcp_server_name" api:"required"`
     // Human-readable error description.
@@ -32779,11 +33379,12 @@ type ManagedAgentsMCPAuthenticationFailedError struct {
     Type ManagedAgentsMCPAuthenticationFailedErrorType `json:"type" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        MCPServerName respjson.Field
-        Message       respjson.Field
-        RetryStatus   respjson.Field
-        Type          respjson.Field
-        ExtraFields   map[string]respjson.Field
+        QoderErrorCode respjson.Field
+        MCPServerName  respjson.Field
+        Message        respjson.Field
+        RetryStatus    respjson.Field
+        Type           respjson.Field
+        ExtraFields    map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -32915,6 +33516,8 @@ Failed to connect to an MCP server.
 
 ```go
 type ManagedAgentsMCPConnectionFailedError struct {
+    // Diagnostic only; use retry_status to determine retry behavior.
+    QoderErrorCode string `json:"qoder_error_code"`
     // Name of the MCP server that failed to connect.
     MCPServerName string `json:"mcp_server_name" api:"required"`
     // Human-readable error description.
@@ -32925,11 +33528,12 @@ type ManagedAgentsMCPConnectionFailedError struct {
     Type ManagedAgentsMCPConnectionFailedErrorType `json:"type" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        MCPServerName respjson.Field
-        Message       respjson.Field
-        RetryStatus   respjson.Field
-        Type          respjson.Field
-        ExtraFields   map[string]respjson.Field
+        QoderErrorCode respjson.Field
+        MCPServerName  respjson.Field
+        Message        respjson.Field
+        RetryStatus    respjson.Field
+        Type           respjson.Field
+        ExtraFields    map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -34595,6 +35199,10 @@ A \`memory\_store\`: a named container for agent memories, scoped to a workspace
 
 ```go
 type ManagedAgentsMemoryStore struct {
+    // active or archived.
+    Status     string `json:"status"`
+    EntryCount int64  `json:"entry_count"`
+    TotalSize  int64  `json:"total_size"`
     // Unique identifier for the memory store (a `memstore_...` tagged ID). Use this
     // when attaching the store to a session, or in the `{memory_store_id}` path
     // parameter of subsequent calls.
@@ -34620,6 +35228,9 @@ type ManagedAgentsMemoryStore struct {
     Metadata map[string]string `json:"metadata"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
+        Status      respjson.Field
+        EntryCount  respjson.Field
+        TotalSize   respjson.Field
         ID          respjson.Field
         CreatedAt   respjson.Field
         Name        respjson.Field
@@ -35536,6 +36147,8 @@ The model is currently overloaded. Emitted after automatic retries are exhausted
 
 ```go
 type ManagedAgentsModelOverloadedError struct {
+    // Diagnostic only; use retry_status to determine retry behavior.
+    QoderErrorCode string `json:"qoder_error_code"`
     // Human-readable error description.
     Message string `json:"message" api:"required"`
     // What the client should do next in response to this error.
@@ -35544,10 +36157,11 @@ type ManagedAgentsModelOverloadedError struct {
     Type ManagedAgentsModelOverloadedErrorType `json:"type" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        Message     respjson.Field
-        RetryStatus respjson.Field
-        Type        respjson.Field
-        ExtraFields map[string]respjson.Field
+        QoderErrorCode respjson.Field
+        Message        respjson.Field
+        RetryStatus    respjson.Field
+        Type           respjson.Field
+        ExtraFields    map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -35679,6 +36293,8 @@ The model request was rate\-limited.
 
 ```go
 type ManagedAgentsModelRateLimitedError struct {
+    // Diagnostic only; use retry_status to determine retry behavior.
+    QoderErrorCode string `json:"qoder_error_code"`
     // Human-readable error description.
     Message string `json:"message" api:"required"`
     // What the client should do next in response to this error.
@@ -35687,10 +36303,11 @@ type ManagedAgentsModelRateLimitedError struct {
     Type ManagedAgentsModelRateLimitedErrorType `json:"type" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        Message     respjson.Field
-        RetryStatus respjson.Field
-        Type        respjson.Field
-        ExtraFields map[string]respjson.Field
+        QoderErrorCode respjson.Field
+        Message        respjson.Field
+        RetryStatus    respjson.Field
+        Type           respjson.Field
+        ExtraFields    map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -35822,6 +36439,8 @@ A model request failed for a reason other than overload or rate\-limiting.
 
 ```go
 type ManagedAgentsModelRequestFailedError struct {
+    // Diagnostic only; use retry_status to determine retry behavior.
+    QoderErrorCode string `json:"qoder_error_code"`
     // Human-readable error description.
     Message string `json:"message" api:"required"`
     // What the client should do next in response to this error.
@@ -35830,10 +36449,11 @@ type ManagedAgentsModelRequestFailedError struct {
     Type ManagedAgentsModelRequestFailedErrorType `json:"type" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        Message     respjson.Field
-        RetryStatus respjson.Field
-        Type        respjson.Field
-        ExtraFields map[string]respjson.Field
+        QoderErrorCode respjson.Field
+        Message        respjson.Field
+        RetryStatus    respjson.Field
+        Type           respjson.Field
+        ExtraFields    map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -39195,7 +39815,9 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 
 ```go
 type ManagedAgentsSessionErrorEventErrorUnion struct {
-    Message string `json:"message"`
+    // Diagnostic only; use retry_status to determine retry behavior.
+    QoderErrorCode string `json:"qoder_error_code"`
+    Message        string `json:"message"`
     // This field is a union of [ManagedAgentsUnknownErrorRetryStatusUnion],
     // [ManagedAgentsModelOverloadedErrorRetryStatusUnion],
     // [ManagedAgentsModelRateLimitedErrorRetryStatusUnion],
@@ -39216,12 +39838,13 @@ type ManagedAgentsSessionErrorEventErrorUnion struct {
     // This field is from variant [ManagedAgentsCredentialHostUnreachableError].
     VaultID string `json:"vault_id"`
     JSON    struct {
-        Message       respjson.Field
-        RetryStatus   respjson.Field
-        Type          respjson.Field
-        MCPServerName respjson.Field
-        CredentialID  respjson.Field
-        VaultID       respjson.Field
+        QoderErrorCode respjson.Field
+        Message        respjson.Field
+        RetryStatus    respjson.Field
+        Type           respjson.Field
+        MCPServerName  respjson.Field
+        CredentialID   respjson.Field
+        VaultID        respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -39395,6 +40018,10 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 
 ```go
 type ManagedAgentsSessionEventUnion struct {
+    FileID                string  `json:"file_id"`
+    OriginalFilename      string  `json:"original_filename"`
+    Size                  int64   `json:"size"`
+    ContentType           string  `json:"content_type"`
     ModelCredits          float64 `json:"model_credits"`
     SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
     TotalCredits          float64 `json:"total_credits"`
@@ -39483,6 +40110,10 @@ type ManagedAgentsSessionEventUnion struct {
     // This field is from variant [ManagedAgentsSessionUpdatedEvent].
     Title string `json:"title"`
     JSON  struct {
+        FileID                   respjson.Field
+        OriginalFilename         respjson.Field
+        Size                     respjson.Field
+        ContentType              respjson.Field
         ModelCredits             respjson.Field
         SandboxRuntimeCredits    respjson.Field
         TotalCredits             respjson.Field
@@ -39526,6 +40157,15 @@ type ManagedAgentsSessionEventUnion struct {
     }   `json:"-"`
 }
 ```
+
+<a name="ManagedAgentsSessionEventUnion.AsAgentArtifactDelivered"></a>
+### func \(ManagedAgentsSessionEventUnion\) [AsAgentArtifactDelivered](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionevent.go>)
+
+```go
+func (u ManagedAgentsSessionEventUnion) AsAgentArtifactDelivered() (v ManagedAgentsAgentArtifactDeliveredEvent)
+```
+
+
 
 <a name="ManagedAgentsSessionEventUnion.AsAgentCustomToolUse"></a>
 ### func \(ManagedAgentsSessionEventUnion\) [AsAgentCustomToolUse](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionevent.go>)
@@ -40444,6 +41084,15 @@ func (u ManagedAgentsSessionResourceConfigUnion) AsGitHubRepository() (v Managed
 
 
 
+<a name="ManagedAgentsSessionResourceConfigUnion.AsGitRepository"></a>
+### func \(ManagedAgentsSessionResourceConfigUnion\) [AsGitRepository](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+```go
+func (u ManagedAgentsSessionResourceConfigUnion) AsGitRepository() (v ManagedAgentsGitRepositoryResourceConfig)
+```
+
+
+
 <a name="ManagedAgentsSessionResourceConfigUnion.AsMemoryStore"></a>
 ### func \(ManagedAgentsSessionResourceConfigUnion\) [AsMemoryStore](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
 
@@ -40583,7 +41232,7 @@ const (
 <a name="ManagedAgentsSessionResourceUnion"></a>
 ## type [ManagedAgentsSessionResourceUnion](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionresource.go>)
 
-ManagedAgentsSessionResourceUnion contains all possible properties and values from [ManagedAgentsGitHubRepositoryResource](<#ManagedAgentsGitHubRepositoryResource>), [ManagedAgentsFileResource](<#ManagedAgentsFileResource>), [ManagedAgentsMemoryStoreResource](<#ManagedAgentsMemoryStoreResource>).
+ManagedAgentsSessionResourceUnion includes [ManagedAgentsGitRepositoryResource](<#ManagedAgentsGitRepositoryResource>) and contains all possible properties and values from [ManagedAgentsGitHubRepositoryResource](<#ManagedAgentsGitHubRepositoryResource>), [ManagedAgentsFileResource](<#ManagedAgentsFileResource>), [ManagedAgentsMemoryStoreResource](<#ManagedAgentsMemoryStoreResource>).
 
 Use the [ManagedAgentsSessionResourceUnion.AsAny](<#ManagedAgentsSessionResourceUnion.AsAny>) method to switch on the variant.
 
@@ -40665,6 +41314,15 @@ func (u ManagedAgentsSessionResourceUnion) AsFile() (v ManagedAgentsFileResource
 
 ```go
 func (u ManagedAgentsSessionResourceUnion) AsGitHubRepository() (v ManagedAgentsGitHubRepositoryResource)
+```
+
+
+
+<a name="ManagedAgentsSessionResourceUnion.AsGitRepository"></a>
+### func \(ManagedAgentsSessionResourceUnion\) [AsGitRepository](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionresource.go>)
+
+```go
+func (u ManagedAgentsSessionResourceUnion) AsGitRepository() (v ManagedAgentsGitRepositoryResource)
 ```
 
 
@@ -43462,6 +44120,10 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 
 ```go
 type ManagedAgentsStreamSessionEventsUnion struct {
+    FileID                string  `json:"file_id"`
+    OriginalFilename      string  `json:"original_filename"`
+    Size                  int64   `json:"size"`
+    ContentType           string  `json:"content_type"`
     ModelCredits          float64 `json:"model_credits"`
     SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
     TotalCredits          float64 `json:"total_credits"`
@@ -43556,6 +44218,10 @@ type ManagedAgentsStreamSessionEventsUnion struct {
     // This field is from variant [ManagedAgentsDeltaEvent].
     EventID string `json:"event_id"`
     JSON    struct {
+        FileID                   respjson.Field
+        OriginalFilename         respjson.Field
+        Size                     respjson.Field
+        ContentType              respjson.Field
         ModelCredits             respjson.Field
         SandboxRuntimeCredits    respjson.Field
         TotalCredits             respjson.Field
@@ -43602,6 +44268,15 @@ type ManagedAgentsStreamSessionEventsUnion struct {
     }   `json:"-"`
 }
 ```
+
+<a name="ManagedAgentsStreamSessionEventsUnion.AsAgentArtifactDelivered"></a>
+### func \(ManagedAgentsStreamSessionEventsUnion\) [AsAgentArtifactDelivered](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionevent.go>)
+
+```go
+func (u ManagedAgentsStreamSessionEventsUnion) AsAgentArtifactDelivered() (v ManagedAgentsAgentArtifactDeliveredEvent)
+```
+
+
 
 <a name="ManagedAgentsStreamSessionEventsUnion.AsAgentCustomToolUse"></a>
 ### func \(ManagedAgentsStreamSessionEventsUnion\) [AsAgentCustomToolUse](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionevent.go>)
@@ -44163,6 +44838,10 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 
 ```go
 type ManagedAgentsStreamSessionThreadEventsUnion struct {
+    FileID                string  `json:"file_id"`
+    OriginalFilename      string  `json:"original_filename"`
+    Size                  int64   `json:"size"`
+    ContentType           string  `json:"content_type"`
     ModelCredits          float64 `json:"model_credits"`
     SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
     TotalCredits          float64 `json:"total_credits"`
@@ -44257,6 +44936,10 @@ type ManagedAgentsStreamSessionThreadEventsUnion struct {
     // This field is from variant [ManagedAgentsDeltaEvent].
     EventID string `json:"event_id"`
     JSON    struct {
+        FileID                   respjson.Field
+        OriginalFilename         respjson.Field
+        Size                     respjson.Field
+        ContentType              respjson.Field
         ModelCredits             respjson.Field
         SandboxRuntimeCredits    respjson.Field
         TotalCredits             respjson.Field
@@ -44303,6 +44986,15 @@ type ManagedAgentsStreamSessionThreadEventsUnion struct {
     }   `json:"-"`
 }
 ```
+
+<a name="ManagedAgentsStreamSessionThreadEventsUnion.AsAgentArtifactDelivered"></a>
+### func \(ManagedAgentsStreamSessionThreadEventsUnion\) [AsAgentArtifactDelivered](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionthread.go>)
+
+```go
+func (u ManagedAgentsStreamSessionThreadEventsUnion) AsAgentArtifactDelivered() (v ManagedAgentsAgentArtifactDeliveredEvent)
+```
+
+
 
 <a name="ManagedAgentsStreamSessionThreadEventsUnion.AsAgentCustomToolUse"></a>
 ### func \(ManagedAgentsStreamSessionThreadEventsUnion\) [AsAgentCustomToolUse](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionthread.go>)
@@ -46111,6 +46803,8 @@ An unknown or unexpected error occurred during session execution. A fallback var
 
 ```go
 type ManagedAgentsUnknownError struct {
+    // Diagnostic only; use retry_status to determine retry behavior.
+    QoderErrorCode string `json:"qoder_error_code"`
     // Human-readable error description.
     Message string `json:"message" api:"required"`
     // What the client should do next in response to this error.
@@ -46119,10 +46813,11 @@ type ManagedAgentsUnknownError struct {
     Type ManagedAgentsUnknownErrorType `json:"type" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        Message     respjson.Field
-        RetryStatus respjson.Field
-        Type        respjson.Field
-        ExtraFields map[string]respjson.Field
+        QoderErrorCode respjson.Field
+        Message        respjson.Field
+        RetryStatus    respjson.Field
+        Type           respjson.Field
+        ExtraFields    map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -51402,10 +52097,12 @@ Configuration for self\-hosted environments.
 
 ```go
 type SelfHostedConfig struct {
+    SetupScript string `json:"setup_script"`
     // Environment type
     Type constant.SelfHosted `json:"type" default:"self_hosted"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
+        SetupScript respjson.Field
         Type        respjson.Field
         ExtraFields map[string]respjson.Field
         // contains filtered or unexported fields
@@ -51440,6 +52137,7 @@ This struct has a constant value, construct it with [NewSelfHostedConfigParams](
 
 ```go
 type SelfHostedConfigParams struct {
+    SetupScript param.Opt[string] `json:"setup_script,omitzero"`
     // Environment type
     Type constant.SelfHosted `json:"type" default:"self_hosted"`
     // contains filtered or unexported fields
@@ -52588,6 +53286,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 
 ```go
 type SessionNewParamsResourceUnion struct {
+    OfGitRepository    *ManagedAgentsGitRepositoryResourceParams    `json:",omitzero,inline"`
     OfGitHubRepository *ManagedAgentsGitHubRepositoryResourceParams `json:",omitzero,inline"`
     OfFile             *ManagedAgentsFileResourceParams             `json:",omitzero,inline"`
     OfMemoryStore      *ManagedAgentsMemoryStoreResourceParam       `json:",omitzero,inline"`
@@ -52657,6 +53356,15 @@ func (u SessionNewParamsResourceUnion) GetMountPath() *string
 ```
 
 Returns a pointer to the underlying variant's property, if present.
+
+<a name="SessionNewParamsResourceUnion.GetPassword"></a>
+### func \(SessionNewParamsResourceUnion\) [GetPassword](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (u SessionNewParamsResourceUnion) GetPassword() *string
+```
+
+
 
 <a name="SessionNewParamsResourceUnion.GetType"></a>
 ### func \(SessionNewParamsResourceUnion\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
@@ -52758,7 +53466,7 @@ type SessionResourceGetParams struct {
 <a name="SessionResourceGetResponseUnion"></a>
 ## type [SessionResourceGetResponseUnion](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionresource.go>)
 
-SessionResourceGetResponseUnion contains all possible properties and values from [ManagedAgentsGitHubRepositoryResource](<#ManagedAgentsGitHubRepositoryResource>), [ManagedAgentsFileResource](<#ManagedAgentsFileResource>), [ManagedAgentsMemoryStoreResource](<#ManagedAgentsMemoryStoreResource>).
+SessionResourceGetResponseUnion includes [ManagedAgentsGitRepositoryResource](<#ManagedAgentsGitRepositoryResource>) and contains all possible properties and values from [ManagedAgentsGitHubRepositoryResource](<#ManagedAgentsGitHubRepositoryResource>), [ManagedAgentsFileResource](<#ManagedAgentsFileResource>), [ManagedAgentsMemoryStoreResource](<#ManagedAgentsMemoryStoreResource>).
 
 Use the [SessionResourceGetResponseUnion.AsAny](<#SessionResourceGetResponseUnion.AsAny>) method to switch on the variant.
 
@@ -52840,6 +53548,15 @@ func (u SessionResourceGetResponseUnion) AsFile() (v ManagedAgentsFileResource)
 
 ```go
 func (u SessionResourceGetResponseUnion) AsGitHubRepository() (v ManagedAgentsGitHubRepositoryResource)
+```
+
+
+
+<a name="SessionResourceGetResponseUnion.AsGitRepository"></a>
+### func \(SessionResourceGetResponseUnion\) [AsGitRepository](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionresource.go>)
+
+```go
+func (u SessionResourceGetResponseUnion) AsGitRepository() (v ManagedAgentsGitRepositoryResource)
 ```
 
 
@@ -52987,8 +53704,8 @@ type SessionResourceUpdateParams struct {
     Password param.Opt[string] `json:"password,omitzero"`
 
     SessionID string `path:"session_id" api:"required" json:"-"`
-    // New authorization token for the resource. Currently only `github_repository`
-    // resources support token rotation.
+    // GitHub access token; also accepted for legacy generic Git clients.
+    // For generic Git, prefer Password and do not send conflicting credentials.
     AuthorizationToken string `json:"authorization_token,omitzero"`
     // Optional header to specify the beta version(s) you want to use.
     Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
@@ -53017,7 +53734,7 @@ func (r *SessionResourceUpdateParams) UnmarshalJSON(data []byte) error
 <a name="SessionResourceUpdateResponseUnion"></a>
 ## type [SessionResourceUpdateResponseUnion](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionresource.go>)
 
-SessionResourceUpdateResponseUnion contains all possible properties and values from [ManagedAgentsGitHubRepositoryResource](<#ManagedAgentsGitHubRepositoryResource>), [ManagedAgentsFileResource](<#ManagedAgentsFileResource>), [ManagedAgentsMemoryStoreResource](<#ManagedAgentsMemoryStoreResource>).
+SessionResourceUpdateResponseUnion includes [ManagedAgentsGitRepositoryResource](<#ManagedAgentsGitRepositoryResource>) and contains all possible properties and values from [ManagedAgentsGitHubRepositoryResource](<#ManagedAgentsGitHubRepositoryResource>), [ManagedAgentsFileResource](<#ManagedAgentsFileResource>), [ManagedAgentsMemoryStoreResource](<#ManagedAgentsMemoryStoreResource>).
 
 Use the [SessionResourceUpdateResponseUnion.AsAny](<#SessionResourceUpdateResponseUnion.AsAny>) method to switch on the variant.
 
@@ -53099,6 +53816,15 @@ func (u SessionResourceUpdateResponseUnion) AsFile() (v ManagedAgentsFileResourc
 
 ```go
 func (u SessionResourceUpdateResponseUnion) AsGitHubRepository() (v ManagedAgentsGitHubRepositoryResource)
+```
+
+
+
+<a name="SessionResourceUpdateResponseUnion.AsGitRepository"></a>
+### func \(SessionResourceUpdateResponseUnion\) [AsGitRepository](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionresource.go>)
+
+```go
+func (u SessionResourceUpdateResponseUnion) AsGitRepository() (v ManagedAgentsGitRepositoryResource)
 ```
 
 

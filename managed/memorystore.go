@@ -176,6 +176,10 @@ const (
 // Attach a store to a session via `resources[]` to mount it as a directory the
 // agent can read and write.
 type ManagedAgentsMemoryStore struct {
+	// active or archived.
+	Status     string `json:"status"`
+	EntryCount int64  `json:"entry_count"`
+	TotalSize  int64  `json:"total_size"`
 	// Unique identifier for the memory store (a `memstore_...` tagged ID). Use this
 	// when attaching the store to a session, or in the `{memory_store_id}` path
 	// parameter of subsequent calls.
@@ -201,6 +205,9 @@ type ManagedAgentsMemoryStore struct {
 	Metadata map[string]string `json:"metadata"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		Status      respjson.Field
+		EntryCount  respjson.Field
+		TotalSize   respjson.Field
 		ID          respjson.Field
 		CreatedAt   respjson.Field
 		Name        respjson.Field

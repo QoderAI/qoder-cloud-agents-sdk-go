@@ -1234,6 +1234,8 @@ func (r *ManagedAgentsBase64ImageSourceParam) UnmarshalJSON(data []byte) error {
 // credits or spend limit reached. Retrying with the same credentials will not
 // succeed; the caller must resolve the billing state.
 type ManagedAgentsBillingError struct {
+	// Diagnostic only; use retry_status to determine retry behavior.
+	QoderErrorCode string `json:"qoder_error_code"`
 	// Human-readable error description.
 	Message string `json:"message" api:"required"`
 	// What the client should do next in response to this error.
@@ -1242,11 +1244,12 @@ type ManagedAgentsBillingError struct {
 	Type ManagedAgentsBillingErrorType `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Message     respjson.Field
-		RetryStatus respjson.Field
-		Type        respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		QoderErrorCode respjson.Field
+		Message        respjson.Field
+		RetryStatus    respjson.Field
+		Type           respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
 	} `json:"-"`
 }
 
@@ -1336,6 +1339,8 @@ const (
 // An `environment_variable` credential's `auth.networking.allowed_hosts` includes
 // a host the environment's network policy does not permit.
 type ManagedAgentsCredentialHostUnreachableError struct {
+	// Diagnostic only; use retry_status to determine retry behavior.
+	QoderErrorCode string `json:"qoder_error_code"`
 	// ID of the affected credential.
 	CredentialID string `json:"credential_id" api:"required"`
 	// Human-readable error description.
@@ -1348,13 +1353,14 @@ type ManagedAgentsCredentialHostUnreachableError struct {
 	VaultID string `json:"vault_id" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		CredentialID respjson.Field
-		Message      respjson.Field
-		RetryStatus  respjson.Field
-		Type         respjson.Field
-		VaultID      respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
+		QoderErrorCode respjson.Field
+		CredentialID   respjson.Field
+		Message        respjson.Field
+		RetryStatus    respjson.Field
+		Type           respjson.Field
+		VaultID        respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
 	} `json:"-"`
 }
 
@@ -2327,6 +2333,8 @@ func init() {
 
 // Authentication to an MCP server failed.
 type ManagedAgentsMCPAuthenticationFailedError struct {
+	// Diagnostic only; use retry_status to determine retry behavior.
+	QoderErrorCode string `json:"qoder_error_code"`
 	// Name of the MCP server that failed authentication.
 	MCPServerName string `json:"mcp_server_name" api:"required"`
 	// Human-readable error description.
@@ -2337,12 +2345,13 @@ type ManagedAgentsMCPAuthenticationFailedError struct {
 	Type ManagedAgentsMCPAuthenticationFailedErrorType `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		MCPServerName respjson.Field
-		Message       respjson.Field
-		RetryStatus   respjson.Field
-		Type          respjson.Field
-		ExtraFields   map[string]respjson.Field
-		raw           string
+		QoderErrorCode respjson.Field
+		MCPServerName  respjson.Field
+		Message        respjson.Field
+		RetryStatus    respjson.Field
+		Type           respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
 	} `json:"-"`
 }
 
@@ -2437,6 +2446,8 @@ const (
 
 // Failed to connect to an MCP server.
 type ManagedAgentsMCPConnectionFailedError struct {
+	// Diagnostic only; use retry_status to determine retry behavior.
+	QoderErrorCode string `json:"qoder_error_code"`
 	// Name of the MCP server that failed to connect.
 	MCPServerName string `json:"mcp_server_name" api:"required"`
 	// Human-readable error description.
@@ -2447,12 +2458,13 @@ type ManagedAgentsMCPConnectionFailedError struct {
 	Type ManagedAgentsMCPConnectionFailedErrorType `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		MCPServerName respjson.Field
-		Message       respjson.Field
-		RetryStatus   respjson.Field
-		Type          respjson.Field
-		ExtraFields   map[string]respjson.Field
-		raw           string
+		QoderErrorCode respjson.Field
+		MCPServerName  respjson.Field
+		Message        respjson.Field
+		RetryStatus    respjson.Field
+		Type           respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
 	} `json:"-"`
 }
 
@@ -2548,6 +2560,8 @@ const (
 // The model is currently overloaded. Emitted after automatic retries are
 // exhausted.
 type ManagedAgentsModelOverloadedError struct {
+	// Diagnostic only; use retry_status to determine retry behavior.
+	QoderErrorCode string `json:"qoder_error_code"`
 	// Human-readable error description.
 	Message string `json:"message" api:"required"`
 	// What the client should do next in response to this error.
@@ -2556,11 +2570,12 @@ type ManagedAgentsModelOverloadedError struct {
 	Type ManagedAgentsModelOverloadedErrorType `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Message     respjson.Field
-		RetryStatus respjson.Field
-		Type        respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		QoderErrorCode respjson.Field
+		Message        respjson.Field
+		RetryStatus    respjson.Field
+		Type           respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
 	} `json:"-"`
 }
 
@@ -2653,6 +2668,8 @@ const (
 
 // The model request was rate-limited.
 type ManagedAgentsModelRateLimitedError struct {
+	// Diagnostic only; use retry_status to determine retry behavior.
+	QoderErrorCode string `json:"qoder_error_code"`
 	// Human-readable error description.
 	Message string `json:"message" api:"required"`
 	// What the client should do next in response to this error.
@@ -2661,11 +2678,12 @@ type ManagedAgentsModelRateLimitedError struct {
 	Type ManagedAgentsModelRateLimitedErrorType `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Message     respjson.Field
-		RetryStatus respjson.Field
-		Type        respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		QoderErrorCode respjson.Field
+		Message        respjson.Field
+		RetryStatus    respjson.Field
+		Type           respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
 	} `json:"-"`
 }
 
@@ -2758,6 +2776,8 @@ const (
 
 // A model request failed for a reason other than overload or rate-limiting.
 type ManagedAgentsModelRequestFailedError struct {
+	// Diagnostic only; use retry_status to determine retry behavior.
+	QoderErrorCode string `json:"qoder_error_code"`
 	// Human-readable error description.
 	Message string `json:"message" api:"required"`
 	// What the client should do next in response to this error.
@@ -2766,11 +2786,12 @@ type ManagedAgentsModelRequestFailedError struct {
 	Type ManagedAgentsModelRequestFailedErrorType `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Message     respjson.Field
-		RetryStatus respjson.Field
-		Type        respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		QoderErrorCode respjson.Field
+		Message        respjson.Field
+		RetryStatus    respjson.Field
+		Type           respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
 	} `json:"-"`
 }
 
@@ -3565,7 +3586,9 @@ func (r *ManagedAgentsSessionErrorEvent) UnmarshalJSON(data []byte) error {
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ManagedAgentsSessionErrorEventErrorUnion struct {
-	Message string `json:"message"`
+	// Diagnostic only; use retry_status to determine retry behavior.
+	QoderErrorCode string `json:"qoder_error_code"`
+	Message        string `json:"message"`
 	// This field is a union of [ManagedAgentsUnknownErrorRetryStatusUnion],
 	// [ManagedAgentsModelOverloadedErrorRetryStatusUnion],
 	// [ManagedAgentsModelRateLimitedErrorRetryStatusUnion],
@@ -3586,13 +3609,14 @@ type ManagedAgentsSessionErrorEventErrorUnion struct {
 	// This field is from variant [ManagedAgentsCredentialHostUnreachableError].
 	VaultID string `json:"vault_id"`
 	JSON    struct {
-		Message       respjson.Field
-		RetryStatus   respjson.Field
-		Type          respjson.Field
-		MCPServerName respjson.Field
-		CredentialID  respjson.Field
-		VaultID       respjson.Field
-		raw           string
+		QoderErrorCode respjson.Field
+		Message        respjson.Field
+		RetryStatus    respjson.Field
+		Type           respjson.Field
+		MCPServerName  respjson.Field
+		CredentialID   respjson.Field
+		VaultID        respjson.Field
+		raw            string
 	} `json:"-"`
 }
 
@@ -3760,6 +3784,10 @@ const (
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ManagedAgentsSessionEventUnion struct {
+	FileID                string  `json:"file_id"`
+	OriginalFilename      string  `json:"original_filename"`
+	Size                  int64   `json:"size"`
+	ContentType           string  `json:"content_type"`
 	ModelCredits          float64 `json:"model_credits"`
 	SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
 	TotalCredits          float64 `json:"total_credits"`
@@ -3848,6 +3876,10 @@ type ManagedAgentsSessionEventUnion struct {
 	// This field is from variant [ManagedAgentsSessionUpdatedEvent].
 	Title string `json:"title"`
 	JSON  struct {
+		FileID                   respjson.Field
+		OriginalFilename         respjson.Field
+		Size                     respjson.Field
+		ContentType              respjson.Field
 		ModelCredits             respjson.Field
 		SandboxRuntimeCredits    respjson.Field
 		TotalCredits             respjson.Field
@@ -3978,6 +4010,8 @@ func (ManagedAgentsSessionUsageEvent) implManagedAgentsSessionEventUnion()   {}
 //	}
 func (u ManagedAgentsSessionEventUnion) AsAny() anyManagedAgentsSessionEvent {
 	switch u.Type {
+	case "agent.artifact_delivered":
+		return u.AsAgentArtifactDelivered()
 	case "user.message":
 		return u.AsUserMessage()
 	case "user.interrupt":
@@ -5243,6 +5277,10 @@ const (
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ManagedAgentsStreamSessionEventsUnion struct {
+	FileID                string  `json:"file_id"`
+	OriginalFilename      string  `json:"original_filename"`
+	Size                  int64   `json:"size"`
+	ContentType           string  `json:"content_type"`
 	ModelCredits          float64 `json:"model_credits"`
 	SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
 	TotalCredits          float64 `json:"total_credits"`
@@ -5337,6 +5375,10 @@ type ManagedAgentsStreamSessionEventsUnion struct {
 	// This field is from variant [ManagedAgentsDeltaEvent].
 	EventID string `json:"event_id"`
 	JSON    struct {
+		FileID                   respjson.Field
+		OriginalFilename         respjson.Field
+		Size                     respjson.Field
+		ContentType              respjson.Field
 		ModelCredits             respjson.Field
 		SandboxRuntimeCredits    respjson.Field
 		TotalCredits             respjson.Field
@@ -5484,6 +5526,8 @@ func (ManagedAgentsSessionUsageEvent) implManagedAgentsStreamSessionEventsUnion(
 //	}
 func (u ManagedAgentsStreamSessionEventsUnion) AsAny() anyManagedAgentsStreamSessionEvents {
 	switch u.Type {
+	case "agent.artifact_delivered":
+		return u.AsAgentArtifactDelivered()
 	case "user.message":
 		return u.AsUserMessage()
 	case "user.interrupt":
@@ -6030,6 +6074,8 @@ const (
 // variant; clients that don't recognize a new error code can match on
 // `retry_status` and `message` alone.
 type ManagedAgentsUnknownError struct {
+	// Diagnostic only; use retry_status to determine retry behavior.
+	QoderErrorCode string `json:"qoder_error_code"`
 	// Human-readable error description.
 	Message string `json:"message" api:"required"`
 	// What the client should do next in response to this error.
@@ -6038,11 +6084,12 @@ type ManagedAgentsUnknownError struct {
 	Type ManagedAgentsUnknownErrorType `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Message     respjson.Field
-		RetryStatus respjson.Field
-		Type        respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		QoderErrorCode respjson.Field
+		Message        respjson.Field
+		RetryStatus    respjson.Field
+		Type           respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
 	} `json:"-"`
 }
 
@@ -7674,4 +7721,48 @@ func (r SessionEventStreamParams) URLQuery() (v url.Values, err error) {
 		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+// A server-generated event for one successfully delivered artifact file.
+
+type ManagedAgentsAgentArtifactDeliveredEvent struct {
+	ID               string                                       `json:"id" api:"required"`
+	Type             ManagedAgentsAgentArtifactDeliveredEventType `json:"type" api:"required"`
+	FileID           string                                       `json:"file_id" api:"required"`
+	OriginalFilename string                                       `json:"original_filename" api:"required"`
+	Size             int64                                        `json:"size" api:"required"`
+	ContentType      string                                       `json:"content_type" api:"required"`
+	ProcessedAt      time.Time                                    `json:"processed_at" format:"date-time"`
+	JSON             struct {
+		ID               respjson.Field
+		Type             respjson.Field
+		FileID           respjson.Field
+		OriginalFilename respjson.Field
+		Size             respjson.Field
+		ContentType      respjson.Field
+		ProcessedAt      respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
+	} `json:"-"`
+}
+
+func (r ManagedAgentsAgentArtifactDeliveredEvent) RawJSON() string { return r.JSON.raw }
+func (r *ManagedAgentsAgentArtifactDeliveredEvent) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ManagedAgentsAgentArtifactDeliveredEventType string
+
+const ManagedAgentsAgentArtifactDeliveredEventTypeAgentArtifactDelivered ManagedAgentsAgentArtifactDeliveredEventType = "agent.artifact_delivered"
+
+func (ManagedAgentsAgentArtifactDeliveredEvent) implManagedAgentsSessionEventUnion() {}
+func (u ManagedAgentsSessionEventUnion) AsAgentArtifactDelivered() (v ManagedAgentsAgentArtifactDeliveredEvent) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (ManagedAgentsAgentArtifactDeliveredEvent) implManagedAgentsStreamSessionEventsUnion() {}
+func (u ManagedAgentsStreamSessionEventsUnion) AsAgentArtifactDelivered() (v ManagedAgentsAgentArtifactDeliveredEvent) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
 }

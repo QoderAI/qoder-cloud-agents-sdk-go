@@ -321,41 +321,49 @@ func (r *ScheduleArchiveManyResponse) UnmarshalJSON(data []byte) error {
 }
 
 type Schedule struct {
-	ID            string                      `json:"id"`
-	IdentityID    string                      `json:"identity_id"`
-	TemplateID    string                      `json:"template_id"`
-	Name          string                      `json:"name"`
-	Description   string                      `json:"description"`
-	Status        string                      `json:"status"`
-	InitialEvents []ScheduleInitialEventsItem `json:"initial_events"`
-	Execution     ScheduleExecution           `json:"execution"`
-	TriggerPolicy ScheduleTriggerPolicy       `json:"trigger_policy"`
-	EnvironmentID string                      `json:"environment_id"`
-	Sinks         []ScheduleSinksItem         `json:"sinks"`
-	Metadata      map[string]any              `json:"metadata"`
-	CreatedAt     time.Time                   `json:"created_at" format:"date-time"`
-	UpdatedAt     time.Time                   `json:"updated_at" format:"date-time"`
-	ArchivedAt    time.Time                   `json:"archived_at" format:"date-time"`
-	PausedReason  SchedulePausedReason        `json:"paused_reason"`
-	JSON          struct {
-		ID            respjson.Field
-		IdentityID    respjson.Field
-		TemplateID    respjson.Field
-		Name          respjson.Field
-		Description   respjson.Field
-		Status        respjson.Field
-		InitialEvents respjson.Field
-		Execution     respjson.Field
-		TriggerPolicy respjson.Field
-		EnvironmentID respjson.Field
-		Sinks         respjson.Field
-		Metadata      respjson.Field
-		CreatedAt     respjson.Field
-		UpdatedAt     respjson.Field
-		ArchivedAt    respjson.Field
-		PausedReason  respjson.Field
-		ExtraFields   map[string]respjson.Field
-		raw           string
+	// Authoritative creation method of the Schedule: api or tool.
+	Source          string `json:"source"`
+	SourceSessionID string `json:"source_session_id" api:"nullable"`
+	// Server-maintained input version, incremented when initial_events changes.
+	InitialEventsVersion int64                       `json:"initial_events_version"`
+	ID                   string                      `json:"id"`
+	IdentityID           string                      `json:"identity_id"`
+	TemplateID           string                      `json:"template_id"`
+	Name                 string                      `json:"name"`
+	Description          string                      `json:"description"`
+	Status               string                      `json:"status"`
+	InitialEvents        []ScheduleInitialEventsItem `json:"initial_events"`
+	Execution            ScheduleExecution           `json:"execution"`
+	TriggerPolicy        ScheduleTriggerPolicy       `json:"trigger_policy"`
+	EnvironmentID        string                      `json:"environment_id"`
+	Sinks                []ScheduleSinksItem         `json:"sinks"`
+	Metadata             map[string]any              `json:"metadata"`
+	CreatedAt            time.Time                   `json:"created_at" format:"date-time"`
+	UpdatedAt            time.Time                   `json:"updated_at" format:"date-time"`
+	ArchivedAt           time.Time                   `json:"archived_at" format:"date-time"`
+	PausedReason         SchedulePausedReason        `json:"paused_reason"`
+	JSON                 struct {
+		Source               respjson.Field
+		SourceSessionID      respjson.Field
+		InitialEventsVersion respjson.Field
+		ID                   respjson.Field
+		IdentityID           respjson.Field
+		TemplateID           respjson.Field
+		Name                 respjson.Field
+		Description          respjson.Field
+		Status               respjson.Field
+		InitialEvents        respjson.Field
+		Execution            respjson.Field
+		TriggerPolicy        respjson.Field
+		EnvironmentID        respjson.Field
+		Sinks                respjson.Field
+		Metadata             respjson.Field
+		CreatedAt            respjson.Field
+		UpdatedAt            respjson.Field
+		ArchivedAt           respjson.Field
+		PausedReason         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
 	} `json:"-"`
 }
 
@@ -409,11 +417,17 @@ func (r *ScheduleSinksItemTarget) UnmarshalJSON(data []byte) error {
 }
 
 type ScheduleTriggerPolicy struct {
+	StartAt        time.Time   `json:"start_at" format:"date-time"`
+	StopAt         time.Time   `json:"stop_at" format:"date-time"`
+	LastRunAt      time.Time   `json:"last_run_at" api:"nullable" format:"date-time"`
 	Type           string      `json:"type"`
 	Expression     string      `json:"expression"`
 	Timezone       string      `json:"timezone"`
 	UpcomingRunsAt []time.Time `json:"upcoming_runs_at"`
 	JSON           struct {
+		StartAt        respjson.Field
+		StopAt         respjson.Field
+		LastRunAt      respjson.Field
 		Type           respjson.Field
 		Expression     respjson.Field
 		Timezone       respjson.Field

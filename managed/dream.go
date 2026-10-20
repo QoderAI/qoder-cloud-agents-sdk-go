@@ -486,11 +486,14 @@ const (
 
 // An output memory store the dream writes consolidated memories into.
 type DreamOutput struct {
-	MemoryStoreID string `json:"memory_store_id" api:"required"`
+	// Paths of memory files created, modified or deleted.
+	FilesTouched  []string `json:"files_touched"`
+	MemoryStoreID string   `json:"memory_store_id" api:"required"`
 	// Any of "memory_store".
 	Type DreamOutputType `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		FilesTouched  respjson.Field
 		MemoryStoreID respjson.Field
 		Type          respjson.Field
 		ExtraFields   map[string]respjson.Field

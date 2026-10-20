@@ -98,6 +98,11 @@ func (r ScheduleRunGetParams) URLQuery() (url.Values, error) {
 }
 
 type ScheduleRun struct {
+	// Authoritative creation method of the Schedule: api or tool.
+	Source          string `json:"source"`
+	SourceSessionID string `json:"source_session_id" api:"nullable"`
+	// Server-selected input version; a missing Run version is unknown.
+	InitialEventsVersion int64 `json:"initial_events_version"`
 	// Schedule Run ID.
 	ID string `json:"id"`
 	// ID of the owning Schedule.
@@ -139,27 +144,30 @@ type ScheduleRun struct {
 	// null|Human-readable error message; structured details stay in `error`.
 	ErrorMessage string `json:"error_message"`
 	JSON         struct {
-		ID             respjson.Field
-		ScheduleID     respjson.Field
-		IdentityID     respjson.Field
-		TemplateID     respjson.Field
-		SessionID      respjson.Field
-		Status         respjson.Field
-		TriggerContext respjson.Field
-		ResultPayload  respjson.Field
-		PushSink       respjson.Field
-		PushStatus     respjson.Field
-		PushFinishedAt respjson.Field
-		Attempt        respjson.Field
-		TriggeredAt    respjson.Field
-		StartedAt      respjson.Field
-		CompletedAt    respjson.Field
-		DurationMs     respjson.Field
-		CreatedAt      respjson.Field
-		Error          respjson.Field
-		ErrorMessage   respjson.Field
-		ExtraFields    map[string]respjson.Field
-		raw            string
+		Source               respjson.Field
+		SourceSessionID      respjson.Field
+		InitialEventsVersion respjson.Field
+		ID                   respjson.Field
+		ScheduleID           respjson.Field
+		IdentityID           respjson.Field
+		TemplateID           respjson.Field
+		SessionID            respjson.Field
+		Status               respjson.Field
+		TriggerContext       respjson.Field
+		ResultPayload        respjson.Field
+		PushSink             respjson.Field
+		PushStatus           respjson.Field
+		PushFinishedAt       respjson.Field
+		Attempt              respjson.Field
+		TriggeredAt          respjson.Field
+		StartedAt            respjson.Field
+		CompletedAt          respjson.Field
+		DurationMs           respjson.Field
+		CreatedAt            respjson.Field
+		Error                respjson.Field
+		ErrorMessage         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
 	} `json:"-"`
 }
 

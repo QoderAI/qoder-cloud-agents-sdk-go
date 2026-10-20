@@ -76,6 +76,8 @@ func (r *BatchService) New(ctx context.Context, params BatchNewParams, opts ...o
 }
 
 type BatchNewParams struct {
+	// Ignore the scheduling time window; does not change capacity or FIFO priority.
+	IgnoreIdleWindow param.Opt[bool] `json:"ignore_idle_window,omitzero"`
 	// ID of a JSONL file uploaded through the Files API.
 	InputFileID string `json:"input_file_id" api:"required"`
 	// Completion window: `24h`, `48h` or `72h`. The Batch moves to `expired` when it elapses.
@@ -172,6 +174,9 @@ func (r BatchFile) RawJSON() string                  { return r.JSON.raw }
 func (r *BatchFile) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type Batch struct {
+	IgnoreIdleWindow bool `json:"ignore_idle_window"`
+	// Dynamic queue reason, present only when applicable to validating or queued Batches.
+	QueueReason string `json:"queue_reason"`
 	// Batch ID, prefixed with `batch_`.
 	ID string `json:"id"`
 	// Always `batch`.
@@ -214,6 +219,8 @@ type Batch struct {
 	// Batch-level error description; present only in the `failed` status.
 	ErrorMessage string `json:"error_message"`
 	JSON         struct {
+		IgnoreIdleWindow respjson.Field
+		QueueReason      respjson.Field
 		ID               respjson.Field
 		Object           respjson.Field
 		Status           respjson.Field

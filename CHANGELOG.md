@@ -5,6 +5,22 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+## [0.8.0]
+
+### Fixed
+
+- Align existing Managed Session and Deployment resource types with generic HTTP(S) `git_repository`, including write-only credentials, branch/commit checkout, and optional GitHub authorization for public repositories.
+- Add Forward Template `max_tool_rounds`, Batch `ignore_idle_window` / `queue_reason`, and Session list `search`; preserve omitted, null, false, and zero values according to each API contract.
+- Expose Forward Session outcome evaluations and Thread statistics/Credits, Schedule and Run source/input-version metadata, and trigger time boundaries.
+- Support Forward MemoryStore creation with a native `mount` (Identity, Template, and optional access), preserving the create request's idempotency key for retries.
+- Expose self-hosted Environment setup scripts, Forward Environment binding metadata, Managed MemoryStore status/count/size, and Dream output file paths.
+- Decode flat `agent.artifact_delivered` fields and diagnostic `session.error.error.qoder_error_code` in Managed event history, Session SSE, and Thread SSE. No additional API endpoints are introduced.
+
+### Migration
+
+- Omitting `max_tool_rounds` on update preserves the configured limit; null clears it. `ignore_idle_window` accepts a boolean, with false as the server default.
+- Treat an absent Schedule Run input version or Thread usage as unknown, not zero. Use `retry_status` rather than `qoder_error_code` to decide whether execution can retry.
+
 ## [0.7.0]
 
 ### Fixed
