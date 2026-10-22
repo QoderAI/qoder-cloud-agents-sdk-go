@@ -1,0 +1,7 @@
+{
+  "secret": "whsec_MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=",
+  "id": "whe_0123456789abcdefghijkl",
+  "timestamp": "1767225600",
+  "payload": "{\"type\":\"session.created\",\"data\":{\"id\":\"sess_01\"}}",
+  "signature": "v1,lMKooyqBqXRe60OmeImJYaDFJ10DGzkw1CMAyVjLbFs="
+}

@@ -12,6 +12,7 @@ const DefaultBaseURL = "https://api.qoder.com/api/v1/forward/"
 
 // Client exposes Forward resources. Configure options before sharing a client.
 type Client struct {
+	Webhooks             WebhookService
 	Options              []option.RequestOption
 	Templates            TemplateService
 	Identities           IdentityService
@@ -45,6 +46,7 @@ func NewClient(opts ...option.RequestOption) Client {
 	defaults = append(defaults, convention.EnvironmentAuthentication())
 	opts = slices.Concat(defaults, opts)
 	return Client{Options: opts,
+		Webhooks:             NewWebhookService(opts...),
 		Templates:            NewTemplateService(opts...),
 		Identities:           NewIdentityService(opts...),
 		Sessions:             NewSessionService(opts...),
