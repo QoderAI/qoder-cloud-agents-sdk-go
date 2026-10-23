@@ -55,8 +55,6 @@ if _, err = client.Webhooks.Endpoints.Test(ctx, created.ID); err != nil { return
 pages := client.Webhooks.Endpoints.ListAutoPaging(ctx, forward.WebhookEndpointListParams{Limit: forward.Int(20)})
 for pages.Next() { fmt.Println(pages.Current().ID) }
 if err = pages.Err(); err != nil { return err }
-if _, err = client.Webhooks.Endpoints.Disable(ctx, created.ID); err != nil { return err }
-return client.Webhooks.Endpoints.Delete(ctx, created.ID)
 ```
 
 Import `forward` and `convention/param` from this module. Request options and
@@ -94,6 +92,18 @@ accepted events durably, and deduplicate using `Webhook-ID` before acknowledging
 with 2xx. Retries share the same ID. The SDK does not supply a queue or a deduplication
 database. The examples only parse an authenticated delivery and list endpoints;
 they do not start a production receiver or create subscriptions automatically.
+
+## Clean up a test endpoint
+
+Run this step separately for a temporary test endpoint, after your receiver has
+confirmed receipt and successfully verified the expected test delivery. Keep the
+endpoint active while waiting: disabling or deleting it can discard queued
+deliveries. HTTP 202 and `delivery_rows` confirm queuing, not receipt.
+
+```go
+if _, err = client.Webhooks.Endpoints.Disable(ctx, created.ID); err != nil { return err }
+return client.Webhooks.Endpoints.Delete(ctx, created.ID)
+```
 
 ## Validation boundary
 
