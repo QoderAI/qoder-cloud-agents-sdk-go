@@ -1129,3 +1129,7 @@ The module is pre-1.0. Per semantic versioning, the compatibility guarantee does
 ## License
 
 Released under the [MIT License](LICENSE).
+
+## Forward Webhooks (next release)
+
+Manage webhook endpoints and verify signed event deliveries. See [Webhook usage and receiver examples](docs/webhooks.md).

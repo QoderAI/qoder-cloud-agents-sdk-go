@@ -3479,5 +3479,228 @@
     "raw": false,
     "service": "DriveService",
     "name": "Clear"
+  },
+  {
+    "operation_id": "createWebhookEndpoint",
+    "service": "WebhookEndpointService",
+    "entry": "Webhooks.Endpoints",
+    "name": "New",
+    "response": {
+      "id": "endpoint_1",
+      "url": "https://hooks.example.com/qca",
+      "events": [
+        "forward.schedule.archived",
+        "future.event"
+      ],
+      "description": "test",
+      "metadata": {
+        "team": "sdk",
+        "created_by": "platform"
+      },
+      "active": false,
+      "created_at": "2026-10-22T00:00:00Z",
+      "signing_secret": "whsec_MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY="
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false
+  },
+  {
+    "operation_id": "listWebhookEndpoints",
+    "service": "WebhookEndpointService",
+    "entry": "Webhooks.Endpoints",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "endpoint_1",
+          "url": "https://hooks.example.com/qca",
+          "events": [
+            "forward.schedule.archived",
+            "future.event"
+          ],
+          "description": "test",
+          "metadata": {
+            "team": "sdk",
+            "created_by": "platform"
+          },
+          "active": false,
+          "created_at": "2026-10-22T00:00:00Z",
+          "updated_at": "2026-10-22T00:01:00Z",
+          "last_success_at": null,
+          "last_failure_at": "2026-10-22T00:01:00Z",
+          "consecutive_fail": 0,
+          "disabled_reason": "manual",
+          "future_field": {
+            "preserved": true
+          }
+        }
+      ],
+      "first_id": "endpoint_1",
+      "last_id": "endpoint_1",
+      "has_more": false
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false
+  },
+  {
+    "operation_id": "getWebhookEndpoint",
+    "service": "WebhookEndpointService",
+    "entry": "Webhooks.Endpoints",
+    "name": "Get",
+    "response": {
+      "id": "endpoint_1",
+      "url": "https://hooks.example.com/qca",
+      "events": [
+        "forward.schedule.archived",
+        "future.event"
+      ],
+      "description": "test",
+      "metadata": {
+        "team": "sdk",
+        "created_by": "platform"
+      },
+      "active": false,
+      "created_at": "2026-10-22T00:00:00Z",
+      "updated_at": "2026-10-22T00:01:00Z",
+      "last_success_at": null,
+      "last_failure_at": "2026-10-22T00:01:00Z",
+      "consecutive_fail": 0,
+      "disabled_reason": "manual",
+      "future_field": {
+        "preserved": true
+      }
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false
+  },
+  {
+    "operation_id": "updateWebhookEndpoint",
+    "service": "WebhookEndpointService",
+    "entry": "Webhooks.Endpoints",
+    "name": "Update",
+    "response": {
+      "id": "endpoint_1",
+      "url": "https://hooks.example.com/qca",
+      "events": [
+        "forward.schedule.archived",
+        "future.event"
+      ],
+      "description": "test",
+      "metadata": {
+        "team": "sdk",
+        "created_by": "platform"
+      },
+      "active": false,
+      "created_at": "2026-10-22T00:00:00Z",
+      "updated_at": "2026-10-22T00:01:00Z",
+      "last_success_at": null,
+      "last_failure_at": "2026-10-22T00:01:00Z",
+      "consecutive_fail": 0,
+      "disabled_reason": "manual",
+      "future_field": {
+        "preserved": true
+      }
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false
+  },
+  {
+    "operation_id": "deleteWebhookEndpoint",
+    "service": "WebhookEndpointService",
+    "entry": "Webhooks.Endpoints",
+    "name": "Delete",
+    "response": null,
+    "empty": true,
+    "stream": false,
+    "download": false,
+    "raw": false
+  },
+  {
+    "operation_id": "enableWebhookEndpoint",
+    "service": "WebhookEndpointService",
+    "entry": "Webhooks.Endpoints",
+    "name": "Enable",
+    "response": {
+      "id": "endpoint_1",
+      "url": "https://hooks.example.com/qca",
+      "events": [
+        "forward.schedule.archived",
+        "future.event"
+      ],
+      "description": "test",
+      "metadata": {
+        "team": "sdk",
+        "created_by": "platform"
+      },
+      "active": false,
+      "created_at": "2026-10-22T00:00:00Z",
+      "updated_at": "2026-10-22T00:01:00Z",
+      "last_success_at": null,
+      "last_failure_at": "2026-10-22T00:01:00Z",
+      "consecutive_fail": 0,
+      "disabled_reason": "manual",
+      "future_field": {
+        "preserved": true
+      }
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false
+  },
+  {
+    "operation_id": "disableWebhookEndpoint",
+    "service": "WebhookEndpointService",
+    "entry": "Webhooks.Endpoints",
+    "name": "Disable",
+    "response": {
+      "id": "endpoint_1",
+      "url": "https://hooks.example.com/qca",
+      "events": [
+        "forward.schedule.archived",
+        "future.event"
+      ],
+      "description": "test",
+      "metadata": {
+        "team": "sdk",
+        "created_by": "platform"
+      },
+      "active": false,
+      "created_at": "2026-10-22T00:00:00Z",
+      "updated_at": "2026-10-22T00:01:00Z",
+      "last_success_at": null,
+      "last_failure_at": "2026-10-22T00:01:00Z",
+      "consecutive_fail": 0,
+      "disabled_reason": "manual",
+      "future_field": {
+        "preserved": true
+      }
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false
+  },
+  {
+    "operation_id": "testWebhookEndpoint",
+    "service": "WebhookEndpointService",
+    "entry": "Webhooks.Endpoints",
+    "name": "Test",
+    "response": {
+      "event_id": 7,
+      "delivery_rows": 0
+    },
+    "empty": false,
+    "stream": false,
+    "download": false,
+    "raw": false
   }
 ]

@@ -9,10 +9,12 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 ## Index
 
 - [Constants](<#constants>)
+- [Variables](<#variables>)
 - [func Bool\(v bool\) param.Opt\[bool\]](<#Bool>)
 - [func Float\(v float64\) param.Opt\[float64\]](<#Float>)
 - [func Int\(v int64\) param.Opt\[int64\]](<#Int>)
 - [func String\(v string\) param.Opt\[string\]](<#String>)
+- [func VerifyWebhookSignature\(payload \[\]byte, headers http.Header, secret string\) error](<#VerifyWebhookSignature>)
 - [func WithIdentityID\(identityID string\) option.RequestOption](<#WithIdentityID>)
 - [type Batch](<#Batch>)
   - [func \(r Batch\) RawJSON\(\) string](<#Batch.RawJSON>)
@@ -922,6 +924,36 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*VaultService\) List\(ctx context.Context, params VaultListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[Vault\], err error\)](<#VaultService.List>)
   - [func \(r \*VaultService\) ListAutoPaging\(ctx context.Context, params VaultListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Vault\]](<#VaultService.ListAutoPaging>)
   - [func \(r \*VaultService\) New\(ctx context.Context, params VaultNewParams, opts ...option.RequestOption\) \(res \*Vault, err error\)](<#VaultService.New>)
+- [type WebhookEndpoint](<#WebhookEndpoint>)
+  - [func \(r WebhookEndpoint\) RawJSON\(\) string](<#WebhookEndpoint.RawJSON>)
+  - [func \(r \*WebhookEndpoint\) UnmarshalJSON\(data \[\]byte\) error](<#WebhookEndpoint.UnmarshalJSON>)
+- [type WebhookEndpointCreateResponse](<#WebhookEndpointCreateResponse>)
+  - [func \(r WebhookEndpointCreateResponse\) RawJSON\(\) string](<#WebhookEndpointCreateResponse.RawJSON>)
+  - [func \(r \*WebhookEndpointCreateResponse\) UnmarshalJSON\(data \[\]byte\) error](<#WebhookEndpointCreateResponse.UnmarshalJSON>)
+- [type WebhookEndpointListParams](<#WebhookEndpointListParams>)
+  - [func \(r WebhookEndpointListParams\) URLQuery\(\) \(url.Values, error\)](<#WebhookEndpointListParams.URLQuery>)
+- [type WebhookEndpointNewParams](<#WebhookEndpointNewParams>)
+  - [func \(r WebhookEndpointNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#WebhookEndpointNewParams.MarshalJSON>)
+  - [func \(r \*WebhookEndpointNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#WebhookEndpointNewParams.UnmarshalJSON>)
+- [type WebhookEndpointService](<#WebhookEndpointService>)
+  - [func NewWebhookEndpointService\(opts ...option.RequestOption\) WebhookEndpointService](<#NewWebhookEndpointService>)
+  - [func \(r \*WebhookEndpointService\) Delete\(ctx context.Context, endpointID string, opts ...option.RequestOption\) \(err error\)](<#WebhookEndpointService.Delete>)
+  - [func \(r \*WebhookEndpointService\) Disable\(ctx context.Context, endpointID string, opts ...option.RequestOption\) \(res \*WebhookEndpoint, err error\)](<#WebhookEndpointService.Disable>)
+  - [func \(r \*WebhookEndpointService\) Enable\(ctx context.Context, endpointID string, opts ...option.RequestOption\) \(res \*WebhookEndpoint, err error\)](<#WebhookEndpointService.Enable>)
+  - [func \(r \*WebhookEndpointService\) Get\(ctx context.Context, endpointID string, opts ...option.RequestOption\) \(res \*WebhookEndpoint, err error\)](<#WebhookEndpointService.Get>)
+  - [func \(r \*WebhookEndpointService\) List\(ctx context.Context, params WebhookEndpointListParams, opts ...option.RequestOption\) \(res \*pagination.Page\[WebhookEndpoint\], err error\)](<#WebhookEndpointService.List>)
+  - [func \(r \*WebhookEndpointService\) ListAutoPaging\(ctx context.Context, params WebhookEndpointListParams, opts ...option.RequestOption\) \*pagination.PageAutoPager\[WebhookEndpoint\]](<#WebhookEndpointService.ListAutoPaging>)
+  - [func \(r \*WebhookEndpointService\) New\(ctx context.Context, params WebhookEndpointNewParams, opts ...option.RequestOption\) \(res \*WebhookEndpointCreateResponse, err error\)](<#WebhookEndpointService.New>)
+  - [func \(r \*WebhookEndpointService\) Test\(ctx context.Context, endpointID string, opts ...option.RequestOption\) \(res \*WebhookEndpointTestResponse, err error\)](<#WebhookEndpointService.Test>)
+  - [func \(r \*WebhookEndpointService\) Update\(ctx context.Context, endpointID string, params WebhookEndpointUpdateParams, opts ...option.RequestOption\) \(res \*WebhookEndpoint, err error\)](<#WebhookEndpointService.Update>)
+- [type WebhookEndpointTestResponse](<#WebhookEndpointTestResponse>)
+  - [func \(r WebhookEndpointTestResponse\) RawJSON\(\) string](<#WebhookEndpointTestResponse.RawJSON>)
+  - [func \(r \*WebhookEndpointTestResponse\) UnmarshalJSON\(data \[\]byte\) error](<#WebhookEndpointTestResponse.UnmarshalJSON>)
+- [type WebhookEndpointUpdateParams](<#WebhookEndpointUpdateParams>)
+  - [func \(r WebhookEndpointUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#WebhookEndpointUpdateParams.MarshalJSON>)
+  - [func \(r \*WebhookEndpointUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#WebhookEndpointUpdateParams.UnmarshalJSON>)
+- [type WebhookService](<#WebhookService>)
+  - [func NewWebhookService\(opts ...option.RequestOption\) WebhookService](<#NewWebhookService>)
 
 
 ## Constants
@@ -942,6 +974,14 @@ const RealtimeMaxClientMessageBytes = 256 * 1024
 
 ```go
 const RealtimeProtocolVersion = "voice.realtime.v1"
+```
+
+## Variables
+
+<a name="ErrWebhookVerification"></a>ErrWebhookVerification indicates missing, invalid, expired or mismatched delivery authentication.
+
+```go
+var ErrWebhookVerification = errors.New("webhook signature verification failed")
 ```
 
 <a name="Bool"></a>
@@ -979,6 +1019,15 @@ func String(v string) param.Opt[string]
 ```
 
 
+
+<a name="VerifyWebhookSignature"></a>
+## func [VerifyWebhookSignature](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook_signature.go>)
+
+```go
+func VerifyWebhookSignature(payload []byte, headers http.Header, secret string) error
+```
+
+VerifyWebhookSignature authenticates the original request bytes with the endpoint's whsec\_ secret. It accepts any matching v1 signature within 300 seconds of now. Verify before parsing JSON; deduplicate accepted events using Webhook\-ID.
 
 <a name="WithIdentityID"></a>
 ## func [WithIdentityID](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/params.go>)
@@ -2236,6 +2285,7 @@ Client exposes Forward resources. Configure options before sharing a client.
 
 ```go
 type Client struct {
+    Webhooks             WebhookService
     Options              []option.RequestOption
     Templates            TemplateService
     Identities           IdentityService
@@ -12410,6 +12460,356 @@ func (r *VaultService) New(ctx context.Context, params VaultNewParams, opts ...o
 ```
 
 Create Vault
+
+<a name="WebhookEndpoint"></a>
+## type [WebhookEndpoint](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+WebhookEndpoint preserves unknown response fields.
+
+```go
+type WebhookEndpoint struct {
+    ID              string         `json:"id"`
+    URL             string         `json:"url"`
+    Description     string         `json:"description"`
+    Events          []string       `json:"events"`
+    Metadata        map[string]any `json:"metadata"`
+    Active          bool           `json:"active"`
+    CreatedAt       time.Time      `json:"created_at" format:"date-time"`
+    UpdatedAt       time.Time      `json:"updated_at" format:"date-time"`
+    LastSuccessAt   time.Time      `json:"last_success_at" format:"date-time" api:"nullable"`
+    LastFailureAt   time.Time      `json:"last_failure_at" format:"date-time" api:"nullable"`
+    DisabledReason  string         `json:"disabled_reason"`
+    ConsecutiveFail int64          `json:"consecutive_fail"`
+    JSON            struct {
+        ID              respjson.Field
+        URL             respjson.Field
+        Description     respjson.Field
+        Events          respjson.Field
+        Metadata        respjson.Field
+        Active          respjson.Field
+        CreatedAt       respjson.Field
+        UpdatedAt       respjson.Field
+        LastSuccessAt   respjson.Field
+        LastFailureAt   respjson.Field
+        DisabledReason  respjson.Field
+        ConsecutiveFail respjson.Field
+        ExtraFields     map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="WebhookEndpoint.RawJSON"></a>
+### func \(WebhookEndpoint\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r WebhookEndpoint) RawJSON() string
+```
+
+
+
+<a name="WebhookEndpoint.UnmarshalJSON"></a>
+### func \(\*WebhookEndpoint\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpoint) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="WebhookEndpointCreateResponse"></a>
+## type [WebhookEndpointCreateResponse](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+WebhookEndpointCreateResponse preserves unknown response fields.
+
+```go
+type WebhookEndpointCreateResponse struct {
+    ID          string         `json:"id"`
+    URL         string         `json:"url"`
+    Description string         `json:"description"`
+    Events      []string       `json:"events"`
+    Metadata    map[string]any `json:"metadata"`
+    Active      bool           `json:"active"`
+    CreatedAt   time.Time      `json:"created_at" format:"date-time"`
+    // Returned only at creation. Store securely; do not log.
+    SigningSecret string `json:"signing_secret"`
+    JSON          struct {
+        ID            respjson.Field
+        URL           respjson.Field
+        Description   respjson.Field
+        Events        respjson.Field
+        Metadata      respjson.Field
+        Active        respjson.Field
+        CreatedAt     respjson.Field
+        SigningSecret respjson.Field
+        ExtraFields   map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="WebhookEndpointCreateResponse.RawJSON"></a>
+### func \(WebhookEndpointCreateResponse\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r WebhookEndpointCreateResponse) RawJSON() string
+```
+
+
+
+<a name="WebhookEndpointCreateResponse.UnmarshalJSON"></a>
+### func \(\*WebhookEndpointCreateResponse\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointCreateResponse) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="WebhookEndpointListParams"></a>
+## type [WebhookEndpointListParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+
+
+```go
+type WebhookEndpointListParams struct {
+    Limit   param.Opt[int64]  `query:"limit,omitzero" json:"-"`
+    AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="WebhookEndpointListParams.URLQuery"></a>
+### func \(WebhookEndpointListParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r WebhookEndpointListParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="WebhookEndpointNewParams"></a>
+## type [WebhookEndpointNewParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+
+
+```go
+type WebhookEndpointNewParams struct {
+    URL string `json:"url" api:"required"`
+    // Full event names or "*". Unknown event names are passed to the server.
+    Events         []string          `json:"events" api:"required"`
+    Description    param.Opt[string] `json:"description,omitzero"`
+    Metadata       map[string]string `json:"metadata,omitzero"`
+    IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="WebhookEndpointNewParams.MarshalJSON"></a>
+### func \(WebhookEndpointNewParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r WebhookEndpointNewParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="WebhookEndpointNewParams.UnmarshalJSON"></a>
+### func \(\*WebhookEndpointNewParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointNewParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="WebhookEndpointService"></a>
+## type [WebhookEndpointService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+
+
+```go
+type WebhookEndpointService struct{ Options []option.RequestOption }
+```
+
+<a name="NewWebhookEndpointService"></a>
+### func [NewWebhookEndpointService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func NewWebhookEndpointService(opts ...option.RequestOption) WebhookEndpointService
+```
+
+
+
+<a name="WebhookEndpointService.Delete"></a>
+### func \(\*WebhookEndpointService\) [Delete](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointService) Delete(ctx context.Context, endpointID string, opts ...option.RequestOption) (err error)
+```
+
+Delete a webhook endpoint.
+
+<a name="WebhookEndpointService.Disable"></a>
+### func \(\*WebhookEndpointService\) [Disable](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointService) Disable(ctx context.Context, endpointID string, opts ...option.RequestOption) (res *WebhookEndpoint, err error)
+```
+
+Disable a webhook endpoint.
+
+<a name="WebhookEndpointService.Enable"></a>
+### func \(\*WebhookEndpointService\) [Enable](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointService) Enable(ctx context.Context, endpointID string, opts ...option.RequestOption) (res *WebhookEndpoint, err error)
+```
+
+Enable a webhook endpoint.
+
+<a name="WebhookEndpointService.Get"></a>
+### func \(\*WebhookEndpointService\) [Get](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointService) Get(ctx context.Context, endpointID string, opts ...option.RequestOption) (res *WebhookEndpoint, err error)
+```
+
+Get a webhook endpoint.
+
+<a name="WebhookEndpointService.List"></a>
+### func \(\*WebhookEndpointService\) [List](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointService) List(ctx context.Context, params WebhookEndpointListParams, opts ...option.RequestOption) (res *pagination.Page[WebhookEndpoint], err error)
+```
+
+List a webhook endpoint page.
+
+<a name="WebhookEndpointService.ListAutoPaging"></a>
+### func \(\*WebhookEndpointService\) [ListAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointService) ListAutoPaging(ctx context.Context, params WebhookEndpointListParams, opts ...option.RequestOption) *pagination.PageAutoPager[WebhookEndpoint]
+```
+
+
+
+<a name="WebhookEndpointService.New"></a>
+### func \(\*WebhookEndpointService\) [New](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointService) New(ctx context.Context, params WebhookEndpointNewParams, opts ...option.RequestOption) (res *WebhookEndpointCreateResponse, err error)
+```
+
+New a webhook endpoint.
+
+<a name="WebhookEndpointService.Test"></a>
+### func \(\*WebhookEndpointService\) [Test](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointService) Test(ctx context.Context, endpointID string, opts ...option.RequestOption) (res *WebhookEndpointTestResponse, err error)
+```
+
+Test queues a synthetic event; acceptance does not confirm delivery.
+
+<a name="WebhookEndpointService.Update"></a>
+### func \(\*WebhookEndpointService\) [Update](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointService) Update(ctx context.Context, endpointID string, params WebhookEndpointUpdateParams, opts ...option.RequestOption) (res *WebhookEndpoint, err error)
+```
+
+Update a webhook endpoint.
+
+<a name="WebhookEndpointTestResponse"></a>
+## type [WebhookEndpointTestResponse](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+WebhookEndpointTestResponse preserves unknown response fields.
+
+```go
+type WebhookEndpointTestResponse struct {
+    EventID      int64 `json:"event_id"`
+    DeliveryRows int64 `json:"delivery_rows"`
+    JSON         struct {
+        EventID      respjson.Field
+        DeliveryRows respjson.Field
+        ExtraFields  map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="WebhookEndpointTestResponse.RawJSON"></a>
+### func \(WebhookEndpointTestResponse\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r WebhookEndpointTestResponse) RawJSON() string
+```
+
+
+
+<a name="WebhookEndpointTestResponse.UnmarshalJSON"></a>
+### func \(\*WebhookEndpointTestResponse\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointTestResponse) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="WebhookEndpointUpdateParams"></a>
+## type [WebhookEndpointUpdateParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+
+
+```go
+type WebhookEndpointUpdateParams struct {
+    URL         param.Opt[string] `json:"url,omitzero"`
+    Description param.Opt[string] `json:"description,omitzero"`
+    Events      []string          `json:"events,omitzero"`
+    Active      param.Opt[bool]   `json:"active,omitzero"`
+    // Values are merged; param.Null[string]() removes a key.
+    Metadata map[string]param.Opt[string] `json:"metadata,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="WebhookEndpointUpdateParams.MarshalJSON"></a>
+### func \(WebhookEndpointUpdateParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r WebhookEndpointUpdateParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="WebhookEndpointUpdateParams.UnmarshalJSON"></a>
+### func \(\*WebhookEndpointUpdateParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func (r *WebhookEndpointUpdateParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="WebhookService"></a>
+## type [WebhookService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+WebhookService manages account webhook subscriptions using a PAT or administrator SAT.
+
+```go
+type WebhookService struct{ Endpoints WebhookEndpointService }
+```
+
+<a name="NewWebhookService"></a>
+### func [NewWebhookService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
+
+```go
+func NewWebhookService(opts ...option.RequestOption) WebhookService
+```
+
+
 
 # managed
 

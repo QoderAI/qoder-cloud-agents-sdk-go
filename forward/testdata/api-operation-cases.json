@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "operation_count": 123,
+  "operation_count": 131,
   "cases": [
     {
       "operation_id": "addSessionResource",
@@ -5233,6 +5233,247 @@
       ],
       "request_body": null,
       "source": "https://docs.qoder.com/cloud-agents/api/forward/drives/overview (2026-10-14)"
+    },
+    {
+      "operation_id": "createWebhookEndpoint",
+      "resource": "Webhooks",
+      "clients": {
+        "python": "webhooks.endpoints",
+        "typescript": "webhooks.endpoints",
+        "go": "Webhooks.Endpoints"
+      },
+      "methods": {
+        "python": "create",
+        "typescript": "create",
+        "go": "New"
+      },
+      "http_method": "POST",
+      "path": "/webhook/endpoints",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "value": "webhook-key"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "url": "https://hooks.example.com/qca",
+          "events": [
+            "forward.schedule.archived"
+          ],
+          "metadata": {
+            "team": "sdk"
+          }
+        }
+      }
+    },
+    {
+      "operation_id": "listWebhookEndpoints",
+      "resource": "Webhooks",
+      "clients": {
+        "python": "webhooks.endpoints",
+        "typescript": "webhooks.endpoints",
+        "go": "Webhooks.Endpoints"
+      },
+      "methods": {
+        "python": "list",
+        "typescript": "list",
+        "go": "List"
+      },
+      "http_method": "GET",
+      "path": "/webhook/endpoints",
+      "parameters": [
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "value": 2
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "value": "previous"
+        }
+      ]
+    },
+    {
+      "operation_id": "getWebhookEndpoint",
+      "resource": "Webhooks",
+      "clients": {
+        "python": "webhooks.endpoints",
+        "typescript": "webhooks.endpoints",
+        "go": "Webhooks.Endpoints"
+      },
+      "methods": {
+        "python": "retrieve",
+        "typescript": "retrieve",
+        "go": "Get"
+      },
+      "http_method": "GET",
+      "path": "/webhook/endpoints/{endpoint_id}",
+      "parameters": [
+        {
+          "wire_name": "endpoint_id",
+          "location": "path",
+          "required": true,
+          "python_name": "endpoint_id",
+          "typescript_name": "endpointID",
+          "go_name": "EndpointID",
+          "value": "endpoint_1"
+        }
+      ]
+    },
+    {
+      "operation_id": "updateWebhookEndpoint",
+      "resource": "Webhooks",
+      "clients": {
+        "python": "webhooks.endpoints",
+        "typescript": "webhooks.endpoints",
+        "go": "Webhooks.Endpoints"
+      },
+      "methods": {
+        "python": "update",
+        "typescript": "update",
+        "go": "Update"
+      },
+      "http_method": "PUT",
+      "path": "/webhook/endpoints/{endpoint_id}",
+      "parameters": [
+        {
+          "wire_name": "endpoint_id",
+          "location": "path",
+          "required": true,
+          "python_name": "endpoint_id",
+          "typescript_name": "endpointID",
+          "go_name": "EndpointID",
+          "value": "endpoint_1"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "active": false,
+          "events": [
+            "future.event"
+          ],
+          "metadata": {
+            "remove": null,
+            "team": "sdk"
+          }
+        }
+      }
+    },
+    {
+      "operation_id": "deleteWebhookEndpoint",
+      "resource": "Webhooks",
+      "clients": {
+        "python": "webhooks.endpoints",
+        "typescript": "webhooks.endpoints",
+        "go": "Webhooks.Endpoints"
+      },
+      "methods": {
+        "python": "delete",
+        "typescript": "delete",
+        "go": "Delete"
+      },
+      "http_method": "DELETE",
+      "path": "/webhook/endpoints/{endpoint_id}",
+      "parameters": [
+        {
+          "wire_name": "endpoint_id",
+          "location": "path",
+          "required": true,
+          "python_name": "endpoint_id",
+          "typescript_name": "endpointID",
+          "go_name": "EndpointID",
+          "value": "endpoint_1"
+        }
+      ]
+    },
+    {
+      "operation_id": "enableWebhookEndpoint",
+      "resource": "Webhooks",
+      "clients": {
+        "python": "webhooks.endpoints",
+        "typescript": "webhooks.endpoints",
+        "go": "Webhooks.Endpoints"
+      },
+      "methods": {
+        "python": "enable",
+        "typescript": "enable",
+        "go": "Enable"
+      },
+      "http_method": "POST",
+      "path": "/webhook/endpoints/{endpoint_id}/enable",
+      "parameters": [
+        {
+          "wire_name": "endpoint_id",
+          "location": "path",
+          "required": true,
+          "python_name": "endpoint_id",
+          "typescript_name": "endpointID",
+          "go_name": "EndpointID",
+          "value": "endpoint_1"
+        }
+      ]
+    },
+    {
+      "operation_id": "disableWebhookEndpoint",
+      "resource": "Webhooks",
+      "clients": {
+        "python": "webhooks.endpoints",
+        "typescript": "webhooks.endpoints",
+        "go": "Webhooks.Endpoints"
+      },
+      "methods": {
+        "python": "disable",
+        "typescript": "disable",
+        "go": "Disable"
+      },
+      "http_method": "POST",
+      "path": "/webhook/endpoints/{endpoint_id}/disable",
+      "parameters": [
+        {
+          "wire_name": "endpoint_id",
+          "location": "path",
+          "required": true,
+          "python_name": "endpoint_id",
+          "typescript_name": "endpointID",
+          "go_name": "EndpointID",
+          "value": "endpoint_1"
+        }
+      ]
+    },
+    {
+      "operation_id": "testWebhookEndpoint",
+      "resource": "Webhooks",
+      "clients": {
+        "python": "webhooks.endpoints",
+        "typescript": "webhooks.endpoints",
+        "go": "Webhooks.Endpoints"
+      },
+      "methods": {
+        "python": "test",
+        "typescript": "test",
+        "go": "Test"
+      },
+      "http_method": "POST",
+      "path": "/webhook/endpoints/{endpoint_id}/test",
+      "parameters": [
+        {
+          "wire_name": "endpoint_id",
+          "location": "path",
+          "required": true,
+          "python_name": "endpoint_id",
+          "typescript_name": "endpointID",
+          "go_name": "EndpointID",
+          "value": "endpoint_1"
+        }
+      ]
     }
   ]
 }

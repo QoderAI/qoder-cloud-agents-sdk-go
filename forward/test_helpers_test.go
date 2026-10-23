@@ -86,8 +86,8 @@ func operations(t *testing.T) []operationCase {
 		Cases []operationCase `json:"cases"`
 	}
 	readJSON(t, "testdata/api-operation-cases.json", &fixture)
-	if fixture.Count != 123 || len(fixture.Cases) != 123 {
-		t.Fatal("Forward API scope must contain 123 operations")
+	if fixture.Count != 131 || len(fixture.Cases) != 131 {
+		t.Fatal("Forward API scope must contain 131 operations")
 	}
 	return fixture.Cases
 }
