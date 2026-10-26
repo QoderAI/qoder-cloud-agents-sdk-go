@@ -18,6 +18,7 @@ import (
 )
 
 // DecisionService evaluates explicit state or an accessible Session's recent history.
+// The Decision API is in Beta. Its behavior may change in future updates.
 type DecisionService struct {
 	Options []option.RequestOption
 }
