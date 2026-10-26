@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "operation_count": 131,
+  "operation_count": 134,
   "cases": [
     {
       "operation_id": "addSessionResource",
@@ -5474,6 +5474,138 @@
           "value": "endpoint_1"
         }
       ]
+    },
+    {
+      "operation_id": "createDecision",
+      "resource": "Decisions",
+      "clients": {
+        "go": "Decisions",
+        "python": "decisions",
+        "typescript": "decisions"
+      },
+      "methods": {
+        "go": "New",
+        "python": "create",
+        "typescript": "create"
+      },
+      "http_method": "POST",
+      "path": "/decisions",
+      "parameters": [
+        {
+          "wire_name": "Idempotency-Key",
+          "location": "header",
+          "required": false,
+          "value": "sdk-contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "state": {
+            "resolved": false,
+            "risk": "low"
+          },
+          "questions": [
+            {
+              "type": "choice",
+              "name": "resolved",
+              "instructions": "Has the user confirmed resolution?",
+              "choices": [
+                {
+                  "value": true,
+                  "description": "Confirmed"
+                },
+                {
+                  "value": false,
+                  "description": "Not confirmed"
+                }
+              ]
+            },
+            {
+              "type": "score",
+              "name": "risk",
+              "instructions": "Select the risk level.",
+              "levels": [
+                {
+                  "label": "low",
+                  "score": 0,
+                  "description": "Routine"
+                },
+                {
+                  "label": "high",
+                  "score": 10,
+                  "description": "Destructive"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "source": "cloud-agents-forward-service@8b9474c6: internal/router/router.go, internal/handler/decision/handler.go, internal/model/dto/decision.go, internal/service/decision/{validation,service,context}.go"
+    },
+    {
+      "operation_id": "getDecision",
+      "resource": "Decisions",
+      "clients": {
+        "go": "Decisions",
+        "python": "decisions",
+        "typescript": "decisions"
+      },
+      "methods": {
+        "go": "Get",
+        "python": "retrieve",
+        "typescript": "retrieve"
+      },
+      "http_method": "GET",
+      "path": "/decisions/{decision_id}",
+      "parameters": [
+        {
+          "wire_name": "decision_id",
+          "location": "path",
+          "required": true,
+          "value": "dec_contract"
+        }
+      ],
+      "request_body": null,
+      "source": "cloud-agents-forward-service@8b9474c6: internal/router/router.go, internal/handler/decision/handler.go, internal/model/dto/decision.go, internal/service/decision/{validation,service,context}.go"
+    },
+    {
+      "operation_id": "listDecisions",
+      "resource": "Decisions",
+      "clients": {
+        "go": "Decisions",
+        "python": "decisions",
+        "typescript": "decisions"
+      },
+      "methods": {
+        "go": "List",
+        "python": "list",
+        "typescript": "list"
+      },
+      "http_method": "GET",
+      "path": "/decisions",
+      "parameters": [
+        {
+          "wire_name": "session_id",
+          "location": "query",
+          "required": false,
+          "value": "sess_contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "value": "dec_cursor"
+        }
+      ],
+      "request_body": null,
+      "source": "cloud-agents-forward-service@8b9474c6: internal/router/router.go, internal/handler/decision/handler.go, internal/model/dto/decision.go, internal/service/decision/{validation,service,context}.go"
     }
   ]
 }

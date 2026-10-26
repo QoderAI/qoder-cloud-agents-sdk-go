@@ -117,6 +117,47 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type ContentBlockParam](<#ContentBlockParam>)
   - [func \(r ContentBlockParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#ContentBlockParam.MarshalJSON>)
   - [func \(r \*ContentBlockParam\) UnmarshalJSON\(data \[\]byte\) error](<#ContentBlockParam.UnmarshalJSON>)
+- [type Decision](<#Decision>)
+  - [func \(r Decision\) RawJSON\(\) string](<#Decision.RawJSON>)
+  - [func \(r \*Decision\) UnmarshalJSON\(data \[\]byte\) error](<#Decision.UnmarshalJSON>)
+- [type DecisionAnswer](<#DecisionAnswer>)
+  - [func \(r DecisionAnswer\) RawJSON\(\) string](<#DecisionAnswer.RawJSON>)
+  - [func \(r \*DecisionAnswer\) UnmarshalJSON\(data \[\]byte\) error](<#DecisionAnswer.UnmarshalJSON>)
+- [type DecisionChoice](<#DecisionChoice>)
+  - [func \(r DecisionChoice\) RawJSON\(\) string](<#DecisionChoice.RawJSON>)
+  - [func \(r \*DecisionChoice\) UnmarshalJSON\(data \[\]byte\) error](<#DecisionChoice.UnmarshalJSON>)
+- [type DecisionChoiceParam](<#DecisionChoiceParam>)
+  - [func \(r DecisionChoiceParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#DecisionChoiceParam.MarshalJSON>)
+  - [func \(r \*DecisionChoiceParam\) UnmarshalJSON\(data \[\]byte\) error](<#DecisionChoiceParam.UnmarshalJSON>)
+- [type DecisionContext](<#DecisionContext>)
+  - [func \(r DecisionContext\) RawJSON\(\) string](<#DecisionContext.RawJSON>)
+  - [func \(r \*DecisionContext\) UnmarshalJSON\(data \[\]byte\) error](<#DecisionContext.UnmarshalJSON>)
+- [type DecisionError](<#DecisionError>)
+  - [func \(r DecisionError\) RawJSON\(\) string](<#DecisionError.RawJSON>)
+  - [func \(r \*DecisionError\) UnmarshalJSON\(data \[\]byte\) error](<#DecisionError.UnmarshalJSON>)
+- [type DecisionLevel](<#DecisionLevel>)
+  - [func \(r DecisionLevel\) RawJSON\(\) string](<#DecisionLevel.RawJSON>)
+  - [func \(r \*DecisionLevel\) UnmarshalJSON\(data \[\]byte\) error](<#DecisionLevel.UnmarshalJSON>)
+- [type DecisionLevelParam](<#DecisionLevelParam>)
+  - [func \(r DecisionLevelParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#DecisionLevelParam.MarshalJSON>)
+  - [func \(r \*DecisionLevelParam\) UnmarshalJSON\(data \[\]byte\) error](<#DecisionLevelParam.UnmarshalJSON>)
+- [type DecisionListParams](<#DecisionListParams>)
+  - [func \(r DecisionListParams\) URLQuery\(\) \(url.Values, error\)](<#DecisionListParams.URLQuery>)
+- [type DecisionNewParams](<#DecisionNewParams>)
+  - [func \(r DecisionNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#DecisionNewParams.MarshalJSON>)
+  - [func \(r \*DecisionNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#DecisionNewParams.UnmarshalJSON>)
+- [type DecisionQuestion](<#DecisionQuestion>)
+  - [func \(r DecisionQuestion\) RawJSON\(\) string](<#DecisionQuestion.RawJSON>)
+  - [func \(r \*DecisionQuestion\) UnmarshalJSON\(data \[\]byte\) error](<#DecisionQuestion.UnmarshalJSON>)
+- [type DecisionQuestionParam](<#DecisionQuestionParam>)
+  - [func \(r DecisionQuestionParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#DecisionQuestionParam.MarshalJSON>)
+  - [func \(r \*DecisionQuestionParam\) UnmarshalJSON\(data \[\]byte\) error](<#DecisionQuestionParam.UnmarshalJSON>)
+- [type DecisionService](<#DecisionService>)
+  - [func NewDecisionService\(opts ...option.RequestOption\) DecisionService](<#NewDecisionService>)
+  - [func \(r \*DecisionService\) Get\(ctx context.Context, decisionID string, opts ...option.RequestOption\) \(res \*Decision, err error\)](<#DecisionService.Get>)
+  - [func \(r \*DecisionService\) List\(ctx context.Context, params DecisionListParams, opts ...option.RequestOption\) \(res \*pagination.Page\[Decision\], err error\)](<#DecisionService.List>)
+  - [func \(r \*DecisionService\) ListAutoPaging\(ctx context.Context, params DecisionListParams, opts ...option.RequestOption\) \*pagination.PageAutoPager\[Decision\]](<#DecisionService.ListAutoPaging>)
+  - [func \(r \*DecisionService\) New\(ctx context.Context, params DecisionNewParams, opts ...option.RequestOption\) \(res \*Decision, err error\)](<#DecisionService.New>)
 - [type DeletedChannel](<#DeletedChannel>)
   - [func \(r DeletedChannel\) RawJSON\(\) string](<#DeletedChannel.RawJSON>)
   - [func \(r \*DeletedChannel\) UnmarshalJSON\(data \[\]byte\) error](<#DeletedChannel.UnmarshalJSON>)
@@ -2290,6 +2331,7 @@ type Client struct {
     Templates            TemplateService
     Identities           IdentityService
     Sessions             SessionService
+    Decisions            DecisionService
     Schedules            ScheduleService
     ScheduleRuns         ScheduleRunService
     Batches              BatchService
@@ -2389,6 +2431,513 @@ func (r *ContentBlockParam) UnmarshalJSON(data []byte) error
 ```
 
 
+
+<a name="Decision"></a>
+## type [Decision](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+Decision is a stored evaluation. GET and List may also return running or failed records.
+
+```go
+type Decision struct {
+    ID  string `json:"id"`
+    // Null for explicit-state input.
+    SessionID string `json:"session_id" api:"nullable"`
+    Source    string `json:"source"`
+    // "running", "completed", or "failed".
+    Status    string             `json:"status"`
+    Questions []DecisionQuestion `json:"questions"`
+    Answers   []DecisionAnswer   `json:"answers"`
+    Context   DecisionContext    `json:"context"`
+    // Reported model usage, if available. Context estimates are not usage.
+    Usage       map[string]any `json:"usage" api:"nullable"`
+    Error       DecisionError  `json:"error" api:"nullable"`
+    CreatedAt   time.Time      `json:"created_at" format:"date-time"`
+    CompletedAt time.Time      `json:"completed_at" format:"date-time" api:"nullable"`
+    JSON        struct {
+        ID, SessionID, Source, Status, Questions, Answers, Context, Usage, Error, CreatedAt, CompletedAt respjson.Field
+        ExtraFields                                                                                      map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="Decision.RawJSON"></a>
+### func \(Decision\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r Decision) RawJSON() string
+```
+
+
+
+<a name="Decision.UnmarshalJSON"></a>
+### func \(\*Decision\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *Decision) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DecisionAnswer"></a>
+## type [DecisionAnswer](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+
+
+```go
+type DecisionAnswer struct {
+    // "choice", "score", or "refusal".
+    Type string `json:"type"`
+    Name string `json:"name"`
+    // A string or boolean for choice answers; absent for scores or refusals.
+    Value any `json:"value"`
+    // Selected numeric level for score answers. Inspect JSON.Score for presence.
+    Score   float64 `json:"score"`
+    Refusal string  `json:"refusal"`
+    JSON    struct {
+        Type, Name, Value, Score, Refusal respjson.Field
+        ExtraFields                       map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DecisionAnswer.RawJSON"></a>
+### func \(DecisionAnswer\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r DecisionAnswer) RawJSON() string
+```
+
+
+
+<a name="DecisionAnswer.UnmarshalJSON"></a>
+### func \(\*DecisionAnswer\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionAnswer) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DecisionChoice"></a>
+## type [DecisionChoice](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+
+
+```go
+type DecisionChoice struct {
+    // The original string or boolean value, including false.
+    Value       any    `json:"value"`
+    Description string `json:"description"`
+    JSON        struct {
+        Value, Description respjson.Field
+        ExtraFields        map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DecisionChoice.RawJSON"></a>
+### func \(DecisionChoice\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r DecisionChoice) RawJSON() string
+```
+
+
+
+<a name="DecisionChoice.UnmarshalJSON"></a>
+### func \(\*DecisionChoice\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionChoice) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DecisionChoiceParam"></a>
+## type [DecisionChoiceParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+
+
+```go
+type DecisionChoiceParam struct {
+    // A nonempty string or boolean. Values must be distinct within a question.
+    Value       any               `json:"value" api:"required"`
+    Description param.Opt[string] `json:"description,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DecisionChoiceParam.MarshalJSON"></a>
+### func \(DecisionChoiceParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r DecisionChoiceParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="DecisionChoiceParam.UnmarshalJSON"></a>
+### func \(\*DecisionChoiceParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionChoiceParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DecisionContext"></a>
+## type [DecisionContext](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+DecisionContext describes the server\-selected input. Session\-only fields may be absent for explicit state or when preparation fails; inspect JSON for presence.
+
+```go
+type DecisionContext struct {
+    Mode           string `json:"mode"`
+    PolicyVersion  string `json:"policy_version"`
+    TokenEstimator string `json:"token_estimator"`
+    // Estimate of the full serialized model request, not billed model usage.
+    EstimatedInputTokens int64     `json:"estimated_input_tokens"`
+    MaxInputTokens       int64     `json:"max_input_tokens"`
+    SnapshotAt           time.Time `json:"snapshot_at" format:"date-time"`
+    AnchorEventID        string    `json:"anchor_event_id"`
+    FirstEventID         string    `json:"first_event_id"`
+    LastEventID          string    `json:"last_event_id"`
+    IncludedSegmentCount int64     `json:"included_segment_count"`
+    IncludedEventCount   int64     `json:"included_event_count"`
+    ScanLimited          bool      `json:"scan_limited"`
+    Truncated            bool      `json:"truncated"`
+    TruncationReasons    []string  `json:"truncation_reasons"`
+    JSON                 struct {
+        Mode, PolicyVersion, TokenEstimator, EstimatedInputTokens, MaxInputTokens, SnapshotAt respjson.Field
+        AnchorEventID, FirstEventID, LastEventID, IncludedSegmentCount, IncludedEventCount    respjson.Field
+        ScanLimited, Truncated, TruncationReasons                                             respjson.Field
+        ExtraFields                                                                           map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DecisionContext.RawJSON"></a>
+### func \(DecisionContext\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r DecisionContext) RawJSON() string
+```
+
+
+
+<a name="DecisionContext.UnmarshalJSON"></a>
+### func \(\*DecisionContext\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionContext) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DecisionError"></a>
+## type [DecisionError](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+
+
+```go
+type DecisionError struct {
+    Code    string `json:"code"`
+    Message string `json:"message"`
+    JSON    struct {
+        Code, Message respjson.Field
+        ExtraFields   map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DecisionError.RawJSON"></a>
+### func \(DecisionError\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r DecisionError) RawJSON() string
+```
+
+
+
+<a name="DecisionError.UnmarshalJSON"></a>
+### func \(\*DecisionError\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionError) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DecisionLevel"></a>
+## type [DecisionLevel](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+
+
+```go
+type DecisionLevel struct {
+    Label       string  `json:"label"`
+    Score       float64 `json:"score"`
+    Description string  `json:"description"`
+    JSON        struct {
+        Label, Score, Description respjson.Field
+        ExtraFields               map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DecisionLevel.RawJSON"></a>
+### func \(DecisionLevel\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r DecisionLevel) RawJSON() string
+```
+
+
+
+<a name="DecisionLevel.UnmarshalJSON"></a>
+### func \(\*DecisionLevel\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionLevel) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DecisionLevelParam"></a>
+## type [DecisionLevelParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+
+
+```go
+type DecisionLevelParam struct {
+    Label string `json:"label" api:"required"`
+    // A finite numeric score, including zero. The result selects a configured level.
+    Score       float64           `json:"score" api:"required"`
+    Description param.Opt[string] `json:"description,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DecisionLevelParam.MarshalJSON"></a>
+### func \(DecisionLevelParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r DecisionLevelParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="DecisionLevelParam.UnmarshalJSON"></a>
+### func \(\*DecisionLevelParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionLevelParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DecisionListParams"></a>
+## type [DecisionListParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+
+
+```go
+type DecisionListParams struct {
+    SessionID param.Opt[string] `query:"session_id,omitzero" json:"-"`
+    // Page size from 1 to 100; defaults to 20.
+    Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
+    // Cursor for the next page. Mutually exclusive with BeforeID.
+    AfterID  param.Opt[string] `query:"after_id,omitzero" json:"-"`
+    BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DecisionListParams.URLQuery"></a>
+### func \(DecisionListParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r DecisionListParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="DecisionNewParams"></a>
+## type [DecisionNewParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+
+
+```go
+type DecisionNewParams struct {
+    // An accessible Session ID. Mutually exclusive with State.
+    SessionID param.Opt[string] `json:"session_id,omitzero"`
+    // A nonempty JSON object to evaluate. Mutually exclusive with SessionID.
+    // The top-level state.session_context key is reserved for server-built history.
+    State map[string]any `json:"state,omitzero"`
+    // One to 32 choice or score questions.
+    Questions []DecisionQuestionParam `json:"questions" api:"required"`
+    // Reusing a key with identical request bytes replays the stored result.
+    IdempotencyKey param.Opt[string] `header:"Idempotency-Key,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DecisionNewParams.MarshalJSON"></a>
+### func \(DecisionNewParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r DecisionNewParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="DecisionNewParams.UnmarshalJSON"></a>
+### func \(\*DecisionNewParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionNewParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DecisionQuestion"></a>
+## type [DecisionQuestion](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+
+
+```go
+type DecisionQuestion struct {
+    Type         string           `json:"type"`
+    Name         string           `json:"name"`
+    Instructions string           `json:"instructions"`
+    Choices      []DecisionChoice `json:"choices"`
+    Levels       []DecisionLevel  `json:"levels"`
+    JSON         struct {
+        Type, Name, Instructions, Choices, Levels respjson.Field
+        ExtraFields                               map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="DecisionQuestion.RawJSON"></a>
+### func \(DecisionQuestion\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r DecisionQuestion) RawJSON() string
+```
+
+
+
+<a name="DecisionQuestion.UnmarshalJSON"></a>
+### func \(\*DecisionQuestion\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionQuestion) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DecisionQuestionParam"></a>
+## type [DecisionQuestionParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+
+
+```go
+type DecisionQuestionParam struct {
+    // Either "choice" or "score".
+    Type string `json:"type" api:"required"`
+    // Optional unique, nonempty question name, up to 128 bytes.
+    Name param.Opt[string] `json:"name,omitzero"`
+    // Nonempty instructions for evaluating this question.
+    Instructions string `json:"instructions" api:"required"`
+    // Two to 32 options for a choice question; omit for score questions.
+    Choices []DecisionChoiceParam `json:"choices,omitzero"`
+    // Two to 32 discrete levels for a score question; omit for choice questions.
+    Levels []DecisionLevelParam `json:"levels,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DecisionQuestionParam.MarshalJSON"></a>
+### func \(DecisionQuestionParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r DecisionQuestionParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="DecisionQuestionParam.UnmarshalJSON"></a>
+### func \(\*DecisionQuestionParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionQuestionParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="DecisionService"></a>
+## type [DecisionService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+DecisionService evaluates explicit state or an accessible Session's recent history.
+
+```go
+type DecisionService struct {
+    Options []option.RequestOption
+}
+```
+
+<a name="NewDecisionService"></a>
+### func [NewDecisionService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func NewDecisionService(opts ...option.RequestOption) DecisionService
+```
+
+
+
+<a name="DecisionService.Get"></a>
+### func \(\*DecisionService\) [Get](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionService) Get(ctx context.Context, decisionID string, opts ...option.RequestOption) (res *Decision, err error)
+```
+
+Get retrieves a Decision accessible to the current caller.
+
+<a name="DecisionService.List"></a>
+### func \(\*DecisionService\) [List](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionService) List(ctx context.Context, params DecisionListParams, opts ...option.RequestOption) (res *pagination.Page[Decision], err error)
+```
+
+List retrieves Decisions, optionally restricted to an accessible Session.
+
+<a name="DecisionService.ListAutoPaging"></a>
+### func \(\*DecisionService\) [ListAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionService) ListAutoPaging(ctx context.Context, params DecisionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Decision]
+```
+
+
+
+<a name="DecisionService.New"></a>
+### func \(\*DecisionService\) [New](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
+
+```go
+func (r *DecisionService) New(ctx context.Context, params DecisionNewParams, opts ...option.RequestOption) (res *Decision, err error)
+```
+
+New synchronously evaluates questions and stores the resulting Decision. Provide exactly one of SessionID and State. Session context is selected and truncated by Forward; explicit State and Questions are never truncated.
 
 <a name="DeletedChannel"></a>
 ## type [DeletedChannel](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/channel.go>)
