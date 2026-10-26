@@ -5,6 +5,8 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+## [0.10.0]
+
 ### Added
 
 - Add Forward Decisions for synchronous evaluation of explicit state or accessible Session history, with choice and score questions, idempotent creation, retrieval, cursor pagination, and typed context truncation/token-estimate metadata.
