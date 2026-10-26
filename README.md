@@ -8,7 +8,7 @@ The SDK ships two clients that share authentication, transport, retries, error h
 
 | Mode | Package | Resources |
 | --- | --- | --- |
-| Forward | `forward` | Identity, Template, Session, Schedule, Batch, Channel, Environment, File, Skill, Vault, MemoryStore, Model, Usage, Realtime |
+| Forward | `forward` | Identity, Template, Session, Schedule, Batch, Channel, Environment, File, Skill, Vault, MemoryStore, Model, Usage, Realtime, Decision |
 | Managed | `managed` | Agent, Session, Deployment, Dream, Environment, File, Skill, Vault, MemoryStore, Model |
 
 - [Installation](#installation)
@@ -20,6 +20,7 @@ The SDK ships two clients that share authentication, transport, retries, error h
 - [System prompts and tools](#system-prompts-and-tools)
 - [Streaming](#streaming)
 - [Realtime Beta](#realtime-beta)
+- [Forward Decisions](#forward-decisions-next-release)
 - [Request fields](#request-fields)
 - [Response objects](#response-objects)
 - [Error handling](#error-handling)
@@ -657,6 +658,56 @@ For Session, Schedule, Batch, Deployment and Dream, the response to a create or 
 | Managed Dream | the Dream status, plus the contents of the output Memory Store |
 
 Server-side windows and local deadlines are independent: a Batch `completion_window: "24h"` is submitted to the server, while the examples' `-timeout 5m` is only how long the local program waits. A Batch sitting in `queued` may not have started, and waiting longer does not change how the server schedules it. The examples cancel the work they created when they time out, so that run's output cannot be used to judge later execution.
+
+## Forward Decisions (next release)
+
+Evaluate a nonempty `state` object or an accessible `session_id` (exactly one)
+with 1–32 choice or score questions. Choice values are strings or booleans;
+score questions select from your numeric levels. Creation waits for the result.
+The service selects the model; no `model` parameter is accepted. Normal PAT or
+SAT authentication determines the caller's access.
+
+```go
+// client is a configured forward.Client.
+decision, err := client.Decisions.New(ctx, forward.DecisionNewParams{
+    State: map[string]any{"message": "My issue is resolved."},
+    Questions: []forward.DecisionQuestionParam{{
+        Type: "choice", Name: forward.String("resolved"),
+        Instructions: "Has the user confirmed resolution?",
+        Choices: []forward.DecisionChoiceParam{{Value: true}, {Value: false}},
+    }},
+    IdempotencyKey: forward.String("resolution-check-unique-request-id"),
+})
+if err != nil { return err }
+stored, err := client.Decisions.Get(ctx, decision.ID)
+if err != nil { return err }
+fmt.Println(stored.Answers)
+// Or use ListAutoPaging for all pages.
+page, err := client.Decisions.List(ctx, forward.DecisionListParams{Limit: forward.Int(20)})
+if err != nil { return err }
+fmt.Println(page.Data)
+```
+
+For Session input, replace `State` with `SessionID: forward.String(sessionID)`.
+For score questions, set `Type: "score"` and `Levels` with labels and scores.
+Use `answer.JSON.Score.Valid()` to distinguish an omitted score from zero.
+
+Session context is selected by the server. Inspect `context.truncated`,
+`context.truncation_reasons`, and the input-token estimate to understand the
+selected history. Explicit state and questions are never shortened; oversized
+input returns HTTP 422. Context estimates are separate from `usage`, which can
+be null. Answers can also have type `refusal`.
+
+Reuse an idempotency key only for identical request bytes. A changed request or
+a still-running request with that key returns HTTP 409; the SDK does not retry
+that conflict automatically. Creation errors can contain `decision_id` in the
+standard API error body. Retrieve and list can return running or failed records.
+Lists preserve server order and support `after_id` / `before_id` cursors (one at
+a time), optional `session_id`, and a limit of 1–100. There is no delete endpoint;
+Decision records expire according to server retention.
+
+See the [runnable example](examples/forward/decisions/main.go) and the
+[opt-in live test instructions](CONTRIBUTING.md#decision-live-tests).
 
 ## Forward Drive (Beta)
 

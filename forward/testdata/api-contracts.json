@@ -3702,5 +3702,234 @@
     "stream": false,
     "download": false,
     "raw": false
+  },
+  {
+    "operation_id": "createDecision",
+    "service": "DecisionService",
+    "entry": "Decisions",
+    "name": "New",
+    "response": {
+      "id": "dec_contract",
+      "session_id": null,
+      "source": "api",
+      "status": "completed",
+      "questions": [
+        {
+          "type": "choice",
+          "name": "resolved",
+          "instructions": "Has the user confirmed resolution?",
+          "choices": [
+            {
+              "value": true,
+              "description": "Confirmed"
+            },
+            {
+              "value": false,
+              "description": "Not confirmed"
+            }
+          ]
+        },
+        {
+          "type": "score",
+          "name": "risk",
+          "instructions": "Select the risk level.",
+          "levels": [
+            {
+              "label": "low",
+              "score": 0,
+              "description": "Routine"
+            },
+            {
+              "label": "high",
+              "score": 10,
+              "description": "Destructive"
+            }
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "type": "choice",
+          "name": "resolved",
+          "value": false
+        },
+        {
+          "type": "score",
+          "name": "risk",
+          "score": 0
+        }
+      ],
+      "context": {
+        "mode": "state",
+        "policy_version": "decision-context-v3",
+        "token_estimator": "caw-heuristic-v1",
+        "estimated_input_tokens": 234,
+        "max_input_tokens": 30000
+      },
+      "usage": null,
+      "error": null,
+      "created_at": "2026-10-23T05:00:00.123456Z",
+      "completed_at": "2026-10-23T05:00:01.123456Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false,
+    "source": "cloud-agents-forward-service@8b9474c6: internal/router/router.go, internal/handler/decision/handler.go, internal/model/dto/decision.go, internal/service/decision/{validation,service,context}.go"
+  },
+  {
+    "operation_id": "getDecision",
+    "service": "DecisionService",
+    "entry": "Decisions",
+    "name": "Get",
+    "response": {
+      "id": "dec_contract",
+      "session_id": null,
+      "source": "api",
+      "status": "completed",
+      "questions": [
+        {
+          "type": "choice",
+          "name": "resolved",
+          "instructions": "Has the user confirmed resolution?",
+          "choices": [
+            {
+              "value": true,
+              "description": "Confirmed"
+            },
+            {
+              "value": false,
+              "description": "Not confirmed"
+            }
+          ]
+        },
+        {
+          "type": "score",
+          "name": "risk",
+          "instructions": "Select the risk level.",
+          "levels": [
+            {
+              "label": "low",
+              "score": 0,
+              "description": "Routine"
+            },
+            {
+              "label": "high",
+              "score": 10,
+              "description": "Destructive"
+            }
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "type": "choice",
+          "name": "resolved",
+          "value": false
+        },
+        {
+          "type": "score",
+          "name": "risk",
+          "score": 0
+        }
+      ],
+      "context": {
+        "mode": "state",
+        "policy_version": "decision-context-v3",
+        "token_estimator": "caw-heuristic-v1",
+        "estimated_input_tokens": 234,
+        "max_input_tokens": 30000
+      },
+      "usage": null,
+      "error": null,
+      "created_at": "2026-10-23T05:00:00.123456Z",
+      "completed_at": "2026-10-23T05:00:01.123456Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false,
+    "source": "cloud-agents-forward-service@8b9474c6: internal/router/router.go, internal/handler/decision/handler.go, internal/model/dto/decision.go, internal/service/decision/{validation,service,context}.go"
+  },
+  {
+    "operation_id": "listDecisions",
+    "service": "DecisionService",
+    "entry": "Decisions",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "dec_contract",
+          "session_id": null,
+          "source": "api",
+          "status": "completed",
+          "questions": [
+            {
+              "type": "choice",
+              "name": "resolved",
+              "instructions": "Has the user confirmed resolution?",
+              "choices": [
+                {
+                  "value": true,
+                  "description": "Confirmed"
+                },
+                {
+                  "value": false,
+                  "description": "Not confirmed"
+                }
+              ]
+            },
+            {
+              "type": "score",
+              "name": "risk",
+              "instructions": "Select the risk level.",
+              "levels": [
+                {
+                  "label": "low",
+                  "score": 0,
+                  "description": "Routine"
+                },
+                {
+                  "label": "high",
+                  "score": 10,
+                  "description": "Destructive"
+                }
+              ]
+            }
+          ],
+          "answers": [
+            {
+              "type": "choice",
+              "name": "resolved",
+              "value": false
+            },
+            {
+              "type": "score",
+              "name": "risk",
+              "score": 0
+            }
+          ],
+          "context": {
+            "mode": "state",
+            "policy_version": "decision-context-v3",
+            "token_estimator": "caw-heuristic-v1",
+            "estimated_input_tokens": 234,
+            "max_input_tokens": 30000
+          },
+          "usage": null,
+          "error": null,
+          "created_at": "2026-10-23T05:00:00.123456Z",
+          "completed_at": "2026-10-23T05:00:01.123456Z"
+        }
+      ],
+      "has_more": false,
+      "first_id": "dec_contract",
+      "last_id": "dec_contract"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false,
+    "source": "cloud-agents-forward-service@8b9474c6: internal/router/router.go, internal/handler/decision/handler.go, internal/model/dto/decision.go, internal/service/decision/{validation,service,context}.go"
   }
 ]

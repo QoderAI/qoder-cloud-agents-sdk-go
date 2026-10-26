@@ -17,6 +17,7 @@ type Client struct {
 	Templates            TemplateService
 	Identities           IdentityService
 	Sessions             SessionService
+	Decisions            DecisionService
 	Schedules            ScheduleService
 	ScheduleRuns         ScheduleRunService
 	Batches              BatchService
@@ -50,6 +51,7 @@ func NewClient(opts ...option.RequestOption) Client {
 		Templates:            NewTemplateService(opts...),
 		Identities:           NewIdentityService(opts...),
 		Sessions:             NewSessionService(opts...),
+		Decisions:            NewDecisionService(opts...),
 		Schedules:            NewScheduleService(opts...),
 		ScheduleRuns:         NewScheduleRunService(opts...),
 		Batches:              NewBatchService(opts...),
