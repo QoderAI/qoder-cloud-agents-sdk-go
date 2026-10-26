@@ -2886,7 +2886,7 @@ func (r *DecisionQuestionParam) UnmarshalJSON(data []byte) error
 <a name="DecisionService"></a>
 ## type [DecisionService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
 
-DecisionService evaluates explicit state or an accessible Session's recent history.
+DecisionService evaluates explicit state or an accessible Session's recent history. The Decision API is in Beta. Its behavior may change in future updates.
 
 ```go
 type DecisionService struct {

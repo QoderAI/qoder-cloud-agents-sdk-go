@@ -20,7 +20,7 @@ The SDK ships two clients that share authentication, transport, retries, error h
 - [System prompts and tools](#system-prompts-and-tools)
 - [Streaming](#streaming)
 - [Realtime Beta](#realtime-beta)
-- [Forward Decisions](#forward-decisions)
+- [Forward Decisions (Beta)](#forward-decisions-beta)
 - [Request fields](#request-fields)
 - [Response objects](#response-objects)
 - [Error handling](#error-handling)
@@ -659,7 +659,9 @@ For Session, Schedule, Batch, Deployment and Dream, the response to a create or 
 
 Server-side windows and local deadlines are independent: a Batch `completion_window: "24h"` is submitted to the server, while the examples' `-timeout 5m` is only how long the local program waits. A Batch sitting in `queued` may not have started, and waiting longer does not change how the server schedules it. The examples cancel the work they created when they time out, so that run's output cannot be used to judge later execution.
 
-## Forward Decisions
+## Forward Decisions (Beta)
+
+The Decision API is in Beta. Its behavior may change in future updates.
 
 Evaluate a nonempty `state` object or an accessible `session_id` (exactly one)
 with 1–32 choice or score questions. Choice values are strings or booleans;

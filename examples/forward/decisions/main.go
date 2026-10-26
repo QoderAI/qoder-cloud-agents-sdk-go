@@ -1,4 +1,5 @@
 // Evaluate sample state, or set QODER_DECISION_SESSION_ID to evaluate a Session.
+// The Decision API is in Beta. Its behavior may change in future updates.
 // Run: go run ./examples/forward/decisions -env .env.live
 package main
 

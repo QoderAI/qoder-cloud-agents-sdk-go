@@ -5,6 +5,10 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Changed
+
+- Clarify that the Forward Decision API is in Beta and its behavior may change in future updates.
+
 ## [0.10.0]
 
 ### Added
