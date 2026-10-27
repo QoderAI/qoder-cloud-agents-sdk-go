@@ -5,6 +5,8 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-10-27
+
 ### Changed
 
 - Clarify that the Forward Decision API is in Beta and its behavior may change in future updates.
