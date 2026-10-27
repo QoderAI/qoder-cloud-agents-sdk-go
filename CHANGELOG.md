@@ -5,6 +5,8 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+## [0.13.0]
+
 ### Added
 
 - Automatically mark direct Forward and Managed Session creation with `__qca_sdk_created`, `__qca_sdk_language`, and the actual `__qca_sdk_version`, preserving caller metadata.
