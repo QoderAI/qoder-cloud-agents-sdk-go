@@ -5,6 +5,8 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+## [0.12.0]
+
 ### Added
 
 - Forward resource search for Environments, Skills, Vaults, and Files, with PAT Identity scope in the query.
