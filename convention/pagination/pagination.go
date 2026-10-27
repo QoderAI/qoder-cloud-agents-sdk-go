@@ -262,6 +262,7 @@ type PageCursor[T any] struct {
 	FirstID string `json:"first_id"`
 	LastID  string `json:"last_id"`
 
+	Total    int64  `json:"total" api:"nullable"`
 	Data     []T    `json:"data"`
 	NextPage string `json:"next_page" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -270,13 +271,15 @@ type PageCursor[T any] struct {
 		FirstID respjson.Field
 		LastID  respjson.Field
 
+		Total       respjson.Field
 		Data        respjson.Field
 		NextPage    respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
-	cfg *requestconfig.RequestConfig
-	res *http.Response
+	bodyPagination bool
+	cfg            *requestconfig.RequestConfig
+	res            *http.Response
 }
 
 // Returns the unmodified JSON received from the API
@@ -299,14 +302,18 @@ func (r *PageCursor[T]) GetNextPage() (res *PageCursor[T], err error) {
 	if r.cfg == nil {
 		return nil, fmt.Errorf("page is not attached to a client request")
 	}
-	if r.cfg.Request.URL.Query().Get("page") == next {
+	if !r.bodyPagination && r.cfg.Request.URL.Query().Get("page") == next {
 		return nil, fmt.Errorf("pagination cursor did not advance")
 	}
 	cfg := r.cfg.Clone(r.cfg.Context)
 	if cfg == nil {
 		return nil, fmt.Errorf("pagination request body cannot be replayed")
 	}
-	err = cfg.Apply(option.WithQueryDel("before_id"), option.WithQueryDel("after_id"), option.WithQuery("page", next))
+	if r.bodyPagination {
+		err = advanceSearchBody(cfg, next)
+	} else {
+		err = cfg.Apply(option.WithQueryDel("before_id"), option.WithQueryDel("after_id"), option.WithQuery("page", next))
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -318,6 +325,7 @@ func (r *PageCursor[T]) GetNextPage() (res *PageCursor[T], err error) {
 		return nil, err
 	}
 	res.SetPageConfig(cfg, raw)
+	res.bodyPagination = r.bodyPagination
 	return res, nil
 }
 
@@ -330,11 +338,12 @@ func (r *PageCursor[T]) SetPageConfig(cfg *requestconfig.RequestConfig, res *htt
 }
 
 type PageCursorAutoPager[T any] struct {
-	page *PageCursor[T]
-	cur  T
-	idx  int
-	run  int
-	err  error
+	page          *PageCursor[T]
+	searchCursors map[string]bool
+	cur           T
+	idx           int
+	run           int
+	err           error
 	paramObj
 }
 
@@ -357,6 +366,16 @@ func (r *PageCursorAutoPager[T]) Next() bool {
 			return true
 		}
 		r.idx = 0
+		if r.page.bodyPagination && r.page.NextPage != "" && !(r.page.JSON.HasMore.Valid() && !r.page.HasMore) {
+			if r.searchCursors[r.page.NextPage] {
+				r.err = fmt.Errorf("pagination cursor cycle detected")
+				return false
+			}
+			if r.searchCursors == nil {
+				r.searchCursors = make(map[string]bool)
+			}
+			r.searchCursors[r.page.NextPage] = true
+		}
 		r.page, r.err = r.page.GetNextPage()
 		if r.err != nil {
 			return false

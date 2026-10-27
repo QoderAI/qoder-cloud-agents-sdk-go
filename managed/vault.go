@@ -256,3 +256,43 @@ type VaultArchiveParams struct {
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
+
+// Search vaults by metadata and resource filters. Adds the required search Beta header.
+func (r *VaultService) Search(ctx context.Context, params VaultSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[ManagedAgentsVault], error) {
+	for _, beta := range params.Betas {
+		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", string(beta)))
+	}
+	if params.WorkspaceID.Valid() {
+		opts = append(opts, option.WithHeader("qoder-workspace-id", params.WorkspaceID.Value))
+	}
+	return pagination.NewSearchPage[ManagedAgentsVault](ctx, "vaults/search", params, slices.Concat(r.Options, opts)...)
+}
+
+// SearchAutoPaging iterates all matching vaults using opaque body cursors.
+func (r *VaultService) SearchAutoPaging(ctx context.Context, params VaultSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[ManagedAgentsVault] {
+	return pagination.NewPageCursorAutoPager(r.Search(ctx, params, opts...))
+}
+
+// VaultSearchParams contains JSON body filters for Search.
+type VaultSearchParams struct {
+	// Exact string metadata filters combined with AND (at most 16 entries).
+	Metadata map[string]string `json:"metadata,omitzero"`
+	// Page size; default 20, maximum 100.
+	Limit param.Opt[int64] `json:"limit,omitzero"`
+	// Opaque next_page cursor returned by the previous search response.
+	Page param.Opt[string] `json:"page,omitzero"`
+	// Include archived resources; defaults to false.
+	IncludeArchived param.Opt[bool] `json:"include_archived,omitzero"`
+	// Case-insensitive name substring filter.
+	Name        param.Opt[string] `json:"name,omitzero"`
+	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	// Additional beta features; search-2026-08-31 is always included.
+	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+	paramObj
+}
+
+func (r VaultSearchParams) MarshalJSON() ([]byte, error) {
+	type shadow VaultSearchParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *VaultSearchParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }

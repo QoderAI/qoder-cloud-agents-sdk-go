@@ -258,6 +258,10 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r EnvironmentNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentNewParams.MarshalJSON>)
   - [func \(r EnvironmentNewParams\) URLQuery\(\) \(url.Values, error\)](<#EnvironmentNewParams.URLQuery>)
   - [func \(r \*EnvironmentNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentNewParams.UnmarshalJSON>)
+- [type EnvironmentSearchParams](<#EnvironmentSearchParams>)
+  - [func \(r EnvironmentSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentSearchParams.MarshalJSON>)
+  - [func \(r EnvironmentSearchParams\) URLQuery\(\) \(url.Values, error\)](<#EnvironmentSearchParams.URLQuery>)
+  - [func \(r \*EnvironmentSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentSearchParams.UnmarshalJSON>)
 - [type EnvironmentService](<#EnvironmentService>)
   - [func NewEnvironmentService\(opts ...option.RequestOption\) EnvironmentService](<#NewEnvironmentService>)
   - [func \(r \*EnvironmentService\) Archive\(ctx context.Context, id string, opts ...option.RequestOption\) \(res \*Environment, err error\)](<#EnvironmentService.Archive>)
@@ -266,6 +270,8 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*EnvironmentService\) List\(ctx context.Context, params EnvironmentListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[Environment\], err error\)](<#EnvironmentService.List>)
   - [func \(r \*EnvironmentService\) ListAutoPaging\(ctx context.Context, params EnvironmentListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Environment\]](<#EnvironmentService.ListAutoPaging>)
   - [func \(r \*EnvironmentService\) New\(ctx context.Context, params EnvironmentNewParams, opts ...option.RequestOption\) \(res \*Environment, err error\)](<#EnvironmentService.New>)
+  - [func \(r \*EnvironmentService\) Search\(ctx context.Context, params EnvironmentSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[Environment\], error\)](<#EnvironmentService.Search>)
+  - [func \(r \*EnvironmentService\) SearchAutoPaging\(ctx context.Context, params EnvironmentSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Environment\]](<#EnvironmentService.SearchAutoPaging>)
   - [func \(r \*EnvironmentService\) Update\(ctx context.Context, id string, params EnvironmentUpdateParams, opts ...option.RequestOption\) \(res \*Environment, err error\)](<#EnvironmentService.Update>)
 - [type EnvironmentUpdateParams](<#EnvironmentUpdateParams>)
   - [func \(r EnvironmentUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentUpdateParams.MarshalJSON>)
@@ -292,6 +298,10 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type FileMetadata](<#FileMetadata>)
   - [func \(r FileMetadata\) RawJSON\(\) string](<#FileMetadata.RawJSON>)
   - [func \(r \*FileMetadata\) UnmarshalJSON\(data \[\]byte\) error](<#FileMetadata.UnmarshalJSON>)
+- [type FileSearchParams](<#FileSearchParams>)
+  - [func \(r FileSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#FileSearchParams.MarshalJSON>)
+  - [func \(r FileSearchParams\) URLQuery\(\) \(url.Values, error\)](<#FileSearchParams.URLQuery>)
+  - [func \(r \*FileSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#FileSearchParams.UnmarshalJSON>)
 - [type FileService](<#FileService>)
   - [func NewFileService\(opts ...option.RequestOption\) FileService](<#NewFileService>)
   - [func \(r \*FileService\) Delete\(ctx context.Context, fileID string, opts ...option.RequestOption\) \(err error\)](<#FileService.Delete>)
@@ -299,6 +309,8 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*FileService\) GetMetadata\(ctx context.Context, fileID string, opts ...option.RequestOption\) \(res \*FileMetadata, err error\)](<#FileService.GetMetadata>)
   - [func \(r \*FileService\) List\(ctx context.Context, params FileListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[FileMetadata\], err error\)](<#FileService.List>)
   - [func \(r \*FileService\) ListAutoPaging\(ctx context.Context, params FileListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[FileMetadata\]](<#FileService.ListAutoPaging>)
+  - [func \(r \*FileService\) Search\(ctx context.Context, params FileSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[FileMetadata\], error\)](<#FileService.Search>)
+  - [func \(r \*FileService\) SearchAutoPaging\(ctx context.Context, params FileSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[FileMetadata\]](<#FileService.SearchAutoPaging>)
   - [func \(r \*FileService\) Upload\(ctx context.Context, params FileUploadParams, opts ...option.RequestOption\) \(res \*FileMetadata, err error\)](<#FileService.Upload>)
 - [type FileUploadParams](<#FileUploadParams>)
   - [func \(r FileUploadParams\) MarshalMultipart\(\) \(\[\]byte, string, error\)](<#FileUploadParams.MarshalMultipart>)
@@ -830,6 +842,10 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type SkillOverrideParam](<#SkillOverrideParam>)
   - [func \(r SkillOverrideParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#SkillOverrideParam.MarshalJSON>)
   - [func \(r \*SkillOverrideParam\) UnmarshalJSON\(data \[\]byte\) error](<#SkillOverrideParam.UnmarshalJSON>)
+- [type SkillSearchParams](<#SkillSearchParams>)
+  - [func \(r SkillSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#SkillSearchParams.MarshalJSON>)
+  - [func \(r SkillSearchParams\) URLQuery\(\) \(url.Values, error\)](<#SkillSearchParams.URLQuery>)
+  - [func \(r \*SkillSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#SkillSearchParams.UnmarshalJSON>)
 - [type SkillService](<#SkillService>)
   - [func NewSkillService\(opts ...option.RequestOption\) SkillService](<#NewSkillService>)
   - [func \(r \*SkillService\) Delete\(ctx context.Context, id string, opts ...option.RequestOption\) \(err error\)](<#SkillService.Delete>)
@@ -837,6 +853,8 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*SkillService\) List\(ctx context.Context, params SkillListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[Skill\], err error\)](<#SkillService.List>)
   - [func \(r \*SkillService\) ListAutoPaging\(ctx context.Context, params SkillListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Skill\]](<#SkillService.ListAutoPaging>)
   - [func \(r \*SkillService\) New\(ctx context.Context, params SkillNewParams, opts ...option.RequestOption\) \(res \*Skill, err error\)](<#SkillService.New>)
+  - [func \(r \*SkillService\) Search\(ctx context.Context, params SkillSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[Skill\], error\)](<#SkillService.Search>)
+  - [func \(r \*SkillService\) SearchAutoPaging\(ctx context.Context, params SkillSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Skill\]](<#SkillService.SearchAutoPaging>)
   - [func \(r \*SkillService\) Update\(ctx context.Context, id string, params SkillUpdateParams, opts ...option.RequestOption\) \(res \*Skill, err error\)](<#SkillService.Update>)
 - [type SkillUpdateParams](<#SkillUpdateParams>)
   - [func \(r SkillUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#SkillUpdateParams.MarshalJSON>)
@@ -958,6 +976,10 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r VaultNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#VaultNewParams.MarshalJSON>)
   - [func \(r VaultNewParams\) URLQuery\(\) \(url.Values, error\)](<#VaultNewParams.URLQuery>)
   - [func \(r \*VaultNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#VaultNewParams.UnmarshalJSON>)
+- [type VaultSearchParams](<#VaultSearchParams>)
+  - [func \(r VaultSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#VaultSearchParams.MarshalJSON>)
+  - [func \(r VaultSearchParams\) URLQuery\(\) \(url.Values, error\)](<#VaultSearchParams.URLQuery>)
+  - [func \(r \*VaultSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#VaultSearchParams.UnmarshalJSON>)
 - [type VaultService](<#VaultService>)
   - [func NewVaultService\(opts ...option.RequestOption\) VaultService](<#NewVaultService>)
   - [func \(r \*VaultService\) Delete\(ctx context.Context, id string, opts ...option.RequestOption\) \(err error\)](<#VaultService.Delete>)
@@ -965,6 +987,8 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*VaultService\) List\(ctx context.Context, params VaultListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[Vault\], err error\)](<#VaultService.List>)
   - [func \(r \*VaultService\) ListAutoPaging\(ctx context.Context, params VaultListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Vault\]](<#VaultService.ListAutoPaging>)
   - [func \(r \*VaultService\) New\(ctx context.Context, params VaultNewParams, opts ...option.RequestOption\) \(res \*Vault, err error\)](<#VaultService.New>)
+  - [func \(r \*VaultService\) Search\(ctx context.Context, params VaultSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[Vault\], error\)](<#VaultService.Search>)
+  - [func \(r \*VaultService\) SearchAutoPaging\(ctx context.Context, params VaultSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Vault\]](<#VaultService.SearchAutoPaging>)
 - [type WebhookEndpoint](<#WebhookEndpoint>)
   - [func \(r WebhookEndpoint\) RawJSON\(\) string](<#WebhookEndpoint.RawJSON>)
   - [func \(r \*WebhookEndpoint\) UnmarshalJSON\(data \[\]byte\) error](<#WebhookEndpoint.UnmarshalJSON>)
@@ -4196,6 +4220,62 @@ func (r *EnvironmentNewParams) UnmarshalJSON(data []byte) error
 
 
 
+<a name="EnvironmentSearchParams"></a>
+## type [EnvironmentSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+EnvironmentSearchParams contains JSON body filters for Search.
+
+```go
+type EnvironmentSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Case-insensitive name substring filter.
+    Name param.Opt[string] `json:"name,omitzero"`
+    // Include archived resources; defaults to false.
+    IncludeArchived param.Opt[bool] `json:"include_archived,omitzero"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtGte param.Opt[time.Time] `json:"created_at[gte],omitzero" format:"date-time"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtLte param.Opt[time.Time] `json:"created_at[lte],omitzero" format:"date-time"`
+    // Select Identity ownership with a PAT; omit with any SAT. Sent in the query only.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []string `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="EnvironmentSearchParams.MarshalJSON"></a>
+### func \(EnvironmentSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+```go
+func (r EnvironmentSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="EnvironmentSearchParams.URLQuery"></a>
+### func \(EnvironmentSearchParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+```go
+func (r EnvironmentSearchParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="EnvironmentSearchParams.UnmarshalJSON"></a>
+### func \(\*EnvironmentSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+```go
+func (r *EnvironmentSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="EnvironmentService"></a>
 ## type [EnvironmentService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
 
@@ -4269,6 +4349,24 @@ func (r *EnvironmentService) New(ctx context.Context, params EnvironmentNewParam
 ```
 
 Create Environment
+
+<a name="EnvironmentService.Search"></a>
+### func \(\*EnvironmentService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+```go
+func (r *EnvironmentService) Search(ctx context.Context, params EnvironmentSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[Environment], error)
+```
+
+Search environments by metadata and resource filters. Adds the required search Beta header.
+
+<a name="EnvironmentService.SearchAutoPaging"></a>
+### func \(\*EnvironmentService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+```go
+func (r *EnvironmentService) SearchAutoPaging(ctx context.Context, params EnvironmentSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[Environment]
+```
+
+SearchAutoPaging iterates all matching environments using opaque body cursors.
 
 <a name="EnvironmentService.Update"></a>
 ### func \(\*EnvironmentService\) [Update](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
@@ -4601,6 +4699,58 @@ func (r *FileMetadata) UnmarshalJSON(data []byte) error
 
 
 
+<a name="FileSearchParams"></a>
+## type [FileSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/file.go>)
+
+FileSearchParams contains JSON body filters for Search.
+
+```go
+type FileSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Case-insensitive name substring filter.
+    Name param.Opt[string] `json:"name,omitzero"`
+    // Resource scope ID, currently a Session ID.
+    ScopeID param.Opt[string] `json:"scope_id,omitzero"`
+    // Select Identity ownership with a PAT; omit with any SAT. Sent in the query only.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []string `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="FileSearchParams.MarshalJSON"></a>
+### func \(FileSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/file.go>)
+
+```go
+func (r FileSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="FileSearchParams.URLQuery"></a>
+### func \(FileSearchParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/file.go>)
+
+```go
+func (r FileSearchParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="FileSearchParams.UnmarshalJSON"></a>
+### func \(\*FileSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/file.go>)
+
+```go
+func (r *FileSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="FileService"></a>
 ## type [FileService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/file.go>)
 
@@ -4665,6 +4815,24 @@ func (r *FileService) ListAutoPaging(ctx context.Context, params FileListParams,
 ```
 
 
+
+<a name="FileService.Search"></a>
+### func \(\*FileService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/file.go>)
+
+```go
+func (r *FileService) Search(ctx context.Context, params FileSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[FileMetadata], error)
+```
+
+Search files by metadata and resource filters. Adds the required search Beta header.
+
+<a name="FileService.SearchAutoPaging"></a>
+### func \(\*FileService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/file.go>)
+
+```go
+func (r *FileService) SearchAutoPaging(ctx context.Context, params FileSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[FileMetadata]
+```
+
+SearchAutoPaging iterates all matching files using opaque body cursors.
 
 <a name="FileService.Upload"></a>
 ### func \(\*FileService\) [Upload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/file.go>)
@@ -11290,6 +11458,58 @@ func (r *SkillOverrideParam) UnmarshalJSON(data []byte) error
 
 
 
+<a name="SkillSearchParams"></a>
+## type [SkillSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/skill.go>)
+
+SkillSearchParams contains JSON body filters for Search.
+
+```go
+type SkillSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Skill source: custom or qoder.
+    Source param.Opt[string] `json:"source,omitzero"`
+    // Case-insensitive Skill display-title substring filter.
+    DisplayTitle param.Opt[string] `json:"display_title,omitzero"`
+    // Select Identity ownership with a PAT; omit with any SAT. Sent in the query only.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []string `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="SkillSearchParams.MarshalJSON"></a>
+### func \(SkillSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/skill.go>)
+
+```go
+func (r SkillSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="SkillSearchParams.URLQuery"></a>
+### func \(SkillSearchParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/skill.go>)
+
+```go
+func (r SkillSearchParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="SkillSearchParams.UnmarshalJSON"></a>
+### func \(\*SkillSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/skill.go>)
+
+```go
+func (r *SkillSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="SkillService"></a>
 ## type [SkillService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/skill.go>)
 
@@ -11355,6 +11575,24 @@ func (r *SkillService) New(ctx context.Context, params SkillNewParams, opts ...o
 ```
 
 Create Skill
+
+<a name="SkillService.Search"></a>
+### func \(\*SkillService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/skill.go>)
+
+```go
+func (r *SkillService) Search(ctx context.Context, params SkillSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[Skill], error)
+```
+
+Search skills by metadata and resource filters. Adds the required search Beta header.
+
+<a name="SkillService.SearchAutoPaging"></a>
+### func \(\*SkillService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/skill.go>)
+
+```go
+func (r *SkillService) SearchAutoPaging(ctx context.Context, params SkillSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[Skill]
+```
+
+SearchAutoPaging iterates all matching skills using opaque body cursors.
 
 <a name="SkillService.Update"></a>
 ### func \(\*SkillService\) [Update](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/skill.go>)
@@ -12930,6 +13168,58 @@ func (r *VaultNewParams) UnmarshalJSON(data []byte) error
 
 
 
+<a name="VaultSearchParams"></a>
+## type [VaultSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vault.go>)
+
+VaultSearchParams contains JSON body filters for Search.
+
+```go
+type VaultSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Include archived resources; defaults to false.
+    IncludeArchived param.Opt[bool] `json:"include_archived,omitzero"`
+    // Case-insensitive name substring filter.
+    Name param.Opt[string] `json:"name,omitzero"`
+    // Select Identity ownership with a PAT; omit with any SAT. Sent in the query only.
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []string `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="VaultSearchParams.MarshalJSON"></a>
+### func \(VaultSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vault.go>)
+
+```go
+func (r VaultSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="VaultSearchParams.URLQuery"></a>
+### func \(VaultSearchParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vault.go>)
+
+```go
+func (r VaultSearchParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="VaultSearchParams.UnmarshalJSON"></a>
+### func \(\*VaultSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vault.go>)
+
+```go
+func (r *VaultSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="VaultService"></a>
 ## type [VaultService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vault.go>)
 
@@ -12995,6 +13285,24 @@ func (r *VaultService) New(ctx context.Context, params VaultNewParams, opts ...o
 ```
 
 Create Vault
+
+<a name="VaultService.Search"></a>
+### func \(\*VaultService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vault.go>)
+
+```go
+func (r *VaultService) Search(ctx context.Context, params VaultSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[Vault], error)
+```
+
+Search vaults by metadata and resource filters. Adds the required search Beta header.
+
+<a name="VaultService.SearchAutoPaging"></a>
+### func \(\*VaultService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/vault.go>)
+
+```go
+func (r *VaultService) SearchAutoPaging(ctx context.Context, params VaultSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[Vault]
+```
+
+SearchAutoPaging iterates all matching vaults using opaque body cursors.
 
 <a name="WebhookEndpoint"></a>
 ## type [WebhookEndpoint](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/webhook.go>)
@@ -13450,6 +13758,9 @@ Qoder managed API definitions.
   - [func \(u AgentNewParamsToolUnion\) GetType\(\) \*string](<#AgentNewParamsToolUnion.GetType>)
   - [func \(u AgentNewParamsToolUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#AgentNewParamsToolUnion.MarshalJSON>)
   - [func \(u \*AgentNewParamsToolUnion\) UnmarshalJSON\(data \[\]byte\) error](<#AgentNewParamsToolUnion.UnmarshalJSON>)
+- [type AgentSearchParams](<#AgentSearchParams>)
+  - [func \(r AgentSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#AgentSearchParams.MarshalJSON>)
+  - [func \(r \*AgentSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#AgentSearchParams.UnmarshalJSON>)
 - [type AgentService](<#AgentService>)
   - [func NewAgentService\(opts ...option.RequestOption\) \(r AgentService\)](<#NewAgentService>)
   - [func \(r \*AgentService\) Archive\(ctx context.Context, agentID string, body AgentArchiveParams, opts ...option.RequestOption\) \(res \*ManagedAgentsAgent, err error\)](<#AgentService.Archive>)
@@ -13457,6 +13768,8 @@ Qoder managed API definitions.
   - [func \(r \*AgentService\) List\(ctx context.Context, params AgentListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[ManagedAgentsAgent\], err error\)](<#AgentService.List>)
   - [func \(r \*AgentService\) ListAutoPaging\(ctx context.Context, params AgentListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsAgent\]](<#AgentService.ListAutoPaging>)
   - [func \(r \*AgentService\) New\(ctx context.Context, params AgentNewParams, opts ...option.RequestOption\) \(res \*ManagedAgentsAgent, err error\)](<#AgentService.New>)
+  - [func \(r \*AgentService\) Search\(ctx context.Context, params AgentSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[ManagedAgentsAgent\], error\)](<#AgentService.Search>)
+  - [func \(r \*AgentService\) SearchAutoPaging\(ctx context.Context, params AgentSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsAgent\]](<#AgentService.SearchAutoPaging>)
   - [func \(r \*AgentService\) Update\(ctx context.Context, agentID string, params AgentUpdateParams, opts ...option.RequestOption\) \(res \*ManagedAgentsAgent, err error\)](<#AgentService.Update>)
 - [type AgentUpdateParams](<#AgentUpdateParams>)
   - [func \(r AgentUpdateParams\) MarshalJSON\(\) \(data \[\]byte, err error\)](<#AgentUpdateParams.MarshalJSON>)
@@ -13701,6 +14014,9 @@ Qoder managed API definitions.
   - [func \(r \*DeploymentScopedRunService\) Get\(ctx context.Context, deploymentID string, runID string, params DeploymentScopedRunGetParams, opts ...option.RequestOption\) \(res \*ManagedAgentsDeploymentRun, err error\)](<#DeploymentScopedRunService.Get>)
   - [func \(r \*DeploymentScopedRunService\) List\(ctx context.Context, deploymentID string, params DeploymentScopedRunListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[ManagedAgentsDeploymentRun\], err error\)](<#DeploymentScopedRunService.List>)
   - [func \(r \*DeploymentScopedRunService\) ListAutoPaging\(ctx context.Context, deploymentID string, params DeploymentScopedRunListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsDeploymentRun\]](<#DeploymentScopedRunService.ListAutoPaging>)
+- [type DeploymentSearchParams](<#DeploymentSearchParams>)
+  - [func \(r DeploymentSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#DeploymentSearchParams.MarshalJSON>)
+  - [func \(r \*DeploymentSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#DeploymentSearchParams.UnmarshalJSON>)
 - [type DeploymentService](<#DeploymentService>)
   - [func NewDeploymentService\(opts ...option.RequestOption\) \(r DeploymentService\)](<#NewDeploymentService>)
   - [func \(r \*DeploymentService\) Archive\(ctx context.Context, deploymentID string, body DeploymentArchiveParams, opts ...option.RequestOption\) \(res \*ManagedAgentsDeployment, err error\)](<#DeploymentService.Archive>)
@@ -13710,6 +14026,8 @@ Qoder managed API definitions.
   - [func \(r \*DeploymentService\) New\(ctx context.Context, params DeploymentNewParams, opts ...option.RequestOption\) \(res \*ManagedAgentsDeployment, err error\)](<#DeploymentService.New>)
   - [func \(r \*DeploymentService\) Pause\(ctx context.Context, deploymentID string, body DeploymentPauseParams, opts ...option.RequestOption\) \(res \*ManagedAgentsDeployment, err error\)](<#DeploymentService.Pause>)
   - [func \(r \*DeploymentService\) Run\(ctx context.Context, deploymentID string, body DeploymentRunParams, opts ...option.RequestOption\) \(res \*ManagedAgentsDeploymentRun, err error\)](<#DeploymentService.Run>)
+  - [func \(r \*DeploymentService\) Search\(ctx context.Context, params DeploymentSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[ManagedAgentsDeployment\], error\)](<#DeploymentService.Search>)
+  - [func \(r \*DeploymentService\) SearchAutoPaging\(ctx context.Context, params DeploymentSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsDeployment\]](<#DeploymentService.SearchAutoPaging>)
   - [func \(r \*DeploymentService\) Unpause\(ctx context.Context, deploymentID string, body DeploymentUnpauseParams, opts ...option.RequestOption\) \(res \*ManagedAgentsDeployment, err error\)](<#DeploymentService.Unpause>)
   - [func \(r \*DeploymentService\) Update\(ctx context.Context, deploymentID string, params DeploymentUpdateParams, opts ...option.RequestOption\) \(res \*ManagedAgentsDeployment, err error\)](<#DeploymentService.Update>)
 - [type DeploymentUnpauseParams](<#DeploymentUnpauseParams>)
@@ -13844,6 +14162,9 @@ Qoder managed API definitions.
   - [func \(u \*EnvironmentNewParamsConfigUnion\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentNewParamsConfigUnion.UnmarshalJSON>)
 - [type EnvironmentNewParamsScope](<#EnvironmentNewParamsScope>)
 - [type EnvironmentScope](<#EnvironmentScope>)
+- [type EnvironmentSearchParams](<#EnvironmentSearchParams>)
+  - [func \(r EnvironmentSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentSearchParams.MarshalJSON>)
+  - [func \(r \*EnvironmentSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentSearchParams.UnmarshalJSON>)
 - [type EnvironmentService](<#EnvironmentService>)
   - [func NewEnvironmentService\(opts ...option.RequestOption\) \(r EnvironmentService\)](<#NewEnvironmentService>)
   - [func \(r \*EnvironmentService\) Archive\(ctx context.Context, environmentID string, body EnvironmentArchiveParams, opts ...option.RequestOption\) \(res \*Environment, err error\)](<#EnvironmentService.Archive>)
@@ -13852,6 +14173,8 @@ Qoder managed API definitions.
   - [func \(r \*EnvironmentService\) List\(ctx context.Context, params EnvironmentListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[Environment\], err error\)](<#EnvironmentService.List>)
   - [func \(r \*EnvironmentService\) ListAutoPaging\(ctx context.Context, params EnvironmentListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Environment\]](<#EnvironmentService.ListAutoPaging>)
   - [func \(r \*EnvironmentService\) New\(ctx context.Context, params EnvironmentNewParams, opts ...option.RequestOption\) \(res \*Environment, err error\)](<#EnvironmentService.New>)
+  - [func \(r \*EnvironmentService\) Search\(ctx context.Context, params EnvironmentSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[Environment\], error\)](<#EnvironmentService.Search>)
+  - [func \(r \*EnvironmentService\) SearchAutoPaging\(ctx context.Context, params EnvironmentSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Environment\]](<#EnvironmentService.SearchAutoPaging>)
   - [func \(r \*EnvironmentService\) Update\(ctx context.Context, environmentID string, params EnvironmentUpdateParams, opts ...option.RequestOption\) \(res \*Environment, err error\)](<#EnvironmentService.Update>)
 - [type EnvironmentUpdateParams](<#EnvironmentUpdateParams>)
   - [func \(r EnvironmentUpdateParams\) MarshalJSON\(\) \(data \[\]byte, err error\)](<#EnvironmentUpdateParams.MarshalJSON>)
@@ -13914,6 +14237,9 @@ Qoder managed API definitions.
 - [type FileScope](<#FileScope>)
   - [func \(r FileScope\) RawJSON\(\) string](<#FileScope.RawJSON>)
   - [func \(r \*FileScope\) UnmarshalJSON\(data \[\]byte\) error](<#FileScope.UnmarshalJSON>)
+- [type FileSearchParams](<#FileSearchParams>)
+  - [func \(r FileSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#FileSearchParams.MarshalJSON>)
+  - [func \(r \*FileSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#FileSearchParams.UnmarshalJSON>)
 - [type FileService](<#FileService>)
   - [func NewFileService\(opts ...option.RequestOption\) \(r FileService\)](<#NewFileService>)
   - [func \(r \*FileService\) Delete\(ctx context.Context, fileID string, body FileDeleteParams, opts ...option.RequestOption\) \(res \*DeletedFile, err error\)](<#FileService.Delete>)
@@ -13921,6 +14247,8 @@ Qoder managed API definitions.
   - [func \(r \*FileService\) GetMetadata\(ctx context.Context, fileID string, query FileGetMetadataParams, opts ...option.RequestOption\) \(res \*FileMetadata, err error\)](<#FileService.GetMetadata>)
   - [func \(r \*FileService\) List\(ctx context.Context, params FileListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[FileMetadata\], err error\)](<#FileService.List>)
   - [func \(r \*FileService\) ListAutoPaging\(ctx context.Context, params FileListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[FileMetadata\]](<#FileService.ListAutoPaging>)
+  - [func \(r \*FileService\) Search\(ctx context.Context, params FileSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[FileMetadata\], error\)](<#FileService.Search>)
+  - [func \(r \*FileService\) SearchAutoPaging\(ctx context.Context, params FileSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[FileMetadata\]](<#FileService.SearchAutoPaging>)
   - [func \(r \*FileService\) Upload\(ctx context.Context, params FileUploadParams, opts ...option.RequestOption\) \(res \*FileMetadata, err error\)](<#FileService.Upload>)
 - [type FileUploadParams](<#FileUploadParams>)
   - [func \(r FileUploadParams\) MarshalMultipart\(\) \(data \[\]byte, contentType string, err error\)](<#FileUploadParams.MarshalMultipart>)
@@ -15980,6 +16308,9 @@ Qoder managed API definitions.
 - [type MemoryStoreNewParams](<#MemoryStoreNewParams>)
   - [func \(r MemoryStoreNewParams\) MarshalJSON\(\) \(data \[\]byte, err error\)](<#MemoryStoreNewParams.MarshalJSON>)
   - [func \(r \*MemoryStoreNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#MemoryStoreNewParams.UnmarshalJSON>)
+- [type MemoryStoreSearchParams](<#MemoryStoreSearchParams>)
+  - [func \(r MemoryStoreSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#MemoryStoreSearchParams.MarshalJSON>)
+  - [func \(r \*MemoryStoreSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#MemoryStoreSearchParams.UnmarshalJSON>)
 - [type MemoryStoreService](<#MemoryStoreService>)
   - [func NewMemoryStoreService\(opts ...option.RequestOption\) \(r MemoryStoreService\)](<#NewMemoryStoreService>)
   - [func \(r \*MemoryStoreService\) Archive\(ctx context.Context, memoryStoreID string, body MemoryStoreArchiveParams, opts ...option.RequestOption\) \(res \*ManagedAgentsMemoryStore, err error\)](<#MemoryStoreService.Archive>)
@@ -15988,6 +16319,8 @@ Qoder managed API definitions.
   - [func \(r \*MemoryStoreService\) List\(ctx context.Context, params MemoryStoreListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[ManagedAgentsMemoryStore\], err error\)](<#MemoryStoreService.List>)
   - [func \(r \*MemoryStoreService\) ListAutoPaging\(ctx context.Context, params MemoryStoreListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsMemoryStore\]](<#MemoryStoreService.ListAutoPaging>)
   - [func \(r \*MemoryStoreService\) New\(ctx context.Context, params MemoryStoreNewParams, opts ...option.RequestOption\) \(res \*ManagedAgentsMemoryStore, err error\)](<#MemoryStoreService.New>)
+  - [func \(r \*MemoryStoreService\) Search\(ctx context.Context, params MemoryStoreSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[ManagedAgentsMemoryStore\], error\)](<#MemoryStoreService.Search>)
+  - [func \(r \*MemoryStoreService\) SearchAutoPaging\(ctx context.Context, params MemoryStoreSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsMemoryStore\]](<#MemoryStoreService.SearchAutoPaging>)
   - [func \(r \*MemoryStoreService\) Update\(ctx context.Context, memoryStoreID string, params MemoryStoreUpdateParams, opts ...option.RequestOption\) \(res \*ManagedAgentsMemoryStore, err error\)](<#MemoryStoreService.Update>)
 - [type MemoryStoreUpdateParams](<#MemoryStoreUpdateParams>)
   - [func \(r MemoryStoreUpdateParams\) MarshalJSON\(\) \(data \[\]byte, err error\)](<#MemoryStoreUpdateParams.MarshalJSON>)
@@ -16239,6 +16572,9 @@ Qoder managed API definitions.
   - [func \(u SessionResourceUpdateResponseUnion\) AsMemoryStore\(\) \(v ManagedAgentsMemoryStoreResource\)](<#SessionResourceUpdateResponseUnion.AsMemoryStore>)
   - [func \(u SessionResourceUpdateResponseUnion\) RawJSON\(\) string](<#SessionResourceUpdateResponseUnion.RawJSON>)
   - [func \(r \*SessionResourceUpdateResponseUnion\) UnmarshalJSON\(data \[\]byte\) error](<#SessionResourceUpdateResponseUnion.UnmarshalJSON>)
+- [type SessionSearchParams](<#SessionSearchParams>)
+  - [func \(r SessionSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#SessionSearchParams.MarshalJSON>)
+  - [func \(r \*SessionSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#SessionSearchParams.UnmarshalJSON>)
 - [type SessionService](<#SessionService>)
   - [func NewSessionService\(opts ...option.RequestOption\) \(r SessionService\)](<#NewSessionService>)
   - [func \(r \*SessionService\) Archive\(ctx context.Context, sessionID string, body SessionArchiveParams, opts ...option.RequestOption\) \(res \*ManagedAgentsSession, err error\)](<#SessionService.Archive>)
@@ -16248,6 +16584,8 @@ Qoder managed API definitions.
   - [func \(r \*SessionService\) List\(ctx context.Context, params SessionListParams, opts ...option.RequestOption\) \(res \*pagination.BidirectionalPageCursor\[ManagedAgentsSession\], err error\)](<#SessionService.List>)
   - [func \(r \*SessionService\) ListAutoPaging\(ctx context.Context, params SessionListParams, opts ...option.RequestOption\) \*pagination.BidirectionalPageCursorAutoPager\[ManagedAgentsSession\]](<#SessionService.ListAutoPaging>)
   - [func \(r \*SessionService\) New\(ctx context.Context, params SessionNewParams, opts ...option.RequestOption\) \(res \*ManagedAgentsSession, err error\)](<#SessionService.New>)
+  - [func \(r \*SessionService\) Search\(ctx context.Context, params SessionSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[ManagedAgentsSession\], error\)](<#SessionService.Search>)
+  - [func \(r \*SessionService\) SearchAutoPaging\(ctx context.Context, params SessionSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsSession\]](<#SessionService.SearchAutoPaging>)
   - [func \(r \*SessionService\) Update\(ctx context.Context, sessionID string, params SessionUpdateParams, opts ...option.RequestOption\) \(res \*ManagedAgentsSession, err error\)](<#SessionService.Update>)
 - [type SessionThreadArchiveParams](<#SessionThreadArchiveParams>)
 - [type SessionThreadEventListParams](<#SessionThreadEventListParams>)
@@ -16283,6 +16621,9 @@ Qoder managed API definitions.
   - [func \(r SkillListParams\) URLQuery\(\) \(v url.Values, err error\)](<#SkillListParams.URLQuery>)
 - [type SkillNewParams](<#SkillNewParams>)
   - [func \(r SkillNewParams\) MarshalMultipart\(\) \(data \[\]byte, contentType string, err error\)](<#SkillNewParams.MarshalMultipart>)
+- [type SkillSearchParams](<#SkillSearchParams>)
+  - [func \(r SkillSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#SkillSearchParams.MarshalJSON>)
+  - [func \(r \*SkillSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#SkillSearchParams.UnmarshalJSON>)
 - [type SkillService](<#SkillService>)
   - [func NewSkillService\(opts ...option.RequestOption\) \(r SkillService\)](<#NewSkillService>)
   - [func \(r \*SkillService\) Delete\(ctx context.Context, skillID string, body SkillDeleteParams, opts ...option.RequestOption\) \(res \*DeletedSkill, err error\)](<#SkillService.Delete>)
@@ -16290,6 +16631,8 @@ Qoder managed API definitions.
   - [func \(r \*SkillService\) List\(ctx context.Context, params SkillListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[Skill\], err error\)](<#SkillService.List>)
   - [func \(r \*SkillService\) ListAutoPaging\(ctx context.Context, params SkillListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Skill\]](<#SkillService.ListAutoPaging>)
   - [func \(r \*SkillService\) New\(ctx context.Context, params SkillNewParams, opts ...option.RequestOption\) \(res \*Skill, err error\)](<#SkillService.New>)
+  - [func \(r \*SkillService\) Search\(ctx context.Context, params SkillSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[Skill\], error\)](<#SkillService.Search>)
+  - [func \(r \*SkillService\) SearchAutoPaging\(ctx context.Context, params SkillSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Skill\]](<#SkillService.SearchAutoPaging>)
 - [type SkillSource](<#SkillSource>)
   - [func \(r SkillSource\) RawJSON\(\) string](<#SkillSource.RawJSON>)
   - [func \(r \*SkillSource\) UnmarshalJSON\(data \[\]byte\) error](<#SkillSource.UnmarshalJSON>)
@@ -16499,6 +16842,9 @@ Qoder managed API definitions.
 - [type VaultNewParams](<#VaultNewParams>)
   - [func \(r VaultNewParams\) MarshalJSON\(\) \(data \[\]byte, err error\)](<#VaultNewParams.MarshalJSON>)
   - [func \(r \*VaultNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#VaultNewParams.UnmarshalJSON>)
+- [type VaultSearchParams](<#VaultSearchParams>)
+  - [func \(r VaultSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#VaultSearchParams.MarshalJSON>)
+  - [func \(r \*VaultSearchParams\) UnmarshalJSON\(data \[\]byte\) error](<#VaultSearchParams.UnmarshalJSON>)
 - [type VaultService](<#VaultService>)
   - [func NewVaultService\(opts ...option.RequestOption\) \(r VaultService\)](<#NewVaultService>)
   - [func \(r \*VaultService\) Archive\(ctx context.Context, vaultID string, body VaultArchiveParams, opts ...option.RequestOption\) \(res \*ManagedAgentsVault, err error\)](<#VaultService.Archive>)
@@ -16507,6 +16853,8 @@ Qoder managed API definitions.
   - [func \(r \*VaultService\) List\(ctx context.Context, params VaultListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[ManagedAgentsVault\], err error\)](<#VaultService.List>)
   - [func \(r \*VaultService\) ListAutoPaging\(ctx context.Context, params VaultListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsVault\]](<#VaultService.ListAutoPaging>)
   - [func \(r \*VaultService\) New\(ctx context.Context, params VaultNewParams, opts ...option.RequestOption\) \(res \*ManagedAgentsVault, err error\)](<#VaultService.New>)
+  - [func \(r \*VaultService\) Search\(ctx context.Context, params VaultSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[ManagedAgentsVault\], error\)](<#VaultService.Search>)
+  - [func \(r \*VaultService\) SearchAutoPaging\(ctx context.Context, params VaultSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsVault\]](<#VaultService.SearchAutoPaging>)
 - [type WebFetchBlockParam](<#WebFetchBlockParam>)
   - [func \(r WebFetchBlockParam\) MarshalJSON\(\) \(data \[\]byte, err error\)](<#WebFetchBlockParam.MarshalJSON>)
   - [func \(r \*WebFetchBlockParam\) UnmarshalJSON\(data \[\]byte\) error](<#WebFetchBlockParam.UnmarshalJSON>)
@@ -17049,6 +17397,52 @@ func (u *AgentNewParamsToolUnion) UnmarshalJSON(data []byte) error
 
 
 
+<a name="AgentSearchParams"></a>
+## type [AgentSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
+
+AgentSearchParams contains JSON body filters for Search.
+
+```go
+type AgentSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Case-insensitive name substring filter.
+    Name param.Opt[string] `json:"name,omitzero"`
+    // Include archived resources; defaults to false.
+    IncludeArchived param.Opt[bool] `json:"include_archived,omitzero"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtGte param.Opt[time.Time] `json:"created_at[gte],omitzero" format:"date-time"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtLte param.Opt[time.Time] `json:"created_at[lte],omitzero" format:"date-time"`
+    WorkspaceID  param.Opt[string]    `header:"qoder-workspace-id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="AgentSearchParams.MarshalJSON"></a>
+### func \(AgentSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
+
+```go
+func (r AgentSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="AgentSearchParams.UnmarshalJSON"></a>
+### func \(\*AgentSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
+
+```go
+func (r *AgentSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="AgentService"></a>
 ## type [AgentService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
 
@@ -17116,6 +17510,24 @@ func (r *AgentService) New(ctx context.Context, params AgentNewParams, opts ...o
 ```
 
 Create Agent
+
+<a name="AgentService.Search"></a>
+### func \(\*AgentService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
+
+```go
+func (r *AgentService) Search(ctx context.Context, params AgentSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[ManagedAgentsAgent], error)
+```
+
+Search agents by metadata and resource filters. Adds the required search Beta header.
+
+<a name="AgentService.SearchAutoPaging"></a>
+### func \(\*AgentService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
+
+```go
+func (r *AgentService) SearchAutoPaging(ctx context.Context, params AgentSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[ManagedAgentsAgent]
+```
+
+SearchAutoPaging iterates all matching agents using opaque body cursors.
 
 <a name="AgentService.Update"></a>
 ### func \(\*AgentService\) [Update](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
@@ -20050,6 +20462,56 @@ func (r *DeploymentScopedRunService) ListAutoPaging(ctx context.Context, deploym
 
 
 
+<a name="DeploymentSearchParams"></a>
+## type [DeploymentSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+DeploymentSearchParams contains JSON body filters for Search.
+
+```go
+type DeploymentSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Case-insensitive name substring filter.
+    Name param.Opt[string] `json:"name,omitzero"`
+    // Deployment status: active or paused.
+    Status param.Opt[string] `json:"status,omitzero"`
+    // Include archived resources; defaults to false.
+    IncludeArchived param.Opt[bool] `json:"include_archived,omitzero"`
+    // Filter by agent id.
+    AgentID param.Opt[string] `json:"agent_id,omitzero"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtGte param.Opt[time.Time] `json:"created_at[gte],omitzero" format:"date-time"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtLte param.Opt[time.Time] `json:"created_at[lte],omitzero" format:"date-time"`
+    WorkspaceID  param.Opt[string]    `header:"qoder-workspace-id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="DeploymentSearchParams.MarshalJSON"></a>
+### func \(DeploymentSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+```go
+func (r DeploymentSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="DeploymentSearchParams.UnmarshalJSON"></a>
+### func \(\*DeploymentSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+```go
+func (r *DeploymentSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="DeploymentService"></a>
 ## type [DeploymentService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
 
@@ -20135,6 +20597,24 @@ func (r *DeploymentService) Run(ctx context.Context, deploymentID string, body D
 ```
 
 Run Deployment Now
+
+<a name="DeploymentService.Search"></a>
+### func \(\*DeploymentService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+```go
+func (r *DeploymentService) Search(ctx context.Context, params DeploymentSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[ManagedAgentsDeployment], error)
+```
+
+Search deployments by metadata and resource filters. Adds the required search Beta header.
+
+<a name="DeploymentService.SearchAutoPaging"></a>
+### func \(\*DeploymentService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
+
+```go
+func (r *DeploymentService) SearchAutoPaging(ctx context.Context, params DeploymentSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[ManagedAgentsDeployment]
+```
+
+SearchAutoPaging iterates all matching deployments using opaque body cursors.
 
 <a name="DeploymentService.Unpause"></a>
 ### func \(\*DeploymentService\) [Unpause](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/deployment.go>)
@@ -21900,6 +22380,52 @@ const (
 )
 ```
 
+<a name="EnvironmentSearchParams"></a>
+## type [EnvironmentSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
+
+EnvironmentSearchParams contains JSON body filters for Search.
+
+```go
+type EnvironmentSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Case-insensitive name substring filter.
+    Name param.Opt[string] `json:"name,omitzero"`
+    // Include archived resources; defaults to false.
+    IncludeArchived param.Opt[bool] `json:"include_archived,omitzero"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtGte param.Opt[time.Time] `json:"created_at[gte],omitzero" format:"date-time"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtLte param.Opt[time.Time] `json:"created_at[lte],omitzero" format:"date-time"`
+    WorkspaceID  param.Opt[string]    `header:"qoder-workspace-id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="EnvironmentSearchParams.MarshalJSON"></a>
+### func \(EnvironmentSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
+
+```go
+func (r EnvironmentSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="EnvironmentSearchParams.UnmarshalJSON"></a>
+### func \(\*EnvironmentSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
+
+```go
+func (r *EnvironmentSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="EnvironmentService"></a>
 ## type [EnvironmentService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
 
@@ -21976,6 +22502,24 @@ func (r *EnvironmentService) New(ctx context.Context, params EnvironmentNewParam
 ```
 
 Create a new environment with the specified configuration.
+
+<a name="EnvironmentService.Search"></a>
+### func \(\*EnvironmentService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
+
+```go
+func (r *EnvironmentService) Search(ctx context.Context, params EnvironmentSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[Environment], error)
+```
+
+Search environments by metadata and resource filters. Adds the required search Beta header.
+
+<a name="EnvironmentService.SearchAutoPaging"></a>
+### func \(\*EnvironmentService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
+
+```go
+func (r *EnvironmentService) SearchAutoPaging(ctx context.Context, params EnvironmentSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[Environment]
+```
+
+SearchAutoPaging iterates all matching environments using opaque body cursors.
 
 <a name="EnvironmentService.Update"></a>
 ### func \(\*EnvironmentService\) [Update](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
@@ -22786,6 +23330,48 @@ func (r *FileScope) UnmarshalJSON(data []byte) error
 
 
 
+<a name="FileSearchParams"></a>
+## type [FileSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/file.go>)
+
+FileSearchParams contains JSON body filters for Search.
+
+```go
+type FileSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Case-insensitive name substring filter.
+    Name param.Opt[string] `json:"name,omitzero"`
+    // Resource scope ID, currently a Session ID.
+    ScopeID     param.Opt[string] `json:"scope_id,omitzero"`
+    WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="FileSearchParams.MarshalJSON"></a>
+### func \(FileSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/file.go>)
+
+```go
+func (r FileSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="FileSearchParams.UnmarshalJSON"></a>
+### func \(\*FileSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/file.go>)
+
+```go
+func (r *FileSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="FileService"></a>
 ## type [FileService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/file.go>)
 
@@ -22852,6 +23438,24 @@ func (r *FileService) ListAutoPaging(ctx context.Context, params FileListParams,
 ```
 
 List Files
+
+<a name="FileService.Search"></a>
+### func \(\*FileService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/file.go>)
+
+```go
+func (r *FileService) Search(ctx context.Context, params FileSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[FileMetadata], error)
+```
+
+Search files by metadata and resource filters. Adds the required search Beta header.
+
+<a name="FileService.SearchAutoPaging"></a>
+### func \(\*FileService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/file.go>)
+
+```go
+func (r *FileService) SearchAutoPaging(ctx context.Context, params FileSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[FileMetadata]
+```
+
+SearchAutoPaging iterates all matching files using opaque body cursors.
 
 <a name="FileService.Upload"></a>
 ### func \(\*FileService\) [Upload](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/file.go>)
@@ -51510,6 +52114,52 @@ func (r *MemoryStoreNewParams) UnmarshalJSON(data []byte) error
 
 
 
+<a name="MemoryStoreSearchParams"></a>
+## type [MemoryStoreSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/memorystore.go>)
+
+MemoryStoreSearchParams contains JSON body filters for Search.
+
+```go
+type MemoryStoreSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Case-insensitive name substring filter.
+    Name param.Opt[string] `json:"name,omitzero"`
+    // Include archived resources; defaults to false.
+    IncludeArchived param.Opt[bool] `json:"include_archived,omitzero"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtGte param.Opt[time.Time] `json:"created_at[gte],omitzero" format:"date-time"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtLte param.Opt[time.Time] `json:"created_at[lte],omitzero" format:"date-time"`
+    WorkspaceID  param.Opt[string]    `header:"qoder-workspace-id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="MemoryStoreSearchParams.MarshalJSON"></a>
+### func \(MemoryStoreSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/memorystore.go>)
+
+```go
+func (r MemoryStoreSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="MemoryStoreSearchParams.UnmarshalJSON"></a>
+### func \(\*MemoryStoreSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/memorystore.go>)
+
+```go
+func (r *MemoryStoreSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="MemoryStoreService"></a>
 ## type [MemoryStoreService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/memorystore.go>)
 
@@ -51587,6 +52237,24 @@ func (r *MemoryStoreService) New(ctx context.Context, params MemoryStoreNewParam
 ```
 
 Create a memory store
+
+<a name="MemoryStoreService.Search"></a>
+### func \(\*MemoryStoreService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/memorystore.go>)
+
+```go
+func (r *MemoryStoreService) Search(ctx context.Context, params MemoryStoreSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[ManagedAgentsMemoryStore], error)
+```
+
+Search memory stores by metadata and resource filters. Adds the required search Beta header.
+
+<a name="MemoryStoreService.SearchAutoPaging"></a>
+### func \(\*MemoryStoreService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/memorystore.go>)
+
+```go
+func (r *MemoryStoreService) SearchAutoPaging(ctx context.Context, params MemoryStoreSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[ManagedAgentsMemoryStore]
+```
+
+SearchAutoPaging iterates all matching memory stores using opaque body cursors.
 
 <a name="MemoryStoreService.Update"></a>
 ### func \(\*MemoryStoreService\) [Update](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/memorystore.go>)
@@ -54791,6 +55459,68 @@ func (r *SessionResourceUpdateResponseUnion) UnmarshalJSON(data []byte) error
 
 
 
+<a name="SessionSearchParams"></a>
+## type [SessionSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+SessionSearchParams contains JSON body filters for Search.
+
+```go
+type SessionSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Case-insensitive name substring filter.
+    Name param.Opt[string] `json:"name,omitzero"`
+    // Sort order: desc (default) or asc.
+    Order param.Opt[string] `json:"order,omitzero"`
+    // Include archived resources; defaults to false.
+    IncludeArchived param.Opt[bool] `json:"include_archived,omitzero"`
+    // Match any of running, idle, rescheduling, or terminated.
+    Statuses []string `json:"statuses,omitzero"`
+    // Filter by agent id.
+    AgentID param.Opt[string] `json:"agent_id,omitzero"`
+    // Filter by agent version.
+    AgentVersion param.Opt[int64] `json:"agent_version,omitzero"`
+    // Filter by deployment id.
+    DeploymentID param.Opt[string] `json:"deployment_id,omitzero"`
+    // Filter by memory store id.
+    MemoryStoreID param.Opt[string] `json:"memory_store_id,omitzero"`
+    // Exclusive creation-time bound (RFC 3339).
+    CreatedAtGt param.Opt[time.Time] `json:"created_at[gt],omitzero" format:"date-time"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtGte param.Opt[time.Time] `json:"created_at[gte],omitzero" format:"date-time"`
+    // Exclusive creation-time bound (RFC 3339).
+    CreatedAtLt param.Opt[time.Time] `json:"created_at[lt],omitzero" format:"date-time"`
+    // Inclusive creation-time bound (RFC 3339).
+    CreatedAtLte param.Opt[time.Time] `json:"created_at[lte],omitzero" format:"date-time"`
+    WorkspaceID  param.Opt[string]    `header:"qoder-workspace-id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="SessionSearchParams.MarshalJSON"></a>
+### func \(SessionSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (r SessionSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="SessionSearchParams.UnmarshalJSON"></a>
+### func \(\*SessionSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (r *SessionSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="SessionService"></a>
 ## type [SessionService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
 
@@ -54878,6 +55608,24 @@ func (r *SessionService) New(ctx context.Context, params SessionNewParams, opts 
 ```
 
 Create Session
+
+<a name="SessionService.Search"></a>
+### func \(\*SessionService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (r *SessionService) Search(ctx context.Context, params SessionSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[ManagedAgentsSession], error)
+```
+
+Search sessions by metadata and resource filters. Adds the required search Beta header.
+
+<a name="SessionService.SearchAutoPaging"></a>
+### func \(\*SessionService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (r *SessionService) SearchAutoPaging(ctx context.Context, params SessionSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[ManagedAgentsSession]
+```
+
+SearchAutoPaging iterates all matching sessions using opaque body cursors.
 
 <a name="SessionService.Update"></a>
 ### func \(\*SessionService\) [Update](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
@@ -55379,6 +56127,50 @@ func (r SkillNewParams) MarshalMultipart() (data []byte, contentType string, err
 
 
 
+<a name="SkillSearchParams"></a>
+## type [SkillSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/skill.go>)
+
+SkillSearchParams contains JSON body filters for Search.
+
+```go
+type SkillSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Skill source: custom or qoder.
+    Source param.Opt[string] `json:"source,omitzero"`
+    // Case-insensitive Skill display-title substring filter.
+    DisplayTitle param.Opt[string] `json:"display_title,omitzero"`
+    // Deprecated: use DisplayTitle instead.
+    Name        param.Opt[string] `json:"name,omitzero"`
+    WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="SkillSearchParams.MarshalJSON"></a>
+### func \(SkillSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/skill.go>)
+
+```go
+func (r SkillSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="SkillSearchParams.UnmarshalJSON"></a>
+### func \(\*SkillSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/skill.go>)
+
+```go
+func (r *SkillSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="SkillService"></a>
 ## type [SkillService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/skill.go>)
 
@@ -55446,6 +56238,24 @@ func (r *SkillService) New(ctx context.Context, params SkillNewParams, opts ...o
 ```
 
 Create Skill
+
+<a name="SkillService.Search"></a>
+### func \(\*SkillService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/skill.go>)
+
+```go
+func (r *SkillService) Search(ctx context.Context, params SkillSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[Skill], error)
+```
+
+Search skills by metadata and resource filters. Adds the required search Beta header.
+
+<a name="SkillService.SearchAutoPaging"></a>
+### func \(\*SkillService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/skill.go>)
+
+```go
+func (r *SkillService) SearchAutoPaging(ctx context.Context, params SkillSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[Skill]
+```
+
+SearchAutoPaging iterates all matching skills using opaque body cursors.
 
 <a name="SkillSource"></a>
 ## type [SkillSource](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/skill.go>)
@@ -57802,6 +58612,48 @@ func (r *VaultNewParams) UnmarshalJSON(data []byte) error
 
 
 
+<a name="VaultSearchParams"></a>
+## type [VaultSearchParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/vault.go>)
+
+VaultSearchParams contains JSON body filters for Search.
+
+```go
+type VaultSearchParams struct {
+    // Exact string metadata filters combined with AND (at most 16 entries).
+    Metadata map[string]string `json:"metadata,omitzero"`
+    // Page size; default 20, maximum 100.
+    Limit param.Opt[int64] `json:"limit,omitzero"`
+    // Opaque next_page cursor returned by the previous search response.
+    Page param.Opt[string] `json:"page,omitzero"`
+    // Include archived resources; defaults to false.
+    IncludeArchived param.Opt[bool] `json:"include_archived,omitzero"`
+    // Case-insensitive name substring filter.
+    Name        param.Opt[string] `json:"name,omitzero"`
+    WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+    // Additional beta features; search-2026-08-31 is always included.
+    Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="VaultSearchParams.MarshalJSON"></a>
+### func \(VaultSearchParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/vault.go>)
+
+```go
+func (r VaultSearchParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="VaultSearchParams.UnmarshalJSON"></a>
+### func \(\*VaultSearchParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/vault.go>)
+
+```go
+func (r *VaultSearchParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="VaultService"></a>
 ## type [VaultService](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/vault.go>)
 
@@ -57878,6 +58730,24 @@ func (r *VaultService) New(ctx context.Context, params VaultNewParams, opts ...o
 ```
 
 Create Vault
+
+<a name="VaultService.Search"></a>
+### func \(\*VaultService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/vault.go>)
+
+```go
+func (r *VaultService) Search(ctx context.Context, params VaultSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[ManagedAgentsVault], error)
+```
+
+Search vaults by metadata and resource filters. Adds the required search Beta header.
+
+<a name="VaultService.SearchAutoPaging"></a>
+### func \(\*VaultService\) [SearchAutoPaging](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/vault.go>)
+
+```go
+func (r *VaultService) SearchAutoPaging(ctx context.Context, params VaultSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[ManagedAgentsVault]
+```
+
+SearchAutoPaging iterates all matching vaults using opaque body cursors.
 
 <a name="WebFetchBlockParam"></a>
 ## type [WebFetchBlockParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/message.go>)
@@ -67718,6 +68588,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/pagination"
   - [func \(r \*PageAutoPager\[T\]\) Index\(\) int](<#PageAutoPager[T].Index>)
   - [func \(r \*PageAutoPager\[T\]\) Next\(\) bool](<#PageAutoPager[T].Next>)
 - [type PageCursor](<#PageCursor>)
+  - [func NewSearchPage\[T any\]\(ctx context.Context, path string, params any, opts ...option.RequestOption\) \(res \*PageCursor\[T\], err error\)](<#NewSearchPage>)
   - [func \(r \*PageCursor\[T\]\) GetNextPage\(\) \(res \*PageCursor\[T\], err error\)](<#PageCursor[T].GetNextPage>)
   - [func \(r PageCursor\[T\]\) RawJSON\(\) string](<#PageCursor[T].RawJSON>)
   - [func \(r \*PageCursor\[T\]\) SetPageConfig\(cfg \*requestconfig.RequestConfig, res \*http.Response\)](<#PageCursor[T].SetPageConfig>)
@@ -67990,6 +68861,7 @@ type PageCursor[T any] struct {
     FirstID string `json:"first_id"`
     LastID  string `json:"last_id"`
 
+    Total    int64  `json:"total" api:"nullable"`
     Data     []T    `json:"data"`
     NextPage string `json:"next_page" api:"nullable"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -67998,6 +68870,7 @@ type PageCursor[T any] struct {
         FirstID respjson.Field
         LastID  respjson.Field
 
+        Total       respjson.Field
         Data        respjson.Field
         NextPage    respjson.Field
         ExtraFields map[string]respjson.Field
@@ -68006,6 +68879,15 @@ type PageCursor[T any] struct {
     // contains filtered or unexported fields
 }
 ```
+
+<a name="NewSearchPage"></a>
+### func [NewSearchPage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/pagination/search.go>)
+
+```go
+func NewSearchPage[T any](ctx context.Context, path string, params any, opts ...option.RequestOption) (res *PageCursor[T], err error)
+```
+
+NewSearchPage sends a resource search with the required Beta header and JSON body pagination.
 
 <a name="PageCursor[T].GetNextPage"></a>
 ### func \(\*PageCursor\[T\]\) [GetNextPage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/pagination/pagination.go>)

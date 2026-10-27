@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "operation_count": 134,
+  "operation_count": 138,
   "cases": [
     {
       "operation_id": "addSessionResource",
@@ -5606,6 +5606,152 @@
       ],
       "request_body": null,
       "source": "cloud-agents-forward-service@8b9474c6: internal/router/router.go, internal/handler/decision/handler.go, internal/model/dto/decision.go, internal/service/decision/{validation,service,context}.go"
+    },
+    {
+      "operation_id": "searchEnvironments",
+      "resource": "Environments",
+      "clients": {
+        "python": "environments",
+        "typescript": "environments",
+        "go": "Environments"
+      },
+      "methods": {
+        "python": "list_environment",
+        "typescript": "listEnvironment",
+        "go": "ListEnvironment"
+      },
+      "http_method": "POST",
+      "path": "/environments/search",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": false,
+          "value": "idn_search"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "metadata": {
+            "team": "core"
+          },
+          "name": "dev",
+          "include_archived": false,
+          "created_at[gte]": "2026-01-01T00:00:00Z",
+          "created_at[lte]": "2026-10-27T00:00:00Z",
+          "limit": 1,
+          "page": "start +/=?"
+        }
+      }
+    },
+    {
+      "operation_id": "searchSkills",
+      "resource": "Skills",
+      "clients": {
+        "python": "skills",
+        "typescript": "skills",
+        "go": "Skills"
+      },
+      "methods": {
+        "python": "list_skill",
+        "typescript": "listSkill",
+        "go": "ListSkill"
+      },
+      "http_method": "POST",
+      "path": "/skills/search",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": false,
+          "value": "idn_search"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "metadata": {
+            "team": "core"
+          },
+          "source": "custom",
+          "display_title": "Search helper",
+          "limit": 1,
+          "page": "start +/=?"
+        }
+      }
+    },
+    {
+      "operation_id": "searchVaults",
+      "resource": "Vaults",
+      "clients": {
+        "python": "vaults",
+        "typescript": "vaults",
+        "go": "Vaults"
+      },
+      "methods": {
+        "python": "list_vault",
+        "typescript": "listVault",
+        "go": "ListVault"
+      },
+      "http_method": "POST",
+      "path": "/vaults/search",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": false,
+          "value": "idn_search"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "metadata": {
+            "team": "core"
+          },
+          "name": "prod",
+          "include_archived": false,
+          "limit": 1,
+          "page": "start +/=?"
+        }
+      }
+    },
+    {
+      "operation_id": "searchFiles",
+      "resource": "Files",
+      "clients": {
+        "python": "files",
+        "typescript": "files",
+        "go": "Files"
+      },
+      "methods": {
+        "python": "list_file",
+        "typescript": "listFile",
+        "go": "ListFile"
+      },
+      "http_method": "POST",
+      "path": "/files/search",
+      "parameters": [
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": false,
+          "value": "idn_search"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "metadata": {
+            "project": "demo"
+          },
+          "name": "report",
+          "scope_id": "sess_one",
+          "limit": 1,
+          "page": "start +/=?"
+        }
+      }
     }
   ]
 }

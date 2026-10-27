@@ -1184,3 +1184,51 @@ Released under the [MIT License](LICENSE).
 ## Forward Webhooks
 
 Manage webhook endpoints and verify signed event deliveries. See [Webhook usage and receiver examples](docs/webhooks.md).
+
+## Resource search
+
+Search uses `POST /<resource>/search` with typed filters in the JSON body.
+The SDK automatically includes `x-qoder-beta: search-2026-08-31`, preserving
+other effective beta flags. Calling Search with no filters sends `{}`.
+
+- Forward: Environments, Skills, Vaults, and Files.
+- Managed: Agents, Sessions, Deployments, Environments, Skills, Vaults, Files,
+  and Memory Stores.
+
+Metadata filters are exact string matches combined with AND. Each resource also
+supports its documented filters, such as name, creation time, Session status,
+or Skill source/display title. See the official
+[Forward search](https://docs.qoder.com/cloud-agents/api/forward/environments/search)
+and [Managed Session search](https://docs.qoder.com/cloud-agents/api/sessions/search)
+contracts. This searches QCA resources; it does not perform a web search.
+
+Forward's `identity_id` selector is sent only in the URL query. Set it when a PAT
+should search an Identity's resources; omit it with all SATs, whose scope comes
+from the token. Search cursors are opaque: automatic pagination puts `next_page`
+back into the JSON body's `page` while preserving filters, ownership, and request
+options. Existing List methods retain their GET/query pagination behavior.
+
+```go
+// client is a forward.Client.
+items := client.Environments.SearchAutoPaging(ctx, forward.EnvironmentSearchParams{
+    Metadata: map[string]string{"team": "core"},
+    Name: forward.String("dev"),
+    IdentityID: forward.String("idn_example"), // PAT only; omit for SAT.
+    Limit: forward.Int(20),
+})
+for items.Next() {
+    fmt.Println(items.Current().ID)
+}
+if err := items.Err(); err != nil {
+    return err
+}
+
+// managedClient is a managed.Client. Dates are typed time.Time values.
+sessions, err := managedClient.Sessions.Search(ctx, managed.SessionSearchParams{
+    Metadata: map[string]string{"ticket": "A-123"},
+    Statuses: []string{"idle", "running"},
+})
+```
+
+Each resource exposes `Search` for a page and `SearchAutoPaging` for iteration.
+Use the page's `GetNextPage()` for manual pagination.
