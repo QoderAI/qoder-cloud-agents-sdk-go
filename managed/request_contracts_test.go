@@ -52,6 +52,17 @@ func TestManagedDocumentedRequestBodies(t *testing.T) {
 				if err = json.Unmarshal(actual, &got); err != nil {
 					t.Fatal(err)
 				}
+				if c.Service == "SessionService" && c.Method == "New" {
+					body := want.(map[string]any)
+					metadata, _ := body["metadata"].(map[string]any)
+					if metadata == nil {
+						metadata = map[string]any{}
+					}
+					metadata["__qca_sdk_created"] = "true"
+					metadata["__qca_sdk_language"] = "go"
+					metadata["__qca_sdk_version"] = r.Header.Get("X-Qoder-Package-Version")
+					body["metadata"] = metadata
+				}
 				if !reflect.DeepEqual(got, want) {
 					t.Errorf("%s request body\n got: %s\nwant: %s", c.Doc, actual, c.Body)
 				}

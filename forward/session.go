@@ -92,14 +92,14 @@ func (r SessionListParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
 
-// Create Session
+// Create Session. Adds __qca_sdk_ metadata; conflicting reserved values fail before sending.
 func (r *SessionService) New(ctx context.Context, params SessionNewParams, opts ...option.RequestOption) (res *Session, err error) {
 	if params.IdempotencyKey.Valid() {
 		opts = append([]option.RequestOption{option.WithHeader("Idempotency-Key", fmt.Sprint(params.IdempotencyKey.Value))}, opts...)
 	}
 	opts = slices.Concat(r.Options, opts)
 	path := "sessions"
-	err = convention.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
+	err = convention.ExecuteNewSessionRequest(ctx, http.MethodPost, path, params, &res, opts...)
 	return res, err
 }
 

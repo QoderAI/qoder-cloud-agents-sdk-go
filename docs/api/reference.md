@@ -11565,7 +11565,7 @@ func (r *SessionService) ListAutoPaging(ctx context.Context, params SessionListP
 func (r *SessionService) New(ctx context.Context, params SessionNewParams, opts ...option.RequestOption) (res *Session, err error)
 ```
 
-Create Session
+Create Session. Adds \_\_qca\_sdk\_ metadata; conflicting reserved values fail before sending.
 
 <a name="SessionService.Update"></a>
 ### func \(\*SessionService\) [Update](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
@@ -56872,7 +56872,7 @@ List Sessions
 func (r *SessionService) New(ctx context.Context, params SessionNewParams, opts ...option.RequestOption) (res *ManagedAgentsSession, err error)
 ```
 
-Create Session
+Create Session. Adds \_\_qca\_sdk\_ metadata; conflicting reserved values fail before sending.
 
 <a name="SessionService.Search"></a>
 ### func \(\*SessionService\) [Search](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
@@ -60482,6 +60482,7 @@ Package convention implements Qoder authentication, transport, request options, 
 - [func DownloadFile\(ctx context.Context, path string, opts ...RequestOption\) \(\*http.Response, error\)](<#DownloadFile>)
 - [func DownloadTo\(ctx context.Context, client \*http.Client, url string, destination io.Writer\) error](<#DownloadTo>)
 - [func ExecuteNewRequest\(ctx context.Context, method string, u string, body any, dst any, opts ...RequestOption\) error](<#ExecuteNewRequest>)
+- [func ExecuteNewSessionRequest\(ctx context.Context, method string, u string, body any, dst any, opts ...RequestOption\) error](<#ExecuteNewSessionRequest>)
 - [func NewCredentialTransport\(credential Credential, next http.RoundTripper\) http.RoundTripper](<#NewCredentialTransport>)
 - [type APIResponse](<#APIResponse>)
   - [func NewAPIResponse\(r \*http.Response\) \*APIResponse](<#NewAPIResponse>)
@@ -60578,6 +60579,15 @@ func ExecuteNewRequest(ctx context.Context, method string, u string, body any, d
 ```
 
 
+
+<a name="ExecuteNewSessionRequest"></a>
+## func [ExecuteNewSessionRequest](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/session_metadata.go>)
+
+```go
+func ExecuteNewSessionRequest(ctx context.Context, method string, u string, body any, dst any, opts ...RequestOption) error
+```
+
+ExecuteNewSessionRequest adds SDK provenance to a Session creation request after request options have been applied. Conflicting reserved metadata fails before transport; caller\-owned params and metadata are never modified.
 
 <a name="NewCredentialTransport"></a>
 ## func [NewCredentialTransport](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/credentials.go>)

@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"maps"
 	"net/http"
 	"net/url"
 	"os"
@@ -265,8 +266,20 @@ func contractClient(t *testing.T, id string, status int) forward.Client {
 			if err := json.NewDecoder(r.Body).Decode(&actual); err != nil {
 				t.Error(err)
 			}
-			if !reflect.DeepEqual(actual, bodyValue(c)) {
-				t.Errorf("body: %#v want %#v", actual, bodyValue(c))
+			want := maps.Clone(bodyValue(c))
+			if c.OperationID == "createSession" {
+				metadata, _ := want["metadata"].(map[string]any)
+				metadata = maps.Clone(metadata)
+				if metadata == nil {
+					metadata = map[string]any{}
+				}
+				metadata["__qca_sdk_created"] = "true"
+				metadata["__qca_sdk_language"] = "go"
+				metadata["__qca_sdk_version"] = r.Header.Get("X-Qoder-Package-Version")
+				want["metadata"] = metadata
+			}
+			if !reflect.DeepEqual(actual, want) {
+				t.Errorf("body: %#v want %#v", actual, want)
 			}
 		} else if c.Body != nil && c.Body.Kind == "multipart" {
 			if err := r.ParseMultipartForm(1 << 20); err != nil {
