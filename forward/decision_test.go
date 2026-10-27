@@ -22,7 +22,7 @@ func TestDecisionAPIContracts(t *testing.T) {
 			checkError(t, status, err)
 			if status == 200 {
 				checkDecoded(t, res)
-				if res.Answers[0].Value != false || res.Answers[1].Score != 0 || !res.Answers[1].JSON.Score.Valid() || res.JSON.Usage.Raw() != "null" || res.JSON.SessionID.Raw() != "null" {
+				if res.Answers[0].Value != false || res.Answers[1].Score != 0 || !res.Answers[1].JSON.Score.Valid() || res.JSON.SessionID.Raw() != "null" {
 					t.Fatalf("lost false, zero, or null: %s", res.RawJSON())
 				}
 			}
@@ -58,7 +58,7 @@ func TestDecisionSessionInput(t *testing.T) {
 		if r.Header.Get("X-Qoder-Beta") != "" || r.Header.Get("X-Request-Only") != "present" {
 			t.Fatalf("unexpected headers: %v", r.Header)
 		}
-		return reply(r, 200, `{"id":"dec_session","session_id":"sess_own","status":"completed","context":{"mode":"session","policy_version":"decision-context-v3","token_estimator":"caw-heuristic-v1","estimated_input_tokens":28464,"max_input_tokens":30000,"included_segment_count":13,"included_event_count":14,"snapshot_at":"2026-10-23T03:50:37.005193664Z","scan_limited":false,"truncated":true,"truncation_reasons":["segment_budget"],"anchor_event_id":"evt_last","first_event_id":"evt_first","last_event_id":"evt_last","future_field":true},"answers":[{"type":"refusal","name":"private","refusal":"Cannot assess"}],"future_top":1}`), nil
+		return reply(r, 200, `{"id":"dec_session","session_id":"sess_own","status":"completed","context":{"mode":"session","included_segment_count":13,"included_event_count":14,"anchor_event_id":"evt_last","first_event_id":"evt_first","last_event_id":"evt_last","future_field":true},"answers":[{"type":"choice","value":false},{"type":"score","score":0}],"future_top":1}`), nil
 	})
 	params := contractParams[forward.DecisionNewParams](t, "createDecision")
 	params.State = nil
@@ -67,8 +67,8 @@ func TestDecisionSessionInput(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if res.Context.IncludedSegmentCount != 13 || res.Context.EstimatedInputTokens != 28464 || !res.Context.Truncated || res.Context.ScanLimited || res.Context.SnapshotAt.Nanosecond() != 5193664 || res.Answers[0].Refusal != "Cannot assess" || res.Answers[0].JSON.Value.Valid() {
-		t.Fatalf("lost session metadata or refusal: %s", res.RawJSON())
+	if res.Context.IncludedSegmentCount != 13 || res.Context.IncludedEventCount != 14 || res.Context.AnchorEventID != "evt_last" || res.Context.FirstEventID != "evt_first" || res.Context.LastEventID != "evt_last" || res.Answers[0].Value != false || res.Answers[1].Score != 0 || !res.Answers[1].JSON.Score.Valid() || res.Answers[1].JSON.Value.Valid() {
+		t.Fatalf("lost session metadata or answers: %s", res.RawJSON())
 	}
 	if res.Context.JSON.ExtraFields["future_field"].Raw() != "true" || res.JSON.ExtraFields["future_top"].Raw() != "1" {
 		t.Fatal("unknown response fields were lost")
@@ -160,7 +160,7 @@ func TestDecisionIdempotencyAndErrors(t *testing.T) {
 			t.Fatalf("unkeyed request retried: calls=%d err=%v", calls, err)
 		}
 	}
-	for _, status := range []int{400, 404, 409, 422, 504} {
+	for _, status := range []int{400, 404, 409, 422, 502, 504} {
 		client := testClient(func(r *http.Request) (*http.Response, error) {
 			return reply(r, status, `{"type":"error","request_id":"req_decision","decision_id":"dec_failed","error":{"type":"api_error","code":"decision_test_error","message":"Decision failed"}}`), nil
 		})
@@ -193,6 +193,46 @@ func TestDecisionAuthenticationAndConflict(t *testing.T) {
 			var api *forward.Error
 			if !errors.As(err, &api) || api.StatusCode != 409 || calls != 1 {
 				t.Fatalf("conflict must not retry: calls=%d err=%v", calls, err)
+			}
+		})
+	}
+}
+
+func TestDecisionIncompletePublicResponse(t *testing.T) {
+	for _, status := range []string{"running", "failed"} {
+		t.Run(status, func(t *testing.T) {
+			record := map[string]any{"id": "dec_incomplete", "session_id": "sess_own", "source": "api", "status": status, "questions": []any{}, "answers": []any{}, "context": map[string]any{"mode": "session"}, "error": nil, "created_at": "2026-10-27T00:00:00Z", "completed_at": nil}
+			if status == "failed" {
+				record["error"] = map[string]any{"code": "decision_invalid_upstream_response", "message": "Invalid JEV response."}
+				record["completed_at"] = "2026-10-27T00:00:01Z"
+			}
+			client := testClient(func(r *http.Request) (*http.Response, error) {
+				var payload any = record
+				if !strings.HasSuffix(r.URL.Path, "/dec_incomplete") {
+					payload = map[string]any{"data": []any{record}, "first_id": "dec_incomplete", "last_id": "dec_incomplete", "has_more": false}
+				}
+				body, err := json.Marshal(payload)
+				if err != nil {
+					t.Fatal(err)
+				}
+				return reply(r, 200, string(body)), nil
+			})
+			got, err := client.Decisions.Get(context.Background(), "dec_incomplete")
+			if err != nil {
+				t.Fatal(err)
+			}
+			page, err := client.Decisions.List(context.Background(), forward.DecisionListParams{})
+			if err != nil {
+				t.Fatal(err)
+			}
+			if len(page.Data) != 1 || got.RawJSON() != page.Data[0].RawJSON() || got.Status != status || len(got.Answers) != 0 || got.Context.Mode != "session" || got.Context.JSON.AnchorEventID.Valid() {
+				t.Fatalf("invalid incomplete record: %s", got.RawJSON())
+			}
+			if status == "running" && (got.JSON.CompletedAt.Raw() != "null" || got.JSON.Error.Raw() != "null") {
+				t.Fatal("lost null fields")
+			}
+			if status == "failed" && got.Error.Code != "decision_invalid_upstream_response" {
+				t.Fatal("lost failure code")
 			}
 		})
 	}

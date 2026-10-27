@@ -4,10 +4,10 @@ package forward_test
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
-	"strings"
 	"testing"
 
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
@@ -30,10 +30,26 @@ func TestDecisionE2ELive(t *testing.T) {
 		if d.Answers[0].Value != true || d.Answers[1].Score != 0 || !d.Answers[1].JSON.Score.Valid() {
 			t.Fatalf("unexpected answers: %+v", d.Answers)
 		}
-		if d.Context.Mode != mode || d.Context.EstimatedInputTokens <= 0 || d.Context.MaxInputTokens <= 0 || d.Context.EstimatedInputTokens > d.Context.MaxInputTokens || d.Context.TokenEstimator == "" {
+		if d.Context.Mode != mode {
 			t.Fatalf("invalid input metadata: %+v", d.Context)
 		}
-		t.Logf("verified decision=%s mode=%s tokens=%d budget=%d segments=%d", d.ID, mode, d.Context.EstimatedInputTokens, d.Context.MaxInputTokens, d.Context.IncludedSegmentCount)
+		var raw map[string]json.RawMessage
+		if err := json.Unmarshal([]byte(d.RawJSON()), &raw); err != nil {
+			t.Fatal(err)
+		}
+		if _, ok := raw["usage"]; ok {
+			t.Fatal("unexpected Decision usage")
+		}
+		var contextFields map[string]json.RawMessage
+		if err := json.Unmarshal(raw["context"], &contextFields); err != nil {
+			t.Fatal(err)
+		}
+		for _, field := range []string{"policy_version", "token_estimator", "estimated_input_tokens", "max_input_tokens", "snapshot_at", "scan_limited", "truncated", "truncation_reasons"} {
+			if _, ok := contextFields[field]; ok {
+				t.Fatalf("unexpected context field %s", field)
+			}
+		}
+		t.Logf("verified decision=%s mode=%s segments=%d", d.ID, mode, d.Context.IncludedSegmentCount)
 	}
 
 	stateParams := forward.DecisionNewParams{State: map[string]any{"message": "RESOLVED_SDK_TEST RISK_LEVEL=low"}, Questions: questions, IdempotencyKey: forward.String(liveName("decision-state"))}
@@ -82,7 +98,7 @@ func TestDecisionE2ELive(t *testing.T) {
 		d, err := s.client.Decisions.New(ctx, forward.DecisionNewParams{SessionID: forward.String(session.ID), Questions: questions, IdempotencyKey: forward.String(liveName("decision-session"))})
 		liveCheck(t, err)
 		check(d, "session")
-		if d.SessionID != session.ID || d.Context.IncludedSegmentCount != 12 || d.Context.Truncated || d.Context.ScanLimited {
+		if d.SessionID != session.ID || d.Context.IncludedSegmentCount != 12 {
 			t.Fatalf("unexpected session context: %+v", d.Context)
 		}
 		ids[d.ID] = true
@@ -109,13 +125,5 @@ func TestDecisionE2ELive(t *testing.T) {
 	var api *forward.Error
 	if !errors.As(err, &api) || api.StatusCode != 400 {
 		t.Fatalf("combined state/session must return 400: %v", err)
-	}
-	if state.Context.MaxInputTokens > 100000 {
-		t.Log("skipping token-overflow probe: it would exceed the independent HTTP body bound")
-		return
-	}
-	_, err = s.client.Decisions.New(ctx, forward.DecisionNewParams{State: map[string]any{"text": strings.Repeat("测", int(state.Context.MaxInputTokens))}, Questions: questions})
-	if !errors.As(err, &api) || api.StatusCode != 422 || api.Code != "decision_context_too_large" {
-		t.Fatalf("over-budget explicit state must return 422: %v", err)
 	}
 }
