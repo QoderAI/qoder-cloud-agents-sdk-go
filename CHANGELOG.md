@@ -5,6 +5,8 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-10-27
+
 ### Changed
 
 - Clarify that the Forward Decision API is in Beta and its behavior may change in future updates.
@@ -12,10 +14,6 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 ### Breaking changes
 
 - Align Beta Forward Decision responses with the updated API: remove `usage`, the `refusal` answer type/field, and internal context fields (`policy_version`, `token_estimator`, `estimated_input_tokens`, `max_input_tokens`, `snapshot_at`, `scan_limited`, `truncated`, `truncation_reasons`).
-
-### Migration
-
-- Remove reads of the deleted fields and handle `choice` / `score` answers. Use `context.mode` and optional Session event IDs/counts for context information; check `status` and `error` on stored records for failures.
 
 ## [0.10.0]
 
