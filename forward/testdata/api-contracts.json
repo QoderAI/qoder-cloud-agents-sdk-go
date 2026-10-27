@@ -3916,5 +3916,136 @@
     "raw": false,
     "empty": false,
     "source": "cloud-agents-forward-service@102f6f64: internal/router/router.go, internal/handler/decision/handler.go, internal/model/dto/decision.go, internal/service/decision/{validation,service,context}.go"
+  },
+  {
+    "operation_id": "searchEnvironments",
+    "service": "EnvironmentService",
+    "entry": "Environments",
+    "name": "Search",
+    "response": {
+      "data": [
+        {
+          "id": "env_xxx",
+          "type": "environment",
+          "name": "dev-env",
+          "description": "Development environment",
+          "config": {
+            "type": "cloud"
+          },
+          "metadata": {
+            "source": "console"
+          },
+          "created_at": "2026-07-23T10:00:00Z",
+          "updated_at": "2026-07-23T10:00:00Z",
+          "identity_id": null
+        }
+      ],
+      "first_id": "env_xxx",
+      "last_id": "env_xxx",
+      "has_more": false,
+      "next_page": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "searchSkills",
+    "service": "SkillService",
+    "entry": "Skills",
+    "name": "Search",
+    "response": {
+      "data": [
+        {
+          "id": "skill_xxx",
+          "type": "skill",
+          "display_title": "customer-reply",
+          "description": "Customer reply skill",
+          "source": "custom",
+          "latest_version": "1759178010641129",
+          "metadata": {
+            "source": "console"
+          },
+          "created_at": "2026-07-23T10:00:00Z",
+          "updated_at": "2026-07-23T10:00:00Z",
+          "identity_id": null,
+          "icon_url": null,
+          "binding_info": {
+            "agent_template_count": 0
+          }
+        }
+      ],
+      "first_id": "skill_xxx",
+      "last_id": "skill_xxx",
+      "has_more": false,
+      "next_page": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "searchVaults",
+    "service": "VaultService",
+    "entry": "Vaults",
+    "name": "Search",
+    "response": {
+      "data": [
+        {
+          "id": "vault_xxx",
+          "type": "vault",
+          "display_name": "mcp-vault",
+          "metadata": {
+            "source": "console"
+          },
+          "created_at": "2026-07-23T10:00:00Z",
+          "updated_at": "2026-07-23T10:00:00Z",
+          "identity_id": null
+        }
+      ],
+      "first_id": "vault_xxx",
+      "last_id": "vault_xxx",
+      "has_more": false,
+      "next_page": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "searchFiles",
+    "service": "FileService",
+    "entry": "Files",
+    "name": "Search",
+    "response": {
+      "data": [
+        {
+          "id": "file_xxx",
+          "type": "file",
+          "filename": "report.pdf",
+          "size_bytes": 1024,
+          "mime_type": "application/pdf",
+          "created_at": "2026-07-23T10:00:00Z",
+          "updated_at": "2026-07-23T10:00:00Z",
+          "downloadable": true,
+          "scope": null,
+          "metadata": {
+            "source": "console"
+          },
+          "identity_id": null
+        }
+      ],
+      "first_id": "file_xxx",
+      "last_id": "file_xxx",
+      "has_more": false,
+      "next_page": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
   }
 ]

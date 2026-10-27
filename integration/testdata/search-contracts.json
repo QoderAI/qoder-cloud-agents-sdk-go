@@ -1,0 +1,623 @@
+{
+  "checked_at": "2026-10-27",
+  "beta": "search-2026-08-31",
+  "cases": [
+    {
+      "mode": "forward",
+      "resource": "environments",
+      "entry": "environments",
+      "service": "EnvironmentService",
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/environments/search",
+      "path": "/environments/search",
+      "body": {
+        "metadata": {
+          "team": "core"
+        },
+        "name": "dev",
+        "include_archived": false,
+        "created_at[gte]": "2026-01-01T00:00:00Z",
+        "created_at[lte]": "2026-10-27T00:00:00Z",
+        "limit": 1,
+        "page": "start +/=?"
+      },
+      "response": {
+        "data": [
+          {
+            "id": "env_xxx",
+            "type": "environment",
+            "name": "dev-env",
+            "description": "Development environment",
+            "config": {
+              "type": "cloud"
+            },
+            "metadata": {
+              "source": "console"
+            },
+            "created_at": "2026-07-23T10:00:00Z",
+            "updated_at": "2026-07-23T10:00:00Z",
+            "identity_id": null
+          }
+        ],
+        "first_id": "env_xxx",
+        "last_id": "env_xxx",
+        "has_more": false,
+        "next_page": null
+      }
+    },
+    {
+      "mode": "forward",
+      "resource": "skills",
+      "entry": "skills",
+      "service": "SkillService",
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/skills/search",
+      "path": "/skills/search",
+      "body": {
+        "metadata": {
+          "team": "core"
+        },
+        "source": "custom",
+        "display_title": "Search helper",
+        "limit": 1,
+        "page": "start +/=?"
+      },
+      "response": {
+        "data": [
+          {
+            "id": "skill_xxx",
+            "type": "skill",
+            "display_title": "customer-reply",
+            "description": "Customer reply skill",
+            "source": "custom",
+            "latest_version": "1759178010641129",
+            "metadata": {
+              "source": "console"
+            },
+            "created_at": "2026-07-23T10:00:00Z",
+            "updated_at": "2026-07-23T10:00:00Z",
+            "identity_id": null,
+            "icon_url": null,
+            "binding_info": {
+              "agent_template_count": 0
+            }
+          }
+        ],
+        "first_id": "skill_xxx",
+        "last_id": "skill_xxx",
+        "has_more": false,
+        "next_page": null
+      }
+    },
+    {
+      "mode": "forward",
+      "resource": "vaults",
+      "entry": "vaults",
+      "service": "VaultService",
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/vaults/search",
+      "path": "/vaults/search",
+      "body": {
+        "metadata": {
+          "team": "core"
+        },
+        "name": "prod",
+        "include_archived": false,
+        "limit": 1,
+        "page": "start +/=?"
+      },
+      "response": {
+        "data": [
+          {
+            "id": "vault_xxx",
+            "type": "vault",
+            "display_name": "mcp-vault",
+            "metadata": {
+              "source": "console"
+            },
+            "created_at": "2026-07-23T10:00:00Z",
+            "updated_at": "2026-07-23T10:00:00Z",
+            "identity_id": null
+          }
+        ],
+        "first_id": "vault_xxx",
+        "last_id": "vault_xxx",
+        "has_more": false,
+        "next_page": null
+      }
+    },
+    {
+      "mode": "forward",
+      "resource": "files",
+      "entry": "files",
+      "service": "FileService",
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/files/search",
+      "path": "/files/search",
+      "body": {
+        "metadata": {
+          "project": "demo"
+        },
+        "name": "report",
+        "scope_id": "sess_one",
+        "limit": 1,
+        "page": "start +/=?"
+      },
+      "response": {
+        "data": [
+          {
+            "id": "file_xxx",
+            "type": "file",
+            "filename": "report.pdf",
+            "size_bytes": 1024,
+            "mime_type": "application/pdf",
+            "created_at": "2026-07-23T10:00:00Z",
+            "updated_at": "2026-07-23T10:00:00Z",
+            "downloadable": true,
+            "scope": null,
+            "metadata": {
+              "source": "console"
+            },
+            "identity_id": null
+          }
+        ],
+        "first_id": "file_xxx",
+        "last_id": "file_xxx",
+        "has_more": false,
+        "next_page": null
+      }
+    },
+    {
+      "mode": "managed",
+      "resource": "agents",
+      "entry": "agents",
+      "service": "AgentService",
+      "source": "https://docs.qoder.com/cloud-agents/api/agents/search",
+      "path": "/agents/search",
+      "body": {
+        "metadata": {
+          "team": "core",
+          "region": "中文"
+        },
+        "name": "agent",
+        "include_archived": false,
+        "limit": 1,
+        "page": "start +/=?",
+        "created_at[gte]": "2026-01-01T00:00:00Z",
+        "created_at[lte]": "2026-10-27T00:00:00Z"
+      },
+      "response": {
+        "data": [
+          {
+            "type": "agent",
+            "id": "agent_019eXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "name": "doc-test-agent",
+            "description": "",
+            "model": "ultimate",
+            "system": "You are a documentation testing assistant.",
+            "tools": [],
+            "mcp_servers": [],
+            "skills": [],
+            "metadata": {},
+            "multiagent": null,
+            "version": 1,
+            "archived_at": null,
+            "created_at": "2026-05-18T15:26:39.61669Z",
+            "updated_at": "2026-05-18T15:26:39.61669Z"
+          },
+          {
+            "type": "agent",
+            "id": "agent_019eYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+            "name": "test-agent-e2e",
+            "description": "Agent used for end-to-end testing",
+            "model": "ultimate",
+            "system": "You are a testing assistant.",
+            "tools": [],
+            "mcp_servers": [],
+            "skills": [],
+            "metadata": {},
+            "multiagent": null,
+            "version": 2,
+            "archived_at": null,
+            "created_at": "2026-05-18T03:04:33.952256Z",
+            "updated_at": "2026-05-18T03:05:28.023697Z"
+          }
+        ],
+        "first_id": "agent_019eXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "last_id": "agent_019eYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+        "has_more": false,
+        "next_page": null,
+        "total": null
+      }
+    },
+    {
+      "mode": "managed",
+      "resource": "sessions",
+      "entry": "sessions",
+      "service": "SessionService",
+      "source": "https://docs.qoder.com/cloud-agents/api/sessions/search",
+      "path": "/sessions/search",
+      "body": {
+        "metadata": {
+          "ticket": "A-123"
+        },
+        "name": "session",
+        "order": "asc",
+        "include_archived": false,
+        "statuses": [
+          "idle",
+          "running"
+        ],
+        "agent_id": "agent_one",
+        "agent_version": 0,
+        "deployment_id": "deploy_one",
+        "memory_store_id": "mem_one",
+        "created_at[gt]": "2026-01-01T00:00:00Z",
+        "created_at[gte]": "2026-01-02T00:00:00Z",
+        "created_at[lt]": "2026-10-27T00:00:00Z",
+        "created_at[lte]": "2026-10-26T00:00:00Z",
+        "limit": 1,
+        "page": "start +/=?"
+      },
+      "response": {
+        "data": [
+          {
+            "id": "sess_019e3bb1e8c171fd9abbb1477ffb84cc",
+            "type": "session",
+            "agent": {
+              "id": "agent_019e390add9f7bac9b6cc806db46fcbd",
+              "type": "agent",
+              "version": 2,
+              "name": "doc-verification-agent",
+              "description": "",
+              "model": {
+                "id": "ultimate",
+                "effective_context_window": 200000
+              },
+              "system": "You are an expert software engineer.",
+              "tools": [
+                {
+                  "enabled_tools": [
+                    "Bash",
+                    "Read",
+                    "Write",
+                    "Edit",
+                    "Glob",
+                    "Grep"
+                  ],
+                  "type": "agent_toolset_20260401"
+                }
+              ],
+              "skills": [],
+              "mcp_servers": []
+            },
+            "environment_id": "env_019e2590d33f711fabf42f2857cecd8a",
+            "title": "API-doc-verification-session",
+            "status": "idle",
+            "metadata": {},
+            "resources": [],
+            "vault_ids": [],
+            "deployment_id": null,
+            "outcome_evaluations": [],
+            "stats": {
+              "active_seconds": 0,
+              "duration_seconds": 0
+            },
+            "environment_variables": {},
+            "archived_at": null,
+            "created_at": "2026-05-18T15:26:15.747298Z",
+            "updated_at": "2026-05-18T15:26:15.747298Z",
+            "usage": {
+              "total_credits": 1.25
+            }
+          }
+        ],
+        "first_id": "sess_019e3bb1e8c171fd9abbb1477ffb84cc",
+        "has_more": false,
+        "last_id": "sess_019e3bb1e8c171fd9abbb1477ffb84cc",
+        "next_page": null,
+        "total": null
+      }
+    },
+    {
+      "mode": "managed",
+      "resource": "deployments",
+      "entry": "deployments",
+      "service": "DeploymentService",
+      "source": "https://docs.qoder.com/cloud-agents/api/deployments/search",
+      "path": "/deployments/search",
+      "body": {
+        "metadata": {
+          "team": "core"
+        },
+        "name": "nightly",
+        "status": "paused",
+        "agent_id": "agent_one",
+        "include_archived": false,
+        "created_at[gte]": "2026-01-01T00:00:00Z",
+        "created_at[lte]": "2026-10-27T00:00:00Z",
+        "limit": 1,
+        "page": "start +/=?"
+      },
+      "response": {
+        "data": [
+          {
+            "agent": {
+              "id": "agent_019eb4d4a06d747c865d5800b9c57ae2",
+              "type": "agent",
+              "version": 1
+            },
+            "archived_at": null,
+            "created_at": "2026-06-14T08:53:32Z",
+            "description": "Deployment created for API documentation verification",
+            "environment_id": "env_019e64e01a137caf953ac2ac7b42ec5c",
+            "environment_variables": "",
+            "id": "dep_019ec556114c78f8b60ee34fcb98bf59",
+            "initial_events": [
+              {
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Generate today's status report"
+                  }
+                ],
+                "type": "user.message"
+              }
+            ],
+            "metadata": {},
+            "name": "api-doc-verification-deployment",
+            "paused_reason": null,
+            "resources": [],
+            "schedule": {
+              "expression": "0 9 * * *",
+              "timezone": "Asia/Shanghai",
+              "type": "cron",
+              "upcoming_runs_at": [
+                "2026-06-15T01:00:00Z",
+                "2026-06-16T01:00:00Z",
+                "2026-06-17T01:00:00Z",
+                "2026-06-18T01:00:00Z",
+                "2026-06-19T01:00:00Z"
+              ]
+            },
+            "status": "active",
+            "type": "deployment",
+            "updated_at": "2026-06-14T08:53:32Z",
+            "vault_ids": []
+          }
+        ],
+        "first_id": "dep_019ec556114c78f8b60ee34fcb98bf59",
+        "has_more": false,
+        "last_id": "dep_019ec51604b87aaea12568c9ab7b7025",
+        "next_page": null,
+        "total": null
+      }
+    },
+    {
+      "mode": "managed",
+      "resource": "environments",
+      "entry": "environments",
+      "service": "EnvironmentService",
+      "source": "https://docs.qoder.com/cloud-agents/api/environments/search",
+      "path": "/environments/search",
+      "body": {
+        "metadata": {
+          "team": "core"
+        },
+        "name": "dev",
+        "include_archived": false,
+        "created_at[gte]": "2026-01-01T00:00:00Z",
+        "created_at[lte]": "2026-10-27T00:00:00Z",
+        "limit": 1,
+        "page": "start +/=?"
+      },
+      "response": {
+        "data": [
+          {
+            "id": "env_019e3bb39b6774d8878cd0b9d237574b",
+            "type": "environment",
+            "name": "doc-test-env",
+            "description": "",
+            "config": {
+              "type": "cloud",
+              "packages": {
+                "type": "packages",
+                "apt": [
+                  "curl"
+                ],
+                "cargo": [],
+                "gem": [],
+                "go": [],
+                "npm": [],
+                "pip": []
+              }
+            },
+            "metadata": {},
+            "archived_at": null,
+            "created_at": "2026-05-18T15:28:07.017808Z",
+            "updated_at": "2026-05-18T15:28:07.017808Z"
+          },
+          {
+            "id": "env_019e2590d33f711fabf42f2857cecd8a",
+            "type": "environment",
+            "name": "default",
+            "description": "",
+            "config": {
+              "type": "cloud",
+              "packages": {
+                "type": "packages",
+                "apt": [],
+                "cargo": [],
+                "gem": [],
+                "go": [],
+                "npm": [],
+                "pip": []
+              }
+            },
+            "metadata": {},
+            "archived_at": null,
+            "created_at": "2026-05-14T08:18:28.800813Z",
+            "updated_at": "2026-05-14T08:18:28.800813Z"
+          }
+        ],
+        "first_id": "env_019e3bb39b6774d8878cd0b9d237574b",
+        "has_more": false,
+        "last_id": "env_019e2590d33f711fabf42f2857cecd8a",
+        "next_page": null,
+        "total": null
+      }
+    },
+    {
+      "mode": "managed",
+      "resource": "skills",
+      "entry": "skills",
+      "service": "SkillService",
+      "source": "https://docs.qoder.com/cloud-agents/api/skills/search",
+      "path": "/skills/search",
+      "body": {
+        "metadata": {
+          "team": "core"
+        },
+        "source": "custom",
+        "display_title": "Search helper",
+        "limit": 1,
+        "page": "start +/=?"
+      },
+      "response": {
+        "data": [
+          {
+            "id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+            "type": "skill",
+            "display_title": "test-skill-api-doc",
+            "source": "custom",
+            "latest_version": "1759178010641129",
+            "metadata": {
+              "team": "docs"
+            },
+            "created_at": "2026-05-18T15:35:24.248164Z",
+            "updated_at": "2026-05-18T15:35:24.248164Z"
+          }
+        ],
+        "next_page": null,
+        "first_id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+        "last_id": "skill_019e3bba474b73cfaf19eae9b5f5e66d",
+        "has_more": false,
+        "total": null
+      }
+    },
+    {
+      "mode": "managed",
+      "resource": "vaults",
+      "entry": "vaults",
+      "service": "VaultService",
+      "source": "https://docs.qoder.com/cloud-agents/api/vaults/search",
+      "path": "/vaults/search",
+      "body": {
+        "metadata": {
+          "team": "core"
+        },
+        "name": "prod",
+        "include_archived": false,
+        "limit": 1,
+        "page": "start +/=?"
+      },
+      "response": {
+        "data": [
+          {
+            "id": "vault_019e3bb940277f0db05ab74291acf6ef",
+            "type": "vault",
+            "display_name": "my-mcp-vault",
+            "metadata": {},
+            "archived_at": null,
+            "created_at": "2026-05-18T15:34:16.874877Z",
+            "updated_at": "2026-05-18T15:34:16.874877Z"
+          }
+        ],
+        "next_page": null,
+        "first_id": "vault_019e3bb940277f0db05ab74291acf6ef",
+        "last_id": "vault_019e3bb940277f0db05ab74291acf6ef",
+        "has_more": false,
+        "total": null
+      }
+    },
+    {
+      "mode": "managed",
+      "resource": "files",
+      "entry": "files",
+      "service": "FileService",
+      "source": "https://docs.qoder.com/cloud-agents/api/files/search",
+      "path": "/files/search",
+      "body": {
+        "metadata": {
+          "project": "demo"
+        },
+        "name": "report",
+        "scope_id": "sess_one",
+        "limit": 1,
+        "page": "start +/=?"
+      },
+      "response": {
+        "data": [
+          {
+            "id": "file_019e3bb8e6c47d189212a79642136696",
+            "type": "file",
+            "filename": "report.txt",
+            "mime_type": "text/plain",
+            "size_bytes": 110,
+            "downloadable": true,
+            "scope": {
+              "id": "sess_019e3bb8e6c47d18",
+              "type": "session"
+            },
+            "metadata": {
+              "project": "demo"
+            },
+            "created_at": "2026-05-18T15:33:53Z"
+          }
+        ],
+        "next_page": null,
+        "first_id": "file_019e3bb8e6c47d189212a79642136696",
+        "has_more": false,
+        "last_id": "file_019e3bb8e6c47d189212a79642136696",
+        "total": null
+      }
+    },
+    {
+      "mode": "managed",
+      "resource": "memory_stores",
+      "entry": "memoryStores",
+      "service": "MemoryStoreService",
+      "source": "https://docs.qoder.com/cloud-agents/api/memory-stores/search",
+      "path": "/memory_stores/search",
+      "body": {
+        "metadata": {
+          "team": "core"
+        },
+        "name": "memory",
+        "include_archived": false,
+        "created_at[gte]": "2026-01-01T00:00:00Z",
+        "created_at[lte]": "2026-10-27T00:00:00Z",
+        "limit": 1,
+        "page": "start +/=?"
+      },
+      "response": {
+        "data": [
+          {
+            "id": "memstore_019e3bb8d50674d9b082b73709c29c87",
+            "created_at": "2026-05-18T15:33:49.449Z",
+            "name": "doc-test-store",
+            "type": "memory_store",
+            "updated_at": "2026-05-18T15:33:49.449Z",
+            "archived_at": null,
+            "description": "Test store",
+            "metadata": {},
+            "status": "active",
+            "entry_count": 0,
+            "total_size": 0
+          }
+        ],
+        "has_more": false,
+        "first_id": "memstore_019e3bb8d50674d9b082b73709c29c87",
+        "last_id": "memstore_019e3bb8d50674d9b082b73709c29c87",
+        "next_page": null,
+        "total": null
+      }
+    }
+  ]
+}

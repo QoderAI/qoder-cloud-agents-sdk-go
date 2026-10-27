@@ -5,6 +5,12 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Added
+
+- Forward resource search for Environments, Skills, Vaults, and Files, with PAT Identity scope in the query.
+- Managed resource search for Agents, Sessions, Deployments, Environments, Skills, Vaults, Files, and Memory Stores, including typed metadata and resource filters.
+- Automatic Search beta headers and POST body cursor pagination that preserves filters and request options across pages.
+
 ## [0.11.0] - 2026-10-27
 
 ### Changed

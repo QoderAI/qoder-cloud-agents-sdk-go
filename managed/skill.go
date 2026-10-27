@@ -315,3 +315,45 @@ type SkillDeleteParams struct {
 	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
 	paramObj
 }
+
+// Search skills by metadata and resource filters. Adds the required search Beta header.
+func (r *SkillService) Search(ctx context.Context, params SkillSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[Skill], error) {
+	for _, beta := range params.Betas {
+		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", string(beta)))
+	}
+	if params.WorkspaceID.Valid() {
+		opts = append(opts, option.WithHeader("qoder-workspace-id", params.WorkspaceID.Value))
+	}
+	return pagination.NewSearchPage[Skill](ctx, "skills/search", params, slices.Concat(r.Options, opts)...)
+}
+
+// SearchAutoPaging iterates all matching skills using opaque body cursors.
+func (r *SkillService) SearchAutoPaging(ctx context.Context, params SkillSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[Skill] {
+	return pagination.NewPageCursorAutoPager(r.Search(ctx, params, opts...))
+}
+
+// SkillSearchParams contains JSON body filters for Search.
+type SkillSearchParams struct {
+	// Exact string metadata filters combined with AND (at most 16 entries).
+	Metadata map[string]string `json:"metadata,omitzero"`
+	// Page size; default 20, maximum 100.
+	Limit param.Opt[int64] `json:"limit,omitzero"`
+	// Opaque next_page cursor returned by the previous search response.
+	Page param.Opt[string] `json:"page,omitzero"`
+	// Skill source: custom or qoder.
+	Source param.Opt[string] `json:"source,omitzero"`
+	// Case-insensitive Skill display-title substring filter.
+	DisplayTitle param.Opt[string] `json:"display_title,omitzero"`
+	// Deprecated: use DisplayTitle instead.
+	Name        param.Opt[string] `json:"name,omitzero"`
+	WorkspaceID param.Opt[string] `header:"qoder-workspace-id,omitzero" json:"-"`
+	// Additional beta features; search-2026-08-31 is always included.
+	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+	paramObj
+}
+
+func (r SkillSearchParams) MarshalJSON() ([]byte, error) {
+	type shadow SkillSearchParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SkillSearchParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }

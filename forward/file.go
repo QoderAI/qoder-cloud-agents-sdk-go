@@ -191,3 +191,44 @@ func (r *FileMetadata) UnmarshalJSON(data []byte) error { return apijson.Unmarsh
 func (r FileUploadParams) URLQuery() (url.Values, error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
 }
+
+// Search files by metadata and resource filters. Adds the required search Beta header.
+func (r *FileService) Search(ctx context.Context, params FileSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[FileMetadata], error) {
+	for _, beta := range params.Betas {
+		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", string(beta)))
+	}
+	return pagination.NewSearchPage[FileMetadata](ctx, "files/search", params, slices.Concat(r.Options, opts)...)
+}
+
+// SearchAutoPaging iterates all matching files using opaque body cursors.
+func (r *FileService) SearchAutoPaging(ctx context.Context, params FileSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[FileMetadata] {
+	return pagination.NewPageCursorAutoPager(r.Search(ctx, params, opts...))
+}
+
+// FileSearchParams contains JSON body filters for Search.
+type FileSearchParams struct {
+	// Exact string metadata filters combined with AND (at most 16 entries).
+	Metadata map[string]string `json:"metadata,omitzero"`
+	// Page size; default 20, maximum 100.
+	Limit param.Opt[int64] `json:"limit,omitzero"`
+	// Opaque next_page cursor returned by the previous search response.
+	Page param.Opt[string] `json:"page,omitzero"`
+	// Case-insensitive name substring filter.
+	Name param.Opt[string] `json:"name,omitzero"`
+	// Resource scope ID, currently a Session ID.
+	ScopeID param.Opt[string] `json:"scope_id,omitzero"`
+	// Select Identity ownership with a PAT; omit with any SAT. Sent in the query only.
+	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
+	// Additional beta features; search-2026-08-31 is always included.
+	Betas []string `header:"x-qoder-beta,omitzero" json:"-"`
+	paramObj
+}
+
+func (r FileSearchParams) MarshalJSON() ([]byte, error) {
+	type shadow FileSearchParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *FileSearchParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+func (r FileSearchParams) URLQuery() (url.Values, error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{ArrayFormat: apiquery.ArrayQueryFormatRepeat, NestedFormat: apiquery.NestedQueryFormatBrackets})
+}

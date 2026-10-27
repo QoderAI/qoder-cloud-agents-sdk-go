@@ -2997,3 +2997,63 @@ func (u SessionNewParamsResourceUnion) GetPassword() *string {
 	}
 	return nil
 }
+
+// Search sessions by metadata and resource filters. Adds the required search Beta header.
+func (r *SessionService) Search(ctx context.Context, params SessionSearchParams, opts ...option.RequestOption) (*pagination.PageCursor[ManagedAgentsSession], error) {
+	for _, beta := range params.Betas {
+		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", string(beta)))
+	}
+	if params.WorkspaceID.Valid() {
+		opts = append(opts, option.WithHeader("qoder-workspace-id", params.WorkspaceID.Value))
+	}
+	return pagination.NewSearchPage[ManagedAgentsSession](ctx, "sessions/search", params, slices.Concat(r.Options, opts)...)
+}
+
+// SearchAutoPaging iterates all matching sessions using opaque body cursors.
+func (r *SessionService) SearchAutoPaging(ctx context.Context, params SessionSearchParams, opts ...option.RequestOption) *pagination.PageCursorAutoPager[ManagedAgentsSession] {
+	return pagination.NewPageCursorAutoPager(r.Search(ctx, params, opts...))
+}
+
+// SessionSearchParams contains JSON body filters for Search.
+type SessionSearchParams struct {
+	// Exact string metadata filters combined with AND (at most 16 entries).
+	Metadata map[string]string `json:"metadata,omitzero"`
+	// Page size; default 20, maximum 100.
+	Limit param.Opt[int64] `json:"limit,omitzero"`
+	// Opaque next_page cursor returned by the previous search response.
+	Page param.Opt[string] `json:"page,omitzero"`
+	// Case-insensitive name substring filter.
+	Name param.Opt[string] `json:"name,omitzero"`
+	// Sort order: desc (default) or asc.
+	Order param.Opt[string] `json:"order,omitzero"`
+	// Include archived resources; defaults to false.
+	IncludeArchived param.Opt[bool] `json:"include_archived,omitzero"`
+	// Match any of running, idle, rescheduling, or terminated.
+	Statuses []string `json:"statuses,omitzero"`
+	// Filter by agent id.
+	AgentID param.Opt[string] `json:"agent_id,omitzero"`
+	// Filter by agent version.
+	AgentVersion param.Opt[int64] `json:"agent_version,omitzero"`
+	// Filter by deployment id.
+	DeploymentID param.Opt[string] `json:"deployment_id,omitzero"`
+	// Filter by memory store id.
+	MemoryStoreID param.Opt[string] `json:"memory_store_id,omitzero"`
+	// Exclusive creation-time bound (RFC 3339).
+	CreatedAtGt param.Opt[time.Time] `json:"created_at[gt],omitzero" format:"date-time"`
+	// Inclusive creation-time bound (RFC 3339).
+	CreatedAtGte param.Opt[time.Time] `json:"created_at[gte],omitzero" format:"date-time"`
+	// Exclusive creation-time bound (RFC 3339).
+	CreatedAtLt param.Opt[time.Time] `json:"created_at[lt],omitzero" format:"date-time"`
+	// Inclusive creation-time bound (RFC 3339).
+	CreatedAtLte param.Opt[time.Time] `json:"created_at[lte],omitzero" format:"date-time"`
+	WorkspaceID  param.Opt[string]    `header:"qoder-workspace-id,omitzero" json:"-"`
+	// Additional beta features; search-2026-08-31 is always included.
+	Betas []QoderBeta `header:"x-qoder-beta,omitzero" json:"-"`
+	paramObj
+}
+
+func (r SessionSearchParams) MarshalJSON() ([]byte, error) {
+	type shadow SessionSearchParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SessionSearchParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
