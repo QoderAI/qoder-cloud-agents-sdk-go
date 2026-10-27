@@ -1,6 +1,7 @@
 package forward
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apijson"
@@ -609,8 +610,22 @@ func (r IdentityConfigSpecParam) MarshalJSON() ([]byte, error) {
 	type shadow IdentityConfigSpecParam
 	return param.MarshalObject(r, (*shadow)(&r))
 }
+
+func (r *IdentityConfigSpecParam) UnmarshalAPIJSON(data []byte) error { return r.UnmarshalJSON(data) }
+
 func (r *IdentityConfigSpecParam) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+	if err := apijson.UnmarshalRoot(data, r); err != nil {
+		return err
+	}
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if tools, ok := fields["tools"]; ok {
+		// The generic decoder treats null union fields as absent.
+		return r.Tools.UnmarshalJSON(tools)
+	}
+	return nil
 }
 
 type SessionEventParam struct {
@@ -671,8 +686,25 @@ type IdentityToolsUnionParam struct {
 func (r IdentityToolsUnionParam) MarshalJSON() ([]byte, error) {
 	return param.MarshalUnion(r, r.OfOverrides, r.OfArray)
 }
+
+func (r *IdentityToolsUnionParam) UnmarshalAPIJSON(data []byte) error { return r.UnmarshalJSON(data) }
+
 func (r *IdentityToolsUnionParam) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+	*r = IdentityToolsUnionParam{}
+	data = bytes.TrimSpace(data)
+	if bytes.Equal(data, []byte("null")) {
+		*r = param.NullStruct[IdentityToolsUnionParam]()
+		return nil
+	}
+	if len(data) > 0 {
+		switch data[0] {
+		case '[':
+			return json.Unmarshal(data, &r.OfArray)
+		case '{':
+			return json.Unmarshal(data, &r.OfOverrides)
+		}
+	}
+	return fmt.Errorf("identity tools must be an object, an array, or null")
 }
 
 type IdentityToolsUnion struct {
