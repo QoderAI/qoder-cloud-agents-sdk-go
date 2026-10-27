@@ -2444,18 +2444,16 @@ type Decision struct {
     SessionID string `json:"session_id" api:"nullable"`
     Source    string `json:"source"`
     // "running", "completed", or "failed".
-    Status    string             `json:"status"`
-    Questions []DecisionQuestion `json:"questions"`
-    Answers   []DecisionAnswer   `json:"answers"`
-    Context   DecisionContext    `json:"context"`
-    // Reported model usage, if available. Context estimates are not usage.
-    Usage       map[string]any `json:"usage" api:"nullable"`
-    Error       DecisionError  `json:"error" api:"nullable"`
-    CreatedAt   time.Time      `json:"created_at" format:"date-time"`
-    CompletedAt time.Time      `json:"completed_at" format:"date-time" api:"nullable"`
+    Status      string             `json:"status"`
+    Questions   []DecisionQuestion `json:"questions"`
+    Answers     []DecisionAnswer   `json:"answers"`
+    Context     DecisionContext    `json:"context"`
+    Error       DecisionError      `json:"error" api:"nullable"`
+    CreatedAt   time.Time          `json:"created_at" format:"date-time"`
+    CompletedAt time.Time          `json:"completed_at" format:"date-time" api:"nullable"`
     JSON        struct {
-        ID, SessionID, Source, Status, Questions, Answers, Context, Usage, Error, CreatedAt, CompletedAt respjson.Field
-        ExtraFields                                                                                      map[string]respjson.Field
+        ID, SessionID, Source, Status, Questions, Answers, Context, Error, CreatedAt, CompletedAt respjson.Field
+        ExtraFields                                                                               map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -2486,17 +2484,16 @@ func (r *Decision) UnmarshalJSON(data []byte) error
 
 ```go
 type DecisionAnswer struct {
-    // "choice", "score", or "refusal".
+    // "choice" or "score".
     Type string `json:"type"`
     Name string `json:"name"`
-    // A string or boolean for choice answers; absent for scores or refusals.
+    // A string or boolean for choice answers; absent for scores.
     Value any `json:"value"`
     // Selected numeric level for score answers. Inspect JSON.Score for presence.
-    Score   float64 `json:"score"`
-    Refusal string  `json:"refusal"`
-    JSON    struct {
-        Type, Name, Value, Score, Refusal respjson.Field
-        ExtraFields                       map[string]respjson.Field
+    Score float64 `json:"score"`
+    JSON  struct {
+        Type, Name, Value, Score respjson.Field
+        ExtraFields              map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -2591,30 +2588,19 @@ func (r *DecisionChoiceParam) UnmarshalJSON(data []byte) error
 <a name="DecisionContext"></a>
 ## type [DecisionContext](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/decision.go>)
 
-DecisionContext describes the server\-selected input. Session\-only fields may be absent for explicit state or when preparation fails; inspect JSON for presence.
+DecisionContext describes the input mode and Session events used. Session\-only fields may be absent for explicit state or when preparation fails; inspect JSON for presence.
 
 ```go
 type DecisionContext struct {
-    Mode           string `json:"mode"`
-    PolicyVersion  string `json:"policy_version"`
-    TokenEstimator string `json:"token_estimator"`
-    // Estimate of the full serialized model request, not billed model usage.
-    EstimatedInputTokens int64     `json:"estimated_input_tokens"`
-    MaxInputTokens       int64     `json:"max_input_tokens"`
-    SnapshotAt           time.Time `json:"snapshot_at" format:"date-time"`
-    AnchorEventID        string    `json:"anchor_event_id"`
-    FirstEventID         string    `json:"first_event_id"`
-    LastEventID          string    `json:"last_event_id"`
-    IncludedSegmentCount int64     `json:"included_segment_count"`
-    IncludedEventCount   int64     `json:"included_event_count"`
-    ScanLimited          bool      `json:"scan_limited"`
-    Truncated            bool      `json:"truncated"`
-    TruncationReasons    []string  `json:"truncation_reasons"`
+    Mode                 string `json:"mode"`
+    AnchorEventID        string `json:"anchor_event_id"`
+    FirstEventID         string `json:"first_event_id"`
+    LastEventID          string `json:"last_event_id"`
+    IncludedSegmentCount int64  `json:"included_segment_count"`
+    IncludedEventCount   int64  `json:"included_event_count"`
     JSON                 struct {
-        Mode, PolicyVersion, TokenEstimator, EstimatedInputTokens, MaxInputTokens, SnapshotAt respjson.Field
-        AnchorEventID, FirstEventID, LastEventID, IncludedSegmentCount, IncludedEventCount    respjson.Field
-        ScanLimited, Truncated, TruncationReasons                                             respjson.Field
-        ExtraFields                                                                           map[string]respjson.Field
+        Mode, AnchorEventID, FirstEventID, LastEventID, IncludedSegmentCount, IncludedEventCount respjson.Field
+        ExtraFields                                                                              map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
