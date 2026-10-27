@@ -36,6 +36,6 @@ func TestMemoryStoreAndMemoryLifecycleLive(t *testing.T) {
 		_, err := s.client.Identities.MemoryStores.Detach(ctx, identity.ID, template.ID, store.ID)
 		return err
 	})
-	_, err = s.client.Identities.MemoryStores.List(ctx, identity.ID, template.ID)
+	_, err = s.client.Identities.MemoryStores.List(ctx, identity.ID, template.ID, forward.IdentityMemoryStoreListParams{})
 	liveCheck(t, err)
 }

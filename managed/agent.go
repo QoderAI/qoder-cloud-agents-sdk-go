@@ -2852,35 +2852,19 @@ type ManagedAgentsModel = string
 
 // Model identifier and configuration.
 type ManagedAgentsModelConfig struct {
-	ContextWindow int64 `json:"context_window"`
-
-	// The model that will power your agent.
-	//
-	// See [models](https://docs.qoder.com/cloud-agents/api/models/list) for additional
-	// details and options.
-	ID ManagedAgentsModel `json:"id" api:"required"`
-	// How hard the model works on each turn. Sets `output_config.effort` on every
-	// Messages call the session makes.
-	Effort ManagedAgentsModelConfigEffortUnion `json:"effort"`
-	// Geographic region for model inference. When unset, requests fall through to the
-	// workspace's default_inference_geo.
-	InferenceGeo string `json:"inference_geo"`
-	// Inference speed mode. `fast` provides significantly faster output token
-	// generation at premium pricing. Not all models support `fast`; invalid
-	// combinations are rejected at create time.
-	//
-	// Any of "standard", "fast".
-	Speed ManagedAgentsModelConfigSpeed `json:"speed"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		ContextWindow respjson.Field
-
-		ID           respjson.Field
-		Effort       respjson.Field
-		InferenceGeo respjson.Field
-		Speed        respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
+	InferenceGeo           string `json:"inference_geo"`
+	ID                     string `json:"id" api:"required"`
+	Effort                 string `json:"effort"`
+	ContextWindow          int64  `json:"context_window"`
+	EffectiveContextWindow int64  `json:"effective_context_window"`
+	JSON                   struct {
+		InferenceGeo           respjson.Field
+		ID                     respjson.Field
+		Effort                 respjson.Field
+		ContextWindow          respjson.Field
+		EffectiveContextWindow respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
 	} `json:"-"`
 }
 
@@ -2994,34 +2978,14 @@ const (
 //
 // The property ID is required.
 type ManagedAgentsModelConfigParams struct {
-	ContextWindow param.Opt[int64] `json:"context_window,omitzero"`
-
-	// The model that will power your agent.
-	//
-	// See [models](https://docs.qoder.com/cloud-agents/api/models/list) for additional
-	// details and options.
-	ID ManagedAgentsModel `json:"id,omitzero" api:"required"`
-	// Geographic region for model inference. When unset, requests fall through to the
-	// workspace's default_inference_geo. On update, `model` is whole-object
-	// replacement — omitting inference_geo clears it.
-	InferenceGeo param.Opt[string] `json:"inference_geo,omitzero"`
-	// How hard the model works on each inference call. Accepts a bare level string
-	// (`"high"`) or `{"type": "high"}`. On create, omitting it resolves the per-model
-	// default; on update, omitting it leaves the stored value unchanged.
-	Effort ManagedAgentsModelConfigParamsEffortUnion `json:"effort,omitzero"`
-	// Inference speed mode. `fast` provides significantly faster output token
-	// generation at premium pricing. Not all models support `fast`; invalid
-	// combinations are rejected at create time.
-	//
-	// Any of "standard", "fast".
-	Speed ManagedAgentsModelConfigParamsSpeed `json:"speed,omitzero"`
+	InferenceGeo  param.Opt[string] `json:"inference_geo,omitzero"`
+	ID            string            `json:"id" api:"required"`
+	Effort        param.Opt[string] `json:"effort,omitzero"`
+	ContextWindow param.Opt[int64]  `json:"context_window,omitzero"`
 	paramObj
 }
 
 func (r ManagedAgentsModelConfigParams) MarshalJSON() (data []byte, err error) {
-	if r.Speed != "" {
-		return nil, fmt.Errorf("Qoder does not support model.speed")
-	}
 	type shadow ManagedAgentsModelConfigParams
 	return param.MarshalObject(r, (*shadow)(&r))
 }

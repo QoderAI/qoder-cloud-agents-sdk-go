@@ -10,7 +10,9 @@ import (
 
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apijson"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apiquery"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/pagination"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/param"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/respjson"
 )
@@ -25,7 +27,7 @@ func NewIdentityMemoryStoreService(opts ...option.RequestOption) IdentityMemoryS
 }
 
 // List Memory Store mounts on an Identity
-func (r *IdentityMemoryStoreService) List(ctx context.Context, identityID string, templateID string, opts ...option.RequestOption) (res *IdentityMemoryStoreListResponse, err error) {
+func (r *IdentityMemoryStoreService) List(ctx context.Context, identityID string, templateID string, params IdentityMemoryStoreListParams, opts ...option.RequestOption) (res *pagination.Page[MemoryStoreMount], err error) {
 	if identityID == "" {
 		return nil, fmt.Errorf("missing required identity_id parameter")
 	}
@@ -35,8 +37,17 @@ func (r *IdentityMemoryStoreService) List(ctx context.Context, identityID string
 
 	opts = slices.Concat(r.Options, opts)
 	path := fmt.Sprintf("identities/%s/templates/%s/memory_stores", url.PathEscape(identityID), url.PathEscape(templateID))
-	err = convention.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return res, err
+	var raw *http.Response
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	cfg, err := convention.NewRequestConfig(ctx, http.MethodGet, path, params, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	if err = cfg.Execute(); err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
 }
 
 // Mount Memory Store on an Identity
@@ -55,6 +66,7 @@ func (r *IdentityMemoryStoreService) Mount(ctx context.Context, identityID strin
 }
 
 type IdentityMemoryStoreMountParams struct {
+	Access param.Opt[string] `json:"access,omitzero"`
 	// ID of the Memory Store to mount (`memstore_...`). It must be an active Store
 	// visible to the caller.
 	MemoryStoreID string `json:"memory_store_id" api:"required"`
@@ -139,9 +151,13 @@ func (r MemoryStoreMount) RawJSON() string                  { return r.JSON.raw 
 func (r *MemoryStoreMount) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type IdentityMemoryStoreListResponse struct {
+	FirstID string             `json:"first_id"`
+	LastID  string             `json:"last_id"`
 	Data    []MemoryStoreMount `json:"data"`
 	HasMore bool               `json:"has_more"`
 	JSON    struct {
+		FirstID     respjson.Field
+		LastID      respjson.Field
 		Data        respjson.Field
 		HasMore     respjson.Field
 		ExtraFields map[string]respjson.Field
@@ -152,4 +168,18 @@ type IdentityMemoryStoreListResponse struct {
 func (r IdentityMemoryStoreListResponse) RawJSON() string { return r.JSON.raw }
 func (r *IdentityMemoryStoreListResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+type IdentityMemoryStoreListParams struct {
+	Limit    param.Opt[int64]  `query:"limit,omitzero" json:"-"`
+	AfterID  param.Opt[string] `query:"after_id,omitzero" json:"-"`
+	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
+	paramObj
+}
+
+func (r IdentityMemoryStoreListParams) URLQuery() (url.Values, error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{})
+}
+func (r *IdentityMemoryStoreService) ListAutoPaging(ctx context.Context, identityID, templateID string, params IdentityMemoryStoreListParams, opts ...option.RequestOption) *pagination.PageAutoPager[MemoryStoreMount] {
+	return pagination.NewPageAutoPager(r.List(ctx, identityID, templateID, params, opts...))
 }

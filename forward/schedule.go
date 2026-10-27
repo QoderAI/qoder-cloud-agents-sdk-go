@@ -87,6 +87,7 @@ func (r *ScheduleService) New(ctx context.Context, params ScheduleNewParams, opt
 }
 
 type ScheduleNewParams struct {
+	Resources []ScheduleFileResourceParam `json:"resources,omitzero"`
 	// Forward Identity ID the Schedule belongs to.
 	IdentityID string `json:"identity_id" api:"required"`
 	// Forward Template ID to execute.
@@ -176,6 +177,7 @@ func (r *ScheduleService) Update(ctx context.Context, scheduleID string, params 
 }
 
 type ScheduleUpdateParams struct {
+	Resources []ScheduleFileResourceParam `json:"resources,omitzero"`
 	// New Schedule name.
 	Name param.Opt[string] `json:"name,omitzero"`
 	// New Schedule description.
@@ -321,6 +323,7 @@ func (r *ScheduleArchiveManyResponse) UnmarshalJSON(data []byte) error {
 }
 
 type Schedule struct {
+	Resources []ScheduleFileResource `json:"resources"`
 	// Authoritative creation method of the Schedule: api or tool.
 	Source          string `json:"source"`
 	SourceSessionID string `json:"source_session_id" api:"nullable"`
@@ -343,6 +346,7 @@ type Schedule struct {
 	ArchivedAt           time.Time                   `json:"archived_at" format:"date-time"`
 	PausedReason         SchedulePausedReason        `json:"paused_reason"`
 	JSON                 struct {
+		Resources            respjson.Field
 		Source               respjson.Field
 		SourceSessionID      respjson.Field
 		InitialEventsVersion respjson.Field
@@ -473,5 +477,39 @@ type ScheduleInitialEventsItem struct {
 
 func (r ScheduleInitialEventsItem) RawJSON() string { return r.JSON.raw }
 func (r *ScheduleInitialEventsItem) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ScheduleFileResourceParam attaches a Forward file to each Schedule run.
+type ScheduleFileResourceParam struct {
+	Type      string            `json:"type" api:"required"`
+	FileID    string            `json:"file_id" api:"required"`
+	MountPath param.Opt[string] `json:"mount_path,omitzero"`
+	paramObj
+}
+
+func (r ScheduleFileResourceParam) MarshalJSON() ([]byte, error) {
+	type shadow ScheduleFileResourceParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ScheduleFileResourceParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ScheduleFileResource struct {
+	Type      string `json:"type"`
+	FileID    string `json:"file_id"`
+	MountPath string `json:"mount_path"`
+	JSON      struct {
+		Type        respjson.Field
+		FileID      respjson.Field
+		MountPath   respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+func (r ScheduleFileResource) RawJSON() string { return r.JSON.raw }
+func (r *ScheduleFileResource) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }

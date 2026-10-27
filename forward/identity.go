@@ -85,6 +85,7 @@ func (r *IdentityService) New(ctx context.Context, params IdentityNewParams, opt
 }
 
 type IdentityNewParams struct {
+	AutoMemoryStore param.Opt[bool] `json:"auto_memory_store,omitzero"`
 	// End-user ID in the integrator's system; cannot be empty or whitespace only.
 	ExternalID string `json:"external_id" api:"required"`
 	// Display name; when provided it cannot be empty or whitespace only.
@@ -149,6 +150,7 @@ func (r *IdentityService) Update(ctx context.Context, identityID string, params 
 }
 
 type IdentityUpdateParams struct {
+	AutoMemoryStore param.Opt[bool] `json:"auto_memory_store,omitzero"`
 	// Replaces the existing end-user ID.
 	ExternalID param.Opt[string] `json:"external_id,omitzero"`
 	// Replaces the display name.
@@ -347,6 +349,7 @@ func (r IdentityStats) RawJSON() string                  { return r.JSON.raw }
 func (r *IdentityStats) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type Identity struct {
+	AutoMemoryStore bool `json:"auto_memory_store"`
 	// Forward Identity ID; the `idn_` prefix is recommended.
 	ID string `json:"id"`
 	// End-user ID in the integrator's system.
@@ -364,16 +367,17 @@ type Identity struct {
 	// Last update time, in RFC 3339 format.
 	UpdatedAt time.Time `json:"updated_at" format:"date-time"`
 	JSON      struct {
-		ID           respjson.Field
-		ExternalID   respjson.Field
-		Name         respjson.Field
-		IdentityType respjson.Field
-		Enabled      respjson.Field
-		Metadata     respjson.Field
-		CreatedAt    respjson.Field
-		UpdatedAt    respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
+		AutoMemoryStore respjson.Field
+		ID              respjson.Field
+		ExternalID      respjson.Field
+		Name            respjson.Field
+		IdentityType    respjson.Field
+		Enabled         respjson.Field
+		Metadata        respjson.Field
+		CreatedAt       respjson.Field
+		UpdatedAt       respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
 	} `json:"-"`
 }
 

@@ -147,7 +147,9 @@ func (r *EnvironmentService) Archive(ctx context.Context, environmentID string, 
 
 // `cloud` environment configuration.
 type CloudConfig struct {
-	SetupScript string `json:"setup_script"`
+	// Set Betas to include "oss-bucket-2026-09-23" when buckets remain configured.
+	Storage     BucketStorage `json:"storage"`
+	SetupScript string        `json:"setup_script"`
 	// Network configuration policy.
 	Networking CloudConfigNetworkingUnion `json:"networking" api:"required"`
 	// Package manager configuration.
@@ -156,6 +158,7 @@ type CloudConfig struct {
 	Type constant.Cloud `json:"type" default:"cloud"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		Storage     respjson.Field
 		SetupScript respjson.Field
 		Networking  respjson.Field
 		Packages    respjson.Field
@@ -246,7 +249,9 @@ func (r *CloudConfigNetworkingUnion) UnmarshalJSON(data []byte) error {
 //
 // The property Type is required.
 type CloudConfigParams struct {
-	SetupScript param.Opt[string] `json:"setup_script,omitzero"`
+	// Set Betas to include "oss-bucket-2026-09-23" when buckets remain configured.
+	Storage     BucketStorageParam `json:"storage,omitzero"`
+	SetupScript param.Opt[string]  `json:"setup_script,omitzero"`
 	// Network configuration policy. Omit on update to preserve the existing value.
 	Networking CloudConfigParamsNetworkingUnion `json:"networking,omitzero"`
 	// Specify packages (and optionally their versions) available in this environment.
@@ -395,7 +400,9 @@ func (r *Environment) UnmarshalJSON(data []byte) error {
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type EnvironmentConfigUnion struct {
-	SetupScript string `json:"setup_script"`
+	// Set Betas to include "oss-bucket-2026-09-23" when buckets remain configured.
+	Storage     BucketStorage `json:"storage"`
+	SetupScript string        `json:"setup_script"`
 	// This field is from variant [CloudConfig].
 	Networking CloudConfigNetworkingUnion `json:"networking"`
 	// This field is from variant [CloudConfig].
@@ -403,6 +410,7 @@ type EnvironmentConfigUnion struct {
 	// Any of "cloud", "self_hosted".
 	Type string `json:"type"`
 	JSON struct {
+		Storage     respjson.Field
 		SetupScript respjson.Field
 		Networking  respjson.Field
 		Packages    respjson.Field

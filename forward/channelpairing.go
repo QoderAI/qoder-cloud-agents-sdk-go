@@ -9,7 +9,9 @@ import (
 
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apijson"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apiquery"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/pagination"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/param"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/respjson"
 )
@@ -127,3 +129,70 @@ type ChannelPairing struct {
 
 func (r ChannelPairing) RawJSON() string                  { return r.JSON.raw }
 func (r *ChannelPairing) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+func (r *ChannelPairingService) Get(ctx context.Context, pairingID string, opts ...option.RequestOption) (res *ChannelPairing, err error) {
+	if pairingID == "" {
+		return nil, fmt.Errorf("missing required pairing_id parameter")
+	}
+	opts = slices.Concat(r.Options, opts)
+	err = convention.ExecuteNewRequest(ctx, http.MethodGet, fmt.Sprintf("channel_pairings/%s", url.PathEscape(pairingID)), nil, &res, opts...)
+	return res, err
+}
+
+// Update changes an active binding. Supply at least one nonempty field.
+func (r *ChannelPairingService) Update(ctx context.Context, pairingID string, params ChannelPairingUpdateParams, opts ...option.RequestOption) (res *ChannelPairing, err error) {
+	if pairingID == "" {
+		return nil, fmt.Errorf("missing required pairing_id parameter")
+	}
+	opts = slices.Concat(r.Options, opts)
+	err = convention.ExecuteNewRequest(ctx, http.MethodPost, fmt.Sprintf("channel_pairings/%s", url.PathEscape(pairingID)), params, &res, opts...)
+	return res, err
+}
+func (r *ChannelPairingService) List(ctx context.Context, params ChannelPairingListParams, opts ...option.RequestOption) (res *pagination.Page[ChannelPairing], err error) {
+	opts = slices.Concat(r.Options, opts)
+	var raw *http.Response
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	cfg, err := convention.NewRequestConfig(ctx, http.MethodGet, "channel_pairings", params, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	if err = cfg.Execute(); err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+func (r *ChannelPairingService) ListAutoPaging(ctx context.Context, params ChannelPairingListParams, opts ...option.RequestOption) *pagination.PageAutoPager[ChannelPairing] {
+	return pagination.NewPageAutoPager(r.List(ctx, params, opts...))
+}
+
+type ChannelPairingUpdateParams struct {
+	IdentityID param.Opt[string] `json:"identity_id,omitzero"`
+	TemplateID param.Opt[string] `json:"template_id,omitzero"`
+	paramObj
+}
+
+func (r ChannelPairingUpdateParams) MarshalJSON() ([]byte, error) {
+	type shadow ChannelPairingUpdateParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ChannelPairingUpdateParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ChannelPairingListParams struct {
+	ChannelID        param.Opt[string] `query:"channel_id,omitzero" json:"-"`
+	Status           param.Opt[string] `query:"status,omitzero" json:"-"`
+	TargetType       param.Opt[string] `query:"target_type,omitzero" json:"-"`
+	TargetExternalID param.Opt[string] `query:"target_external_id,omitzero" json:"-"`
+	IdentityID       param.Opt[string] `query:"identity_id,omitzero" json:"-"`
+	TemplateID       param.Opt[string] `query:"template_id,omitzero" json:"-"`
+	Limit            param.Opt[int64]  `query:"limit,omitzero" json:"-"`
+	AfterID          param.Opt[string] `query:"after_id,omitzero" json:"-"`
+	BeforeID         param.Opt[string] `query:"before_id,omitzero" json:"-"`
+	paramObj
+}
+
+func (r ChannelPairingListParams) URLQuery() (url.Values, error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{})
+}

@@ -1232,3 +1232,74 @@ sessions, err := managedClient.Sessions.Search(ctx, managed.SessionSearchParams{
 
 Each resource exposes `Search` for a page and `SearchAutoPaging` for iteration.
 Use the page's `GetNextPage()` for manual pagination.
+
+## Official contract alignment
+
+The next release aligns these public types with the official API documentation
+retrieved on 2026-10-27. It introduces source changes relative to 0.12.0:
+Outcome `rubric` is an object; Managed Agent `effort` is a string; Managed Agent
+and Dream model objects do not accept `speed`. Managed Dream `model` is optional
+and defaults to `auto`. Discover model IDs and supported efforts/context windows
+with List models. These Managed model changes do not remove Forward model features.
+
+```go
+rubric := forward.OutcomeRubricParam{Type: "text", Content: forward.String("report exists")}
+model := managed.ManagedAgentsModelConfigParams{ID: "ultimate", Effort: managed.String("high")}
+// Dream model can be omitted; its default is auto.
+dream, err := client.Dreams.New(ctx, forward.DreamNewParams{
+    Inputs: []forward.DreamInputParam{{Type: "identity_template",
+        IdentityID: forward.String("idn_..."), TemplateID: forward.String("tmpl_...")}},
+})
+```
+
+Mount list callers must supply query params, even if empty. The result now uses
+the standard page type. Use `ListAutoPaging` to traverse every page:
+
+```go
+pager := client.Identities.MemoryStores.ListAutoPaging(ctx, "idn_...", "tmpl_...",
+    forward.IdentityMemoryStoreListParams{Limit: forward.Int(20)})
+for pager.Next() {
+    fmt.Println(pager.Current().MemoryStoreID)
+}
+if err := pager.Err(); err != nil { /* handle error */ }
+```
+
+Identity tool maps now use `IdentityToolsUnionParam{OfOverrides: toolMap}`;
+`OfArray: []forward.ToolParam{}` explicitly replaces all tools with an empty list.
+Use `param.NullStruct[forward.IdentityToolsUnionParam]()` to restore inherited
+tools, and `param.NullMap[map[string]forward.ManagedCapabilityOverrideParam]()`
+to clear all managed-capability overrides. A selector value of
+`param.NullStruct[forward.ManagedCapabilityOverrideParam]()` clears that selector.
+For roster string entries use `MultiagentEntryParam{OfString: forward.String("tmpl_...")}`;
+Advisor entries use `Type: "advisor", Model: forward.String("ultimate")`.
+
+New Forward Dream calls require a PAT or an admin SAT; an Identity SAT is not
+supported. Inputs contain exactly one primary Memory Store or Identity/Template
+source, optionally plus Session sources. Pairing `update` changes an active
+binding; supply at least one nonempty Identity or Template ID. Use pairing
+`create` to complete a pending pairing. Pending records preserve empty
+`identity_id`, `template_id`, and `paired_at` strings.
+
+Identity `auto_memory_store=false` disables automatic default-store creation.
+Independent mounts now accept `access="read_write"`; omit access for a new
+read-only mount, or to preserve an existing mount's permission. Schedule
+`resources` accepts file entries and `[]` clears them; Run retrieval supports
+`include_initial_events=true` to return the saved input snapshot.
+
+Managed cloud Environment `config.storage.buckets` supports up to eight OSS
+mounts. When the resulting configuration has buckets, explicitly include beta
+`oss-bucket-2026-09-23` (`Betas` in Go, `betas` in Python/TS). Send credentials
+only when creating or replacing them; omit `credential` on an existing named
+bucket to keep it. Responses expose a read view without role ARN or AccessKey
+secret. `storage: {buckets: []}` clears mounts.
+
+Managed `OAuth.Start` (Go) / `oauth.start` (Python/TS) returns `authorization_url`,
+`state`, and `callback_origin`; the user completes authorization in a browser.
+Client secrets go in the POST body, never in a URL. This method does not open a
+browser or complete consent automatically.
+
+See the official [Outcome contract](https://docs.qoder.com/cloud-agents/api/forward/sessions/send-events),
+[Identity overrides](https://docs.qoder.com/cloud-agents/api/forward/identities/upsert-config),
+[Dream inputs](https://docs.qoder.com/cloud-agents/api/forward/dreams/create),
+[OSS storage](https://docs.qoder.com/cloud-agents/api/environments/storage-buckets),
+and [OAuth flow](https://docs.qoder.com/cloud-agents/api/vaults/start-oauth).

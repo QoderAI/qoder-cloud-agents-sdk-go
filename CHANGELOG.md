@@ -5,6 +5,28 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Added
+
+- Add Forward Dreams (create, list, retrieve, cancel, archive), channel pairing list/retrieve/update, and Managed OAuth start with typed requests and responses.
+- Add Identity automatic memory-store control, mount access and cursor pagination, sparse managed-capability overrides, and full tools-array replacement.
+- Support string Template references and Advisor model entries in Forward Multiagent rosters, Schedule file resources, and optional Run input snapshots.
+- Add typed Managed OSS bucket storage with separate write credentials/read views, and Memory Store ID cursor parameters.
+
+### Fixed
+
+- Align Forward Outcome rubric objects and Managed Agent/Dream model configuration with the official API. Dream model defaults to `auto` when omitted; object configuration supports `effort` and `context_window`.
+
+### Breaking changes
+
+- Forward event `rubric` is a text/content or file/file_id object instead of a string.
+- Managed Agent `effort` is a level string instead of an object; Agent and Dream model configuration no longer declares the unsupported `speed` field.
+- Identity mount `List` now takes `IdentityMemoryStoreListParams` and returns `pagination.Page[MemoryStoreMount]`; supply an empty params struct to preserve an unfiltered call.
+- Wrap Identity tool maps in `IdentityToolsUnionParam{OfOverrides: ...}`; use `OfArray` for replacement. Read maps through `Tools.OfOverrides`.
+
+### Migration
+
+- See the README's “Official contract alignment” section for updated model/rubric types, pagination calls and explicit null clearing.
+
 ## [0.12.0]
 
 ### Added

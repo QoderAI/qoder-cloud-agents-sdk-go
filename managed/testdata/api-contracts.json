@@ -3156,5 +3156,19 @@
       "next_page": null,
       "total": null
     }
+  },
+  {
+    "service": "OAuthService",
+    "name": "Start",
+    "method": "POST",
+    "path": "/oauth/start",
+    "file": "managed/oauth.go",
+    "doc": "oauth/start.md",
+    "route": "/oauth/start",
+    "response": {
+      "authorization_url": "https://mcp.example.com/authorize?state=opaque",
+      "state": "opaque",
+      "callback_origin": "https://console.example.com"
+    }
   }
 ]

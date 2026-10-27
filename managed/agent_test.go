@@ -91,14 +91,13 @@ func TestRequestFieldSemantics(t *testing.T) {
 	if _, ok := m["authorization_token"]; ok {
 		t.Fatal("empty legacy authorization_token sent")
 	}
-	model := managed.ManagedAgentsModelConfigParams{ID: "qoder-model", ContextWindow: managed.Int(128000), Effort: managed.ManagedAgentsModelConfigParamsEffortUnion{OfManagedAgentsModelConfigsEffortManagedAgentsEffortLevel: managed.String("high")}}
+	model := managed.ManagedAgentsModelConfigParams{ID: "qoder-model", ContextWindow: managed.Int(128000), Effort: managed.String("high")}
 	m = jsonObject(t, model)
 	if m["effort"] != "high" || m["context_window"] != float64(128000) {
 		t.Fatal(m)
 	}
-	model.Speed = "fast"
-	if _, err := json.Marshal(model); err == nil {
-		t.Fatal("unsupported model.speed should be rejected")
+	if _, ok := m["speed"]; ok {
+		t.Fatal("unsupported model.speed was sent")
 	}
 }
 
@@ -115,7 +114,7 @@ func TestQoderResponseFields(t *testing.T) {
 			t.Fatal("raw/unknown JSON lost")
 		}
 	}
-	if a.Model.Effort.Type != "high" || a.Model.Effort.AsHigh().Type != "high" || a.Model.ContextWindow != 128000 {
+	if a.Model.Effort != "high" || a.Model.ContextWindow != 128000 {
 		t.Fatalf("model fields: %+v", a.Model)
 	}
 	var skill managed.Skill

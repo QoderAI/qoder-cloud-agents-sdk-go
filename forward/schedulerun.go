@@ -88,6 +88,7 @@ func (r *ScheduleRunService) Get(ctx context.Context, runID string, params Sched
 }
 
 type ScheduleRunGetParams struct {
+	IncludeInitialEvents param.Opt[bool] `query:"include_initial_events,omitzero" json:"-"`
 	// Additional ownership constraint.
 	IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
 	paramObj
@@ -98,6 +99,7 @@ func (r ScheduleRunGetParams) URLQuery() (url.Values, error) {
 }
 
 type ScheduleRun struct {
+	InitialEvents []SessionEvent `json:"initial_events"`
 	// Authoritative creation method of the Schedule: api or tool.
 	Source          string `json:"source"`
 	SourceSessionID string `json:"source_session_id" api:"nullable"`
@@ -144,6 +146,7 @@ type ScheduleRun struct {
 	// null|Human-readable error message; structured details stay in `error`.
 	ErrorMessage string `json:"error_message"`
 	JSON         struct {
+		InitialEvents        respjson.Field
 		Source               respjson.Field
 		SourceSessionID      respjson.Field
 		InitialEventsVersion respjson.Field

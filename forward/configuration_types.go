@@ -1,6 +1,8 @@
 package forward
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/apijson"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/param"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/respjson"
@@ -223,10 +225,13 @@ func (r SkillBindingParam) MarshalJSON() ([]byte, error) {
 func (r *SkillBindingParam) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type MultiagentEntry struct {
+	OfString   string `json:"-"`
+	Model      string `json:"model"`
 	Type       string `json:"type" api:"required"`
 	TemplateID string `json:"template_id"`
 	Name       string `json:"name"`
 	JSON       struct {
+		Model       respjson.Field
 		Type        respjson.Field
 		TemplateID  respjson.Field
 		Name        respjson.Field
@@ -235,10 +240,22 @@ type MultiagentEntry struct {
 	} `json:"-"`
 }
 
-func (r MultiagentEntry) RawJSON() string                  { return r.JSON.raw }
-func (r *MultiagentEntry) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+// UnmarshalAPIJSON keeps string roster entries intact when nested in a Template.
+func (r *MultiagentEntry) UnmarshalAPIJSON(data []byte) error { return r.UnmarshalJSON(data) }
+
+func (r MultiagentEntry) RawJSON() string { return r.JSON.raw }
+func (r *MultiagentEntry) UnmarshalJSON(data []byte) error {
+	*r = MultiagentEntry{}
+	if len(data) > 0 && data[0] == '"' {
+		r.JSON.raw = string(data)
+		return json.Unmarshal(data, &r.OfString)
+	}
+	return apijson.UnmarshalRoot(data, r)
+}
 
 type MultiagentEntryParam struct {
+	OfString   param.Opt[string] `json:"-"`
+	Model      param.Opt[string] `json:"model,omitzero"`
 	Type       string            `json:"type" api:"required"`
 	TemplateID param.Opt[string] `json:"template_id,omitzero"`
 	Name       param.Opt[string] `json:"name,omitzero"`
@@ -246,10 +263,27 @@ type MultiagentEntryParam struct {
 }
 
 func (r MultiagentEntryParam) MarshalJSON() ([]byte, error) {
+	if r.OfString.Valid() {
+		if r.Type != "" || r.Model.Valid() || r.TemplateID.Valid() || r.Name.Valid() {
+			return nil, fmt.Errorf("multiagent entry must be either a template ID or an object")
+		}
+		return json.Marshal(r.OfString.Value)
+	}
 	type shadow MultiagentEntryParam
 	return param.MarshalObject(r, (*shadow)(&r))
 }
+func (r *MultiagentEntryParam) UnmarshalAPIJSON(data []byte) error { return r.UnmarshalJSON(data) }
+
 func (r *MultiagentEntryParam) UnmarshalJSON(data []byte) error {
+	*r = MultiagentEntryParam{}
+	if len(data) > 0 && data[0] == '"' {
+		var id string
+		if err := json.Unmarshal(data, &id); err != nil {
+			return err
+		}
+		*r = MultiagentEntryParam{OfString: String(id)}
+		return nil
+	}
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -522,9 +556,10 @@ func (r SkillOverrideParam) MarshalJSON() ([]byte, error) {
 func (r *SkillOverrideParam) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type IdentityConfigSpec struct {
+	ManagedToolConfig    map[string]*ManagedCapabilityOverride  `json:"managed_tool_config"`
 	System               SystemOverride                         `json:"system"`
 	Model                ModelConfig                            `json:"model"`
-	Tools                map[string]ToolOverride                `json:"tools"`
+	Tools                IdentityToolsUnion                     `json:"tools"`
 	MCPServers           map[string]MCPServerOverride           `json:"mcp_servers"`
 	Skills               map[string]SkillOverride               `json:"skills"`
 	Toolsets             map[string]any                         `json:"toolsets"`
@@ -534,6 +569,7 @@ type IdentityConfigSpec struct {
 	GitHubRepositories   map[string]GitHubRepository            `json:"github_repositories"`
 	EnvironmentVariables map[string]EnvironmentVariableOverride `json:"environment_variables"`
 	JSON                 struct {
+		ManagedToolConfig    respjson.Field
 		System               respjson.Field
 		Model                respjson.Field
 		Tools                respjson.Field
@@ -554,9 +590,10 @@ func (r IdentityConfigSpec) RawJSON() string                  { return r.JSON.ra
 func (r *IdentityConfigSpec) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type IdentityConfigSpecParam struct {
+	ManagedToolConfig    map[string]ManagedCapabilityOverrideParam   `json:"managed_tool_config,omitzero"`
 	System               SystemOverrideParam                         `json:"system,omitzero"`
 	Model                ModelConfigUnionParam                       `json:"model,omitzero"`
-	Tools                map[string]ToolOverrideParam                `json:"tools,omitzero"`
+	Tools                IdentityToolsUnionParam                     `json:"tools,omitzero"`
 	MCPServers           map[string]MCPServerOverrideParam           `json:"mcp_servers,omitzero"`
 	Skills               map[string]SkillOverrideParam               `json:"skills,omitzero"`
 	Toolsets             map[string]any                              `json:"toolsets,omitzero"`
@@ -585,7 +622,7 @@ type SessionEventParam struct {
 	DenyMessage     param.Opt[string]      `json:"deny_message,omitzero"`
 	IsError         param.Opt[bool]        `json:"is_error,omitzero"`
 	Description     param.Opt[string]      `json:"description,omitzero"`
-	Rubric          param.Opt[string]      `json:"rubric,omitzero"`
+	Rubric          OutcomeRubricParam     `json:"rubric,omitzero"`
 	OutcomeID       param.Opt[string]      `json:"outcome_id,omitzero"`
 	MaxIterations   param.Opt[int64]       `json:"max_iterations,omitzero"`
 	paramObj
@@ -621,5 +658,63 @@ func (r ManagedToolConfigParam) MarshalJSON() ([]byte, error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *ManagedToolConfigParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// IdentityToolsUnionParam overrides individual tools or replaces the complete tools array.
+type IdentityToolsUnionParam struct {
+	OfOverrides map[string]ToolOverrideParam `json:",omitzero,inline"`
+	OfArray     []ToolParam                  `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (r IdentityToolsUnionParam) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(r, r.OfOverrides, r.OfArray)
+}
+func (r *IdentityToolsUnionParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type IdentityToolsUnion struct {
+	OfOverrides map[string]*ToolOverride
+	OfArray     []Tool
+	raw         string
+}
+
+func (r IdentityToolsUnion) RawJSON() string { return r.raw }
+func (r *IdentityToolsUnion) UnmarshalJSON(data []byte) error {
+	*r = IdentityToolsUnion{raw: string(data)}
+	if len(data) > 0 && data[0] == '[' {
+		return json.Unmarshal(data, &r.OfArray)
+	}
+	return json.Unmarshal(data, &r.OfOverrides)
+}
+
+// ManagedCapabilityOverrideParam is a sparse Identity capability switch.
+// Use param.NullStruct to restore inheritance for one selector.
+type ManagedCapabilityOverrideParam struct {
+	Enabled bool `json:"enabled" api:"required"`
+	paramObj
+}
+
+func (r ManagedCapabilityOverrideParam) MarshalJSON() ([]byte, error) {
+	type shadow ManagedCapabilityOverrideParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ManagedCapabilityOverrideParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ManagedCapabilityOverride struct {
+	Enabled bool `json:"enabled"`
+	JSON    struct {
+		Enabled     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+func (r ManagedCapabilityOverride) RawJSON() string { return r.JSON.raw }
+func (r *ManagedCapabilityOverride) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
