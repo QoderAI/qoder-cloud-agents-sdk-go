@@ -15,6 +15,7 @@ const DefaultBaseURL = "https://api.qoder.com/api/v1/cloud/"
 // Client exposes concrete services; nested services follow the upstream hierarchy.
 // A client can be shared between goroutines. Configure options before first use.
 type Client struct {
+	OAuth          OAuthService
 	Options        []option.RequestOption
 	Agents         AgentService
 	Sessions       SessionService
@@ -40,7 +41,8 @@ func NewClient(opts ...option.RequestOption) Client {
 	}
 	defaults = append(defaults, convention.EnvironmentAuthentication())
 	opts = slices.Concat(defaults, opts)
-	return Client{Options: opts, Agents: NewAgentService(opts...), Sessions: NewSessionService(opts...), Deployments: NewDeploymentService(opts...), DeploymentRuns: NewDeploymentRunService(opts...), Dreams: NewDreamService(opts...), Environments: NewEnvironmentService(opts...), Skills: NewSkillService(opts...), Vaults: NewVaultService(opts...), Files: NewFileService(opts...), MemoryStores: NewMemoryStoreService(opts...), Models: NewModelService(opts...)}
+	return Client{Options: opts, Agents: NewAgentService(opts...), Sessions: NewSessionService(opts...), Deployments: NewDeploymentService(opts...), DeploymentRuns: NewDeploymentRunService(opts...), OAuth: NewOAuthService(opts...),
+		Dreams: NewDreamService(opts...), Environments: NewEnvironmentService(opts...), Skills: NewSkillService(opts...), Vaults: NewVaultService(opts...), Files: NewFileService(opts...), MemoryStores: NewMemoryStoreService(opts...), Models: NewModelService(opts...)}
 }
 
 func String(v string) param.Opt[string]  { return param.NewOpt(v) }

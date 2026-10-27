@@ -5,6 +5,31 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Added
+
+- Automatically mark direct Forward and Managed Session creation with `__qca_sdk_created`, `__qca_sdk_language`, and the actual `__qca_sdk_version`, preserving caller metadata.
+- Add Forward Dreams (create, list, retrieve, cancel, archive), channel pairing list/retrieve/update, and Managed OAuth start with typed requests and responses.
+- Add Identity automatic memory-store control, mount access and cursor pagination, sparse managed-capability overrides, and full tools-array replacement.
+- Support string Template references and Advisor model entries in Forward Multiagent rosters, Schedule file resources, and optional Run input snapshots.
+- Add typed Managed OSS bucket storage with separate write credentials/read views, and Memory Store ID cursor parameters.
+
+### Fixed
+
+- Align Forward Outcome rubric objects and Managed Agent/Dream model configuration with the official API. Dream model defaults to `auto` when omitted; object configuration supports `effort` and `context_window`.
+
+### Breaking changes
+
+- Session creation rejects conflicting values for the three reserved SDK metadata keys before sending; matching string values remain accepted. Missing or null metadata now contains the markers, which count toward API metadata limits.
+- Forward event `rubric` is a text/content or file/file_id object instead of a string.
+- Managed Agent `effort` is a level string instead of an object; Agent and Dream model configuration no longer declares the unsupported `speed` field.
+- Identity mount `List` now takes `IdentityMemoryStoreListParams` and returns `pagination.Page[MemoryStoreMount]`; supply an empty params struct to preserve an unfiltered call.
+- Wrap Identity tool maps in `IdentityToolsUnionParam{OfOverrides: ...}`; use `OfArray` for replacement. Read maps through `Tools.OfOverrides`.
+
+### Migration
+
+- Rename business fields that collide with the three `__qca_sdk_` keys and leave space for automatic markers. See “SDK-created Session metadata” in the README.
+- See the README's “Official contract alignment” section for updated model/rubric types, pagination calls and explicit null clearing.
+
 ## [0.12.0]
 
 ### Added

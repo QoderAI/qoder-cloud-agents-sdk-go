@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "operation_count": 138,
+  "operation_count": 146,
   "cases": [
     {
       "operation_id": "addSessionResource",
@@ -5752,6 +5752,282 @@
           "page": "start +/=?"
         }
       }
+    },
+    {
+      "operation_id": "createDream",
+      "resource": "Dreams",
+      "clients": {
+        "python": "dreams",
+        "typescript": "dreams",
+        "go": "Dreams"
+      },
+      "methods": {
+        "python": "create",
+        "typescript": "create",
+        "go": "New"
+      },
+      "http_method": "POST",
+      "path": "/dreams",
+      "parameters": [],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "inputs": [
+            {
+              "type": "identity_template",
+              "identity_id": "idn_contract",
+              "template_id": "tmpl_contract"
+            },
+            {
+              "type": "sessions",
+              "session_ids": [
+                "sess_contract"
+              ]
+            }
+          ],
+          "model": {
+            "id": "auto",
+            "effort": "none",
+            "context_window": 400000
+          },
+          "instructions": "Keep facts"
+        }
+      }
+    },
+    {
+      "operation_id": "listDreams",
+      "resource": "Dreams",
+      "clients": {
+        "python": "dreams",
+        "typescript": "dreams",
+        "go": "Dreams"
+      },
+      "methods": {
+        "python": "list",
+        "typescript": "list",
+        "go": "List"
+      },
+      "http_method": "GET",
+      "path": "/dreams",
+      "parameters": [
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "value": "drm_before"
+        },
+        {
+          "wire_name": "include_archived",
+          "location": "query",
+          "required": false,
+          "value": true
+        }
+      ]
+    },
+    {
+      "operation_id": "getDream",
+      "resource": "Dreams",
+      "clients": {
+        "python": "dreams",
+        "typescript": "dreams",
+        "go": "Dreams"
+      },
+      "methods": {
+        "python": "retrieve",
+        "typescript": "retrieve",
+        "go": "Get"
+      },
+      "http_method": "GET",
+      "path": "/dreams/{dream_id}",
+      "parameters": [
+        {
+          "wire_name": "dream_id",
+          "location": "path",
+          "required": true,
+          "value": "contract"
+        }
+      ]
+    },
+    {
+      "operation_id": "cancelDream",
+      "resource": "Dreams",
+      "clients": {
+        "python": "dreams",
+        "typescript": "dreams",
+        "go": "Dreams"
+      },
+      "methods": {
+        "python": "cancel",
+        "typescript": "cancel",
+        "go": "Cancel"
+      },
+      "http_method": "POST",
+      "path": "/dreams/{dream_id}/cancel",
+      "parameters": [
+        {
+          "wire_name": "dream_id",
+          "location": "path",
+          "required": true,
+          "value": "contract"
+        }
+      ]
+    },
+    {
+      "operation_id": "archiveDream",
+      "resource": "Dreams",
+      "clients": {
+        "python": "dreams",
+        "typescript": "dreams",
+        "go": "Dreams"
+      },
+      "methods": {
+        "python": "archive",
+        "typescript": "archive",
+        "go": "Archive"
+      },
+      "http_method": "POST",
+      "path": "/dreams/{dream_id}/archive",
+      "parameters": [
+        {
+          "wire_name": "dream_id",
+          "location": "path",
+          "required": true,
+          "value": "contract"
+        }
+      ]
+    },
+    {
+      "operation_id": "listChannelPairings",
+      "resource": "ChannelPairings",
+      "clients": {
+        "python": "channel_pairings",
+        "typescript": "channelPairings",
+        "go": "ChannelPairings"
+      },
+      "methods": {
+        "python": "list",
+        "typescript": "list",
+        "go": "List"
+      },
+      "http_method": "GET",
+      "path": "/channel_pairings",
+      "parameters": [
+        {
+          "wire_name": "channel_id",
+          "location": "query",
+          "required": false,
+          "value": "ch_contract"
+        },
+        {
+          "wire_name": "status",
+          "location": "query",
+          "required": false,
+          "value": "active"
+        },
+        {
+          "wire_name": "target_type",
+          "location": "query",
+          "required": false,
+          "value": "user"
+        },
+        {
+          "wire_name": "target_external_id",
+          "location": "query",
+          "required": false,
+          "value": "user_contract"
+        },
+        {
+          "wire_name": "identity_id",
+          "location": "query",
+          "required": false,
+          "value": "idn_contract"
+        },
+        {
+          "wire_name": "template_id",
+          "location": "query",
+          "required": false,
+          "value": "tmpl_contract"
+        },
+        {
+          "wire_name": "limit",
+          "location": "query",
+          "required": false,
+          "value": 1
+        },
+        {
+          "wire_name": "after_id",
+          "location": "query",
+          "required": false,
+          "value": "cp_before"
+        }
+      ]
+    },
+    {
+      "operation_id": "getChannelPairing",
+      "resource": "ChannelPairings",
+      "clients": {
+        "python": "channel_pairings",
+        "typescript": "channelPairings",
+        "go": "ChannelPairings"
+      },
+      "methods": {
+        "python": "retrieve",
+        "typescript": "retrieve",
+        "go": "Get"
+      },
+      "http_method": "GET",
+      "path": "/channel_pairings/{pairing_id}",
+      "parameters": [
+        {
+          "wire_name": "pairing_id",
+          "location": "path",
+          "required": true,
+          "value": "contract"
+        }
+      ]
+    },
+    {
+      "operation_id": "updateChannelPairing",
+      "resource": "ChannelPairings",
+      "clients": {
+        "python": "channel_pairings",
+        "typescript": "channelPairings",
+        "go": "ChannelPairings"
+      },
+      "methods": {
+        "python": "update",
+        "typescript": "update",
+        "go": "Update"
+      },
+      "http_method": "POST",
+      "path": "/channel_pairings/{pairing_id}",
+      "parameters": [
+        {
+          "wire_name": "pairing_id",
+          "location": "path",
+          "required": true,
+          "value": "contract"
+        }
+      ],
+      "request_body": {
+        "kind": "json",
+        "value": {
+          "identity_id": "idn_contract",
+          "template_id": "tmpl_contract"
+        }
+      }
+    }
+  ],
+  "extensions": [
+    {
+      "source": "https://docs.qoder.com/cloud-agents/api/forward/dreams/create; https://docs.qoder.com/cloud-agents/api/forward/channels/list-channel-pairings; https://docs.qoder.com/cloud-agents/api/vaults/start-oauth (2026-10-27)",
+      "operations": 8
     }
   ]
 }

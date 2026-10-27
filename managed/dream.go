@@ -418,71 +418,36 @@ func (r *DreamMemoryStoreInputParam) UnmarshalJSON(data []byte) error {
 // Model identifier and configuration applied to every pipeline stage. Same wire
 // shape as the Agents API ModelConfig.
 type DreamModelConfig struct {
-	// Model identifier. 1-256 characters.
-	ID string `json:"id" api:"required"`
-	// Inference speed mode. `fast` provides significantly faster output token
-	// generation at premium pricing. Not all models support `fast`; invalid
-	// combinations are rejected at create time.
-	//
-	// Any of "standard", "fast".
-	Speed DreamModelConfigSpeed `json:"speed"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		ID          respjson.Field
-		Speed       respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+	ID            string `json:"id"`
+	Effort        string `json:"effort"`
+	ContextWindow int64  `json:"context_window"`
+	JSON          struct {
+		ID            respjson.Field
+		Effort        respjson.Field
+		ContextWindow respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
 	} `json:"-"`
 }
 
-// Returns the unmodified JSON received from the API
-func (r DreamModelConfig) RawJSON() string { return r.JSON.raw }
-func (r *DreamModelConfig) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
+func (r DreamModelConfig) RawJSON() string                  { return r.JSON.raw }
+func (r *DreamModelConfig) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
-// Inference speed mode. `fast` provides significantly faster output token
-// generation at premium pricing. Not all models support `fast`; invalid
-// combinations are rejected at create time.
-type DreamModelConfigSpeed string
-
-const (
-	DreamModelConfigSpeedStandard DreamModelConfigSpeed = "standard"
-	DreamModelConfigSpeedFast     DreamModelConfigSpeed = "fast"
-)
-
-// Model identifier and configuration applied to every pipeline stage.
-//
-// The property ID is required.
+// DreamModelConfigParam selects an available model and optional reasoning settings.
 type DreamModelConfigParam struct {
-	// Model identifier. 1-256 characters.
-	ID string `json:"id" api:"required"`
-	// Inference speed mode. `fast` provides significantly faster output token
-	// generation at premium pricing. Not all models support `fast`; invalid
-	// combinations are rejected at create time.
-	//
-	// Any of "standard", "fast".
-	Speed DreamModelConfigParamSpeed `json:"speed,omitzero"`
+	ID            string            `json:"id" api:"required"`
+	Effort        param.Opt[string] `json:"effort,omitzero"`
+	ContextWindow param.Opt[int64]  `json:"context_window,omitzero"`
 	paramObj
 }
 
-func (r DreamModelConfigParam) MarshalJSON() (data []byte, err error) {
+func (r DreamModelConfigParam) MarshalJSON() ([]byte, error) {
 	type shadow DreamModelConfigParam
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *DreamModelConfigParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-// Inference speed mode. `fast` provides significantly faster output token
-// generation at premium pricing. Not all models support `fast`; invalid
-// combinations are rejected at create time.
-type DreamModelConfigParamSpeed string
-
-const (
-	DreamModelConfigParamSpeedStandard DreamModelConfigParamSpeed = "standard"
-	DreamModelConfigParamSpeedFast     DreamModelConfigParamSpeed = "fast"
-)
 
 // An output memory store the dream writes consolidated memories into.
 type DreamOutput struct {
@@ -855,7 +820,7 @@ func (r *OutputBehaviorUpdateExistingParam) UnmarshalJSON(data []byte) error {
 type DreamNewParams struct {
 	Inputs []DreamInputUnionParam `json:"inputs,omitzero" api:"required"`
 	// Model identifier and configuration applied to every pipeline stage.
-	Model        DreamNewParamsModelUnion `json:"model,omitzero" api:"required"`
+	Model        DreamNewParamsModelUnion `json:"model,omitzero"`
 	Instructions param.Opt[string]        `json:"instructions,omitzero"`
 	// The default destination: the job creates a new output memory store as a clone of
 	// the memory_store input and writes the consolidated memories into it. The input

@@ -103,7 +103,7 @@ func run(ctx context.Context, r *live.Run, s *forwardutil.Example) error {
 		return err
 	})
 	r.Step("查询绑定，确认记忆库已关联")
-	mounts, err := s.Client.Identities.MemoryStores.List(ctx, identity.ID, template)
+	mounts, err := s.Client.Identities.MemoryStores.List(ctx, identity.ID, template, forward.IdentityMemoryStoreListParams{})
 	if err != nil {
 		return err
 	}

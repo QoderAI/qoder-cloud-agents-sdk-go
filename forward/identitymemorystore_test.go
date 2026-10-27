@@ -12,7 +12,7 @@ func TestIdentityMemoryStoreAPIContracts(t *testing.T) {
 		for _, status := range []int{200, 400} {
 			t.Run(statusName(status), func(t *testing.T) {
 				client := contractClient(t, "listMemoryStoreMounts", status)
-				res, err := client.Identities.MemoryStores.List(context.Background(), pathSegment, pathSegment)
+				res, err := client.Identities.MemoryStores.List(context.Background(), pathSegment, pathSegment, contractParams[forward.IdentityMemoryStoreListParams](t, "listMemoryStoreMounts"))
 				checkError(t, status, err)
 				if status == 200 {
 					checkDecoded(t, res)

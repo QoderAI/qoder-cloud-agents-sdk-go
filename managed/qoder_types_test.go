@@ -72,6 +72,11 @@ func TestQoderFieldAlignment(t *testing.T) {
 			if (name == "ManagedAgentsBudgetLimit" || name == "ManagedAgentsBudgetLimitParam") && f == "MaxListCost" {
 				f = "MaxCreditCost"
 			}
+			// QCA rejects speed for Agent/Dream model configuration.
+			// https://docs.qoder.com/cloud-agents/api/dreams/create#model-object
+			if f == "Speed" && (name == "ManagedAgentsModelConfig" || name == "ManagedAgentsModelConfigParams" || name == "DreamModelConfig" || name == "DreamModelConfigParam") {
+				f = "Effort"
+			}
 			if !actual[name][f] {
 				t.Errorf("upstream field missing: %s.%s", name, f)
 			}

@@ -14,7 +14,7 @@ import (
 
 func TestManagedAPIInventory(t *testing.T) {
 	fixtures := contracts(t)
-	if len(fixtures) != 106 {
+	if len(fixtures) != 107 {
 		t.Fatalf("got %d API contracts", len(fixtures))
 	}
 	expected := map[string]bool{}

@@ -292,7 +292,9 @@ func (r *MemoryStoreUpdateParams) UnmarshalJSON(data []byte) error {
 }
 
 type MemoryStoreListParams struct {
-	Name param.Opt[string] `query:"name,omitzero" json:"-"`
+	AfterID  param.Opt[string] `query:"after_id,omitzero" json:"-"`
+	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
+	Name     param.Opt[string] `query:"name,omitzero" json:"-"`
 
 	// Return only stores whose `created_at` is at or after this time (inclusive). Sent
 	// on the wire as `created_at[gte]`.

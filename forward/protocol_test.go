@@ -65,7 +65,7 @@ func TestOptionalNullAndUnionParameters(t *testing.T) {
 
 func TestIdentityOverridesPreserveDynamicKeys(t *testing.T) {
 	params := forward.IdentityConfigUpsertParams{IdentityConfig: forward.IdentityConfigSpecParam{
-		Tools:                map[string]forward.ToolOverrideParam{"Read": {Enabled: forward.Bool(false)}},
+		Tools:                forward.IdentityToolsUnionParam{OfOverrides: map[string]forward.ToolOverrideParam{"Read": {Enabled: forward.Bool(false)}}},
 		Skills:               map[string]forward.SkillOverrideParam{"skill_one": {Enabled: forward.Bool(false)}, "skill_inherit": param.NullStruct[forward.SkillOverrideParam]()},
 		MCPServers:           map[string]forward.MCPServerOverrideParam{"crm": {Enabled: forward.Bool(true), URL: forward.String("https://crm.test/mcp")}},
 		GitHubRepositories:   map[string]forward.GitHubRepositoryParam{"custom_binding": {AuthorizationToken: forward.String("test_token"), Enabled: param.Null[bool]()}},

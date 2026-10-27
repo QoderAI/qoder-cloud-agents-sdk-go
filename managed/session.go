@@ -46,7 +46,7 @@ func NewSessionService(opts ...option.RequestOption) (r SessionService) {
 	return
 }
 
-// Create Session
+// Create Session. Adds __qca_sdk_ metadata; conflicting reserved values fail before sending.
 func (r *SessionService) New(ctx context.Context, params SessionNewParams, opts ...option.RequestOption) (res *ManagedAgentsSession, err error) {
 	for _, v := range params.Betas {
 		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", fmt.Sprintf("%v", v)))
@@ -54,7 +54,7 @@ func (r *SessionService) New(ctx context.Context, params SessionNewParams, opts 
 	opts = slices.Concat(r.Options, opts)
 
 	path := "sessions"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
+	err = requestconfig.ExecuteNewSessionRequest(ctx, http.MethodPost, path, params, &res, opts...)
 	return res, err
 }
 

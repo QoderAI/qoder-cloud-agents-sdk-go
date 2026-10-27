@@ -157,7 +157,7 @@ type SessionEvent struct {
 	Result              string          `json:"result"`
 	DenyMessage         string          `json:"deny_message"`
 	Description         string          `json:"description"`
-	Rubric              string          `json:"rubric"`
+	Rubric              OutcomeRubric   `json:"rubric"`
 	OutcomeID           string          `json:"outcome_id"`
 	MaxIterations       int64           `json:"max_iterations"`
 	MessageID           string          `json:"message_id"`

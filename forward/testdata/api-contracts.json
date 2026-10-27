@@ -4047,5 +4047,315 @@
     "download": false,
     "raw": false,
     "empty": false
+  },
+  {
+    "operation_id": "createDream",
+    "service": "DreamService",
+    "entry": "Dreams",
+    "name": "New",
+    "response": {
+      "id": "drm_contract",
+      "type": "dream",
+      "status": "completed",
+      "inputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "mem_contract"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "mem_contract",
+          "files_touched": [
+            "MEMORY.md"
+          ]
+        }
+      ],
+      "model": {
+        "id": "auto",
+        "effort": "none",
+        "context_window": 400000
+      },
+      "instructions": "",
+      "usage": {
+        "input_tokens": 5,
+        "output_tokens": 3,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "error": null,
+      "created_at": "2026-10-27T00:00:00Z",
+      "ended_at": "2026-10-27T00:01:00Z",
+      "archived_at": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listDreams",
+    "service": "DreamService",
+    "entry": "Dreams",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "drm_contract",
+          "type": "dream",
+          "status": "completed",
+          "inputs": [
+            {
+              "type": "memory_store",
+              "memory_store_id": "mem_contract"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "memory_store",
+              "memory_store_id": "mem_contract",
+              "files_touched": [
+                "MEMORY.md"
+              ]
+            }
+          ],
+          "model": {
+            "id": "auto",
+            "effort": "none",
+            "context_window": 400000
+          },
+          "instructions": "",
+          "usage": {
+            "input_tokens": 5,
+            "output_tokens": 3,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0
+          },
+          "error": null,
+          "created_at": "2026-10-27T00:00:00Z",
+          "ended_at": "2026-10-27T00:01:00Z",
+          "archived_at": null
+        }
+      ],
+      "first_id": "drm_contract",
+      "last_id": "drm_contract",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getDream",
+    "service": "DreamService",
+    "entry": "Dreams",
+    "name": "Get",
+    "response": {
+      "id": "drm_contract",
+      "type": "dream",
+      "status": "completed",
+      "inputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "mem_contract"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "mem_contract",
+          "files_touched": [
+            "MEMORY.md"
+          ]
+        }
+      ],
+      "model": {
+        "id": "auto",
+        "effort": "none",
+        "context_window": 400000
+      },
+      "instructions": "",
+      "usage": {
+        "input_tokens": 5,
+        "output_tokens": 3,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "error": null,
+      "created_at": "2026-10-27T00:00:00Z",
+      "ended_at": "2026-10-27T00:01:00Z",
+      "archived_at": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "cancelDream",
+    "service": "DreamService",
+    "entry": "Dreams",
+    "name": "Cancel",
+    "response": {
+      "id": "drm_contract",
+      "type": "dream",
+      "status": "completed",
+      "inputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "mem_contract"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "mem_contract",
+          "files_touched": [
+            "MEMORY.md"
+          ]
+        }
+      ],
+      "model": {
+        "id": "auto",
+        "effort": "none",
+        "context_window": 400000
+      },
+      "instructions": "",
+      "usage": {
+        "input_tokens": 5,
+        "output_tokens": 3,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "error": null,
+      "created_at": "2026-10-27T00:00:00Z",
+      "ended_at": "2026-10-27T00:01:00Z",
+      "archived_at": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "archiveDream",
+    "service": "DreamService",
+    "entry": "Dreams",
+    "name": "Archive",
+    "response": {
+      "id": "drm_contract",
+      "type": "dream",
+      "status": "completed",
+      "inputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "mem_contract"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "memory_store",
+          "memory_store_id": "mem_contract",
+          "files_touched": [
+            "MEMORY.md"
+          ]
+        }
+      ],
+      "model": {
+        "id": "auto",
+        "effort": "none",
+        "context_window": 400000
+      },
+      "instructions": "",
+      "usage": {
+        "input_tokens": 5,
+        "output_tokens": 3,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "error": null,
+      "created_at": "2026-10-27T00:00:00Z",
+      "ended_at": "2026-10-27T00:01:00Z",
+      "archived_at": null
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "listChannelPairings",
+    "service": "ChannelPairingService",
+    "entry": "ChannelPairings",
+    "name": "List",
+    "response": {
+      "data": [
+        {
+          "id": "cp_contract",
+          "channel_id": "ch_contract",
+          "identity_id": "idn_contract",
+          "template_id": "tmpl_contract",
+          "scope_type": "direct",
+          "scope_external_id": "user_contract",
+          "scope_display_name": "Contract user",
+          "status": "active",
+          "paired_at": "2026-10-27T00:00:00Z",
+          "created_at": "2026-10-27T00:00:00Z"
+        }
+      ],
+      "first_id": "cp_contract",
+      "last_id": "cp_contract",
+      "has_more": false
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "getChannelPairing",
+    "service": "ChannelPairingService",
+    "entry": "ChannelPairings",
+    "name": "Get",
+    "response": {
+      "id": "cp_contract",
+      "channel_id": "ch_contract",
+      "identity_id": "idn_contract",
+      "template_id": "tmpl_contract",
+      "scope_type": "direct",
+      "scope_external_id": "user_contract",
+      "scope_display_name": "Contract user",
+      "status": "active",
+      "paired_at": "2026-10-27T00:00:00Z",
+      "created_at": "2026-10-27T00:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
+    "operation_id": "updateChannelPairing",
+    "service": "ChannelPairingService",
+    "entry": "ChannelPairings",
+    "name": "Update",
+    "response": {
+      "id": "cp_contract",
+      "channel_id": "ch_contract",
+      "identity_id": "idn_contract",
+      "template_id": "tmpl_contract",
+      "scope_type": "direct",
+      "scope_external_id": "user_contract",
+      "scope_display_name": "Contract user",
+      "status": "active",
+      "paired_at": "2026-10-27T00:00:00Z",
+      "created_at": "2026-10-27T00:00:00Z"
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
   }
 ]
