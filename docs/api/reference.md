@@ -399,6 +399,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*IdentityConfigSpec\) UnmarshalJSON\(data \[\]byte\) error](<#IdentityConfigSpec.UnmarshalJSON>)
 - [type IdentityConfigSpecParam](<#IdentityConfigSpecParam>)
   - [func \(r IdentityConfigSpecParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#IdentityConfigSpecParam.MarshalJSON>)
+  - [func \(r \*IdentityConfigSpecParam\) UnmarshalAPIJSON\(data \[\]byte\) error](<#IdentityConfigSpecParam.UnmarshalAPIJSON>)
   - [func \(r \*IdentityConfigSpecParam\) UnmarshalJSON\(data \[\]byte\) error](<#IdentityConfigSpecParam.UnmarshalJSON>)
 - [type IdentityConfigUpsertParams](<#IdentityConfigUpsertParams>)
   - [func \(r IdentityConfigUpsertParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#IdentityConfigUpsertParams.MarshalJSON>)
@@ -453,6 +454,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*IdentityToolsUnion\) UnmarshalJSON\(data \[\]byte\) error](<#IdentityToolsUnion.UnmarshalJSON>)
 - [type IdentityToolsUnionParam](<#IdentityToolsUnionParam>)
   - [func \(r IdentityToolsUnionParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#IdentityToolsUnionParam.MarshalJSON>)
+  - [func \(r \*IdentityToolsUnionParam\) UnmarshalAPIJSON\(data \[\]byte\) error](<#IdentityToolsUnionParam.UnmarshalAPIJSON>)
   - [func \(r \*IdentityToolsUnionParam\) UnmarshalJSON\(data \[\]byte\) error](<#IdentityToolsUnionParam.UnmarshalJSON>)
 - [type IdentityUpdateParams](<#IdentityUpdateParams>)
   - [func \(r IdentityUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#IdentityUpdateParams.MarshalJSON>)
@@ -6031,6 +6033,15 @@ func (r IdentityConfigSpecParam) MarshalJSON() ([]byte, error)
 
 
 
+<a name="IdentityConfigSpecParam.UnmarshalAPIJSON"></a>
+### func \(\*IdentityConfigSpecParam\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
+
+```go
+func (r *IdentityConfigSpecParam) UnmarshalAPIJSON(data []byte) error
+```
+
+
+
 <a name="IdentityConfigSpecParam.UnmarshalJSON"></a>
 ### func \(\*IdentityConfigSpecParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
 
@@ -6631,6 +6642,15 @@ type IdentityToolsUnionParam struct {
 
 ```go
 func (r IdentityToolsUnionParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="IdentityToolsUnionParam.UnmarshalAPIJSON"></a>
+### func \(\*IdentityToolsUnionParam\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/configuration_types.go>)
+
+```go
+func (r *IdentityToolsUnionParam) UnmarshalAPIJSON(data []byte) error
 ```
 
 

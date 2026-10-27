@@ -15,6 +15,7 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ### Fixed
 
+- Preserve Identity `tools` arrays and explicit null when loading JSON into request parameters, so empty-array replacement and clearing overrides retain their intended semantics.
 - Align Forward Outcome rubric objects and Managed Agent/Dream model configuration with the official API. Dream model defaults to `auto` when omitted; object configuration supports `effort` and `context_window`.
 
 ### Breaking changes

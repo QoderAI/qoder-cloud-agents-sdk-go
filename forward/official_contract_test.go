@@ -116,6 +116,44 @@ func TestOfficialIdentityNullAndArrayOverrides(t *testing.T) {
 	}
 }
 
+func TestOfficialIdentityToolsJSONRoundTrip(t *testing.T) {
+	for _, tools := range []string{
+		`[]`,
+		`[{"type":"agent_toolset_20260401"}]`,
+		`{}`,
+		`{"Bash":{"enabled":false}}`,
+		`null`,
+	} {
+		t.Run(tools, func(t *testing.T) {
+			var params forward.IdentityConfigUpsertParams
+			input := `{"identity_config":{"tools":` + tools + `}}`
+			if err := json.Unmarshal([]byte(input), &params); err != nil {
+				t.Fatal(err)
+			}
+			client := testClient(func(req *http.Request) (*http.Response, error) {
+				body, err := io.ReadAll(req.Body)
+				if err != nil {
+					t.Fatal(err)
+				}
+				var got, want any
+				if err := json.Unmarshal(body, &got); err != nil {
+					t.Fatal(err)
+				}
+				if err := json.Unmarshal([]byte(input), &want); err != nil {
+					t.Fatal(err)
+				}
+				if !reflect.DeepEqual(got, want) {
+					t.Fatalf("request changed from %s to %s", input, body)
+				}
+				return reply(req, 200, `{}`), nil
+			})
+			if _, err := client.Identities.Configs.Upsert(context.Background(), "idn", "tmpl", params); err != nil {
+				t.Fatal(err)
+			}
+		})
+	}
+}
+
 func TestOfficialMountPaginationRetainsScope(t *testing.T) {
 	for _, reverse := range []bool{false, true} {
 		calls := 0
