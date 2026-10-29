@@ -687,6 +687,12 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(s \*ResumableSessionEventStream\) Err\(\) error](<#ResumableSessionEventStream.Err>)
   - [func \(s \*ResumableSessionEventStream\) LastEventID\(\) string](<#ResumableSessionEventStream.LastEventID>)
   - [func \(s \*ResumableSessionEventStream\) Next\(\) bool](<#ResumableSessionEventStream.Next>)
+- [type ResumableSessionThreadEventStream](<#ResumableSessionThreadEventStream>)
+  - [func \(s \*ResumableSessionThreadEventStream\) Close\(\) error](<#ResumableSessionThreadEventStream.Close>)
+  - [func \(s \*ResumableSessionThreadEventStream\) Current\(\) SessionEvent](<#ResumableSessionThreadEventStream.Current>)
+  - [func \(s \*ResumableSessionThreadEventStream\) Err\(\) error](<#ResumableSessionThreadEventStream.Err>)
+  - [func \(s \*ResumableSessionThreadEventStream\) LastEventID\(\) string](<#ResumableSessionThreadEventStream.LastEventID>)
+  - [func \(s \*ResumableSessionThreadEventStream\) Next\(\) bool](<#ResumableSessionThreadEventStream.Next>)
 - [type Schedule](<#Schedule>)
   - [func \(r Schedule\) RawJSON\(\) string](<#Schedule.RawJSON>)
   - [func \(r \*Schedule\) UnmarshalJSON\(data \[\]byte\) error](<#Schedule.UnmarshalJSON>)
@@ -871,6 +877,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func NewSessionThreadEventService\(opts ...option.RequestOption\) SessionThreadEventService](<#NewSessionThreadEventService>)
   - [func \(r \*SessionThreadEventService\) List\(ctx context.Context, sessionID string, threadID string, params SessionThreadEventListParams, opts ...option.RequestOption\) \(res \*pagination.Page\[SessionEvent\], err error\)](<#SessionThreadEventService.List>)
   - [func \(r \*SessionThreadEventService\) ListAutoPaging\(ctx context.Context, sessionID string, threadID string, params SessionThreadEventListParams, opts ...option.RequestOption\) \*pagination.PageAutoPager\[SessionEvent\]](<#SessionThreadEventService.ListAutoPaging>)
+  - [func \(r \*SessionThreadEventService\) NewResumableStream\(ctx context.Context, sessionID string, threadID string, params SessionThreadEventStreamParams, opts ...option.RequestOption\) \*ResumableSessionThreadEventStream](<#SessionThreadEventService.NewResumableStream>)
   - [func \(r \*SessionThreadEventService\) StreamEvents\(ctx context.Context, sessionID string, threadID string, params SessionThreadEventStreamParams, opts ...option.RequestOption\) \*ssestream.Stream\[SessionEvent\]](<#SessionThreadEventService.StreamEvents>)
 - [type SessionThreadEventStreamParams](<#SessionThreadEventStreamParams>)
   - [func \(r SessionThreadEventStreamParams\) URLQuery\(\) \(url.Values, error\)](<#SessionThreadEventStreamParams.URLQuery>)
@@ -9364,6 +9371,62 @@ func (s *ResumableSessionEventStream) Next() bool
 
 
 
+<a name="ResumableSessionThreadEventStream"></a>
+## type [ResumableSessionThreadEventStream](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/resumablestream.go>)
+
+ResumableSessionThreadEventStream reconnects a single thread's event stream. A thread/session termination or session deletion event ends the stream normally.
+
+```go
+type ResumableSessionThreadEventStream struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ResumableSessionThreadEventStream.Close"></a>
+### func \(\*ResumableSessionThreadEventStream\) [Close](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/resumablestream.go>)
+
+```go
+func (s *ResumableSessionThreadEventStream) Close() error
+```
+
+
+
+<a name="ResumableSessionThreadEventStream.Current"></a>
+### func \(\*ResumableSessionThreadEventStream\) [Current](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/resumablestream.go>)
+
+```go
+func (s *ResumableSessionThreadEventStream) Current() SessionEvent
+```
+
+
+
+<a name="ResumableSessionThreadEventStream.Err"></a>
+### func \(\*ResumableSessionThreadEventStream\) [Err](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/resumablestream.go>)
+
+```go
+func (s *ResumableSessionThreadEventStream) Err() error
+```
+
+
+
+<a name="ResumableSessionThreadEventStream.LastEventID"></a>
+### func \(\*ResumableSessionThreadEventStream\) [LastEventID](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/resumablestream.go>)
+
+```go
+func (s *ResumableSessionThreadEventStream) LastEventID() string
+```
+
+
+
+<a name="ResumableSessionThreadEventStream.Next"></a>
+### func \(\*ResumableSessionThreadEventStream\) [Next](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/resumablestream.go>)
+
+```go
+func (s *ResumableSessionThreadEventStream) Next() bool
+```
+
+
+
 <a name="Schedule"></a>
 ## type [Schedule](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/schedule.go>)
 
@@ -11822,6 +11885,15 @@ func (r *SessionThreadEventService) ListAutoPaging(ctx context.Context, sessionI
 ```
 
 
+
+<a name="SessionThreadEventService.NewResumableStream"></a>
+### func \(\*SessionThreadEventService\) [NewResumableStream](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/resumablestream.go>)
+
+```go
+func (r *SessionThreadEventService) NewResumableStream(ctx context.Context, sessionID string, threadID string, params SessionThreadEventStreamParams, opts ...option.RequestOption) *ResumableSessionThreadEventStream
+```
+
+NewResumableStream subscribes to Thread Events and reconnects retryable failures with the latest yielded Last\-Event\-ID cursor. Thread idle events do not stop it.
 
 <a name="SessionThreadEventService.StreamEvents"></a>
 ### func \(\*SessionThreadEventService\) [StreamEvents](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionthreadevent.go>)
@@ -17469,6 +17541,12 @@ Qoder managed API definitions.
   - [func \(s \*ResumableSessionEventStream\) Err\(\) error](<#ResumableSessionEventStream.Err>)
   - [func \(s \*ResumableSessionEventStream\) LastEventID\(\) string](<#ResumableSessionEventStream.LastEventID>)
   - [func \(s \*ResumableSessionEventStream\) Next\(\) bool](<#ResumableSessionEventStream.Next>)
+- [type ResumableSessionThreadEventStream](<#ResumableSessionThreadEventStream>)
+  - [func \(s \*ResumableSessionThreadEventStream\) Close\(\) error](<#ResumableSessionThreadEventStream.Close>)
+  - [func \(s \*ResumableSessionThreadEventStream\) Current\(\) ManagedAgentsStreamSessionThreadEventsUnion](<#ResumableSessionThreadEventStream.Current>)
+  - [func \(s \*ResumableSessionThreadEventStream\) Err\(\) error](<#ResumableSessionThreadEventStream.Err>)
+  - [func \(s \*ResumableSessionThreadEventStream\) LastEventID\(\) string](<#ResumableSessionThreadEventStream.LastEventID>)
+  - [func \(s \*ResumableSessionThreadEventStream\) Next\(\) bool](<#ResumableSessionThreadEventStream.Next>)
 - [type SearchResultBlockParam](<#SearchResultBlockParam>)
   - [func \(r SearchResultBlockParam\) MarshalJSON\(\) \(data \[\]byte, err error\)](<#SearchResultBlockParam.MarshalJSON>)
   - [func \(r \*SearchResultBlockParam\) UnmarshalJSON\(data \[\]byte\) error](<#SearchResultBlockParam.UnmarshalJSON>)
@@ -17631,6 +17709,7 @@ Qoder managed API definitions.
   - [func NewSessionThreadEventService\(opts ...option.RequestOption\) \(r SessionThreadEventService\)](<#NewSessionThreadEventService>)
   - [func \(r \*SessionThreadEventService\) List\(ctx context.Context, threadID string, params SessionThreadEventListParams, opts ...option.RequestOption\) \(res \*pagination.PageCursor\[ManagedAgentsSessionEventUnion\], err error\)](<#SessionThreadEventService.List>)
   - [func \(r \*SessionThreadEventService\) ListAutoPaging\(ctx context.Context, threadID string, params SessionThreadEventListParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[ManagedAgentsSessionEventUnion\]](<#SessionThreadEventService.ListAutoPaging>)
+  - [func \(r \*SessionThreadEventService\) NewResumableStream\(ctx context.Context, threadID string, params SessionThreadEventStreamParams, opts ...option.RequestOption\) \*ResumableSessionThreadEventStream](<#SessionThreadEventService.NewResumableStream>)
   - [func \(r \*SessionThreadEventService\) StreamEvents\(ctx context.Context, threadID string, params SessionThreadEventStreamParams, opts ...option.RequestOption\) \(stream \*ssestream.Stream\[ManagedAgentsStreamSessionThreadEventsUnion\]\)](<#SessionThreadEventService.StreamEvents>)
 - [type SessionThreadEventStreamParams](<#SessionThreadEventStreamParams>)
   - [func \(r SessionThreadEventStreamParams\) URLQuery\(\) \(v url.Values, err error\)](<#SessionThreadEventStreamParams.URLQuery>)
@@ -54941,6 +55020,62 @@ func (s *ResumableSessionEventStream) Next() bool
 
 
 
+<a name="ResumableSessionThreadEventStream"></a>
+## type [ResumableSessionThreadEventStream](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/resumablestream.go>)
+
+ResumableSessionThreadEventStream reconnects a single thread's event stream. A thread/session termination or session deletion event ends the stream normally.
+
+```go
+type ResumableSessionThreadEventStream struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ResumableSessionThreadEventStream.Close"></a>
+### func \(\*ResumableSessionThreadEventStream\) [Close](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/resumablestream.go>)
+
+```go
+func (s *ResumableSessionThreadEventStream) Close() error
+```
+
+
+
+<a name="ResumableSessionThreadEventStream.Current"></a>
+### func \(\*ResumableSessionThreadEventStream\) [Current](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/resumablestream.go>)
+
+```go
+func (s *ResumableSessionThreadEventStream) Current() ManagedAgentsStreamSessionThreadEventsUnion
+```
+
+
+
+<a name="ResumableSessionThreadEventStream.Err"></a>
+### func \(\*ResumableSessionThreadEventStream\) [Err](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/resumablestream.go>)
+
+```go
+func (s *ResumableSessionThreadEventStream) Err() error
+```
+
+
+
+<a name="ResumableSessionThreadEventStream.LastEventID"></a>
+### func \(\*ResumableSessionThreadEventStream\) [LastEventID](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/resumablestream.go>)
+
+```go
+func (s *ResumableSessionThreadEventStream) LastEventID() string
+```
+
+
+
+<a name="ResumableSessionThreadEventStream.Next"></a>
+### func \(\*ResumableSessionThreadEventStream\) [Next](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/resumablestream.go>)
+
+```go
+func (s *ResumableSessionThreadEventStream) Next() bool
+```
+
+
+
 <a name="SearchResultBlockParam"></a>
 ## type [SearchResultBlockParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/message.go>)
 
@@ -57005,6 +57140,15 @@ func (r *SessionThreadEventService) ListAutoPaging(ctx context.Context, threadID
 
 List Session Thread Events
 
+<a name="SessionThreadEventService.NewResumableStream"></a>
+### func \(\*SessionThreadEventService\) [NewResumableStream](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/resumablestream.go>)
+
+```go
+func (r *SessionThreadEventService) NewResumableStream(ctx context.Context, threadID string, params SessionThreadEventStreamParams, opts ...option.RequestOption) *ResumableSessionThreadEventStream
+```
+
+NewResumableStream subscribes to Thread Events and reconnects retryable failures with the latest yielded Last\-Event\-ID cursor. Thread idle events do not stop it.
+
 <a name="SessionThreadEventService.StreamEvents"></a>
 ### func \(\*SessionThreadEventService\) [StreamEvents](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionthreadevent.go>)
 
@@ -57021,7 +57165,9 @@ Stream Session Thread Events
 
 ```go
 type SessionThreadEventStreamParams struct {
-    SessionID string `path:"session_id" api:"required" json:"-"`
+    // Resume after this public event in the thread.
+    LastEventID param.Opt[string] `header:"Last-Event-ID,omitzero" json:"-"`
+    SessionID   string            `path:"session_id" api:"required" json:"-"`
     // When set, this connection also receives streaming deltas (`event_start`,
     // `event_delta`) while an event is being produced, before the event itself
     // arrives. Deltas are best-effort; when the final event is produced it carries the

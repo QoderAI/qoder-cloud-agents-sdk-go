@@ -33,7 +33,7 @@ func TestManagedAPIInventory(t *testing.T) {
 		for i := 0; i < tp.NumMethod(); i++ {
 			m := tp.Method(i)
 			key := name + "." + m.Name
-			if strings.HasSuffix(m.Name, "AutoPaging") || key == "SessionEventService.NewResumableStream" {
+			if strings.HasSuffix(m.Name, "AutoPaging") || (key == "SessionEventService.NewResumableStream" || key == "SessionThreadEventService.NewResumableStream") {
 				continue
 			}
 			if !expected[key] {

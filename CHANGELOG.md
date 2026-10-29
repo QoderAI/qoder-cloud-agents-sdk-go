@@ -5,6 +5,11 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Added
+
+- Add automatic Thread SSE resumption for Forward and Managed, preserving the latest event cursor and request options across retryable disconnects; thread termination stops the subscription while idle events keep it open.
+- Add a typed `Last-Event-ID` parameter to Managed Thread streams.
+
 ## [0.13.0]
 
 ### Added

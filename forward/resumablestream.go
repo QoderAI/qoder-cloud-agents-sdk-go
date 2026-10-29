@@ -45,3 +45,42 @@ func (s *ResumableSessionEventStream) Current() SessionEvent { return s.stream.C
 func (s *ResumableSessionEventStream) Err() error            { return s.stream.Err() }
 func (s *ResumableSessionEventStream) LastEventID() string   { return s.stream.LastEventID() }
 func (s *ResumableSessionEventStream) Close() error          { return s.stream.Close() }
+
+// NewResumableStream subscribes to Thread Events and reconnects retryable failures
+// with the latest yielded Last-Event-ID cursor. Thread idle events do not stop it.
+func (r *SessionThreadEventService) NewResumableStream(ctx context.Context, sessionID string, threadID string, params SessionThreadEventStreamParams, opts ...option.RequestOption) *ResumableSessionThreadEventStream {
+	if sessionID == "" {
+		return &ResumableSessionThreadEventStream{stream: resumablestream.NewError[SessionEvent](ctx, fmt.Errorf("missing required session_id parameter"))}
+	}
+	if threadID == "" {
+		return &ResumableSessionThreadEventStream{stream: resumablestream.NewError[SessionEvent](ctx, fmt.Errorf("missing required thread_id parameter"))}
+	}
+	opts = slices.Clone(opts)
+	service := NewSessionThreadEventService(slices.Clone(r.Options)...)
+	lastEventID := ""
+	if params.LastEventID.Valid() {
+		lastEventID = params.LastEventID.Value
+	}
+	stream := resumablestream.New(ctx, lastEventID, func(ctx context.Context, cursor string, resume bool) resumablestream.Child[SessionEvent] {
+		requestOpts := slices.Clone(opts)
+		if resume {
+			requestOpts = append(requestOpts, option.WithHeader("Last-Event-ID", cursor))
+		}
+		return service.StreamEvents(ctx, sessionID, threadID, params, requestOpts...)
+	}, func(event SessionEvent) bool {
+		return event.Type == "session.thread_status_terminated" || event.Type == "session.status_terminated" || event.Type == "session.deleted"
+	})
+	return &ResumableSessionThreadEventStream{stream: stream}
+}
+
+// ResumableSessionThreadEventStream reconnects a single thread's event stream.
+// A thread/session termination or session deletion event ends the stream normally.
+type ResumableSessionThreadEventStream struct {
+	stream *resumablestream.Stream[SessionEvent]
+}
+
+func (s *ResumableSessionThreadEventStream) Next() bool            { return s.stream.Next() }
+func (s *ResumableSessionThreadEventStream) Current() SessionEvent { return s.stream.Current() }
+func (s *ResumableSessionThreadEventStream) Err() error            { return s.stream.Err() }
+func (s *ResumableSessionThreadEventStream) LastEventID() string   { return s.stream.LastEventID() }
+func (s *ResumableSessionThreadEventStream) Close() error          { return s.stream.Close() }
