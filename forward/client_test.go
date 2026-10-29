@@ -26,7 +26,7 @@ func TestForwardAPIInventory(t *testing.T) {
 			for j := 0; j < methods.NumMethod(); j++ {
 				name := methods.Method(j).Name
 				key := field.Type().Name() + "." + name
-				if !strings.HasSuffix(name, "AutoPaging") && key != "SessionEventService.NewResumableStream" && key != "RealtimeService.Connect" {
+				if !strings.HasSuffix(name, "AutoPaging") && key != "SessionEventService.NewResumableStream" && key != "SessionThreadEventService.NewResumableStream" && key != "RealtimeService.Connect" {
 					actual[key] = true
 				}
 			}

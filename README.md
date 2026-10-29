@@ -478,6 +478,43 @@ if err := stream.Err(); err != nil {
 
 The resumable stream checkpoints `LastEventID` only after yielding a decoded event, then reconnects transport/read failures and unexpected EOF with cancellable jittered exponential backoff from 500 ms to 10 seconds. Backoff resets only after an event arrives on a connection that has remained healthy for more than five seconds. It preserves stream params and request options on every connection. HTTP retry classification matches ordinary SDK requests: 408, 429, 5xx and transport failures retry (subject to `x-should-retry`), while 409 and other non-retryable 4xx errors stop. It neither clears an invalid cursor nor queries event history. Events are not deduplicated because multiple delta frames can legitimately share one ID. A yielded `session.status_terminated` or `session.deleted` event ends the stream normally; context cancellation and `Close` both stop an active connection or backoff wait.
 
+
+### Thread event resumption
+
+Forward and Managed also support automatic resumption for a single Thread. Use the
+same retry and cancellation behavior as Session streams, with a thread-scoped
+`Last-Event-ID` cursor:
+
+```go
+// Forward
+stream := forwardClient.Sessions.Threads.Events.NewResumableStream(ctx, sessionID, threadID, forward.SessionThreadEventStreamParams{
+    LastEventID: forward.String(afterID),
+})
+defer stream.Close()
+for stream.Next() {
+    handle(stream.Current())
+}
+if err := stream.Err(); err != nil {
+    return err
+}
+
+// Managed uses the parent session in params.
+managedStream := managedClient.Sessions.Threads.Events.NewResumableStream(ctx, threadID, managed.SessionThreadEventStreamParams{
+    SessionID: sessionID,
+    LastEventID: managed.String(afterID),
+})
+defer managedStream.Close()
+```
+
+`session.thread_status_idle` ends only the current turn, so the subscription stays
+open. `session.thread_status_terminated`, `session.status_terminated`, or
+`session.deleted` ends it normally. A non-retryable error (including an invalid
+cursor or missing thread) is returned to the caller; the SDK never clears the
+cursor to silently start over. The existing one-shot Thread stream remains
+available. See the [Forward Thread stream](https://docs.qoder.com/cloud-agents/api/forward/sessions/stream-thread-events)
+and [Managed Thread stream](https://docs.qoder.com/cloud-agents/api/sessions/threads/events/stream)
+contracts for cursor validity.
+
 ## Request fields
 
 Required fields take plain values; optional scalars take `param.Opt[T]`. Use `forward.String`, `managed.String`, `Bool`, `Int` and `Float` to set an optional value explicitly.

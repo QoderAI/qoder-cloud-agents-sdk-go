@@ -76,6 +76,9 @@ func (r *SessionThreadEventService) StreamEvents(ctx context.Context, threadID s
 		raw *http.Response
 		err error
 	)
+	if params.LastEventID.Valid() {
+		opts = append([]option.RequestOption{option.WithHeader("Last-Event-ID", params.LastEventID.Value)}, opts...)
+	}
 	for _, v := range params.Betas {
 		opts = append(opts, option.WithHeaderAdd("x-qoder-beta", fmt.Sprintf("%v", v)))
 	}
@@ -118,7 +121,9 @@ func (r SessionThreadEventListParams) URLQuery() (v url.Values, err error) {
 }
 
 type SessionThreadEventStreamParams struct {
-	SessionID string `path:"session_id" api:"required" json:"-"`
+	// Resume after this public event in the thread.
+	LastEventID param.Opt[string] `header:"Last-Event-ID,omitzero" json:"-"`
+	SessionID   string            `path:"session_id" api:"required" json:"-"`
 	// When set, this connection also receives streaming deltas (`event_start`,
 	// `event_delta`) while an event is being produced, before the event itself
 	// arrives. Deltas are best-effort; when the final event is produced it carries the

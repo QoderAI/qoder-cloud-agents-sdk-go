@@ -48,3 +48,46 @@ func (s *ResumableSessionEventStream) Current() ManagedAgentsStreamSessionEvents
 func (s *ResumableSessionEventStream) Err() error          { return s.stream.Err() }
 func (s *ResumableSessionEventStream) LastEventID() string { return s.stream.LastEventID() }
 func (s *ResumableSessionEventStream) Close() error        { return s.stream.Close() }
+
+// NewResumableStream subscribes to Thread Events and reconnects retryable failures
+// with the latest yielded Last-Event-ID cursor. Thread idle events do not stop it.
+func (r *SessionThreadEventService) NewResumableStream(ctx context.Context, threadID string, params SessionThreadEventStreamParams, opts ...option.RequestOption) *ResumableSessionThreadEventStream {
+	if params.SessionID == "" {
+		return &ResumableSessionThreadEventStream{stream: resumablestream.NewError[ManagedAgentsStreamSessionThreadEventsUnion](ctx, errors.New("missing required session_id parameter"))}
+	}
+	if threadID == "" {
+		return &ResumableSessionThreadEventStream{stream: resumablestream.NewError[ManagedAgentsStreamSessionThreadEventsUnion](ctx, errors.New("missing required thread_id parameter"))}
+	}
+	params.EventDeltas = slices.Clone(params.EventDeltas)
+	params.Betas = slices.Clone(params.Betas)
+	opts = slices.Clone(opts)
+	service := NewSessionThreadEventService(slices.Clone(r.Options)...)
+	lastEventID := ""
+	if params.LastEventID.Valid() {
+		lastEventID = params.LastEventID.Value
+	}
+	stream := resumablestream.New(ctx, lastEventID, func(ctx context.Context, cursor string, resume bool) resumablestream.Child[ManagedAgentsStreamSessionThreadEventsUnion] {
+		requestOpts := slices.Clone(opts)
+		if resume {
+			requestOpts = append(requestOpts, option.WithHeader("Last-Event-ID", cursor))
+		}
+		return service.StreamEvents(ctx, threadID, params, requestOpts...)
+	}, func(event ManagedAgentsStreamSessionThreadEventsUnion) bool {
+		return event.Type == "session.thread_status_terminated" || event.Type == "session.status_terminated" || event.Type == "session.deleted"
+	})
+	return &ResumableSessionThreadEventStream{stream: stream}
+}
+
+// ResumableSessionThreadEventStream reconnects a single thread's event stream.
+// A thread/session termination or session deletion event ends the stream normally.
+type ResumableSessionThreadEventStream struct {
+	stream *resumablestream.Stream[ManagedAgentsStreamSessionThreadEventsUnion]
+}
+
+func (s *ResumableSessionThreadEventStream) Next() bool { return s.stream.Next() }
+func (s *ResumableSessionThreadEventStream) Current() ManagedAgentsStreamSessionThreadEventsUnion {
+	return s.stream.Current()
+}
+func (s *ResumableSessionThreadEventStream) Err() error          { return s.stream.Err() }
+func (s *ResumableSessionThreadEventStream) LastEventID() string { return s.stream.LastEventID() }
+func (s *ResumableSessionThreadEventStream) Close() error        { return s.stream.Close() }
