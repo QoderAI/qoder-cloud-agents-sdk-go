@@ -5,6 +5,10 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Changed
+
+- Remove resource-specific sections and inventories from the README to keep it focused on SDK setup and shared client behavior.
+
 ## [0.14.0]
 
 ### Added
