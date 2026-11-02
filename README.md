@@ -162,7 +162,7 @@ See the [official authentication contract](https://docs.qoder.com/cloud-agents/a
 
 ## Streaming
 
-Streaming responses are consumed incrementally. Close the stream when finished and handle interruption explicitly; closing a local stream does not cancel server-side work. See the [usage guide](docs/usage-guide.md) for runnable patterns and reconnection behavior.
+Streaming responses are consumed incrementally. Close the stream when finished and handle interruption explicitly; closing a local stream does not cancel server-side work.
 
 ## Request fields
 
@@ -263,7 +263,7 @@ func inspectIdentity(identity forward.Identity) {
 
 ### Response unions
 
-Managed response unions expose `AsAny()` and `As...()` accessors; check the discriminator before calling one. An `agent.message` event, for instance, is read through `event.AsAgentMessage()` as in the [streaming guide](docs/usage-guide.md#streaming).
+Managed response unions expose `AsAny()` and `As...()` accessors; check the discriminator before calling one. An `agent.message` event, for instance, is read through `event.AsAgentMessage()`.
 
 Some open-ended Forward content stays as `json.RawMessage` — `SessionEvent.Content` is one. For an array of text content blocks call `ContentBlocks()`; otherwise decode per event type, or keep `RawJSON()`. Both modes preserve unknown fields, but the accessor depends on the response type.
 
@@ -518,7 +518,6 @@ func readUnknownField(session *forward.Session) string {
 
 ## Documentation and examples
 
-- [Usage guide](docs/usage-guide.md)
 - [API reference](docs/api/reference.md)
 - [Runnable examples](examples/)
 - [Contribution guide](CONTRIBUTING.md)
