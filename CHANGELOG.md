@@ -5,6 +5,10 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Changed
+
+- Move resource-specific README documentation into a dedicated usage guide, keeping the README focused on SDK setup and shared client behavior.
+
 ## [0.14.0]
 
 ### Added
