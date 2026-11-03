@@ -211,15 +211,18 @@ func (r Environment) RawJSON() string                  { return r.JSON.raw }
 func (r *Environment) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type EnvironmentConfig struct {
-	SetupScript string                    `json:"setup_script"`
-	Type        string                    `json:"type"`
-	Packages    EnvironmentConfigPackages `json:"packages"`
-	JSON        struct {
-		SetupScript respjson.Field
-		Type        respjson.Field
-		Packages    respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+	// Runs on sandbox start/resume; self-hosted execution depends on the worker.
+	StartupScript string                    `json:"startup_script"`
+	SetupScript   string                    `json:"setup_script"`
+	Type          string                    `json:"type"`
+	Packages      EnvironmentConfigPackages `json:"packages"`
+	JSON          struct {
+		StartupScript respjson.Field
+		SetupScript   respjson.Field
+		Type          respjson.Field
+		Packages      respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
 	} `json:"-"`
 }
 

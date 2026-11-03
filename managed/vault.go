@@ -155,6 +155,8 @@ const (
 
 // A vault that stores credentials for use by agents during sessions.
 type ManagedAgentsVault struct {
+	// Empty on creation; add credentials using the separate Credential API.
+	Credentials []ManagedAgentsCredential `json:"credentials"`
 	// Unique identifier for the vault.
 	ID string `json:"id" api:"required"`
 	// A timestamp in RFC 3339 format
@@ -171,6 +173,7 @@ type ManagedAgentsVault struct {
 	UpdatedAt time.Time `json:"updated_at" api:"required" format:"date-time"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		Credentials respjson.Field
 		ID          respjson.Field
 		ArchivedAt  respjson.Field
 		CreatedAt   respjson.Field

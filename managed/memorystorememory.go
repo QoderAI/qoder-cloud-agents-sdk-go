@@ -184,6 +184,8 @@ const (
 // addressed by their `mem_...` ID; the path is the create key and can be changed
 // via update.
 type ManagedAgentsMemory struct {
+	// Current memory version, starting at 1. Absent on prefix entries.
+	Version  int64             `json:"version"`
 	Metadata map[string]string `json:"metadata"`
 
 	// Unique identifier for this memory (a `mem_...` value). Stable across renames;
@@ -220,6 +222,7 @@ type ManagedAgentsMemory struct {
 	Content string `json:"content" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		Version  respjson.Field
 		Metadata respjson.Field
 
 		ID               respjson.Field
@@ -257,6 +260,9 @@ const (
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ManagedAgentsMemoryListItemUnion struct {
+	Metadata map[string]string `json:"metadata"`
+	// Current memory version, starting at 1. Absent on prefix entries.
+	Version int64 `json:"version"`
 	// This field is from variant [ManagedAgentsMemory].
 	ID string `json:"id"`
 	// This field is from variant [ManagedAgentsMemory].
@@ -277,6 +283,8 @@ type ManagedAgentsMemoryListItemUnion struct {
 	// This field is from variant [ManagedAgentsMemory].
 	Content string `json:"content"`
 	JSON    struct {
+		Metadata         respjson.Field
+		Version          respjson.Field
 		ID               respjson.Field
 		ContentSha256    respjson.Field
 		ContentSizeBytes respjson.Field

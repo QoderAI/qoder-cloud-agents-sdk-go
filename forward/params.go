@@ -35,10 +35,13 @@ func WithIdentityID(identityID string) option.RequestOption {
 // ModelConfig preserves either a model ID string or an object from the API.
 // ID is populated for both shapes; RawJSON retains the original representation.
 type ModelConfig struct {
+	// Inference speed: standard or high, subject to model capabilities.
+	Speed         string `json:"speed"`
 	ID            string `json:"id"`
 	Effort        string `json:"effort"`
 	ContextWindow int64  `json:"context_window"`
 	JSON          struct {
+		Speed         respjson.Field
 		ID            respjson.Field
 		Effort        respjson.Field
 		ContextWindow respjson.Field
@@ -51,6 +54,8 @@ func (r ModelConfig) RawJSON() string                  { return r.JSON.raw }
 func (r *ModelConfig) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type ModelConfigParam struct {
+	// Inference speed: standard or high, subject to model capabilities.
+	Speed         param.Opt[string] `json:"speed,omitzero"`
 	ID            string            `json:"id" api:"required"`
 	Effort        param.Opt[string] `json:"effort,omitzero"`
 	ContextWindow param.Opt[int64]  `json:"context_window,omitzero"`

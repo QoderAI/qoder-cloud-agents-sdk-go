@@ -137,8 +137,8 @@ type ManagedAgentsSessionThread struct {
 	Type ManagedAgentsSessionThreadType `json:"type" api:"required"`
 	// A timestamp in RFC 3339 format
 	UpdatedAt time.Time `json:"updated_at" api:"required" format:"date-time"`
-	// Cumulative token usage for a session thread across all turns.
-	Usage ManagedAgentsSessionThreadUsage `json:"usage" api:"required"`
+	// Deprecated: current Thread responses do not include usage. Read Session Credits instead.
+	Usage ManagedAgentsSessionThreadUsage `json:"usage"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID             respjson.Field
@@ -262,23 +262,28 @@ func (r *ManagedAgentsSessionThreadAgentUnion) UnmarshalJSON(data []byte) error 
 // If the underlying value is not a json object, one of the following properties
 // will be valid: OfString]
 type ManagedAgentsSessionThreadAgentUnionModel struct {
+	EffectiveContextWindow int64 `json:"effective_context_window"`
+	ContextWindow          int64 `json:"context_window"`
 	// This field will be present if the value is a [string] instead of an object.
 	OfString string `json:",inline"`
 	// This field is from variant [ManagedAgentsModelConfig].
 	ID ManagedAgentsModel `json:"id"`
 	// This field is from variant [ManagedAgentsModelConfig].
-	Effort ManagedAgentsModelConfigEffortUnion `json:"effort"`
+	Effort string `json:"effort"`
 	// This field is from variant [ManagedAgentsModelConfig].
 	InferenceGeo string `json:"inference_geo"`
 	// This field is from variant [ManagedAgentsModelConfig].
+	// Deprecated: speed is no longer part of Managed model configuration.
 	Speed ManagedAgentsModelConfigSpeed `json:"speed"`
 	JSON  struct {
-		OfString     respjson.Field
-		ID           respjson.Field
-		Effort       respjson.Field
-		InferenceGeo respjson.Field
-		Speed        respjson.Field
-		raw          string
+		EffectiveContextWindow respjson.Field
+		ContextWindow          respjson.Field
+		OfString               respjson.Field
+		ID                     respjson.Field
+		Effort                 respjson.Field
+		InferenceGeo           respjson.Field
+		Speed                  respjson.Field
+		raw                    string
 	} `json:"-"`
 }
 
@@ -329,7 +334,7 @@ const (
 	ManagedAgentsSessionThreadStatusTerminated   ManagedAgentsSessionThreadStatus = "terminated"
 )
 
-// Cumulative token usage for a session thread across all turns.
+// Deprecated: current Thread responses do not include usage. Read Session Credits instead.
 type ManagedAgentsSessionThreadUsage struct {
 	// Cumulative time in seconds this thread spent in running status. Equal to
 	// `stats.active_seconds`; surfaced here so a thread's usage carries every quantity

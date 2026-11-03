@@ -796,6 +796,12 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*Session\) UnmarshalJSON\(data \[\]byte\) error](<#Session.UnmarshalJSON>)
 - [type SessionArchiveParams](<#SessionArchiveParams>)
   - [func \(r SessionArchiveParams\) URLQuery\(\) \(url.Values, error\)](<#SessionArchiveParams.URLQuery>)
+- [type SessionBudget](<#SessionBudget>)
+  - [func \(r SessionBudget\) RawJSON\(\) string](<#SessionBudget.RawJSON>)
+  - [func \(r \*SessionBudget\) UnmarshalJSON\(data \[\]byte\) error](<#SessionBudget.UnmarshalJSON>)
+- [type SessionBudgetParam](<#SessionBudgetParam>)
+  - [func \(r SessionBudgetParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#SessionBudgetParam.MarshalJSON>)
+  - [func \(r \*SessionBudgetParam\) UnmarshalJSON\(data \[\]byte\) error](<#SessionBudgetParam.UnmarshalJSON>)
 - [type SessionCancelParams](<#SessionCancelParams>)
   - [func \(r SessionCancelParams\) URLQuery\(\) \(url.Values, error\)](<#SessionCancelParams.URLQuery>)
 - [type SessionConfig](<#SessionConfig>)
@@ -1003,6 +1009,12 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type Tool](<#Tool>)
   - [func \(r Tool\) RawJSON\(\) string](<#Tool.RawJSON>)
   - [func \(r \*Tool\) UnmarshalJSON\(data \[\]byte\) error](<#Tool.UnmarshalJSON>)
+- [type ToolApprovalDecision](<#ToolApprovalDecision>)
+  - [func \(r ToolApprovalDecision\) RawJSON\(\) string](<#ToolApprovalDecision.RawJSON>)
+  - [func \(r \*ToolApprovalDecision\) UnmarshalJSON\(data \[\]byte\) error](<#ToolApprovalDecision.UnmarshalJSON>)
+- [type ToolApprovalEvaluation](<#ToolApprovalEvaluation>)
+  - [func \(r ToolApprovalEvaluation\) RawJSON\(\) string](<#ToolApprovalEvaluation.RawJSON>)
+  - [func \(r \*ToolApprovalEvaluation\) UnmarshalJSON\(data \[\]byte\) error](<#ToolApprovalEvaluation.UnmarshalJSON>)
 - [type ToolConfig](<#ToolConfig>)
   - [func \(r ToolConfig\) RawJSON\(\) string](<#ToolConfig.RawJSON>)
   - [func \(r \*ToolConfig\) UnmarshalJSON\(data \[\]byte\) error](<#ToolConfig.UnmarshalJSON>)
@@ -4719,14 +4731,17 @@ func (r *EnvironmentBindingInfo) UnmarshalJSON(data []byte) error
 
 ```go
 type EnvironmentConfig struct {
-    SetupScript string                    `json:"setup_script"`
-    Type        string                    `json:"type"`
-    Packages    EnvironmentConfigPackages `json:"packages"`
-    JSON        struct {
-        SetupScript respjson.Field
-        Type        respjson.Field
-        Packages    respjson.Field
-        ExtraFields map[string]respjson.Field
+    // Runs on sandbox start/resume; self-hosted execution depends on the worker.
+    StartupScript string                    `json:"startup_script"`
+    SetupScript   string                    `json:"setup_script"`
+    Type          string                    `json:"type"`
+    Packages      EnvironmentConfigPackages `json:"packages"`
+    JSON          struct {
+        StartupScript respjson.Field
+        SetupScript   respjson.Field
+        Type          respjson.Field
+        Packages      respjson.Field
+        ExtraFields   map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -7936,10 +7951,13 @@ ModelConfig preserves either a model ID string or an object from the API. ID is 
 
 ```go
 type ModelConfig struct {
+    // Inference speed: standard or high, subject to model capabilities.
+    Speed         string `json:"speed"`
     ID            string `json:"id"`
     Effort        string `json:"effort"`
     ContextWindow int64  `json:"context_window"`
     JSON          struct {
+        Speed         respjson.Field
         ID            respjson.Field
         Effort        respjson.Field
         ContextWindow respjson.Field
@@ -7974,6 +7992,8 @@ func (r *ModelConfig) UnmarshalJSON(data []byte) error
 
 ```go
 type ModelConfigParam struct {
+    // Inference speed: standard or high, subject to model capabilities.
+    Speed         param.Opt[string] `json:"speed,omitzero"`
     ID            string            `json:"id" api:"required"`
     Effort        param.Opt[string] `json:"effort,omitzero"`
     ContextWindow param.Opt[int64]  `json:"context_window,omitzero"`
@@ -10716,6 +10736,8 @@ Revoke revokes a Forward SAT binding belonging to the same Service Account. Use 
 
 ```go
 type Session struct {
+    // Use JSON.Budget to distinguish absent, null (unlimited), and an object.
+    Budget             SessionBudget              `json:"budget" api:"nullable"`
     OutcomeEvaluations []SessionOutcomeEvaluation `json:"outcome_evaluations"`
     // Session ID.
     ID  string `json:"id"`
@@ -10739,6 +10761,7 @@ type Session struct {
     CreatedAt  time.Time         `json:"created_at" format:"date-time"`
     UpdatedAt  time.Time         `json:"updated_at" format:"date-time"`
     JSON       struct {
+        Budget             respjson.Field
         OutcomeEvaluations respjson.Field
         ID                 respjson.Field
         Type               respjson.Field
@@ -10801,6 +10824,73 @@ func (r SessionArchiveParams) URLQuery() (url.Values, error)
 
 
 
+<a name="SessionBudget"></a>
+## type [SessionBudget](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
+
+
+
+```go
+type SessionBudget struct {
+    Type          string `json:"type"`
+    MaxCreditCost string `json:"max_credit_cost"`
+    JSON          struct {
+        Type          respjson.Field
+        MaxCreditCost respjson.Field
+        ExtraFields   map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="SessionBudget.RawJSON"></a>
+### func \(SessionBudget\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
+
+```go
+func (r SessionBudget) RawJSON() string
+```
+
+
+
+<a name="SessionBudget.UnmarshalJSON"></a>
+### func \(\*SessionBudget\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
+
+```go
+func (r *SessionBudget) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="SessionBudgetParam"></a>
+## type [SessionBudgetParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
+
+A cumulative model and sandbox Credits limit. MaxCreditCost is a positive decimal string. Once reached, the server rejects the next user message; an active turn can finish.
+
+```go
+type SessionBudgetParam struct {
+    Type          string `json:"type" api:"required"`
+    MaxCreditCost string `json:"max_credit_cost" api:"required"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="SessionBudgetParam.MarshalJSON"></a>
+### func \(SessionBudgetParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
+
+```go
+func (r SessionBudgetParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="SessionBudgetParam.UnmarshalJSON"></a>
+### func \(\*SessionBudgetParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
+
+```go
+func (r *SessionBudgetParam) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="SessionCancelParams"></a>
 ## type [SessionCancelParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
 
@@ -10830,8 +10920,10 @@ func (r SessionCancelParams) URLQuery() (url.Values, error)
 
 ```go
 type SessionConfig struct {
+    Model                ModelConfig       `json:"model"`
     EnvironmentVariables map[string]string `json:"environment_variables"`
     JSON                 struct {
+        Model                respjson.Field
         EnvironmentVariables respjson.Field
         ExtraFields          map[string]respjson.Field
         // contains filtered or unexported fields
@@ -10864,6 +10956,24 @@ func (r *SessionConfig) UnmarshalJSON(data []byte) error
 
 ```go
 type SessionEvent struct {
+    // Cumulative total Credits.
+    TotalCredits float64 `json:"total_credits"`
+    // Cumulative sandbox Credits.
+    SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+    // Cumulative model Credits; use the latest value, not a sum of events.
+    ModelCredits float64 `json:"model_credits"`
+    // Related outcome evaluation start event.
+    OutcomeEvaluationStartID string `json:"outcome_evaluation_start_id"`
+    // Outcome evaluation explanation.
+    Explanation string `json:"explanation"`
+    // Outcome evaluation iteration.
+    Iteration int64 `json:"iteration"`
+    // Optional status reason, such as outcome_evaluation.
+    Reason string `json:"reason"`
+    // Optional approval details; evaluated_permission at the event root is a string.
+    Evaluation ToolApprovalEvaluation `json:"evaluation"`
+    // Use JSON.Budget to distinguish absent, null (unlimited), and an object.
+    Budget              SessionBudget   `json:"budget" api:"nullable"`
     ID                  string          `json:"id"`
     Type                string          `json:"type"`
     SessionID           string          `json:"session_id"`
@@ -10895,7 +11005,7 @@ type SessionEvent struct {
     Usage               map[string]any  `json:"usage"`
     StopReason          map[string]any  `json:"stop_reason"`
     Error               map[string]any  `json:"error"`
-    EvaluatedPermission map[string]any  `json:"evaluated_permission"`
+    EvaluatedPermission string          `json:"evaluated_permission"`
     FileID              string          `json:"file_id"`
     OriginalFilename    string          `json:"original_filename"`
     Size                int64           `json:"size"`
@@ -10906,48 +11016,57 @@ type SessionEvent struct {
     ModelRequestStartID string          `json:"model_request_start_id"`
     ModelUsage          map[string]any  `json:"model_usage"`
     JSON                struct {
-        ID                  respjson.Field
-        Type                respjson.Field
-        SessionID           respjson.Field
-        Content             respjson.Field
-        ProcessedAt         respjson.Field
-        SessionThreadID     respjson.Field
-        Thinking            respjson.Field
-        Text                respjson.Field
-        ToolUseID           respjson.Field
-        CustomToolUseID     respjson.Field
-        MCPToolUseID        respjson.Field
-        Name                respjson.Field
-        MCPServerName       respjson.Field
-        Input               respjson.Field
-        IsError             respjson.Field
-        Result              respjson.Field
-        DenyMessage         respjson.Field
-        Description         respjson.Field
-        Rubric              respjson.Field
-        OutcomeID           respjson.Field
-        MaxIterations       respjson.Field
-        MessageID           respjson.Field
-        Message             respjson.Field
-        Index               respjson.Field
-        ContentBlock        respjson.Field
-        Delta               respjson.Field
-        Event               respjson.Field
-        EventID             respjson.Field
-        Usage               respjson.Field
-        StopReason          respjson.Field
-        Error               respjson.Field
-        EvaluatedPermission respjson.Field
-        FileID              respjson.Field
-        OriginalFilename    respjson.Field
-        Size                respjson.Field
-        ContentType         respjson.Field
-        Agent               respjson.Field
-        Metadata            respjson.Field
-        Title               respjson.Field
-        ModelRequestStartID respjson.Field
-        ModelUsage          respjson.Field
-        ExtraFields         map[string]respjson.Field
+        TotalCredits             respjson.Field
+        SandboxRuntimeCredits    respjson.Field
+        ModelCredits             respjson.Field
+        OutcomeEvaluationStartID respjson.Field
+        Explanation              respjson.Field
+        Iteration                respjson.Field
+        Reason                   respjson.Field
+        Evaluation               respjson.Field
+        Budget                   respjson.Field
+        ID                       respjson.Field
+        Type                     respjson.Field
+        SessionID                respjson.Field
+        Content                  respjson.Field
+        ProcessedAt              respjson.Field
+        SessionThreadID          respjson.Field
+        Thinking                 respjson.Field
+        Text                     respjson.Field
+        ToolUseID                respjson.Field
+        CustomToolUseID          respjson.Field
+        MCPToolUseID             respjson.Field
+        Name                     respjson.Field
+        MCPServerName            respjson.Field
+        Input                    respjson.Field
+        IsError                  respjson.Field
+        Result                   respjson.Field
+        DenyMessage              respjson.Field
+        Description              respjson.Field
+        Rubric                   respjson.Field
+        OutcomeID                respjson.Field
+        MaxIterations            respjson.Field
+        MessageID                respjson.Field
+        Message                  respjson.Field
+        Index                    respjson.Field
+        ContentBlock             respjson.Field
+        Delta                    respjson.Field
+        Event                    respjson.Field
+        EventID                  respjson.Field
+        Usage                    respjson.Field
+        StopReason               respjson.Field
+        Error                    respjson.Field
+        EvaluatedPermission      respjson.Field
+        FileID                   respjson.Field
+        OriginalFilename         respjson.Field
+        Size                     respjson.Field
+        ContentType              respjson.Field
+        Agent                    respjson.Field
+        Metadata                 respjson.Field
+        Title                    respjson.Field
+        ModelRequestStartID      respjson.Field
+        ModelUsage               respjson.Field
+        ExtraFields              map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -11278,6 +11397,8 @@ func (r SessionListParams) URLQuery() (url.Values, error)
 
 ```go
 type SessionNewParams struct {
+    // Omit to keep the default/current budget; use param.NullStruct[SessionBudgetParam]() to clear.
+    Budget SessionBudgetParam `json:"budget,omitzero" api:"nullable"`
     // Forward Identity ID.
     IdentityID string `json:"identity_id" api:"required"`
     // Forward Template ID.
@@ -11319,7 +11440,9 @@ func (r *SessionNewParams) UnmarshalJSON(data []byte) error
 
 ```go
 type SessionNewParamsConfigParam struct {
-    EnvironmentVariables map[string]any `json:"environment_variables,omitzero"`
+    // Model override. Omit on create to inherit; explicit null on update restores inheritance.
+    Model                ModelConfigUnionParam `json:"model,omitzero"`
+    EnvironmentVariables map[string]any        `json:"environment_variables,omitzero"`
     // contains filtered or unexported fields
 }
 ```
@@ -12122,6 +12245,8 @@ func (r *SessionThreadUsage) UnmarshalJSON(data []byte) error
 
 ```go
 type SessionUpdateParams struct {
+    // Omit to keep the default/current budget; use param.NullStruct[SessionBudgetParam]() to clear.
+    Budget SessionBudgetParam `json:"budget,omitzero" api:"nullable"`
     // New Session title.
     Title param.Opt[string] `json:"title,omitzero"`
     // Metadata merge patch; supplied keys overwrite existing keys, omitted keys are kept.
@@ -12158,7 +12283,9 @@ func (r *SessionUpdateParams) UnmarshalJSON(data []byte) error
 
 ```go
 type SessionUpdateParamsConfigParam struct {
-    EnvironmentVariables map[string]any `json:"environment_variables,omitzero"`
+    // Model override. Omit on create to inherit; explicit null on update restores inheritance.
+    Model                ModelConfigUnionParam `json:"model,omitzero"`
+    EnvironmentVariables map[string]any        `json:"environment_variables,omitzero"`
     // contains filtered or unexported fields
 }
 ```
@@ -13517,6 +13644,78 @@ func (r Tool) RawJSON() string
 
 ```go
 func (r *Tool) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ToolApprovalDecision"></a>
+## type [ToolApprovalDecision](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionevent.go>)
+
+
+
+```go
+type ToolApprovalDecision struct {
+    Type       string `json:"type"`
+    ReasonCode string `json:"reason_code"`
+    JSON       struct {
+        Type        respjson.Field
+        ReasonCode  respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ToolApprovalDecision.RawJSON"></a>
+### func \(ToolApprovalDecision\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionevent.go>)
+
+```go
+func (r ToolApprovalDecision) RawJSON() string
+```
+
+
+
+<a name="ToolApprovalDecision.UnmarshalJSON"></a>
+### func \(\*ToolApprovalDecision\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionevent.go>)
+
+```go
+func (r *ToolApprovalDecision) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ToolApprovalEvaluation"></a>
+## type [ToolApprovalEvaluation](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionevent.go>)
+
+
+
+```go
+type ToolApprovalEvaluation struct {
+    Type                string               `json:"type"`
+    EvaluatedPermission ToolApprovalDecision `json:"evaluated_permission"`
+    JSON                struct {
+        Type                respjson.Field
+        EvaluatedPermission respjson.Field
+        ExtraFields         map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ToolApprovalEvaluation.RawJSON"></a>
+### func \(ToolApprovalEvaluation\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionevent.go>)
+
+```go
+func (r ToolApprovalEvaluation) RawJSON() string
+```
+
+
+
+<a name="ToolApprovalEvaluation.UnmarshalJSON"></a>
+### func \(\*ToolApprovalEvaluation\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/sessionevent.go>)
+
+```go
+func (r *ToolApprovalEvaluation) UnmarshalJSON(data []byte) error
 ```
 
 
@@ -15245,6 +15444,7 @@ Qoder managed API definitions.
   - [func \(u EnvironmentNewParamsConfigUnion\) GetNetworking\(\) \*CloudConfigParamsNetworkingUnion](<#EnvironmentNewParamsConfigUnion.GetNetworking>)
   - [func \(u EnvironmentNewParamsConfigUnion\) GetPackages\(\) \*PackagesParams](<#EnvironmentNewParamsConfigUnion.GetPackages>)
   - [func \(u EnvironmentNewParamsConfigUnion\) GetSetupScript\(\) \*string](<#EnvironmentNewParamsConfigUnion.GetSetupScript>)
+  - [func \(u EnvironmentNewParamsConfigUnion\) GetStartupScript\(\) \*string](<#EnvironmentNewParamsConfigUnion.GetStartupScript>)
   - [func \(u EnvironmentNewParamsConfigUnion\) GetType\(\) \*string](<#EnvironmentNewParamsConfigUnion.GetType>)
   - [func \(u EnvironmentNewParamsConfigUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentNewParamsConfigUnion.MarshalJSON>)
   - [func \(u \*EnvironmentNewParamsConfigUnion\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentNewParamsConfigUnion.UnmarshalJSON>)
@@ -15271,6 +15471,7 @@ Qoder managed API definitions.
   - [func \(u EnvironmentUpdateParamsConfigUnion\) GetNetworking\(\) \*CloudConfigParamsNetworkingUnion](<#EnvironmentUpdateParamsConfigUnion.GetNetworking>)
   - [func \(u EnvironmentUpdateParamsConfigUnion\) GetPackages\(\) \*PackagesParams](<#EnvironmentUpdateParamsConfigUnion.GetPackages>)
   - [func \(u EnvironmentUpdateParamsConfigUnion\) GetSetupScript\(\) \*string](<#EnvironmentUpdateParamsConfigUnion.GetSetupScript>)
+  - [func \(u EnvironmentUpdateParamsConfigUnion\) GetStartupScript\(\) \*string](<#EnvironmentUpdateParamsConfigUnion.GetStartupScript>)
   - [func \(u EnvironmentUpdateParamsConfigUnion\) GetType\(\) \*string](<#EnvironmentUpdateParamsConfigUnion.GetType>)
   - [func \(u EnvironmentUpdateParamsConfigUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentUpdateParamsConfigUnion.MarshalJSON>)
   - [func \(u \*EnvironmentUpdateParamsConfigUnion\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentUpdateParamsConfigUnion.UnmarshalJSON>)
@@ -19981,8 +20182,10 @@ NewClient uses common authentication defaults and QODER\_BASE\_URL. Explicit opt
 ```go
 type CloudConfig struct {
     // Set Betas to include "oss-bucket-2026-09-23" when buckets remain configured.
-    Storage     BucketStorage `json:"storage"`
-    SetupScript string        `json:"setup_script"`
+    Storage BucketStorage `json:"storage"`
+    // Runs on sandbox start/resume; self-hosted execution depends on the worker.
+    StartupScript string `json:"startup_script"`
+    SetupScript   string `json:"setup_script"`
     // Network configuration policy.
     Networking CloudConfigNetworkingUnion `json:"networking" api:"required"`
     // Package manager configuration.
@@ -19991,12 +20194,13 @@ type CloudConfig struct {
     Type constant.Cloud `json:"type" default:"cloud"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        Storage     respjson.Field
-        SetupScript respjson.Field
-        Networking  respjson.Field
-        Packages    respjson.Field
-        Type        respjson.Field
-        ExtraFields map[string]respjson.Field
+        Storage       respjson.Field
+        StartupScript respjson.Field
+        SetupScript   respjson.Field
+        Networking    respjson.Field
+        Packages      respjson.Field
+        Type          respjson.Field
+        ExtraFields   map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -20115,8 +20319,10 @@ The property Type is required.
 ```go
 type CloudConfigParams struct {
     // Set Betas to include "oss-bucket-2026-09-23" when buckets remain configured.
-    Storage     BucketStorageParam `json:"storage,omitzero"`
-    SetupScript param.Opt[string]  `json:"setup_script,omitzero"`
+    Storage BucketStorageParam `json:"storage,omitzero"`
+    // Runs on sandbox start/resume; self-hosted execution depends on the worker.
+    StartupScript param.Opt[string] `json:"startup_script,omitzero"`
+    SetupScript   param.Opt[string] `json:"setup_script,omitzero"`
     // Network configuration policy. Omit on update to preserve the existing value.
     Networking CloudConfigParamsNetworkingUnion `json:"networking,omitzero"`
     // Specify packages (and optionally their versions) available in this environment.
@@ -23181,8 +23387,10 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 ```go
 type EnvironmentConfigUnion struct {
     // Set Betas to include "oss-bucket-2026-09-23" when buckets remain configured.
-    Storage     BucketStorage `json:"storage"`
-    SetupScript string        `json:"setup_script"`
+    Storage BucketStorage `json:"storage"`
+    // Runs on sandbox start/resume; self-hosted execution depends on the worker.
+    StartupScript string `json:"startup_script"`
+    SetupScript   string `json:"setup_script"`
     // This field is from variant [CloudConfig].
     Networking CloudConfigNetworkingUnion `json:"networking"`
     // This field is from variant [CloudConfig].
@@ -23190,11 +23398,12 @@ type EnvironmentConfigUnion struct {
     // Any of "cloud", "self_hosted".
     Type string `json:"type"`
     JSON struct {
-        Storage     respjson.Field
-        SetupScript respjson.Field
-        Networking  respjson.Field
-        Packages    respjson.Field
-        Type        respjson.Field
+        Storage       respjson.Field
+        StartupScript respjson.Field
+        SetupScript   respjson.Field
+        Networking    respjson.Field
+        Packages      respjson.Field
+        Type          respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -23457,6 +23666,15 @@ func (u EnvironmentNewParamsConfigUnion) GetSetupScript() *string
 ```
 
 Returns the setup script from the selected configuration, if present.
+
+<a name="EnvironmentNewParamsConfigUnion.GetStartupScript"></a>
+### func \(EnvironmentNewParamsConfigUnion\) [GetStartupScript](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
+
+```go
+func (u EnvironmentNewParamsConfigUnion) GetStartupScript() *string
+```
+
+
 
 <a name="EnvironmentNewParamsConfigUnion.GetType"></a>
 ### func \(EnvironmentNewParamsConfigUnion\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
@@ -23759,6 +23977,15 @@ func (u EnvironmentUpdateParamsConfigUnion) GetSetupScript() *string
 ```
 
 Returns the setup script from the selected configuration, if present.
+
+<a name="EnvironmentUpdateParamsConfigUnion.GetStartupScript"></a>
+### func \(EnvironmentUpdateParamsConfigUnion\) [GetStartupScript](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
+
+```go
+func (u EnvironmentUpdateParamsConfigUnion) GetStartupScript() *string
+```
+
+
 
 <a name="EnvironmentUpdateParamsConfigUnion.GetType"></a>
 ### func \(EnvironmentUpdateParamsConfigUnion\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/environment.go>)
@@ -37642,6 +37869,8 @@ A \`memory\` object: a single text document at a hierarchical path inside a memo
 
 ```go
 type ManagedAgentsMemory struct {
+    // Current memory version, starting at 1. Absent on prefix entries.
+    Version  int64             `json:"version"`
     Metadata map[string]string `json:"metadata"`
 
     // Unique identifier for this memory (a `mem_...` value). Stable across renames;
@@ -37678,6 +37907,7 @@ type ManagedAgentsMemory struct {
     Content string `json:"content" api:"nullable"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
+        Version  respjson.Field
         Metadata respjson.Field
 
         ID               respjson.Field
@@ -37725,6 +37955,9 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 
 ```go
 type ManagedAgentsMemoryListItemUnion struct {
+    Metadata map[string]string `json:"metadata"`
+    // Current memory version, starting at 1. Absent on prefix entries.
+    Version int64 `json:"version"`
     // This field is from variant [ManagedAgentsMemory].
     ID  string `json:"id"`
     // This field is from variant [ManagedAgentsMemory].
@@ -37745,6 +37978,8 @@ type ManagedAgentsMemoryListItemUnion struct {
     // This field is from variant [ManagedAgentsMemory].
     Content string `json:"content"`
     JSON    struct {
+        Metadata         respjson.Field
+        Version          respjson.Field
         ID               respjson.Field
         ContentSha256    respjson.Field
         ContentSizeBytes respjson.Field
@@ -38351,6 +38586,7 @@ A \`memory\_version\` object: one immutable, attributed row in a memory's append
 
 ```go
 type ManagedAgentsMemoryVersion struct {
+    Redacted bool `json:"redacted"`
     // Unique identifier for this version (a `memver_...` value).
     ID  string `json:"id" api:"required"`
     // A timestamp in RFC 3339 format
@@ -38366,7 +38602,7 @@ type ManagedAgentsMemoryVersion struct {
     // The kind of mutation a `memory_version` records. Every non-no-op mutation to a
     // memory appends exactly one version row with one of these values.
     //
-    // Any of "created", "modified", "deleted".
+    // Any of "created", "updated", "deleted".
     Operation ManagedAgentsMemoryVersionOperation `json:"operation" api:"required"`
     // Any of "memory_version".
     Type ManagedAgentsMemoryVersionType `json:"type" api:"required"`
@@ -38399,6 +38635,7 @@ type ManagedAgentsMemoryVersion struct {
     RedactedBy ManagedAgentsActorUnion `json:"redacted_by"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
+        Redacted         respjson.Field
         ID               respjson.Field
         CreatedAt        respjson.Field
         MemoryID         respjson.Field
@@ -38449,7 +38686,9 @@ type ManagedAgentsMemoryVersionOperation string
 
 ```go
 const (
-    ManagedAgentsMemoryVersionOperationCreated  ManagedAgentsMemoryVersionOperation = "created"
+    ManagedAgentsMemoryVersionOperationCreated ManagedAgentsMemoryVersionOperation = "created"
+    ManagedAgentsMemoryVersionOperationUpdated ManagedAgentsMemoryVersionOperation = "updated"
+    // Deprecated: current API responses use Updated. Retained for legacy payloads.
     ManagedAgentsMemoryVersionOperationModified ManagedAgentsMemoryVersionOperation = "modified"
     ManagedAgentsMemoryVersionOperationDeleted  ManagedAgentsMemoryVersionOperation = "deleted"
 )
@@ -43494,22 +43733,27 @@ If the underlying value is not a json object, one of the following properties wi
 
 ```go
 type ManagedAgentsSessionMultiagentCoordinatorAgentUnionModel struct {
+    EffectiveContextWindow int64 `json:"effective_context_window"`
+    ContextWindow          int64 `json:"context_window"`
     // This field will be present if the value is a [string] instead of an object.
     OfString string `json:",inline"`
     // This field is from variant [ManagedAgentsModelConfig].
     ID  ManagedAgentsModel `json:"id"`
     // This field is from variant [ManagedAgentsModelConfig].
-    Effort ManagedAgentsModelConfigEffortUnion `json:"effort"`
+    Effort string `json:"effort"`
     // This field is from variant [ManagedAgentsModelConfig].
     InferenceGeo string `json:"inference_geo"`
     // This field is from variant [ManagedAgentsModelConfig].
+    // Deprecated: speed is no longer part of Managed model configuration.
     Speed ManagedAgentsModelConfigSpeed `json:"speed"`
     JSON  struct {
-        OfString     respjson.Field
-        ID           respjson.Field
-        Effort       respjson.Field
-        InferenceGeo respjson.Field
-        Speed        respjson.Field
+        EffectiveContextWindow respjson.Field
+        ContextWindow          respjson.Field
+        OfString               respjson.Field
+        ID                     respjson.Field
+        Effort                 respjson.Field
+        InferenceGeo           respjson.Field
+        Speed                  respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -44481,8 +44725,8 @@ type ManagedAgentsSessionThread struct {
     Type ManagedAgentsSessionThreadType `json:"type" api:"required"`
     // A timestamp in RFC 3339 format
     UpdatedAt time.Time `json:"updated_at" api:"required" format:"date-time"`
-    // Cumulative token usage for a session thread across all turns.
-    Usage ManagedAgentsSessionThreadUsage `json:"usage" api:"required"`
+    // Deprecated: current Thread responses do not include usage. Read Session Credits instead.
+    Usage ManagedAgentsSessionThreadUsage `json:"usage"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
         ID             respjson.Field
@@ -44981,22 +45225,27 @@ If the underlying value is not a json object, one of the following properties wi
 
 ```go
 type ManagedAgentsSessionThreadAgentUnionModel struct {
+    EffectiveContextWindow int64 `json:"effective_context_window"`
+    ContextWindow          int64 `json:"context_window"`
     // This field will be present if the value is a [string] instead of an object.
     OfString string `json:",inline"`
     // This field is from variant [ManagedAgentsModelConfig].
     ID  ManagedAgentsModel `json:"id"`
     // This field is from variant [ManagedAgentsModelConfig].
-    Effort ManagedAgentsModelConfigEffortUnion `json:"effort"`
+    Effort string `json:"effort"`
     // This field is from variant [ManagedAgentsModelConfig].
     InferenceGeo string `json:"inference_geo"`
     // This field is from variant [ManagedAgentsModelConfig].
+    // Deprecated: speed is no longer part of Managed model configuration.
     Speed ManagedAgentsModelConfigSpeed `json:"speed"`
     JSON  struct {
-        OfString     respjson.Field
-        ID           respjson.Field
-        Effort       respjson.Field
-        InferenceGeo respjson.Field
-        Speed        respjson.Field
+        EffectiveContextWindow respjson.Field
+        ContextWindow          respjson.Field
+        OfString               respjson.Field
+        ID                     respjson.Field
+        Effort                 respjson.Field
+        InferenceGeo           respjson.Field
+        Speed                  respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -45521,7 +45770,7 @@ const (
 <a name="ManagedAgentsSessionThreadUsage"></a>
 ## type [ManagedAgentsSessionThreadUsage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/sessionthread.go>)
 
-Cumulative token usage for a session thread across all turns.
+Deprecated: current Thread responses do not include usage. Read Session Credits instead.
 
 ```go
 type ManagedAgentsSessionThreadUsage struct {
@@ -51583,6 +51832,8 @@ A vault that stores credentials for use by agents during sessions.
 
 ```go
 type ManagedAgentsVault struct {
+    // Empty on creation; add credentials using the separate Credential API.
+    Credentials []ManagedAgentsCredential `json:"credentials"`
     // Unique identifier for the vault.
     ID  string `json:"id" api:"required"`
     // A timestamp in RFC 3339 format
@@ -51599,6 +51850,7 @@ type ManagedAgentsVault struct {
     UpdatedAt time.Time `json:"updated_at" api:"required" format:"date-time"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
+        Credentials respjson.Field
         ID          respjson.Field
         ArchivedAt  respjson.Field
         CreatedAt   respjson.Field
@@ -53087,7 +53339,7 @@ type MemoryStoreMemoryVersionListParams struct {
     SessionID param.Opt[string] `query:"session_id,omitzero" json:"-"`
     // Query parameter for operation
     //
-    // Any of "created", "modified", "deleted".
+    // Any of "created", "updated", "deleted".
     Operation ManagedAgentsMemoryVersionOperation `query:"operation,omitzero" json:"-"`
     // Query parameter for view
     //
@@ -55120,14 +55372,17 @@ Configuration for self\-hosted environments.
 
 ```go
 type SelfHostedConfig struct {
-    SetupScript string `json:"setup_script"`
+    // Runs on sandbox start/resume; self-hosted execution depends on the worker.
+    StartupScript string `json:"startup_script"`
+    SetupScript   string `json:"setup_script"`
     // Environment type
     Type constant.SelfHosted `json:"type" default:"self_hosted"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        SetupScript respjson.Field
-        Type        respjson.Field
-        ExtraFields map[string]respjson.Field
+        StartupScript respjson.Field
+        SetupScript   respjson.Field
+        Type          respjson.Field
+        ExtraFields   map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -55160,7 +55415,9 @@ This struct has a constant value, construct it with [NewSelfHostedConfigParams](
 
 ```go
 type SelfHostedConfigParams struct {
-    SetupScript param.Opt[string] `json:"setup_script,omitzero"`
+    // Runs on sandbox start/resume; self-hosted execution depends on the worker.
+    StartupScript param.Opt[string] `json:"startup_script,omitzero"`
+    SetupScript   param.Opt[string] `json:"setup_script,omitzero"`
     // Environment type
     Type constant.SelfHosted `json:"type" default:"self_hosted"`
     // contains filtered or unexported fields
