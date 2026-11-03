@@ -1918,23 +1918,28 @@ func (r *ManagedAgentsSessionMultiagentCoordinatorAgentUnion) UnmarshalJSON(data
 // If the underlying value is not a json object, one of the following properties
 // will be valid: OfString]
 type ManagedAgentsSessionMultiagentCoordinatorAgentUnionModel struct {
+	EffectiveContextWindow int64 `json:"effective_context_window"`
+	ContextWindow          int64 `json:"context_window"`
 	// This field will be present if the value is a [string] instead of an object.
 	OfString string `json:",inline"`
 	// This field is from variant [ManagedAgentsModelConfig].
 	ID ManagedAgentsModel `json:"id"`
 	// This field is from variant [ManagedAgentsModelConfig].
-	Effort ManagedAgentsModelConfigEffortUnion `json:"effort"`
+	Effort string `json:"effort"`
 	// This field is from variant [ManagedAgentsModelConfig].
 	InferenceGeo string `json:"inference_geo"`
 	// This field is from variant [ManagedAgentsModelConfig].
+	// Deprecated: speed is no longer part of Managed model configuration.
 	Speed ManagedAgentsModelConfigSpeed `json:"speed"`
 	JSON  struct {
-		OfString     respjson.Field
-		ID           respjson.Field
-		Effort       respjson.Field
-		InferenceGeo respjson.Field
-		Speed        respjson.Field
-		raw          string
+		EffectiveContextWindow respjson.Field
+		ContextWindow          respjson.Field
+		OfString               respjson.Field
+		ID                     respjson.Field
+		Effort                 respjson.Field
+		InferenceGeo           respjson.Field
+		Speed                  respjson.Field
+		raw                    string
 	} `json:"-"`
 }
 

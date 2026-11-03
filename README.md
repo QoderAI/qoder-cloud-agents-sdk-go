@@ -15,6 +15,7 @@ The SDK ships two clients that share authentication, transport, retries, error h
 - [Requirements](#requirements)
 - [Usage](#usage)
 - [PAT and Service Account authentication](#pat-and-service-account-authentication)
+- [Environment startup scripts](#environment-startup-scripts)
 - [Streaming](#streaming)
 - [Request fields](#request-fields)
 - [Response objects](#response-objects)
@@ -159,6 +160,22 @@ cleanup verification, run `make test-live-sa-execution` with
 `QODER_SA_MODEL` defaults to `auto`. Offline tests and existing PAT suites remain
 independent; `QODER_AUTH_MODE` switches examples, not the PAT test suites.
 See the [official authentication contract](https://docs.qoder.com/cloud-agents/api/conventions/authentication).
+
+## Environment startup scripts
+
+Both Forward and Managed accept `config.startup_script`. For cloud environments,
+it runs after `setup_script` on the first sandbox start and again on every resume,
+before the first tool call. The server enforces a 64 KB limit and a 5-minute
+timeout. Scripts must exit; start long-lived services in the background and wait
+for readiness when needed.
+
+Failure emits a `session.error` event whose `error.type` is
+`environment_startup_failed_error`; the session and sandbox remain usable.
+The script is not retried during the same start. For self-hosted environments,
+the API stores and returns the script; execution depends on the external worker.
+See the official [Forward](https://docs.qoder.com/cloud-agents/api/forward/environments/schemas#environment-startup-script)
+and [Managed](https://docs.qoder.com/cloud-agents/api/environments/schemas#environment-startup-script)
+contracts.
 
 ## Streaming
 

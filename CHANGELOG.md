@@ -5,6 +5,29 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Added
+
+- Add typed Forward Session budgets across create/update responses and events, including omission, explicit null clearing and decimal-string limits.
+- Add Forward Session `config.model` overrides and model `speed` configuration, plus optional approval evaluation details, Outcome/status event fields and cumulative top-level Credits on `session.usage`.
+- Add `startup_script` to Forward/Managed Environment models and Managed cloud/self-hosted parameters. It runs on sandbox start/resume; the external worker controls self-hosted execution.
+- Add Managed Memory `version`, version `redacted`, and Vault creation-response `credentials` fields. Vault creation still does not accept credentials in its request.
+
+### Fixed
+
+- Decode Forward event `evaluated_permission` as a string and align Managed Thread/coordinator nested model effort and context-window fields.
+- Add the current Memory version `updated` operation and list-item metadata/version fields; retain the legacy `Modified` constant as deprecated.
+
+### Breaking changes
+
+- Forward `SessionEvent.EvaluatedPermission` and the Managed Thread/coordinator union model `Effort` fields now use strings instead of object types.
+
+### Migration
+
+- Compare `event.EvaluatedPermission` directly to `"allow"`, `"ask"` or `"deny"`; automatic approval details are under `event.Evaluation.EvaluatedPermission`.
+- Read nested model `Effort` directly as a string. Legacy Managed model `Speed` and Thread `Usage` remain available but deprecated; current Thread responses omit usage.
+- Use `param.NullStruct[forward.SessionBudgetParam]()` to clear a budget and `param.NullStruct[forward.ModelConfigUnionParam]()` to clear an update's model override. Omit the model on create to inherit.
+- Treat `session.usage` Credits as cumulative snapshots: replace the previous values rather than adding successive events.
+
 ### Changed
 
 - Remove resource-specific sections and inventories from the README to keep it focused on SDK setup and shared client behavior.

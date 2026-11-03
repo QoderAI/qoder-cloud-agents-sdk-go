@@ -139,6 +139,24 @@ func (r SessionEventStreamParams) URLQuery() (url.Values, error) {
 }
 
 type SessionEvent struct {
+	// Cumulative total Credits.
+	TotalCredits float64 `json:"total_credits"`
+	// Cumulative sandbox Credits.
+	SandboxRuntimeCredits float64 `json:"sandbox_runtime_credits"`
+	// Cumulative model Credits; use the latest value, not a sum of events.
+	ModelCredits float64 `json:"model_credits"`
+	// Related outcome evaluation start event.
+	OutcomeEvaluationStartID string `json:"outcome_evaluation_start_id"`
+	// Outcome evaluation explanation.
+	Explanation string `json:"explanation"`
+	// Outcome evaluation iteration.
+	Iteration int64 `json:"iteration"`
+	// Optional status reason, such as outcome_evaluation.
+	Reason string `json:"reason"`
+	// Optional approval details; evaluated_permission at the event root is a string.
+	Evaluation ToolApprovalEvaluation `json:"evaluation"`
+	// Use JSON.Budget to distinguish absent, null (unlimited), and an object.
+	Budget              SessionBudget   `json:"budget" api:"nullable"`
 	ID                  string          `json:"id"`
 	Type                string          `json:"type"`
 	SessionID           string          `json:"session_id"`
@@ -170,7 +188,7 @@ type SessionEvent struct {
 	Usage               map[string]any  `json:"usage"`
 	StopReason          map[string]any  `json:"stop_reason"`
 	Error               map[string]any  `json:"error"`
-	EvaluatedPermission map[string]any  `json:"evaluated_permission"`
+	EvaluatedPermission string          `json:"evaluated_permission"`
 	FileID              string          `json:"file_id"`
 	OriginalFilename    string          `json:"original_filename"`
 	Size                int64           `json:"size"`
@@ -181,49 +199,58 @@ type SessionEvent struct {
 	ModelRequestStartID string          `json:"model_request_start_id"`
 	ModelUsage          map[string]any  `json:"model_usage"`
 	JSON                struct {
-		ID                  respjson.Field
-		Type                respjson.Field
-		SessionID           respjson.Field
-		Content             respjson.Field
-		ProcessedAt         respjson.Field
-		SessionThreadID     respjson.Field
-		Thinking            respjson.Field
-		Text                respjson.Field
-		ToolUseID           respjson.Field
-		CustomToolUseID     respjson.Field
-		MCPToolUseID        respjson.Field
-		Name                respjson.Field
-		MCPServerName       respjson.Field
-		Input               respjson.Field
-		IsError             respjson.Field
-		Result              respjson.Field
-		DenyMessage         respjson.Field
-		Description         respjson.Field
-		Rubric              respjson.Field
-		OutcomeID           respjson.Field
-		MaxIterations       respjson.Field
-		MessageID           respjson.Field
-		Message             respjson.Field
-		Index               respjson.Field
-		ContentBlock        respjson.Field
-		Delta               respjson.Field
-		Event               respjson.Field
-		EventID             respjson.Field
-		Usage               respjson.Field
-		StopReason          respjson.Field
-		Error               respjson.Field
-		EvaluatedPermission respjson.Field
-		FileID              respjson.Field
-		OriginalFilename    respjson.Field
-		Size                respjson.Field
-		ContentType         respjson.Field
-		Agent               respjson.Field
-		Metadata            respjson.Field
-		Title               respjson.Field
-		ModelRequestStartID respjson.Field
-		ModelUsage          respjson.Field
-		ExtraFields         map[string]respjson.Field
-		raw                 string
+		TotalCredits             respjson.Field
+		SandboxRuntimeCredits    respjson.Field
+		ModelCredits             respjson.Field
+		OutcomeEvaluationStartID respjson.Field
+		Explanation              respjson.Field
+		Iteration                respjson.Field
+		Reason                   respjson.Field
+		Evaluation               respjson.Field
+		Budget                   respjson.Field
+		ID                       respjson.Field
+		Type                     respjson.Field
+		SessionID                respjson.Field
+		Content                  respjson.Field
+		ProcessedAt              respjson.Field
+		SessionThreadID          respjson.Field
+		Thinking                 respjson.Field
+		Text                     respjson.Field
+		ToolUseID                respjson.Field
+		CustomToolUseID          respjson.Field
+		MCPToolUseID             respjson.Field
+		Name                     respjson.Field
+		MCPServerName            respjson.Field
+		Input                    respjson.Field
+		IsError                  respjson.Field
+		Result                   respjson.Field
+		DenyMessage              respjson.Field
+		Description              respjson.Field
+		Rubric                   respjson.Field
+		OutcomeID                respjson.Field
+		MaxIterations            respjson.Field
+		MessageID                respjson.Field
+		Message                  respjson.Field
+		Index                    respjson.Field
+		ContentBlock             respjson.Field
+		Delta                    respjson.Field
+		Event                    respjson.Field
+		EventID                  respjson.Field
+		Usage                    respjson.Field
+		StopReason               respjson.Field
+		Error                    respjson.Field
+		EvaluatedPermission      respjson.Field
+		FileID                   respjson.Field
+		OriginalFilename         respjson.Field
+		Size                     respjson.Field
+		ContentType              respjson.Field
+		Agent                    respjson.Field
+		Metadata                 respjson.Field
+		Title                    respjson.Field
+		ModelRequestStartID      respjson.Field
+		ModelUsage               respjson.Field
+		ExtraFields              map[string]respjson.Field
+		raw                      string
 	} `json:"-"`
 }
 
@@ -241,5 +268,37 @@ type SessionEventSendResponse struct {
 
 func (r SessionEventSendResponse) RawJSON() string { return r.JSON.raw }
 func (r *SessionEventSendResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ToolApprovalEvaluation struct {
+	Type                string               `json:"type"`
+	EvaluatedPermission ToolApprovalDecision `json:"evaluated_permission"`
+	JSON                struct {
+		Type                respjson.Field
+		EvaluatedPermission respjson.Field
+		ExtraFields         map[string]respjson.Field
+		raw                 string
+	} `json:"-"`
+}
+
+func (r ToolApprovalEvaluation) RawJSON() string { return r.JSON.raw }
+func (r *ToolApprovalEvaluation) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ToolApprovalDecision struct {
+	Type       string `json:"type"`
+	ReasonCode string `json:"reason_code"`
+	JSON       struct {
+		Type        respjson.Field
+		ReasonCode  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+func (r ToolApprovalDecision) RawJSON() string { return r.JSON.raw }
+func (r *ToolApprovalDecision) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }

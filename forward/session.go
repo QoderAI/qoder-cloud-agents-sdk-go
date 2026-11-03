@@ -104,6 +104,8 @@ func (r *SessionService) New(ctx context.Context, params SessionNewParams, opts 
 }
 
 type SessionNewParams struct {
+	// Omit to keep the default/current budget; use param.NullStruct[SessionBudgetParam]() to clear.
+	Budget SessionBudgetParam `json:"budget,omitzero" api:"nullable"`
 	// Forward Identity ID.
 	IdentityID string `json:"identity_id" api:"required"`
 	// Forward Template ID.
@@ -126,7 +128,9 @@ func (r SessionNewParams) MarshalJSON() ([]byte, error) {
 func (r *SessionNewParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type SessionNewParamsConfigParam struct {
-	EnvironmentVariables map[string]any `json:"environment_variables,omitzero"`
+	// Model override. Omit on create to inherit; explicit null on update restores inheritance.
+	Model                ModelConfigUnionParam `json:"model,omitzero"`
+	EnvironmentVariables map[string]any        `json:"environment_variables,omitzero"`
 	paramObj
 }
 
@@ -165,6 +169,8 @@ func (r *SessionService) Update(ctx context.Context, sessionID string, params Se
 }
 
 type SessionUpdateParams struct {
+	// Omit to keep the default/current budget; use param.NullStruct[SessionBudgetParam]() to clear.
+	Budget SessionBudgetParam `json:"budget,omitzero" api:"nullable"`
 	// New Session title.
 	Title param.Opt[string] `json:"title,omitzero"`
 	// Metadata merge patch; supplied keys overwrite existing keys, omitted keys are kept.
@@ -182,7 +188,9 @@ func (r SessionUpdateParams) MarshalJSON() ([]byte, error) {
 func (r *SessionUpdateParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type SessionUpdateParamsConfigParam struct {
-	EnvironmentVariables map[string]any `json:"environment_variables,omitzero"`
+	// Model override. Omit on create to inherit; explicit null on update restores inheritance.
+	Model                ModelConfigUnionParam `json:"model,omitzero"`
+	EnvironmentVariables map[string]any        `json:"environment_variables,omitzero"`
 	paramObj
 }
 
@@ -243,6 +251,8 @@ func (r SessionCancelParams) URLQuery() (url.Values, error) {
 }
 
 type Session struct {
+	// Use JSON.Budget to distinguish absent, null (unlimited), and an object.
+	Budget             SessionBudget              `json:"budget" api:"nullable"`
 	OutcomeEvaluations []SessionOutcomeEvaluation `json:"outcome_evaluations"`
 	// Session ID.
 	ID string `json:"id"`
@@ -266,6 +276,7 @@ type Session struct {
 	CreatedAt  time.Time         `json:"created_at" format:"date-time"`
 	UpdatedAt  time.Time         `json:"updated_at" format:"date-time"`
 	JSON       struct {
+		Budget             respjson.Field
 		OutcomeEvaluations respjson.Field
 		ID                 respjson.Field
 		Type               respjson.Field
@@ -321,8 +332,10 @@ func (r SessionStats) RawJSON() string                  { return r.JSON.raw }
 func (r *SessionStats) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type SessionConfig struct {
+	Model                ModelConfig       `json:"model"`
 	EnvironmentVariables map[string]string `json:"environment_variables"`
 	JSON                 struct {
+		Model                respjson.Field
 		EnvironmentVariables respjson.Field
 		ExtraFields          map[string]respjson.Field
 		raw                  string
@@ -377,3 +390,31 @@ func (r SessionOutcomeEvaluation) RawJSON() string { return r.JSON.raw }
 func (r *SessionOutcomeEvaluation) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+type SessionBudget struct {
+	Type          string `json:"type"`
+	MaxCreditCost string `json:"max_credit_cost"`
+	JSON          struct {
+		Type          respjson.Field
+		MaxCreditCost respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
+	} `json:"-"`
+}
+
+func (r SessionBudget) RawJSON() string                  { return r.JSON.raw }
+func (r *SessionBudget) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+
+// A cumulative model and sandbox Credits limit. MaxCreditCost is a positive decimal string.
+// Once reached, the server rejects the next user message; an active turn can finish.
+type SessionBudgetParam struct {
+	Type          string `json:"type" api:"required"`
+	MaxCreditCost string `json:"max_credit_cost" api:"required"`
+	paramObj
+}
+
+func (r SessionBudgetParam) MarshalJSON() ([]byte, error) {
+	type shadow SessionBudgetParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SessionBudgetParam) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }

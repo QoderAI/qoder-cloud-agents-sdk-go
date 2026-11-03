@@ -239,6 +239,7 @@ const (
 // `content_size_bytes`, and `content_sha256` set to `null`; branch on
 // `redacted_at`, not HTTP status.
 type ManagedAgentsMemoryVersion struct {
+	Redacted bool `json:"redacted"`
 	// Unique identifier for this version (a `memver_...` value).
 	ID string `json:"id" api:"required"`
 	// A timestamp in RFC 3339 format
@@ -254,7 +255,7 @@ type ManagedAgentsMemoryVersion struct {
 	// The kind of mutation a `memory_version` records. Every non-no-op mutation to a
 	// memory appends exactly one version row with one of these values.
 	//
-	// Any of "created", "modified", "deleted".
+	// Any of "created", "updated", "deleted".
 	Operation ManagedAgentsMemoryVersionOperation `json:"operation" api:"required"`
 	// Any of "memory_version".
 	Type ManagedAgentsMemoryVersionType `json:"type" api:"required"`
@@ -287,6 +288,7 @@ type ManagedAgentsMemoryVersion struct {
 	RedactedBy ManagedAgentsActorUnion `json:"redacted_by"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		Redacted         respjson.Field
 		ID               respjson.Field
 		CreatedAt        respjson.Field
 		MemoryID         respjson.Field
@@ -322,7 +324,9 @@ const (
 type ManagedAgentsMemoryVersionOperation string
 
 const (
-	ManagedAgentsMemoryVersionOperationCreated  ManagedAgentsMemoryVersionOperation = "created"
+	ManagedAgentsMemoryVersionOperationCreated ManagedAgentsMemoryVersionOperation = "created"
+	ManagedAgentsMemoryVersionOperationUpdated ManagedAgentsMemoryVersionOperation = "updated"
+	// Deprecated: current API responses use Updated. Retained for legacy payloads.
 	ManagedAgentsMemoryVersionOperationModified ManagedAgentsMemoryVersionOperation = "modified"
 	ManagedAgentsMemoryVersionOperationDeleted  ManagedAgentsMemoryVersionOperation = "deleted"
 )
@@ -444,7 +448,7 @@ type MemoryStoreMemoryVersionListParams struct {
 	SessionID param.Opt[string] `query:"session_id,omitzero" json:"-"`
 	// Query parameter for operation
 	//
-	// Any of "created", "modified", "deleted".
+	// Any of "created", "updated", "deleted".
 	Operation ManagedAgentsMemoryVersionOperation `query:"operation,omitzero" json:"-"`
 	// Query parameter for view
 	//
