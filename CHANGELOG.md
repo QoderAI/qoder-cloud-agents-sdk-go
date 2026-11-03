@@ -5,6 +5,8 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+## [0.15.0]
+
 ### Added
 
 - Add typed Forward Session budgets across create/update responses and events, including omission, explicit null clearing and decimal-string limits.
