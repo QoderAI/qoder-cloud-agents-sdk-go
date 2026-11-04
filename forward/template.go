@@ -90,6 +90,8 @@ type TemplateNewParams struct {
 	Model ModelConfigUnionParam `json:"model" api:"required"`
 	// Environment ID used by default when creating a Session.
 	EnvironmentID string `json:"environment_id" api:"required"`
+	// BYOC tunnel inherited by sessions created from this template.
+	TunnelID param.Opt[string] `json:"tunnel_id,omitzero"`
 	// Template description, up to 2048 characters.
 	Description param.Opt[string] `json:"description,omitzero"`
 	// System Prompt, up to 100,000 characters.
@@ -182,6 +184,8 @@ type TemplateUpdateParams struct {
 	Multiagent MultiagentConfigParam `json:"multiagent,omitzero"`
 	// Replaces the default Environment ID; `null` or an empty string clears it.
 	EnvironmentID param.Opt[string] `json:"environment_id,omitzero" api:"nullable"`
+	// Omit to keep the current tunnel, or pass null to clear the binding.
+	TunnelID param.Opt[string] `json:"tunnel_id,omitzero" api:"nullable"`
 	// Replaces the default Vault configuration wholesale, keyed by Vault ID;
 	// `null` clears it.
 	Vaults map[string]ResourceBindingParam `json:"vaults,omitzero"`
@@ -285,6 +289,7 @@ type Template struct {
 	Multiagent MultiagentConfig `json:"multiagent"`
 	// Default Environment ID.
 	EnvironmentID        string                      `json:"environment_id"`
+	TunnelID             string                      `json:"tunnel_id"`
 	Vaults               map[string]ResourceBinding  `json:"vaults"`
 	Files                map[string]ResourceBinding  `json:"files"`
 	GitHubRepositories   map[string]GitHubRepository `json:"github_repositories"`
@@ -308,6 +313,7 @@ type Template struct {
 		Model                respjson.Field
 		Multiagent           respjson.Field
 		EnvironmentID        respjson.Field
+		TunnelID             respjson.Field
 		Vaults               respjson.Field
 		Files                respjson.Field
 		GitHubRepositories   respjson.Field

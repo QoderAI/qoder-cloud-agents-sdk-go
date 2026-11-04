@@ -151,3 +151,72 @@ func TestManagedRuntimeResponseFields(t *testing.T) {
 		t.Fatal("setup_script response lost")
 	}
 }
+
+func TestSessionCreateTunnelID(t *testing.T) {
+	for _, id := range []string{"", "tnl_test"} {
+		params := managed.SessionNewParams{
+			Agent:         managed.SessionNewParamsAgentUnion{OfString: managed.String("agent_test")},
+			EnvironmentID: "env_test",
+		}
+		if id != "" {
+			params.TunnelID = managed.String(id)
+		}
+		client := testClient(func(r *http.Request) (*http.Response, error) {
+			var body map[string]json.RawMessage
+			if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+				t.Fatal(err)
+			}
+			got, present := body["tunnel_id"]
+			if present != (id != "") || (present && string(got) != `"tnl_test"`) {
+				t.Fatalf("tunnel_id: %s (present %v)", got, present)
+			}
+			return reply(r, 200, `{"id":"sess_test"}`), nil
+		})
+		if _, err := client.Sessions.New(context.Background(), params); err != nil {
+			t.Fatal(err)
+		}
+	}
+}
+
+func TestDeploymentTunnelBinding(t *testing.T) {
+	var body map[string]json.RawMessage
+	client := testClient(func(r *http.Request) (*http.Response, error) {
+		body = nil
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+			t.Fatal(err)
+		}
+		return reply(r, 200, `{"id":"dep_test","tunnel_id":"tnl_bound"}`), nil
+	})
+	ctx := context.Background()
+	created, err := client.Deployments.New(ctx, managed.DeploymentNewParams{
+		Name: "demo", EnvironmentID: "env_test",
+		Agent: managed.DeploymentNewParamsAgentUnion{OfString: managed.String("agent_test")},
+		InitialEvents: []managed.ManagedAgentsDeploymentInitialEventParamsUnion{
+			managed.ManagedAgentsDeploymentInitialEventParamsOfUserMessage([]managed.ManagedAgentsUserMessageEventParamsContentUnion{
+				{OfText: &managed.ManagedAgentsTextBlockParam{Text: "hello"}},
+			}),
+		},
+		TunnelID: managed.String("tnl_bound"),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(body["tunnel_id"]) != `"tnl_bound"` || created.TunnelID != "tnl_bound" || !created.JSON.TunnelID.Valid() {
+		t.Fatalf("request tunnel_id=%s, response tunnel_id=%q", body["tunnel_id"], created.TunnelID)
+	}
+	for _, tc := range []struct {
+		params managed.DeploymentUpdateParams
+		want   string
+	}{
+		{managed.DeploymentUpdateParams{}, ""},
+		{managed.DeploymentUpdateParams{TunnelID: managed.String("tnl_other")}, `"tnl_other"`},
+		{managed.DeploymentUpdateParams{TunnelID: param.Null[string]()}, "null"},
+	} {
+		if _, err := client.Deployments.Update(ctx, "dep_test", tc.params); err != nil {
+			t.Fatal(err)
+		}
+		if got := string(body["tunnel_id"]); got != tc.want {
+			t.Fatalf("got %q, want %q", got, tc.want)
+		}
+	}
+}

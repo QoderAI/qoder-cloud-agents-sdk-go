@@ -2490,6 +2490,8 @@ type SessionNewParams struct {
 	Agent SessionNewParamsAgentUnion `json:"agent,omitzero" api:"required"`
 	// ID of the `environment` defining the container configuration for this session.
 	EnvironmentID string `json:"environment_id" api:"required"`
+	// BYOC tunnel used for MCP requests from this session.
+	TunnelID param.Opt[string] `json:"tunnel_id,omitzero"`
 	// Human-readable session title.
 	Title param.Opt[string] `json:"title,omitzero"`
 	// A total model and sandbox credit limit. Once reached, new user messages are
