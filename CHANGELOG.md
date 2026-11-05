@@ -5,6 +5,8 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+## [0.15.0]
+
 ### Added
 
 - Bind a Managed Session to a BYOC MCP tunnel with `tunnel_id` at creation. On Forward, set the tunnel on a Template for its sessions to inherit. Managed Deployments also accept and return the binding. Template and Deployment updates can replace or clear it.
