@@ -13192,6 +13192,7 @@ type Template struct {
     Multiagent MultiagentConfig `json:"multiagent"`
     // Default Environment ID.
     EnvironmentID        string                      `json:"environment_id"`
+    TunnelID             string                      `json:"tunnel_id"`
     Vaults               map[string]ResourceBinding  `json:"vaults"`
     Files                map[string]ResourceBinding  `json:"files"`
     GitHubRepositories   map[string]GitHubRepository `json:"github_repositories"`
@@ -13215,6 +13216,7 @@ type Template struct {
         Model                respjson.Field
         Multiagent           respjson.Field
         EnvironmentID        respjson.Field
+        TunnelID             respjson.Field
         Vaults               respjson.Field
         Files                respjson.Field
         GitHubRepositories   respjson.Field
@@ -13352,6 +13354,8 @@ type TemplateNewParams struct {
     Model ModelConfigUnionParam `json:"model" api:"required"`
     // Environment ID used by default when creating a Session.
     EnvironmentID string `json:"environment_id" api:"required"`
+    // BYOC tunnel inherited by sessions created from this template.
+    TunnelID param.Opt[string] `json:"tunnel_id,omitzero"`
     // Template description, up to 2048 characters.
     Description param.Opt[string] `json:"description,omitzero"`
     // System Prompt, up to 100,000 characters.
@@ -13517,6 +13521,8 @@ type TemplateUpdateParams struct {
     Multiagent MultiagentConfigParam `json:"multiagent,omitzero"`
     // Replaces the default Environment ID; `null` or an empty string clears it.
     EnvironmentID param.Opt[string] `json:"environment_id,omitzero" api:"nullable"`
+    // Omit to keep the current tunnel, or pass null to clear the binding.
+    TunnelID param.Opt[string] `json:"tunnel_id,omitzero" api:"nullable"`
     // Replaces the default Vault configuration wholesale, keyed by Vault ID;
     // `null` clears it.
     Vaults map[string]ResourceBindingParam `json:"vaults,omitzero"`
@@ -21409,6 +21415,8 @@ type DeploymentNewParams struct {
     // ID of the `environment` defining the container configuration for sessions
     // created from this deployment.
     EnvironmentID string `json:"environment_id" api:"required"`
+    // BYOC tunnel for MCP requests from sessions created by this deployment.
+    TunnelID param.Opt[string] `json:"tunnel_id,omitzero"`
     // Events to send to each session immediately after creation. At least 1,
     // maximum 50.
     InitialEvents []ManagedAgentsDeploymentInitialEventParamsUnion `json:"initial_events,omitzero" api:"required"`
@@ -22052,6 +22060,8 @@ type DeploymentUpdateParams struct {
     Description param.Opt[string] `json:"description,omitzero"`
     // ID of the `environment` where sessions run. Omit to preserve. Cannot be cleared.
     EnvironmentID param.Opt[string] `json:"environment_id,omitzero"`
+    // Omit to preserve the tunnel binding, set an ID to replace it, or pass null to clear it.
+    TunnelID param.Opt[string] `json:"tunnel_id,omitzero" api:"nullable"`
     // Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
     Name param.Opt[string] `json:"name,omitzero"`
     // Metadata patch. Set a key to a string to upsert it, or to null to delete it.
@@ -31082,6 +31092,8 @@ type ManagedAgentsDeployment struct {
     Description string `json:"description" api:"required"`
     // ID of the `environment` where sessions run.
     EnvironmentID string `json:"environment_id" api:"required"`
+    // BYOC tunnel bound to this deployment, when configured.
+    TunnelID string `json:"tunnel_id"`
     // Events sent to each session immediately after creation.
     InitialEvents []ManagedAgentsDeploymentInitialEventUnion `json:"initial_events" api:"required"`
     // Arbitrary key-value metadata. Maximum 16 pairs.
@@ -31119,6 +31131,7 @@ type ManagedAgentsDeployment struct {
         CreatedAt     respjson.Field
         Description   respjson.Field
         EnvironmentID respjson.Field
+        TunnelID      respjson.Field
         InitialEvents respjson.Field
         Metadata      respjson.Field
         Name          respjson.Field
@@ -56334,6 +56347,8 @@ type SessionNewParams struct {
     Agent SessionNewParamsAgentUnion `json:"agent,omitzero" api:"required"`
     // ID of the `environment` defining the container configuration for this session.
     EnvironmentID string `json:"environment_id" api:"required"`
+    // BYOC tunnel used for MCP requests from this session.
+    TunnelID param.Opt[string] `json:"tunnel_id,omitzero"`
     // Human-readable session title.
     Title param.Opt[string] `json:"title,omitzero"`
     // A total model and sandbox credit limit. Once reached, new user messages are
