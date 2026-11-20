@@ -55,8 +55,10 @@ func (r *ModelConfig) UnmarshalJSON(data []byte) error { return apijson.Unmarsha
 
 type ModelConfigParam struct {
 	// Inference speed: standard or high, subject to model capabilities.
-	Speed         param.Opt[string] `json:"speed,omitzero"`
-	ID            string            `json:"id" api:"required"`
+	Speed param.Opt[string] `json:"speed,omitzero"`
+	// Model ID. Required except when updating an existing Identity Config model,
+	// where an empty ID is omitted so the stored ID is inherited.
+	ID            string            `json:"id,omitzero"`
 	Effort        param.Opt[string] `json:"effort,omitzero"`
 	ContextWindow param.Opt[int64]  `json:"context_window,omitzero"`
 	paramObj

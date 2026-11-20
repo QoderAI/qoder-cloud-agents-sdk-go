@@ -5,6 +5,21 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Fixed
+
+- Send no request body from Forward `Dreams.Cancel` and `Dreams.Archive`. Earlier releases sent `{}`, which the service rejects with HTTP 400 `invalid_request_body`.
+- Omit an empty Forward `ModelConfigParam.ID`, so an Identity Config update can change `effort`, `speed` or `context_window` while inheriting the stored model ID. Other endpoints still require the ID.
+- Decode Managed Agent multiagent roster child versions saved as `"latest"`, and accept `"latest"` or positive integer strings in roster requests. Session and Deployment Agent references keep numeric versions.
+
+### Breaking changes
+
+- `ManagedAgentsMultiagentAgentUnion.Version` is now `ManagedAgentsMultiagentAgentVersionUnion`, and `AsAgent()` returns `ManagedAgentsMultiagentAgentReference`. Roster entries use `ManagedAgentsMultiagentAgentParams`, whose `Version` is a `ManagedAgentsMultiagentAgentVersionUnionParam`.
+
+### Migration
+
+- Read a saved numeric version from `Version.OfInt` and `"latest"` from `Version.OfString`; check `Version.JSON.OfInt.Valid()` first.
+- Replace roster `&managed.ManagedAgentsAgentParams{ID: id, Type: "agent", Version: managed.Int(3)}` with `&managed.ManagedAgentsMultiagentAgentParams{ID: id, Type: "agent", Version: managed.ManagedAgentsMultiagentAgentVersionUnionParam{OfInt: managed.Int(3)}}`; use `OfString: managed.String("latest")` to follow the latest version.
+
 ## [0.15.0]
 
 ### Added

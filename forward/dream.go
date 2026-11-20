@@ -59,7 +59,8 @@ func (r *DreamService) Cancel(ctx context.Context, dreamID string, opts ...optio
 	}
 	opts = slices.Concat(r.Options, opts)
 	path := fmt.Sprintf("dreams/%s/cancel", url.PathEscape(dreamID))
-	err = convention.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	// The service rejects any request body, and a nil POST body would be sent as {}.
+	err = convention.ExecuteNewRequest(ctx, http.MethodPost, path, []byte{}, &res, opts...)
 	return res, err
 }
 func (r *DreamService) Archive(ctx context.Context, dreamID string, opts ...option.RequestOption) (res *Dream, err error) {
@@ -68,7 +69,8 @@ func (r *DreamService) Archive(ctx context.Context, dreamID string, opts ...opti
 	}
 	opts = slices.Concat(r.Options, opts)
 	path := fmt.Sprintf("dreams/%s/archive", url.PathEscape(dreamID))
-	err = convention.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	// The service rejects any request body, and a nil POST body would be sent as {}.
+	err = convention.ExecuteNewRequest(ctx, http.MethodPost, path, []byte{}, &res, opts...)
 	return res, err
 }
 

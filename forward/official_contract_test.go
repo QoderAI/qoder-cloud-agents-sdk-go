@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/option"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/param"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 	"io"
@@ -66,6 +67,46 @@ func TestOfficialNewAPIContracts(t *testing.T) {
 	}
 }
 
+// Official Dream cancel/archive contracts reject any request body, including {}.
+func TestDreamCancelAndArchiveSendNoRequestBody(t *testing.T) {
+	for _, tc := range []struct {
+		action string
+		call   func(forward.Client) (*forward.Dream, error)
+	}{
+		{"cancel", func(c forward.Client) (*forward.Dream, error) {
+			return c.Dreams.Cancel(context.Background(), "drm_1", option.WithHeader("Idempotency-Key", "dream-key"))
+		}},
+		{"archive", func(c forward.Client) (*forward.Dream, error) {
+			return c.Dreams.Archive(context.Background(), "drm_1", option.WithHeader("Idempotency-Key", "dream-key"))
+		}},
+	} {
+		t.Run(tc.action, func(t *testing.T) {
+			calls := 0
+			client := testClient(func(r *http.Request) (*http.Response, error) {
+				calls++
+				if r.Method != http.MethodPost || r.URL.Path != "/api/v1/forward/dreams/drm_1/"+tc.action {
+					t.Fatalf("request: %s %s", r.Method, r.URL.Path)
+				}
+				var body []byte
+				if r.Body != nil {
+					body, _ = io.ReadAll(r.Body)
+				}
+				if len(body) != 0 || r.ContentLength != 0 {
+					t.Fatalf("attempt %d body = %q (length %d), want none", calls, body, r.ContentLength)
+				}
+				if calls == 1 {
+					return reply(r, 503, `{"error":{"type":"api_error","message":"retry"}}`), nil
+				}
+				return reply(r, 200, `{"id":"drm_1","type":"dream","status":"canceled"}`), nil
+			}, option.WithMaxRetries(1))
+			dream, err := tc.call(client)
+			if err != nil || dream.ID != "drm_1" || calls != 2 {
+				t.Fatalf("dream=%+v err=%v calls=%d", dream, err, calls)
+			}
+		})
+	}
+}
+
 func TestOfficialIdentityNullAndArrayOverrides(t *testing.T) {
 	for _, tc := range []struct {
 		spec forward.IdentityConfigSpecParam
@@ -75,6 +116,9 @@ func TestOfficialIdentityNullAndArrayOverrides(t *testing.T) {
 		{forward.IdentityConfigSpecParam{Tools: forward.IdentityToolsUnionParam{OfOverrides: map[string]forward.ToolOverrideParam{"Bash": {Enabled: forward.Bool(false)}}}}, `{"tools":{"Bash":{"enabled":false}}}`},
 		{forward.IdentityConfigSpecParam{Tools: param.NullStruct[forward.IdentityToolsUnionParam](), ManagedToolConfig: param.NullMap[map[string]forward.ManagedCapabilityOverrideParam]()}, `{"tools":null,"managed_tool_config":null}`},
 		{forward.IdentityConfigSpecParam{ManagedToolConfig: map[string]forward.ManagedCapabilityOverrideParam{"schedule": {Enabled: false}, "drive": param.NullStruct[forward.ManagedCapabilityOverrideParam]()}}, `{"managed_tool_config":{"schedule":{"enabled":false},"drive":null}}`},
+		// Updating an existing Identity model object may omit id to inherit the stored ID.
+		{forward.IdentityConfigSpecParam{Model: forward.ModelConfigUnionParam{OfConfig: &forward.ModelConfigParam{Effort: forward.String("high"), Speed: forward.String("high")}}}, `{"model":{"effort":"high","speed":"high"}}`},
+		{forward.IdentityConfigSpecParam{Model: forward.ModelConfigUnionParam{OfConfig: &forward.ModelConfigParam{ID: "ultimate", ContextWindow: forward.Int(200000)}}}, `{"model":{"id":"ultimate","context_window":200000}}`},
 	} {
 		var want any
 		_ = json.Unmarshal([]byte(tc.want), &want)
