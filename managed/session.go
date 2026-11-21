@@ -935,8 +935,8 @@ const (
 
 // Resolved coordinator topology with a concrete agent roster.
 type ManagedAgentsMultiagent struct {
-	// Agents the coordinator may spawn as session threads, each resolved to a specific
-	// version.
+	// Agents the coordinator may spawn as session threads. Child Agent references keep
+	// their saved version, which can be "latest".
 	Agents []ManagedAgentsMultiagentAgentUnion `json:"agents" api:"required"`
 	// Any of "coordinator".
 	Type ManagedAgentsMultiagentType `json:"type" api:"required"`
@@ -956,19 +956,19 @@ func (r *ManagedAgentsMultiagent) UnmarshalJSON(data []byte) error {
 }
 
 // ManagedAgentsMultiagentAgentUnion contains all possible properties and
-// values from [ManagedAgentsAgentReference], [ManagedAgentsAdvisor].
+// values from [ManagedAgentsMultiagentAgentReference], [ManagedAgentsAdvisor].
 //
 // Use the [ManagedAgentsMultiagentAgentUnion.AsAny] method to switch on the
 // variant.
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ManagedAgentsMultiagentAgentUnion struct {
-	// This field is from variant [ManagedAgentsAgentReference].
+	// This field is from variant [ManagedAgentsMultiagentAgentReference].
 	ID string `json:"id"`
 	// Any of "agent", "advisor".
 	Type string `json:"type"`
-	// This field is from variant [ManagedAgentsAgentReference].
-	Version int64 `json:"version"`
+	// This field is from variant [ManagedAgentsMultiagentAgentReference].
+	Version ManagedAgentsMultiagentAgentVersionUnion `json:"version"`
 	// This field is from variant [ManagedAgentsAdvisor].
 	Model string `json:"model"`
 	JSON  struct {
@@ -987,13 +987,13 @@ type anyManagedAgentsMultiagentAgent interface {
 	implManagedAgentsMultiagentAgentUnion()
 }
 
-func (ManagedAgentsAgentReference) implManagedAgentsMultiagentAgentUnion() {}
-func (ManagedAgentsAdvisor) implManagedAgentsMultiagentAgentUnion()        {}
+func (ManagedAgentsMultiagentAgentReference) implManagedAgentsMultiagentAgentUnion() {}
+func (ManagedAgentsAdvisor) implManagedAgentsMultiagentAgentUnion()                  {}
 
 // Use the following switch statement to find the correct variant
 //
 //	switch variant := ManagedAgentsMultiagentAgentUnion.AsAny().(type) {
-//	case qoder.ManagedAgentsAgentReference:
+//	case qoder.ManagedAgentsMultiagentAgentReference:
 //	case qoder.ManagedAgentsAdvisor:
 //	default:
 //	  fmt.Errorf("no variant present")
@@ -1008,7 +1008,7 @@ func (u ManagedAgentsMultiagentAgentUnion) AsAny() anyManagedAgentsMultiagentAge
 	return nil
 }
 
-func (u ManagedAgentsMultiagentAgentUnion) AsAgent() (v ManagedAgentsAgentReference) {
+func (u ManagedAgentsMultiagentAgentUnion) AsAgent() (v ManagedAgentsMultiagentAgentReference) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -1022,6 +1022,50 @@ func (u ManagedAgentsMultiagentAgentUnion) AsAdvisor() (v ManagedAgentsAdvisor) 
 func (u ManagedAgentsMultiagentAgentUnion) RawJSON() string { return u.JSON.raw }
 
 func (r *ManagedAgentsMultiagentAgentUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// A child Agent saved in an Agent's multiagent roster.
+type ManagedAgentsMultiagentAgentReference struct {
+	ID string `json:"id" api:"required"`
+	// Any of "agent".
+	Type    ManagedAgentsAgentReferenceType          `json:"type" api:"required"`
+	Version ManagedAgentsMultiagentAgentVersionUnion `json:"version" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Type        respjson.Field
+		Version     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ManagedAgentsMultiagentAgentReference) RawJSON() string { return r.JSON.raw }
+func (r *ManagedAgentsMultiagentAgentReference) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ManagedAgentsMultiagentAgentVersionUnion is a saved child Agent version: a
+// concrete version in OfInt, or "latest" in OfString, which resolves when each
+// Session is created. Check presence with [respjson.Field.Valid].
+type ManagedAgentsMultiagentAgentVersionUnion struct {
+	// This field will be present if the value is an [int64].
+	OfInt int64 `json:",inline"`
+	// This field will be present if the value is a [string].
+	OfString string `json:",inline"`
+	JSON     struct {
+		OfInt    respjson.Field
+		OfString respjson.Field
+		raw      string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (u ManagedAgentsMultiagentAgentVersionUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *ManagedAgentsMultiagentAgentVersionUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1063,7 +1107,7 @@ const (
 )
 
 func ManagedAgentsMultiagentRosterEntryParamsOfManagedAgentsAgents(id string, type_ ManagedAgentsAgentParamsType) ManagedAgentsMultiagentRosterEntryParamsUnion {
-	var variant ManagedAgentsAgentParams
+	var variant ManagedAgentsMultiagentAgentParams
 	variant.ID = id
 	variant.Type = type_
 	return ManagedAgentsMultiagentRosterEntryParamsUnion{OfManagedAgentsAgents: &variant}
@@ -1086,10 +1130,10 @@ func ManagedAgentsMultiagentRosterEntryParamsOfManagedAgentsAdvisors(model strin
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type ManagedAgentsMultiagentRosterEntryParamsUnion struct {
-	OfString                       param.Opt[string]                  `json:",omitzero,inline"`
-	OfManagedAgentsAgents          *ManagedAgentsAgentParams          `json:",omitzero,inline"`
-	OfManagedAgentsMultiagentSelfs *ManagedAgentsMultiagentSelfParams `json:",omitzero,inline"`
-	OfManagedAgentsAdvisors        *ManagedAgentsAdvisorParams        `json:",omitzero,inline"`
+	OfString                       param.Opt[string]                   `json:",omitzero,inline"`
+	OfManagedAgentsAgents          *ManagedAgentsMultiagentAgentParams `json:",omitzero,inline"`
+	OfManagedAgentsMultiagentSelfs *ManagedAgentsMultiagentSelfParams  `json:",omitzero,inline"`
+	OfManagedAgentsAdvisors        *ManagedAgentsAdvisorParams         `json:",omitzero,inline"`
 	paramUnion
 }
 
@@ -1121,10 +1165,10 @@ func (u ManagedAgentsMultiagentRosterEntryParamsUnion) GetID() *string {
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
+// Returns a pointer to the underlying variant's numeric version, if present.
 func (u ManagedAgentsMultiagentRosterEntryParamsUnion) GetVersion() *int64 {
-	if vt := u.OfManagedAgentsAgents; vt != nil && vt.Version.Valid() {
-		return &vt.Version.Value
+	if vt := u.OfManagedAgentsAgents; vt != nil && vt.Version.OfInt.Valid() {
+		return &vt.Version.OfInt.Value
 	}
 	return nil
 }
@@ -1147,6 +1191,44 @@ func (u ManagedAgentsMultiagentRosterEntryParamsUnion) GetType() *string {
 		return (*string)(&vt.Type)
 	}
 	return nil
+}
+
+// A child Agent reference in a multiagent roster request.
+//
+// The properties ID, Type are required.
+type ManagedAgentsMultiagentAgentParams struct {
+	// The `agent` ID.
+	ID string `json:"id" api:"required"`
+	// Any of "agent".
+	Type ManagedAgentsAgentParamsType `json:"type,omitzero" api:"required"`
+	// A positive integer, "latest", or a positive integer string. Omit to pin the
+	// latest numeric version at save time.
+	Version ManagedAgentsMultiagentAgentVersionUnionParam `json:"version,omitzero"`
+	paramObj
+}
+
+func (r ManagedAgentsMultiagentAgentParams) MarshalJSON() (data []byte, err error) {
+	type shadow ManagedAgentsMultiagentAgentParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ManagedAgentsMultiagentAgentParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type ManagedAgentsMultiagentAgentVersionUnionParam struct {
+	OfInt    param.Opt[int64]  `json:",omitzero,inline"`
+	OfString param.Opt[string] `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u ManagedAgentsMultiagentAgentVersionUnionParam) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfInt, u.OfString)
+}
+func (u *ManagedAgentsMultiagentAgentVersionUnionParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
 }
 
 // Evaluation state for a single outcome defined via a `define_outcome` event.

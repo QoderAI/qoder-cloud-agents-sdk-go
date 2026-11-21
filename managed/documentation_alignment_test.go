@@ -3,6 +3,7 @@ package managed_test
 import (
 	"encoding/json"
 	"github.com/QoderAI/qoder-cloud-agents-sdk-go/managed"
+	"reflect"
 	"testing"
 )
 
@@ -83,5 +84,45 @@ func TestManagedDocumentationResponses(t *testing.T) {
 	}
 	if thread.JSON.Usage.Valid() {
 		t.Fatal("usage must be optional")
+	}
+}
+
+// Official Agent schema, retrieved 2026-11-20: roster child versions accept "latest".
+func TestManagedAgentRosterLatestVersion(t *testing.T) {
+	agent := func(id string, version managed.ManagedAgentsMultiagentAgentVersionUnionParam) managed.ManagedAgentsMultiagentRosterEntryParamsUnion {
+		return managed.ManagedAgentsMultiagentRosterEntryParamsUnion{OfManagedAgentsAgents: &managed.ManagedAgentsMultiagentAgentParams{ID: id, Type: managed.ManagedAgentsAgentParamsTypeAgent, Version: version}}
+	}
+	roster := managed.ManagedAgentsMultiagentParams{Type: managed.ManagedAgentsMultiagentParamsTypeCoordinator, Agents: []managed.ManagedAgentsMultiagentRosterEntryParamsUnion{
+		agent("agent_latest", managed.ManagedAgentsMultiagentAgentVersionUnionParam{OfString: managed.String("latest")}),
+		agent("agent_pinned", managed.ManagedAgentsMultiagentAgentVersionUnionParam{OfInt: managed.Int(3)}),
+		agent("agent_saved", managed.ManagedAgentsMultiagentAgentVersionUnionParam{}),
+	}}
+	body, err := json.Marshal(roster)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var got, want any
+	_ = json.Unmarshal(body, &got)
+	_ = json.Unmarshal([]byte(`{"type":"coordinator","agents":[{"id":"agent_latest","type":"agent","version":"latest"},{"id":"agent_pinned","type":"agent","version":3},{"id":"agent_saved","type":"agent"}]}`), &want)
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("roster request = %s", body)
+	}
+	if v := roster.Agents[1].GetVersion(); v == nil || *v != 3 || roster.Agents[0].GetVersion() != nil {
+		t.Fatal("GetVersion must report only numeric versions")
+	}
+
+	var saved managed.ManagedAgentsMultiagent
+	if err := json.Unmarshal([]byte(`{"type":"coordinator","agents":[{"type":"agent","id":"agent_latest","version":"latest"},{"type":"agent","id":"agent_pinned","version":3},{"type":"advisor","model":"ultimate"}]}`), &saved); err != nil {
+		t.Fatal(err)
+	}
+	latest, pinned := saved.Agents[0].Version, saved.Agents[1].AsAgent().Version
+	if latest.OfString != "latest" || !latest.JSON.OfString.Valid() || latest.JSON.OfInt.Valid() {
+		t.Fatalf("latest version = %+v", latest)
+	}
+	if pinned.OfInt != 3 || !pinned.JSON.OfInt.Valid() || pinned.JSON.OfString.Valid() {
+		t.Fatalf("pinned version = %+v", pinned)
+	}
+	if _, ok := saved.Agents[2].AsAny().(managed.ManagedAgentsAdvisor); !ok {
+		t.Fatal("advisor variant lost")
 	}
 }
