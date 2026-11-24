@@ -198,7 +198,7 @@ func TestDriveLive(t *testing.T) {
 					_, err = runtime.Drives.ListEntries(ctx, forward.DriveListEntriesParams{IdentityID: other.ID})
 					saTokenDenied(t, err, 403)
 				} else {
-					env, err := admin.Environments.New(ctx, forward.EnvironmentNewParams{Name: "sdk-drive-" + testsupport.Marker(t), Config: map[string]any{"type": "cloud"}})
+					env, err := admin.Environments.New(ctx, forward.EnvironmentNewParams{Name: "sdk-drive-" + testsupport.Marker(t), Config: forward.EnvironmentConfigParams{Type: forward.String("cloud")}})
 					saCheck(t, err)
 					saCleanup(t, "environment "+env.ID, func(ctx context.Context) error { _, err := admin.Environments.Archive(ctx, env.ID); return err })
 					template, err := admin.Templates.New(ctx, forward.TemplateNewParams{Name: "sdk-drive-" + testsupport.Marker(t), Model: forward.ModelConfigUnionParam{OfString: forward.String("auto")}, EnvironmentID: env.ID, ManagedToolConfig: forward.ManagedToolConfigParam{EnabledTools: []string{"drive"}}})

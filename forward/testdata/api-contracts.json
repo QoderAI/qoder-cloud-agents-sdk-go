@@ -1,5 +1,25 @@
 [
   {
+    "operation_id": "getTemplateAgentCard",
+    "service": "TemplateService",
+    "entry": "Templates",
+    "name": "GetAgentCard",
+    "response": {
+      "name": "Support assistant",
+      "description": "Public support",
+      "version": "1.0.0",
+      "skills": [{"id": "support", "name": "Support", "description": "Answer questions", "tags": ["support"], "examples": ["Help me"]}],
+      "defaultInputModes": ["text/plain"],
+      "defaultOutputModes": ["text/plain"],
+      "supportedInterfaces": [{"url": "https://forward.test/a2a", "protocolBinding": "JSONRPC", "protocolVersion": "1.0"}],
+      "capabilities": {"streaming": true}
+    },
+    "stream": false,
+    "download": false,
+    "raw": false,
+    "empty": false
+  },
+  {
     "operation_id": "listTemplates",
     "service": "TemplateService",
     "entry": "Templates",

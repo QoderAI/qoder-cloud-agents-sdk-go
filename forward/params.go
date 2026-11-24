@@ -3,6 +3,7 @@ package forward
 import (
 	"bytes"
 	"encoding/json"
+	"maps"
 	"mime/multipart"
 	"reflect"
 	"strings"
@@ -185,6 +186,133 @@ func registerParamExtras[T any]() {
 		}
 		return nil
 	})
+}
+
+type configParamRawField struct {
+	field   string
+	raw     json.RawMessage
+	decoded json.RawMessage
+}
+
+type configParamObj struct {
+	paramObj
+	omittedFields map[string]string
+	rawFields     map[string]configParamRawField
+}
+
+func (p configParamObj) omittedJSONFields() map[string]string                { return p.omittedFields }
+func (p configParamObj) rawJSONFields() map[string]configParamRawField       { return p.rawFields }
+func (p *configParamObj) setOmittedFields(fields map[string]string)          { p.omittedFields = fields }
+func (p *configParamObj) setRawFields(fields map[string]configParamRawField) { p.rawFields = fields }
+
+// Automatic raw values must yield to typed edits, unlike explicit caller overrides.
+func marshalConfigParam[T interface {
+	param.ParamStruct
+	ExtraFields() map[string]any
+	omittedJSONFields() map[string]string
+	rawJSONFields() map[string]configParamRawField
+}](value T, underlying any) ([]byte, error) {
+	if _, overridden := value.Overrides(); overridden {
+		return param.MarshalObject(value, underlying)
+	}
+	extras := maps.Clone(value.ExtraFields())
+	for name, source := range value.rawJSONFields() {
+		fieldValue := reflect.ValueOf(value).FieldByName(source.field).Interface()
+		if explicit, ok := fieldValue.(interface{ Overrides() (any, bool) }); ok {
+			if _, overridden := explicit.Overrides(); overridden {
+				continue
+			}
+		}
+		current, err := json.Marshal(fieldValue)
+		if err != nil {
+			return nil, err
+		}
+		if bytes.Equal(current, source.decoded) {
+			if extras == nil {
+				extras = make(map[string]any)
+			}
+			if _, overridden := extras[name]; !overridden {
+				extras[name] = source.raw
+			}
+		}
+	}
+	for name, field := range value.omittedJSONFields() {
+		if reflect.ValueOf(value).FieldByName(field).IsZero() {
+			if extras == nil {
+				extras = make(map[string]any)
+			}
+			if _, overridden := extras[name]; !overridden {
+				extras[name] = param.Omit
+			}
+		}
+	}
+	return param.MarshalWithExtras(value, underlying, extras)
+}
+
+// apijson can omit values it cannot decode; retain them until the caller changes the field.
+func unmarshalObjectParam[T param.ParamStruct, P interface {
+	param.InferPtr[T]
+	ExtraFields() map[string]any
+	SetExtraFields(map[string]any)
+	setOmittedFields(map[string]string)
+	setRawFields(map[string]configParamRawField)
+}](data []byte, dst P) error {
+	data = bytes.TrimSpace(data)
+	if bytes.Equal(data, []byte("null")) {
+		*dst = param.NullStruct[T, P]()
+		return nil
+	}
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	extras := maps.Clone(dst.ExtraFields())
+	if extras == nil {
+		extras = make(map[string]any)
+	}
+	var decoded T
+	next := P(&decoded)
+	if err := apijson.UnmarshalRoot(data, next); err != nil {
+		return err
+	}
+	known := map[string]bool{}
+	omitted := map[string]string{}
+	rawFields := map[string]configParamRawField{}
+	typ := reflect.TypeFor[T]()
+	for i := 0; i < typ.NumField(); i++ {
+		field := typ.Field(i)
+		name := strings.Split(field.Tag.Get("json"), ",")[0]
+		if name == "" || name == "-" {
+			continue
+		}
+		known[name] = true
+		raw, present := fields[name]
+		if !present {
+			if strings.Contains(field.Tag.Get("api"), "required") {
+				omitted[name] = field.Name
+			}
+			continue
+		}
+		delete(extras, name)
+		fieldValue := reflect.ValueOf(decoded).Field(i).Interface()
+		encoded, err := json.Marshal(fieldValue)
+		if err != nil {
+			return err
+		}
+		if !bytes.Equal(bytes.TrimSpace(raw), encoded) || (strings.Contains(field.Tag.Get("json"), "omitzero") && param.IsOmitted(fieldValue)) {
+			rawFields[name] = configParamRawField{field: field.Name, raw: raw, decoded: encoded}
+		}
+	}
+	for name, raw := range fields {
+		if !known[name] {
+			extras[name] = raw
+		}
+	}
+	next.SetExtraFields(extras)
+	next.setOmittedFields(omitted)
+	next.setRawFields(rawFields)
+	*dst = decoded
+	return nil
 }
 
 func marshalMultipart(value any, extras map[string]any) ([]byte, string, error) {

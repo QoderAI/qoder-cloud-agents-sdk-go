@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"slices"
+	"strings"
 	"time"
 
 	requestconfig "github.com/QoderAI/qoder-cloud-agents-sdk-go/convention"
@@ -293,6 +294,8 @@ type ManagedAgentsAgentToolUnion struct {
 	DefaultConfig ManagedAgentsAgentToolUnionDefaultConfig `json:"default_config"`
 	// Any of "agent_toolset_20260401", "mcp_toolset", "custom".
 	Type string `json:"type"`
+	// Top-level wildcard policy from variant [ManagedAgentsMCPToolset].
+	PermissionPolicy ManagedAgentsMCPToolConfigPermissionPolicyUnion `json:"permission_policy"`
 	// This field is from variant [ManagedAgentsMCPToolset].
 	MCPServerName string `json:"mcp_server_name"`
 	// This field is from variant [ManagedAgentsCustomTool].
@@ -302,16 +305,17 @@ type ManagedAgentsAgentToolUnion struct {
 	// This field is from variant [ManagedAgentsCustomTool].
 	Name string `json:"name"`
 	JSON struct {
-		EnabledTools    respjson.Field
-		DisallowedTools respjson.Field
-		Configs         respjson.Field
-		DefaultConfig   respjson.Field
-		Type            respjson.Field
-		MCPServerName   respjson.Field
-		Description     respjson.Field
-		InputSchema     respjson.Field
-		Name            respjson.Field
-		raw             string
+		EnabledTools     respjson.Field
+		DisallowedTools  respjson.Field
+		Configs          respjson.Field
+		DefaultConfig    respjson.Field
+		Type             respjson.Field
+		MCPServerName    respjson.Field
+		PermissionPolicy respjson.Field
+		Description      respjson.Field
+		InputSchema      respjson.Field
+		Name             respjson.Field
+		raw              string
 	} `json:"-"`
 }
 
@@ -339,6 +343,8 @@ func (u ManagedAgentsAgentToolUnion) AsAny() anyManagedAgentsAgentTool {
 	switch u.Type {
 	case "agent_toolset_20260401":
 		return u.AsAgentToolset20260401()
+	case "browser_toolset_20260714":
+		return u.AsBrowserToolset20260714()
 	case "mcp_toolset":
 		return u.AsMCPToolset()
 	case "custom":
@@ -549,6 +555,32 @@ func (ManagedAgentsWebSearchToolConfig) implManagedAgentsAgentToolConfigUnion() 
 //	  fmt.Errorf("no variant present")
 //	}
 func (u ManagedAgentsAgentToolConfigUnion) AsAny() anyManagedAgentsAgentToolConfig {
+	switch strings.ToLower(u.Name) {
+	case "bash":
+		return u.AsBash()
+	case "edit":
+		return u.AsEdit()
+	case "read":
+		return u.AsRead()
+	case "write":
+		return u.AsWrite()
+	case "glob":
+		return u.AsGlob()
+	case "grep":
+		return u.AsGrep()
+	case "webfetch", "web_fetch":
+		return u.AsWebFetch()
+	case "websearch", "web_search":
+		return u.AsWebSearch()
+	case "imagegen", "image_gen":
+		return u.AsImageGen()
+	case "imagesearch", "image_search":
+		return u.AsImageSearch()
+	case "videogen", "video_gen":
+		return u.AsVideoGen()
+	case "deliverartifacts", "deliver_artifacts":
+		return u.AsDeliverArtifacts()
+	}
 	switch u.Type {
 	case "bash":
 		return u.AsBash()
@@ -640,14 +672,18 @@ func (r *ManagedAgentsAgentToolConfigUnionPermissionPolicy) UnmarshalJSON(data [
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type ManagedAgentsAgentToolConfigParamsUnion struct {
-	OfBash      *ManagedAgentsBashToolConfigParams      `json:",omitzero,inline"`
-	OfEdit      *ManagedAgentsEditToolConfigParams      `json:",omitzero,inline"`
-	OfRead      *ManagedAgentsReadToolConfigParams      `json:",omitzero,inline"`
-	OfWrite     *ManagedAgentsWriteToolConfigParams     `json:",omitzero,inline"`
-	OfGlob      *ManagedAgentsGlobToolConfigParams      `json:",omitzero,inline"`
-	OfGrep      *ManagedAgentsGrepToolConfigParams      `json:",omitzero,inline"`
-	OfWebFetch  *ManagedAgentsWebFetchToolConfigParams  `json:",omitzero,inline"`
-	OfWebSearch *ManagedAgentsWebSearchToolConfigParams `json:",omitzero,inline"`
+	OfBash             *ManagedAgentsBashToolConfigParams             `json:",omitzero,inline"`
+	OfEdit             *ManagedAgentsEditToolConfigParams             `json:",omitzero,inline"`
+	OfRead             *ManagedAgentsReadToolConfigParams             `json:",omitzero,inline"`
+	OfWrite            *ManagedAgentsWriteToolConfigParams            `json:",omitzero,inline"`
+	OfGlob             *ManagedAgentsGlobToolConfigParams             `json:",omitzero,inline"`
+	OfGrep             *ManagedAgentsGrepToolConfigParams             `json:",omitzero,inline"`
+	OfWebFetch         *ManagedAgentsWebFetchToolConfigParams         `json:",omitzero,inline"`
+	OfWebSearch        *ManagedAgentsWebSearchToolConfigParams        `json:",omitzero,inline"`
+	OfImageGen         *ManagedAgentsImageGenToolConfigParams         `json:",omitzero,inline"`
+	OfImageSearch      *ManagedAgentsImageSearchToolConfigParams      `json:",omitzero,inline"`
+	OfVideoGen         *ManagedAgentsVideoGenToolConfigParams         `json:",omitzero,inline"`
+	OfDeliverArtifacts *ManagedAgentsDeliverArtifactsToolConfigParams `json:",omitzero,inline"`
 	paramUnion
 }
 
@@ -659,7 +695,11 @@ func (u ManagedAgentsAgentToolConfigParamsUnion) MarshalJSON() ([]byte, error) {
 		u.OfGlob,
 		u.OfGrep,
 		u.OfWebFetch,
-		u.OfWebSearch)
+		u.OfWebSearch,
+		u.OfImageGen,
+		u.OfImageSearch,
+		u.OfVideoGen,
+		u.OfDeliverArtifacts)
 }
 func (u *ManagedAgentsAgentToolConfigParamsUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -682,6 +722,14 @@ func (u *ManagedAgentsAgentToolConfigParamsUnion) asAny() any {
 		return u.OfWebFetch
 	} else if !param.IsOmitted(u.OfWebSearch) {
 		return u.OfWebSearch
+	} else if !param.IsOmitted(u.OfImageGen) {
+		return u.OfImageGen
+	} else if !param.IsOmitted(u.OfImageSearch) {
+		return u.OfImageSearch
+	} else if !param.IsOmitted(u.OfVideoGen) {
+		return u.OfVideoGen
+	} else if !param.IsOmitted(u.OfDeliverArtifacts) {
+		return u.OfDeliverArtifacts
 	}
 	return nil
 }
@@ -720,6 +768,14 @@ func (u ManagedAgentsAgentToolConfigParamsUnion) GetName() *string {
 		return (*string)(&vt.Name)
 	} else if vt := u.OfWebSearch; vt != nil {
 		return (*string)(&vt.Name)
+	} else if vt := u.OfImageGen; vt != nil {
+		return (*string)(&vt.Name)
+	} else if vt := u.OfImageSearch; vt != nil {
+		return (*string)(&vt.Name)
+	} else if vt := u.OfVideoGen; vt != nil {
+		return (*string)(&vt.Name)
+	} else if vt := u.OfDeliverArtifacts; vt != nil {
+		return (*string)(&vt.Name)
 	}
 	return nil
 }
@@ -741,6 +797,14 @@ func (u ManagedAgentsAgentToolConfigParamsUnion) GetEnabled() *bool {
 	} else if vt := u.OfWebFetch; vt != nil && vt.Enabled.Valid() {
 		return &vt.Enabled.Value
 	} else if vt := u.OfWebSearch; vt != nil && vt.Enabled.Valid() {
+		return &vt.Enabled.Value
+	} else if vt := u.OfImageGen; vt != nil && vt.Enabled.Valid() {
+		return &vt.Enabled.Value
+	} else if vt := u.OfImageSearch; vt != nil && vt.Enabled.Valid() {
+		return &vt.Enabled.Value
+	} else if vt := u.OfVideoGen; vt != nil && vt.Enabled.Valid() {
+		return &vt.Enabled.Value
+	} else if vt := u.OfDeliverArtifacts; vt != nil && vt.Enabled.Valid() {
 		return &vt.Enabled.Value
 	}
 	return nil
@@ -764,6 +828,14 @@ func (u ManagedAgentsAgentToolConfigParamsUnion) GetType() *string {
 		return (*string)(&vt.Type)
 	} else if vt := u.OfWebSearch; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfImageGen; vt != nil && vt.Type.Valid() {
+		return &vt.Type.Value
+	} else if vt := u.OfImageSearch; vt != nil && vt.Type.Valid() {
+		return &vt.Type.Value
+	} else if vt := u.OfVideoGen; vt != nil && vt.Type.Valid() {
+		return &vt.Type.Value
+	} else if vt := u.OfDeliverArtifacts; vt != nil && vt.Type.Valid() {
+		return &vt.Type.Value
 	}
 	return nil
 }
@@ -788,6 +860,14 @@ func (u ManagedAgentsAgentToolConfigParamsUnion) GetPermissionPolicy() (res mana
 		res.any = vt.PermissionPolicy.asAny()
 	} else if vt := u.OfWebSearch; vt != nil {
 		res.any = vt.PermissionPolicy.asAny()
+	} else if vt := u.OfImageGen; vt != nil {
+		res.any = vt.PermissionPolicy.asAny()
+	} else if vt := u.OfImageSearch; vt != nil {
+		res.any = vt.PermissionPolicy.asAny()
+	} else if vt := u.OfVideoGen; vt != nil {
+		res.any = vt.PermissionPolicy.asAny()
+	} else if vt := u.OfDeliverArtifacts; vt != nil {
+		res.any = vt.PermissionPolicy.asAny()
 	}
 	return
 }
@@ -809,6 +889,14 @@ func (u managedAgentsAgentToolConfigParamsUnionPermissionPolicy) AsAny() any { r
 // Returns a pointer to the underlying variant's property, if present.
 func (u managedAgentsAgentToolConfigParamsUnionPermissionPolicy) GetType() *string {
 	switch vt := u.any.(type) {
+	case *ManagedAgentsAlwaysAllowPolicyParam:
+		return (*string)(&vt.Type)
+	case *ManagedAgentsAlwaysAskPolicyParam:
+		return (*string)(&vt.Type)
+	case *ManagedAgentsAlwaysDenyPolicyParam:
+		return (*string)(&vt.Type)
+	case *ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion:
+		return vt.GetType()
 	case *ManagedAgentsBashToolConfigParamsPermissionPolicyUnion:
 		return vt.GetType()
 	case *ManagedAgentsEditToolConfigParamsPermissionPolicyUnion:
@@ -930,6 +1018,8 @@ func (u ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion) AsAny() any
 		return u.AsAlwaysAllow()
 	case "always_ask":
 		return u.AsAlwaysAsk()
+	case "always_deny":
+		return u.AsAlwaysDeny()
 	}
 	return nil
 }
@@ -977,11 +1067,12 @@ func (r *ManagedAgentsAgentToolsetDefaultConfigParams) UnmarshalJSON(data []byte
 type ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion struct {
 	OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
 	OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+	OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk)
+	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk, u.OfAlwaysDeny)
 }
 func (u *ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -992,6 +1083,8 @@ func (u *ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion) asAn
 		return u.OfAlwaysAllow
 	} else if !param.IsOmitted(u.OfAlwaysAsk) {
 		return u.OfAlwaysAsk
+	} else if !param.IsOmitted(u.OfAlwaysDeny) {
+		return u.OfAlwaysDeny
 	}
 	return nil
 }
@@ -1002,6 +1095,8 @@ func (u ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion) GetTy
 		return (*string)(&vt.Type)
 	} else if vt := u.OfAlwaysAsk; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfAlwaysDeny; vt != nil {
+		return (*string)(&vt.Type)
 	}
 	return nil
 }
@@ -1011,6 +1106,7 @@ func init() {
 		"type",
 		apijson.Discriminator[ManagedAgentsAlwaysAllowPolicyParam]("always_allow"),
 		apijson.Discriminator[ManagedAgentsAlwaysAskPolicyParam]("always_ask"),
+		apijson.Discriminator[ManagedAgentsAlwaysDenyPolicyParam]("always_deny"),
 	)
 }
 
@@ -1449,6 +1545,8 @@ func (u ManagedAgentsBashToolConfigPermissionPolicyUnion) AsAny() anyManagedAgen
 		return u.AsAlwaysAllow()
 	case "always_ask":
 		return u.AsAlwaysAsk()
+	case "always_deny":
+		return u.AsAlwaysDeny()
 	}
 	return nil
 }
@@ -1502,11 +1600,12 @@ func (r *ManagedAgentsBashToolConfigParams) UnmarshalJSON(data []byte) error {
 type ManagedAgentsBashToolConfigParamsPermissionPolicyUnion struct {
 	OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
 	OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+	OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsBashToolConfigParamsPermissionPolicyUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk)
+	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk, u.OfAlwaysDeny)
 }
 func (u *ManagedAgentsBashToolConfigParamsPermissionPolicyUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -1517,6 +1616,8 @@ func (u *ManagedAgentsBashToolConfigParamsPermissionPolicyUnion) asAny() any {
 		return u.OfAlwaysAllow
 	} else if !param.IsOmitted(u.OfAlwaysAsk) {
 		return u.OfAlwaysAsk
+	} else if !param.IsOmitted(u.OfAlwaysDeny) {
+		return u.OfAlwaysDeny
 	}
 	return nil
 }
@@ -1527,6 +1628,8 @@ func (u ManagedAgentsBashToolConfigParamsPermissionPolicyUnion) GetType() *strin
 		return (*string)(&vt.Type)
 	} else if vt := u.OfAlwaysAsk; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfAlwaysDeny; vt != nil {
+		return (*string)(&vt.Type)
 	}
 	return nil
 }
@@ -1536,6 +1639,7 @@ func init() {
 		"type",
 		apijson.Discriminator[ManagedAgentsAlwaysAllowPolicyParam]("always_allow"),
 		apijson.Discriminator[ManagedAgentsAlwaysAskPolicyParam]("always_ask"),
+		apijson.Discriminator[ManagedAgentsAlwaysDenyPolicyParam]("always_deny"),
 	)
 }
 
@@ -1784,6 +1888,8 @@ func (u ManagedAgentsEditToolConfigPermissionPolicyUnion) AsAny() anyManagedAgen
 		return u.AsAlwaysAllow()
 	case "always_ask":
 		return u.AsAlwaysAsk()
+	case "always_deny":
+		return u.AsAlwaysDeny()
 	}
 	return nil
 }
@@ -1837,11 +1943,12 @@ func (r *ManagedAgentsEditToolConfigParams) UnmarshalJSON(data []byte) error {
 type ManagedAgentsEditToolConfigParamsPermissionPolicyUnion struct {
 	OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
 	OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+	OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsEditToolConfigParamsPermissionPolicyUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk)
+	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk, u.OfAlwaysDeny)
 }
 func (u *ManagedAgentsEditToolConfigParamsPermissionPolicyUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -1852,6 +1959,8 @@ func (u *ManagedAgentsEditToolConfigParamsPermissionPolicyUnion) asAny() any {
 		return u.OfAlwaysAllow
 	} else if !param.IsOmitted(u.OfAlwaysAsk) {
 		return u.OfAlwaysAsk
+	} else if !param.IsOmitted(u.OfAlwaysDeny) {
+		return u.OfAlwaysDeny
 	}
 	return nil
 }
@@ -1862,6 +1971,8 @@ func (u ManagedAgentsEditToolConfigParamsPermissionPolicyUnion) GetType() *strin
 		return (*string)(&vt.Type)
 	} else if vt := u.OfAlwaysAsk; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfAlwaysDeny; vt != nil {
+		return (*string)(&vt.Type)
 	}
 	return nil
 }
@@ -1871,6 +1982,7 @@ func init() {
 		"type",
 		apijson.Discriminator[ManagedAgentsAlwaysAllowPolicyParam]("always_allow"),
 		apijson.Discriminator[ManagedAgentsAlwaysAskPolicyParam]("always_ask"),
+		apijson.Discriminator[ManagedAgentsAlwaysDenyPolicyParam]("always_deny"),
 	)
 }
 
@@ -2202,6 +2314,8 @@ func (u ManagedAgentsGlobToolConfigPermissionPolicyUnion) AsAny() anyManagedAgen
 		return u.AsAlwaysAllow()
 	case "always_ask":
 		return u.AsAlwaysAsk()
+	case "always_deny":
+		return u.AsAlwaysDeny()
 	}
 	return nil
 }
@@ -2255,11 +2369,12 @@ func (r *ManagedAgentsGlobToolConfigParams) UnmarshalJSON(data []byte) error {
 type ManagedAgentsGlobToolConfigParamsPermissionPolicyUnion struct {
 	OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
 	OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+	OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsGlobToolConfigParamsPermissionPolicyUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk)
+	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk, u.OfAlwaysDeny)
 }
 func (u *ManagedAgentsGlobToolConfigParamsPermissionPolicyUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -2270,6 +2385,8 @@ func (u *ManagedAgentsGlobToolConfigParamsPermissionPolicyUnion) asAny() any {
 		return u.OfAlwaysAllow
 	} else if !param.IsOmitted(u.OfAlwaysAsk) {
 		return u.OfAlwaysAsk
+	} else if !param.IsOmitted(u.OfAlwaysDeny) {
+		return u.OfAlwaysDeny
 	}
 	return nil
 }
@@ -2280,6 +2397,8 @@ func (u ManagedAgentsGlobToolConfigParamsPermissionPolicyUnion) GetType() *strin
 		return (*string)(&vt.Type)
 	} else if vt := u.OfAlwaysAsk; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfAlwaysDeny; vt != nil {
+		return (*string)(&vt.Type)
 	}
 	return nil
 }
@@ -2289,6 +2408,7 @@ func init() {
 		"type",
 		apijson.Discriminator[ManagedAgentsAlwaysAllowPolicyParam]("always_allow"),
 		apijson.Discriminator[ManagedAgentsAlwaysAskPolicyParam]("always_ask"),
+		apijson.Discriminator[ManagedAgentsAlwaysDenyPolicyParam]("always_deny"),
 	)
 }
 
@@ -2365,6 +2485,8 @@ func (u ManagedAgentsGrepToolConfigPermissionPolicyUnion) AsAny() anyManagedAgen
 		return u.AsAlwaysAllow()
 	case "always_ask":
 		return u.AsAlwaysAsk()
+	case "always_deny":
+		return u.AsAlwaysDeny()
 	}
 	return nil
 }
@@ -2418,11 +2540,12 @@ func (r *ManagedAgentsGrepToolConfigParams) UnmarshalJSON(data []byte) error {
 type ManagedAgentsGrepToolConfigParamsPermissionPolicyUnion struct {
 	OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
 	OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+	OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsGrepToolConfigParamsPermissionPolicyUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk)
+	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk, u.OfAlwaysDeny)
 }
 func (u *ManagedAgentsGrepToolConfigParamsPermissionPolicyUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -2433,6 +2556,8 @@ func (u *ManagedAgentsGrepToolConfigParamsPermissionPolicyUnion) asAny() any {
 		return u.OfAlwaysAllow
 	} else if !param.IsOmitted(u.OfAlwaysAsk) {
 		return u.OfAlwaysAsk
+	} else if !param.IsOmitted(u.OfAlwaysDeny) {
+		return u.OfAlwaysDeny
 	}
 	return nil
 }
@@ -2443,6 +2568,8 @@ func (u ManagedAgentsGrepToolConfigParamsPermissionPolicyUnion) GetType() *strin
 		return (*string)(&vt.Type)
 	} else if vt := u.OfAlwaysAsk; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfAlwaysDeny; vt != nil {
+		return (*string)(&vt.Type)
 	}
 	return nil
 }
@@ -2452,6 +2579,7 @@ func init() {
 		"type",
 		apijson.Discriminator[ManagedAgentsAlwaysAllowPolicyParam]("always_allow"),
 		apijson.Discriminator[ManagedAgentsAlwaysAskPolicyParam]("always_ask"),
+		apijson.Discriminator[ManagedAgentsAlwaysDenyPolicyParam]("always_deny"),
 	)
 }
 
@@ -2513,14 +2641,14 @@ func (r *ManagedAgentsMCPToolConfig) UnmarshalJSON(data []byte) error {
 
 // ManagedAgentsMCPToolConfigPermissionPolicyUnion contains all possible
 // properties and values from [ManagedAgentsAlwaysAllowPolicy],
-// [ManagedAgentsAlwaysAskPolicy].
+// [ManagedAgentsAlwaysAskPolicy], [ManagedAgentsAlwaysDenyPolicy].
 //
 // Use the [ManagedAgentsMCPToolConfigPermissionPolicyUnion.AsAny] method to
 // switch on the variant.
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ManagedAgentsMCPToolConfigPermissionPolicyUnion struct {
-	// Any of "always_allow", "always_ask".
+	// Any of "always_allow", "always_ask", "always_deny".
 	Type string `json:"type"`
 	JSON struct {
 		Type respjson.Field
@@ -2543,6 +2671,7 @@ func (ManagedAgentsAlwaysAskPolicy) implManagedAgentsMCPToolConfigPermissionPoli
 //	switch variant := ManagedAgentsMCPToolConfigPermissionPolicyUnion.AsAny().(type) {
 //	case qoder.ManagedAgentsAlwaysAllowPolicy:
 //	case qoder.ManagedAgentsAlwaysAskPolicy:
+//	case qoder.ManagedAgentsAlwaysDenyPolicy:
 //	default:
 //	  fmt.Errorf("no variant present")
 //	}
@@ -2552,6 +2681,8 @@ func (u ManagedAgentsMCPToolConfigPermissionPolicyUnion) AsAny() anyManagedAgent
 		return u.AsAlwaysAllow()
 	case "always_ask":
 		return u.AsAlwaysAsk()
+	case "always_deny":
+		return u.AsAlwaysDeny()
 	}
 	return nil
 }
@@ -2600,14 +2731,20 @@ func (r *ManagedAgentsMCPToolConfigParams) UnmarshalJSON(data []byte) error {
 type ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion struct {
 	OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
 	OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+	OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk)
+	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk, u.OfAlwaysDeny)
 }
 func (u *ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
+}
+
+// AsAny returns the selected permission policy, or nil when omitted.
+func (u ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) AsAny() any {
+	return (&u).asAny()
 }
 
 func (u *ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) asAny() any {
@@ -2615,6 +2752,8 @@ func (u *ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) asAny() any {
 		return u.OfAlwaysAllow
 	} else if !param.IsOmitted(u.OfAlwaysAsk) {
 		return u.OfAlwaysAsk
+	} else if !param.IsOmitted(u.OfAlwaysDeny) {
+		return u.OfAlwaysDeny
 	}
 	return nil
 }
@@ -2625,6 +2764,8 @@ func (u ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) GetType() *string
 		return (*string)(&vt.Type)
 	} else if vt := u.OfAlwaysAsk; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfAlwaysDeny; vt != nil {
+		return (*string)(&vt.Type)
 	}
 	return nil
 }
@@ -2634,24 +2775,29 @@ func init() {
 		"type",
 		apijson.Discriminator[ManagedAgentsAlwaysAllowPolicyParam]("always_allow"),
 		apijson.Discriminator[ManagedAgentsAlwaysAskPolicyParam]("always_ask"),
+		apijson.Discriminator[ManagedAgentsAlwaysDenyPolicyParam]("always_deny"),
 	)
 }
 
 type ManagedAgentsMCPToolset struct {
 	Configs []ManagedAgentsMCPToolConfig `json:"configs" api:"required"`
-	// Resolved default configuration for all tools from an MCP server.
+	// Legacy default configuration. Its permission_policy does not control the
+	// MCP wildcard policy; use the top-level PermissionPolicy instead.
 	DefaultConfig ManagedAgentsMCPToolsetDefaultConfig `json:"default_config" api:"required"`
 	MCPServerName string                               `json:"mcp_server_name" api:"required"`
+	// Wildcard policy for tools from this server. Omission defaults to allow.
+	PermissionPolicy ManagedAgentsMCPToolConfigPermissionPolicyUnion `json:"permission_policy"`
 	// Any of "mcp_toolset".
 	Type ManagedAgentsMCPToolsetType `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Configs       respjson.Field
-		DefaultConfig respjson.Field
-		MCPServerName respjson.Field
-		Type          respjson.Field
-		ExtraFields   map[string]respjson.Field
-		raw           string
+		Configs          respjson.Field
+		DefaultConfig    respjson.Field
+		MCPServerName    respjson.Field
+		PermissionPolicy respjson.Field
+		Type             respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
 	} `json:"-"`
 }
 
@@ -2667,10 +2813,11 @@ const (
 	ManagedAgentsMCPToolsetTypeMCPToolset ManagedAgentsMCPToolsetType = "mcp_toolset"
 )
 
-// Resolved default configuration for all tools from an MCP server.
+// Legacy default configuration for tools from an MCP server.
+// MCP wildcard governance uses ManagedAgentsMCPToolset.PermissionPolicy instead.
 type ManagedAgentsMCPToolsetDefaultConfig struct {
 	Enabled bool `json:"enabled" api:"required"`
-	// Permission policy for tool execution.
+	// Legacy policy retained as received; it does not set the MCP wildcard policy.
 	PermissionPolicy ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion `json:"permission_policy" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -2689,14 +2836,14 @@ func (r *ManagedAgentsMCPToolsetDefaultConfig) UnmarshalJSON(data []byte) error 
 
 // ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion contains all
 // possible properties and values from [ManagedAgentsAlwaysAllowPolicy],
-// [ManagedAgentsAlwaysAskPolicy].
+// [ManagedAgentsAlwaysAskPolicy], [ManagedAgentsAlwaysDenyPolicy].
 //
 // Use the [ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.AsAny]
 // method to switch on the variant.
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion struct {
-	// Any of "always_allow", "always_ask".
+	// Any of "always_allow", "always_ask", "always_deny".
 	Type string `json:"type"`
 	JSON struct {
 		Type respjson.Field
@@ -2722,6 +2869,7 @@ func (ManagedAgentsAlwaysAskPolicy) implManagedAgentsMCPToolsetDefaultConfigPerm
 //	switch variant := ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.AsAny().(type) {
 //	case qoder.ManagedAgentsAlwaysAllowPolicy:
 //	case qoder.ManagedAgentsAlwaysAskPolicy:
+//	case qoder.ManagedAgentsAlwaysDenyPolicy:
 //	default:
 //	  fmt.Errorf("no variant present")
 //	}
@@ -2731,6 +2879,8 @@ func (u ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion) AsAny() anyMa
 		return u.AsAlwaysAllow()
 	case "always_ask":
 		return u.AsAlwaysAsk()
+	case "always_deny":
+		return u.AsAlwaysDeny()
 	}
 	return nil
 }
@@ -2754,11 +2904,13 @@ func (r *ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion) UnmarshalJSO
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Default configuration for all tools from an MCP server.
+// Legacy default configuration for tools from an MCP server.
+// To deny MCP tools by default, set ManagedAgentsMCPToolsetParams.PermissionPolicy.
 type ManagedAgentsMCPToolsetDefaultConfigParams struct {
 	// Whether tools are enabled by default. Defaults to true if not specified.
 	Enabled param.Opt[bool] `json:"enabled,omitzero"`
-	// Permission policy for tool execution.
+	// Legacy policy retained at default_config.permission_policy for wire
+	// compatibility. It does not set the MCP wildcard policy.
 	PermissionPolicy ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion `json:"permission_policy,omitzero"`
 	paramObj
 }
@@ -2777,11 +2929,12 @@ func (r *ManagedAgentsMCPToolsetDefaultConfigParams) UnmarshalJSON(data []byte) 
 type ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion struct {
 	OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
 	OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+	OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk)
+	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk, u.OfAlwaysDeny)
 }
 func (u *ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -2792,6 +2945,8 @@ func (u *ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion) asAny(
 		return u.OfAlwaysAllow
 	} else if !param.IsOmitted(u.OfAlwaysAsk) {
 		return u.OfAlwaysAsk
+	} else if !param.IsOmitted(u.OfAlwaysDeny) {
+		return u.OfAlwaysDeny
 	}
 	return nil
 }
@@ -2802,6 +2957,8 @@ func (u ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion) GetType
 		return (*string)(&vt.Type)
 	} else if vt := u.OfAlwaysAsk; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfAlwaysDeny; vt != nil {
+		return (*string)(&vt.Type)
 	}
 	return nil
 }
@@ -2811,6 +2968,7 @@ func init() {
 		"type",
 		apijson.Discriminator[ManagedAgentsAlwaysAllowPolicyParam]("always_allow"),
 		apijson.Discriminator[ManagedAgentsAlwaysAskPolicyParam]("always_ask"),
+		apijson.Discriminator[ManagedAgentsAlwaysDenyPolicyParam]("always_deny"),
 	)
 }
 
@@ -2825,7 +2983,11 @@ type ManagedAgentsMCPToolsetParams struct {
 	Type ManagedAgentsMCPToolsetParamsType `json:"type,omitzero" api:"required"`
 	// Per-tool configuration overrides.
 	Configs []ManagedAgentsMCPToolConfigParams `json:"configs,omitzero"`
-	// Default configuration for all tools from an MCP server.
+	// Wildcard policy for tools from this server: always_allow, always_ask or
+	// always_deny. To deny by default, set this top-level field; omission allows.
+	PermissionPolicy ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion `json:"permission_policy,omitzero"`
+	// Legacy default configuration, retained in its original wire location.
+	// Its permission_policy does not set the MCP wildcard policy.
 	DefaultConfig ManagedAgentsMCPToolsetDefaultConfigParams `json:"default_config,omitzero"`
 	paramObj
 }
@@ -3167,6 +3329,8 @@ func (u ManagedAgentsReadToolConfigPermissionPolicyUnion) AsAny() anyManagedAgen
 		return u.AsAlwaysAllow()
 	case "always_ask":
 		return u.AsAlwaysAsk()
+	case "always_deny":
+		return u.AsAlwaysDeny()
 	}
 	return nil
 }
@@ -3220,11 +3384,12 @@ func (r *ManagedAgentsReadToolConfigParams) UnmarshalJSON(data []byte) error {
 type ManagedAgentsReadToolConfigParamsPermissionPolicyUnion struct {
 	OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
 	OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+	OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsReadToolConfigParamsPermissionPolicyUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk)
+	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk, u.OfAlwaysDeny)
 }
 func (u *ManagedAgentsReadToolConfigParamsPermissionPolicyUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -3235,6 +3400,8 @@ func (u *ManagedAgentsReadToolConfigParamsPermissionPolicyUnion) asAny() any {
 		return u.OfAlwaysAllow
 	} else if !param.IsOmitted(u.OfAlwaysAsk) {
 		return u.OfAlwaysAsk
+	} else if !param.IsOmitted(u.OfAlwaysDeny) {
+		return u.OfAlwaysDeny
 	}
 	return nil
 }
@@ -3245,6 +3412,8 @@ func (u ManagedAgentsReadToolConfigParamsPermissionPolicyUnion) GetType() *strin
 		return (*string)(&vt.Type)
 	} else if vt := u.OfAlwaysAsk; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfAlwaysDeny; vt != nil {
+		return (*string)(&vt.Type)
 	}
 	return nil
 }
@@ -3254,6 +3423,7 @@ func init() {
 		"type",
 		apijson.Discriminator[ManagedAgentsAlwaysAllowPolicyParam]("always_allow"),
 		apijson.Discriminator[ManagedAgentsAlwaysAskPolicyParam]("always_ask"),
+		apijson.Discriminator[ManagedAgentsAlwaysDenyPolicyParam]("always_deny"),
 	)
 }
 
@@ -3387,6 +3557,8 @@ type ManagedAgentsSessionThreadAgentToolUnion struct {
 	DefaultConfig ManagedAgentsSessionThreadAgentToolUnionDefaultConfig `json:"default_config"`
 	// Any of "agent_toolset_20260401", "mcp_toolset", "custom".
 	Type string `json:"type"`
+	// Top-level wildcard policy from variant [ManagedAgentsMCPToolset].
+	PermissionPolicy ManagedAgentsMCPToolConfigPermissionPolicyUnion `json:"permission_policy"`
 	// This field is from variant [ManagedAgentsMCPToolset].
 	MCPServerName string `json:"mcp_server_name"`
 	// This field is from variant [ManagedAgentsCustomTool].
@@ -3396,16 +3568,17 @@ type ManagedAgentsSessionThreadAgentToolUnion struct {
 	// This field is from variant [ManagedAgentsCustomTool].
 	Name string `json:"name"`
 	JSON struct {
-		EnabledTools    respjson.Field
-		DisallowedTools respjson.Field
-		Configs         respjson.Field
-		DefaultConfig   respjson.Field
-		Type            respjson.Field
-		MCPServerName   respjson.Field
-		Description     respjson.Field
-		InputSchema     respjson.Field
-		Name            respjson.Field
-		raw             string
+		EnabledTools     respjson.Field
+		DisallowedTools  respjson.Field
+		Configs          respjson.Field
+		DefaultConfig    respjson.Field
+		Type             respjson.Field
+		MCPServerName    respjson.Field
+		PermissionPolicy respjson.Field
+		Description      respjson.Field
+		InputSchema      respjson.Field
+		Name             respjson.Field
+		raw              string
 	} `json:"-"`
 }
 
@@ -3433,6 +3606,8 @@ func (u ManagedAgentsSessionThreadAgentToolUnion) AsAny() anyManagedAgentsSessio
 	switch u.Type {
 	case "agent_toolset_20260401":
 		return u.AsAgentToolset20260401()
+	case "browser_toolset_20260714":
+		return u.AsBrowserToolset20260714()
 	case "mcp_toolset":
 		return u.AsMCPToolset()
 	case "custom":
@@ -3785,6 +3960,8 @@ func (u ManagedAgentsWebFetchToolConfigPermissionPolicyUnion) AsAny() anyManaged
 		return u.AsAlwaysAllow()
 	case "always_ask":
 		return u.AsAlwaysAsk()
+	case "always_deny":
+		return u.AsAlwaysDeny()
 	}
 	return nil
 }
@@ -3851,11 +4028,12 @@ func (r *ManagedAgentsWebFetchToolConfigParams) UnmarshalJSON(data []byte) error
 type ManagedAgentsWebFetchToolConfigParamsPermissionPolicyUnion struct {
 	OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
 	OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+	OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsWebFetchToolConfigParamsPermissionPolicyUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk)
+	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk, u.OfAlwaysDeny)
 }
 func (u *ManagedAgentsWebFetchToolConfigParamsPermissionPolicyUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -3866,6 +4044,8 @@ func (u *ManagedAgentsWebFetchToolConfigParamsPermissionPolicyUnion) asAny() any
 		return u.OfAlwaysAllow
 	} else if !param.IsOmitted(u.OfAlwaysAsk) {
 		return u.OfAlwaysAsk
+	} else if !param.IsOmitted(u.OfAlwaysDeny) {
+		return u.OfAlwaysDeny
 	}
 	return nil
 }
@@ -3876,6 +4056,8 @@ func (u ManagedAgentsWebFetchToolConfigParamsPermissionPolicyUnion) GetType() *s
 		return (*string)(&vt.Type)
 	} else if vt := u.OfAlwaysAsk; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfAlwaysDeny; vt != nil {
+		return (*string)(&vt.Type)
 	}
 	return nil
 }
@@ -3885,6 +4067,7 @@ func init() {
 		"type",
 		apijson.Discriminator[ManagedAgentsAlwaysAllowPolicyParam]("always_allow"),
 		apijson.Discriminator[ManagedAgentsAlwaysAskPolicyParam]("always_ask"),
+		apijson.Discriminator[ManagedAgentsAlwaysDenyPolicyParam]("always_deny"),
 	)
 }
 
@@ -3969,6 +4152,8 @@ func (u ManagedAgentsWebSearchToolConfigPermissionPolicyUnion) AsAny() anyManage
 		return u.AsAlwaysAllow()
 	case "always_ask":
 		return u.AsAlwaysAsk()
+	case "always_deny":
+		return u.AsAlwaysDeny()
 	}
 	return nil
 }
@@ -4036,11 +4221,12 @@ func (r *ManagedAgentsWebSearchToolConfigParams) UnmarshalJSON(data []byte) erro
 type ManagedAgentsWebSearchToolConfigParamsPermissionPolicyUnion struct {
 	OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
 	OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+	OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsWebSearchToolConfigParamsPermissionPolicyUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk)
+	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk, u.OfAlwaysDeny)
 }
 func (u *ManagedAgentsWebSearchToolConfigParamsPermissionPolicyUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -4051,6 +4237,8 @@ func (u *ManagedAgentsWebSearchToolConfigParamsPermissionPolicyUnion) asAny() an
 		return u.OfAlwaysAllow
 	} else if !param.IsOmitted(u.OfAlwaysAsk) {
 		return u.OfAlwaysAsk
+	} else if !param.IsOmitted(u.OfAlwaysDeny) {
+		return u.OfAlwaysDeny
 	}
 	return nil
 }
@@ -4061,6 +4249,8 @@ func (u ManagedAgentsWebSearchToolConfigParamsPermissionPolicyUnion) GetType() *
 		return (*string)(&vt.Type)
 	} else if vt := u.OfAlwaysAsk; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfAlwaysDeny; vt != nil {
+		return (*string)(&vt.Type)
 	}
 	return nil
 }
@@ -4070,6 +4260,7 @@ func init() {
 		"type",
 		apijson.Discriminator[ManagedAgentsAlwaysAllowPolicyParam]("always_allow"),
 		apijson.Discriminator[ManagedAgentsAlwaysAskPolicyParam]("always_ask"),
+		apijson.Discriminator[ManagedAgentsAlwaysDenyPolicyParam]("always_deny"),
 	)
 }
 
@@ -4146,6 +4337,8 @@ func (u ManagedAgentsWriteToolConfigPermissionPolicyUnion) AsAny() anyManagedAge
 		return u.AsAlwaysAllow()
 	case "always_ask":
 		return u.AsAlwaysAsk()
+	case "always_deny":
+		return u.AsAlwaysDeny()
 	}
 	return nil
 }
@@ -4199,11 +4392,12 @@ func (r *ManagedAgentsWriteToolConfigParams) UnmarshalJSON(data []byte) error {
 type ManagedAgentsWriteToolConfigParamsPermissionPolicyUnion struct {
 	OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
 	OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+	OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsWriteToolConfigParamsPermissionPolicyUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk)
+	return param.MarshalUnion(u, u.OfAlwaysAllow, u.OfAlwaysAsk, u.OfAlwaysDeny)
 }
 func (u *ManagedAgentsWriteToolConfigParamsPermissionPolicyUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -4214,6 +4408,8 @@ func (u *ManagedAgentsWriteToolConfigParamsPermissionPolicyUnion) asAny() any {
 		return u.OfAlwaysAllow
 	} else if !param.IsOmitted(u.OfAlwaysAsk) {
 		return u.OfAlwaysAsk
+	} else if !param.IsOmitted(u.OfAlwaysDeny) {
+		return u.OfAlwaysDeny
 	}
 	return nil
 }
@@ -4224,6 +4420,8 @@ func (u ManagedAgentsWriteToolConfigParamsPermissionPolicyUnion) GetType() *stri
 		return (*string)(&vt.Type)
 	} else if vt := u.OfAlwaysAsk; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfAlwaysDeny; vt != nil {
+		return (*string)(&vt.Type)
 	}
 	return nil
 }
@@ -4233,6 +4431,7 @@ func init() {
 		"type",
 		apijson.Discriminator[ManagedAgentsAlwaysAllowPolicyParam]("always_allow"),
 		apijson.Discriminator[ManagedAgentsAlwaysAskPolicyParam]("always_ask"),
+		apijson.Discriminator[ManagedAgentsAlwaysDenyPolicyParam]("always_deny"),
 	)
 }
 
@@ -4286,14 +4485,15 @@ func (r *AgentNewParams) UnmarshalJSON(data []byte) error {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type AgentNewParamsToolUnion struct {
-	OfAgentToolset20260401 *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
-	OfMCPToolset           *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
-	OfCustom               *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
+	OfAgentToolset20260401   *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
+	OfBrowserToolset20260714 *ManagedBrowserToolset20260714Param      `json:",omitzero,inline"`
+	OfMCPToolset             *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
+	OfCustom                 *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u AgentNewParamsToolUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAgentToolset20260401, u.OfMCPToolset, u.OfCustom)
+	return param.MarshalUnion(u, u.OfAgentToolset20260401, u.OfMCPToolset, u.OfCustom, u.OfBrowserToolset20260714)
 }
 func (u *AgentNewParamsToolUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -4306,6 +4506,8 @@ func (u *AgentNewParamsToolUnion) asAny() any {
 		return u.OfMCPToolset
 	} else if !param.IsOmitted(u.OfCustom) {
 		return u.OfCustom
+	} else if !param.IsOmitted(u.OfBrowserToolset20260714) {
+		return u.OfBrowserToolset20260714
 	}
 	return nil
 }
@@ -4316,6 +4518,14 @@ func (u AgentNewParamsToolUnion) GetMCPServerName() *string {
 		return &vt.MCPServerName
 	}
 	return nil
+}
+
+// Returns the MCP toolset's top-level wildcard policy, or an omitted union.
+func (u AgentNewParamsToolUnion) GetPermissionPolicy() (res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) {
+	if vt := u.OfMCPToolset; vt != nil {
+		return vt.PermissionPolicy
+	}
+	return res
 }
 
 // Returns a pointer to the underlying variant's property, if present.
@@ -4349,6 +4559,8 @@ func (u AgentNewParamsToolUnion) GetType() *string {
 	} else if vt := u.OfMCPToolset; vt != nil {
 		return (*string)(&vt.Type)
 	} else if vt := u.OfCustom; vt != nil {
+		return (*string)(&vt.Type)
+	} else if vt := u.OfBrowserToolset20260714; vt != nil {
 		return (*string)(&vt.Type)
 	}
 	return nil
@@ -4423,9 +4635,9 @@ func (u agentNewParamsToolUnionDefaultConfig) GetEnabled() *bool {
 func (u agentNewParamsToolUnionDefaultConfig) GetPermissionPolicy() (res agentNewParamsToolUnionDefaultConfigPermissionPolicy) {
 	switch vt := u.any.(type) {
 	case *ManagedAgentsAgentToolsetDefaultConfigParams:
-		res.any = vt.PermissionPolicy
+		res.any = vt.PermissionPolicy.asAny()
 	case *ManagedAgentsMCPToolsetDefaultConfigParams:
-		res.any = vt.PermissionPolicy
+		res.any = vt.PermissionPolicy.asAny()
 	}
 	return res
 }
@@ -4447,6 +4659,12 @@ func (u agentNewParamsToolUnionDefaultConfigPermissionPolicy) AsAny() any { retu
 // Returns a pointer to the underlying variant's property, if present.
 func (u agentNewParamsToolUnionDefaultConfigPermissionPolicy) GetType() *string {
 	switch vt := u.any.(type) {
+	case *ManagedAgentsAlwaysAllowPolicyParam:
+		return (*string)(&vt.Type)
+	case *ManagedAgentsAlwaysAskPolicyParam:
+		return (*string)(&vt.Type)
+	case *ManagedAgentsAlwaysDenyPolicyParam:
+		return (*string)(&vt.Type)
 	case *ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion:
 		return vt.GetType()
 	case *ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion:
@@ -4459,6 +4677,7 @@ func init() {
 	apijson.RegisterUnion[AgentNewParamsToolUnion](
 		"type",
 		apijson.Discriminator[ManagedAgentsAgentToolset20260401Params]("agent_toolset_20260401"),
+		apijson.Discriminator[ManagedBrowserToolset20260714Param]("browser_toolset_20260714"),
 		apijson.Discriminator[ManagedAgentsMCPToolsetParams]("mcp_toolset"),
 		apijson.Discriminator[ManagedAgentsCustomToolParams]("custom"),
 	)
@@ -4534,14 +4753,15 @@ func (r *AgentUpdateParams) UnmarshalJSON(data []byte) error {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type AgentUpdateParamsToolUnion struct {
-	OfAgentToolset20260401 *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
-	OfMCPToolset           *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
-	OfCustom               *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
+	OfAgentToolset20260401   *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
+	OfBrowserToolset20260714 *ManagedBrowserToolset20260714Param      `json:",omitzero,inline"`
+	OfMCPToolset             *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
+	OfCustom                 *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u AgentUpdateParamsToolUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAgentToolset20260401, u.OfMCPToolset, u.OfCustom)
+	return param.MarshalUnion(u, u.OfAgentToolset20260401, u.OfMCPToolset, u.OfCustom, u.OfBrowserToolset20260714)
 }
 func (u *AgentUpdateParamsToolUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -4554,6 +4774,8 @@ func (u *AgentUpdateParamsToolUnion) asAny() any {
 		return u.OfMCPToolset
 	} else if !param.IsOmitted(u.OfCustom) {
 		return u.OfCustom
+	} else if !param.IsOmitted(u.OfBrowserToolset20260714) {
+		return u.OfBrowserToolset20260714
 	}
 	return nil
 }
@@ -4564,6 +4786,14 @@ func (u AgentUpdateParamsToolUnion) GetMCPServerName() *string {
 		return &vt.MCPServerName
 	}
 	return nil
+}
+
+// Returns the MCP toolset's top-level wildcard policy, or an omitted union.
+func (u AgentUpdateParamsToolUnion) GetPermissionPolicy() (res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) {
+	if vt := u.OfMCPToolset; vt != nil {
+		return vt.PermissionPolicy
+	}
+	return res
 }
 
 // Returns a pointer to the underlying variant's property, if present.
@@ -4597,6 +4827,8 @@ func (u AgentUpdateParamsToolUnion) GetType() *string {
 	} else if vt := u.OfMCPToolset; vt != nil {
 		return (*string)(&vt.Type)
 	} else if vt := u.OfCustom; vt != nil {
+		return (*string)(&vt.Type)
+	} else if vt := u.OfBrowserToolset20260714; vt != nil {
 		return (*string)(&vt.Type)
 	}
 	return nil
@@ -4671,9 +4903,9 @@ func (u agentUpdateParamsToolUnionDefaultConfig) GetEnabled() *bool {
 func (u agentUpdateParamsToolUnionDefaultConfig) GetPermissionPolicy() (res agentUpdateParamsToolUnionDefaultConfigPermissionPolicy) {
 	switch vt := u.any.(type) {
 	case *ManagedAgentsAgentToolsetDefaultConfigParams:
-		res.any = vt.PermissionPolicy
+		res.any = vt.PermissionPolicy.asAny()
 	case *ManagedAgentsMCPToolsetDefaultConfigParams:
-		res.any = vt.PermissionPolicy
+		res.any = vt.PermissionPolicy.asAny()
 	}
 	return res
 }
@@ -4695,6 +4927,12 @@ func (u agentUpdateParamsToolUnionDefaultConfigPermissionPolicy) AsAny() any { r
 // Returns a pointer to the underlying variant's property, if present.
 func (u agentUpdateParamsToolUnionDefaultConfigPermissionPolicy) GetType() *string {
 	switch vt := u.any.(type) {
+	case *ManagedAgentsAlwaysAllowPolicyParam:
+		return (*string)(&vt.Type)
+	case *ManagedAgentsAlwaysAskPolicyParam:
+		return (*string)(&vt.Type)
+	case *ManagedAgentsAlwaysDenyPolicyParam:
+		return (*string)(&vt.Type)
 	case *ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion:
 		return vt.GetType()
 	case *ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion:
@@ -4707,6 +4945,7 @@ func init() {
 	apijson.RegisterUnion[AgentUpdateParamsToolUnion](
 		"type",
 		apijson.Discriminator[ManagedAgentsAgentToolset20260401Params]("agent_toolset_20260401"),
+		apijson.Discriminator[ManagedBrowserToolset20260714Param]("browser_toolset_20260714"),
 		apijson.Discriminator[ManagedAgentsMCPToolsetParams]("mcp_toolset"),
 		apijson.Discriminator[ManagedAgentsCustomToolParams]("custom"),
 	)

@@ -12,7 +12,7 @@ import (
 
 func (s *Example) Environment(ctx context.Context, r *live.Run) (string, error) {
 	r.Step("创建云端执行环境（Environment）")
-	env, err := s.Client.Environments.New(ctx, forward.EnvironmentNewParams{Name: live.Name("env"), Config: map[string]any{"type": "cloud"}})
+	env, err := s.Client.Environments.New(ctx, forward.EnvironmentNewParams{Name: live.Name("env"), Config: forward.EnvironmentConfigParams{Type: forward.String("cloud")}})
 	if err != nil {
 		return "", err
 	}

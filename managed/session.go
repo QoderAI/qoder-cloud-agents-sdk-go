@@ -307,14 +307,15 @@ const (
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type ManagedAgentsAgentWithOverridesParamsToolUnion struct {
-	OfAgentToolset20260401 *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
-	OfMCPToolset           *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
-	OfCustom               *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
+	OfAgentToolset20260401   *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
+	OfBrowserToolset20260714 *ManagedBrowserToolset20260714Param      `json:",omitzero,inline"`
+	OfMCPToolset             *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
+	OfCustom                 *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsAgentWithOverridesParamsToolUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAgentToolset20260401, u.OfMCPToolset, u.OfCustom)
+	return param.MarshalUnion(u, u.OfAgentToolset20260401, u.OfMCPToolset, u.OfCustom, u.OfBrowserToolset20260714)
 }
 func (u *ManagedAgentsAgentWithOverridesParamsToolUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -327,6 +328,8 @@ func (u *ManagedAgentsAgentWithOverridesParamsToolUnion) asAny() any {
 		return u.OfMCPToolset
 	} else if !param.IsOmitted(u.OfCustom) {
 		return u.OfCustom
+	} else if !param.IsOmitted(u.OfBrowserToolset20260714) {
+		return u.OfBrowserToolset20260714
 	}
 	return nil
 }
@@ -337,6 +340,14 @@ func (u ManagedAgentsAgentWithOverridesParamsToolUnion) GetMCPServerName() *stri
 		return &vt.MCPServerName
 	}
 	return nil
+}
+
+// Returns the MCP toolset's top-level wildcard policy, or an omitted union.
+func (u ManagedAgentsAgentWithOverridesParamsToolUnion) GetPermissionPolicy() (res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) {
+	if vt := u.OfMCPToolset; vt != nil {
+		return vt.PermissionPolicy
+	}
+	return res
 }
 
 // Returns a pointer to the underlying variant's property, if present.
@@ -370,6 +381,8 @@ func (u ManagedAgentsAgentWithOverridesParamsToolUnion) GetType() *string {
 	} else if vt := u.OfMCPToolset; vt != nil {
 		return (*string)(&vt.Type)
 	} else if vt := u.OfCustom; vt != nil {
+		return (*string)(&vt.Type)
+	} else if vt := u.OfBrowserToolset20260714; vt != nil {
 		return (*string)(&vt.Type)
 	}
 	return nil
@@ -444,9 +457,9 @@ func (u managedAgentsAgentWithOverridesParamsToolUnionDefaultConfig) GetEnabled(
 func (u managedAgentsAgentWithOverridesParamsToolUnionDefaultConfig) GetPermissionPolicy() (res managedAgentsAgentWithOverridesParamsToolUnionDefaultConfigPermissionPolicy) {
 	switch vt := u.any.(type) {
 	case *ManagedAgentsAgentToolsetDefaultConfigParams:
-		res.any = vt.PermissionPolicy
+		res.any = vt.PermissionPolicy.asAny()
 	case *ManagedAgentsMCPToolsetDefaultConfigParams:
-		res.any = vt.PermissionPolicy
+		res.any = vt.PermissionPolicy.asAny()
 	}
 	return res
 }
@@ -470,6 +483,12 @@ func (u managedAgentsAgentWithOverridesParamsToolUnionDefaultConfigPermissionPol
 // Returns a pointer to the underlying variant's property, if present.
 func (u managedAgentsAgentWithOverridesParamsToolUnionDefaultConfigPermissionPolicy) GetType() *string {
 	switch vt := u.any.(type) {
+	case *ManagedAgentsAlwaysAllowPolicyParam:
+		return (*string)(&vt.Type)
+	case *ManagedAgentsAlwaysAskPolicyParam:
+		return (*string)(&vt.Type)
+	case *ManagedAgentsAlwaysDenyPolicyParam:
+		return (*string)(&vt.Type)
 	case *ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion:
 		return vt.GetType()
 	case *ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion:
@@ -482,6 +501,7 @@ func init() {
 	apijson.RegisterUnion[ManagedAgentsAgentWithOverridesParamsToolUnion](
 		"type",
 		apijson.Discriminator[ManagedAgentsAgentToolset20260401Params]("agent_toolset_20260401"),
+		apijson.Discriminator[ManagedBrowserToolset20260714Param]("browser_toolset_20260714"),
 		apijson.Discriminator[ManagedAgentsMCPToolsetParams]("mcp_toolset"),
 		apijson.Discriminator[ManagedAgentsCustomToolParams]("custom"),
 	)
@@ -1513,6 +1533,8 @@ type ManagedAgentsSessionAgentToolUnion struct {
 	DefaultConfig ManagedAgentsSessionAgentToolUnionDefaultConfig `json:"default_config"`
 	// Any of "agent_toolset_20260401", "mcp_toolset", "custom".
 	Type string `json:"type"`
+	// Top-level wildcard policy from variant [ManagedAgentsMCPToolset].
+	PermissionPolicy ManagedAgentsMCPToolConfigPermissionPolicyUnion `json:"permission_policy"`
 	// This field is from variant [ManagedAgentsMCPToolset].
 	MCPServerName string `json:"mcp_server_name"`
 	// This field is from variant [ManagedAgentsCustomTool].
@@ -1522,16 +1544,17 @@ type ManagedAgentsSessionAgentToolUnion struct {
 	// This field is from variant [ManagedAgentsCustomTool].
 	Name string `json:"name"`
 	JSON struct {
-		EnabledTools    respjson.Field
-		DisallowedTools respjson.Field
-		Configs         respjson.Field
-		DefaultConfig   respjson.Field
-		Type            respjson.Field
-		MCPServerName   respjson.Field
-		Description     respjson.Field
-		InputSchema     respjson.Field
-		Name            respjson.Field
-		raw             string
+		EnabledTools     respjson.Field
+		DisallowedTools  respjson.Field
+		Configs          respjson.Field
+		DefaultConfig    respjson.Field
+		Type             respjson.Field
+		MCPServerName    respjson.Field
+		PermissionPolicy respjson.Field
+		Description      respjson.Field
+		InputSchema      respjson.Field
+		Name             respjson.Field
+		raw              string
 	} `json:"-"`
 }
 
@@ -1557,6 +1580,8 @@ func (ManagedAgentsCustomTool) implManagedAgentsSessionAgentToolUnion()         
 //	}
 func (u ManagedAgentsSessionAgentToolUnion) AsAny() anyManagedAgentsSessionAgentTool {
 	switch u.Type {
+	case "browser_toolset_20260714":
+		return u.AsBrowserToolset20260714()
 	case "agent_toolset_20260401":
 		return u.AsAgentToolset20260401()
 	case "mcp_toolset":
@@ -1696,14 +1721,15 @@ func (r *ManagedAgentsSessionAgentUpdateParam) UnmarshalJSON(data []byte) error 
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type ManagedAgentsSessionAgentUpdateToolUnionParam struct {
-	OfAgentToolset20260401 *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
-	OfMCPToolset           *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
-	OfCustom               *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
+	OfAgentToolset20260401   *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
+	OfBrowserToolset20260714 *ManagedBrowserToolset20260714Param      `json:",omitzero,inline"`
+	OfMCPToolset             *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
+	OfCustom                 *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ManagedAgentsSessionAgentUpdateToolUnionParam) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfAgentToolset20260401, u.OfMCPToolset, u.OfCustom)
+	return param.MarshalUnion(u, u.OfAgentToolset20260401, u.OfMCPToolset, u.OfCustom, u.OfBrowserToolset20260714)
 }
 func (u *ManagedAgentsSessionAgentUpdateToolUnionParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -1716,6 +1742,8 @@ func (u *ManagedAgentsSessionAgentUpdateToolUnionParam) asAny() any {
 		return u.OfMCPToolset
 	} else if !param.IsOmitted(u.OfCustom) {
 		return u.OfCustom
+	} else if !param.IsOmitted(u.OfBrowserToolset20260714) {
+		return u.OfBrowserToolset20260714
 	}
 	return nil
 }
@@ -1726,6 +1754,14 @@ func (u ManagedAgentsSessionAgentUpdateToolUnionParam) GetMCPServerName() *strin
 		return &vt.MCPServerName
 	}
 	return nil
+}
+
+// Returns the MCP toolset's top-level wildcard policy, or an omitted union.
+func (u ManagedAgentsSessionAgentUpdateToolUnionParam) GetPermissionPolicy() (res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) {
+	if vt := u.OfMCPToolset; vt != nil {
+		return vt.PermissionPolicy
+	}
+	return res
 }
 
 // Returns a pointer to the underlying variant's property, if present.
@@ -1759,6 +1795,8 @@ func (u ManagedAgentsSessionAgentUpdateToolUnionParam) GetType() *string {
 	} else if vt := u.OfMCPToolset; vt != nil {
 		return (*string)(&vt.Type)
 	} else if vt := u.OfCustom; vt != nil {
+		return (*string)(&vt.Type)
+	} else if vt := u.OfBrowserToolset20260714; vt != nil {
 		return (*string)(&vt.Type)
 	}
 	return nil
@@ -1833,9 +1871,9 @@ func (u managedAgentsSessionAgentUpdateToolUnionParamDefaultConfig) GetEnabled()
 func (u managedAgentsSessionAgentUpdateToolUnionParamDefaultConfig) GetPermissionPolicy() (res managedAgentsSessionAgentUpdateToolUnionParamDefaultConfigPermissionPolicy) {
 	switch vt := u.any.(type) {
 	case *ManagedAgentsAgentToolsetDefaultConfigParams:
-		res.any = vt.PermissionPolicy
+		res.any = vt.PermissionPolicy.asAny()
 	case *ManagedAgentsMCPToolsetDefaultConfigParams:
-		res.any = vt.PermissionPolicy
+		res.any = vt.PermissionPolicy.asAny()
 	}
 	return res
 }
@@ -1859,6 +1897,12 @@ func (u managedAgentsSessionAgentUpdateToolUnionParamDefaultConfigPermissionPoli
 // Returns a pointer to the underlying variant's property, if present.
 func (u managedAgentsSessionAgentUpdateToolUnionParamDefaultConfigPermissionPolicy) GetType() *string {
 	switch vt := u.any.(type) {
+	case *ManagedAgentsAlwaysAllowPolicyParam:
+		return (*string)(&vt.Type)
+	case *ManagedAgentsAlwaysAskPolicyParam:
+		return (*string)(&vt.Type)
+	case *ManagedAgentsAlwaysDenyPolicyParam:
+		return (*string)(&vt.Type)
 	case *ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion:
 		return vt.GetType()
 	case *ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion:
@@ -1871,6 +1915,7 @@ func init() {
 	apijson.RegisterUnion[ManagedAgentsSessionAgentUpdateToolUnionParam](
 		"type",
 		apijson.Discriminator[ManagedAgentsAgentToolset20260401Params]("agent_toolset_20260401"),
+		apijson.Discriminator[ManagedBrowserToolset20260714Param]("browser_toolset_20260714"),
 		apijson.Discriminator[ManagedAgentsMCPToolsetParams]("mcp_toolset"),
 		apijson.Discriminator[ManagedAgentsCustomToolParams]("custom"),
 	)

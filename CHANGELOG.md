@@ -5,18 +5,32 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+### Added
+
+- Add nullable Forward Session multiagent updates and response snapshots, plus create-only `auto_title`. Title conflicts remain server-validated; Session creation does not accept multiagent overrides.
+- Add independent Template A2A configuration and `Templates.GetAgentCard`, with Identity query scope, A2A version headers and unknown-preserving 0.3/1.0 Agent Cards.
+- Add typed Forward Environment packages, setup/startup scripts and OSS bucket storage, with write credentials separated from masked response views. Credential omission preserves stored credentials on update.
+- Add Managed `always_deny` policies across built-in tools, default configurations and MCP; canonical-name ImageGen, ImageSearch, VideoGen and DeliverArtifacts configurations; and type-only `ManagedBrowserToolset20260714` across Agent and Session/Thread tool unions.
+
 ### Fixed
 
+- Decode Managed tool configurations using case-insensitive canonical names and snake_case aliases, preserving the authored name when round-tripping request parameters.
+- Preserve unknown fields, malformed members, explicit nulls and authored empty objects when decoding typed Forward Environment and Template A2A parameters. Typed edits replace automatically retained raw values; explicit caller overrides retain precedence. Invalid values reach server validation rather than disappearing from a configuration update.
+- Clear stale null metadata when reusing a decoded Forward Session multiagent update parameter, so a subsequent roster is sent instead of an unintended clearing request.
+- Expose the top-level Managed MCP toolset `permission_policy` for wildcard governance, including `always_deny`. Legacy `default_config.permission_policy` remains unchanged on the wire and does not set the wildcard policy.
 - Send no request body from Forward `Dreams.Cancel` and `Dreams.Archive`. Earlier releases sent `{}`, which the service rejects with HTTP 400 `invalid_request_body`.
 - Omit an empty Forward `ModelConfigParam.ID`, so an Identity Config update can change `effort`, `speed` or `context_window` while inheriting the stored model ID. Other endpoints still require the ID.
 - Decode Managed Agent multiagent roster child versions saved as `"latest"`, and accept `"latest"` or positive integer strings in roster requests. Session and Deployment Agent references keep numeric versions.
 
 ### Breaking changes
 
+- Forward `EnvironmentNewParams.Config` and `EnvironmentUpdateParams.Config` now use `EnvironmentConfigParams` instead of `map[string]any`.
 - `ManagedAgentsMultiagentAgentUnion.Version` is now `ManagedAgentsMultiagentAgentVersionUnion`, and `AsAgent()` returns `ManagedAgentsMultiagentAgentReference`. Roster entries use `ManagedAgentsMultiagentAgentParams`, whose `Version` is a `ManagedAgentsMultiagentAgentVersionUnionParam`.
 
 ### Migration
 
+- Replace `Config: map[string]any{"type": "cloud"}` with `Config: forward.EnvironmentConfigParams{Type: forward.String("cloud")}`. Use `EnvironmentConfigPackagesParam`, `EnvironmentStorageParam` and `EnvironmentStorageBucketParam` for nested configuration. Omit the entire Config on update to preserve it. A supplied Config replaces it, so resend buckets to retain mounts. Set `EnvironmentStorageCredentialParam` only when creating or replacing credentials; omit it on a bucket with the same Name to retain that bucket's credentials. Request OSS access with `option.WithHeader("X-Qoder-Beta", "oss-bucket-2026-09-23")`; Forward permits at most seven buckets.
+- Clear a Session multiagent override with `param.NullStruct[forward.MultiagentConfigParam]()`, not a create-time Config field. Omit Template A2A (or send `{}`) to preserve it, use `param.NullStruct[forward.TemplateA2AConfigParam]()` to disable and clear it, and `Skills: []forward.TemplateA2ASkillParam{}` to replace the advertised skills with an empty list. A2A member nulls are rejected by the service.
 - Read a saved numeric version from `Version.OfInt` and `"latest"` from `Version.OfString`; check `Version.JSON.OfInt.Valid()` first.
 - Replace roster `&managed.ManagedAgentsAgentParams{ID: id, Type: "agent", Version: managed.Int(3)}` with `&managed.ManagedAgentsMultiagentAgentParams{ID: id, Type: "agent", Version: managed.ManagedAgentsMultiagentAgentVersionUnionParam{OfInt: managed.Int(3)}}`; use `OfString: managed.String("latest")` to follow the latest version.
 

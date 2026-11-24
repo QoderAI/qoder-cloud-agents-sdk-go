@@ -87,7 +87,7 @@ type EnvironmentNewParams struct {
 	// Environment runtime configuration; defaults to `{"type":"cloud"}` when omitted.
 	// When passed explicitly it must not be `null` or an empty object. See the schemas
 	// for the available fields.
-	Config map[string]any `json:"config,omitzero"`
+	Config EnvironmentConfigParams `json:"config,omitzero"`
 	// [Environment metadata](./schemas.md#environment-metadata); defaults to `{}` when
 	// omitted and must not be `null` when passed explicitly.
 	Metadata map[string]any `json:"metadata,omitzero"`
@@ -101,8 +101,12 @@ func (r EnvironmentNewParams) MarshalJSON() ([]byte, error) {
 	type shadow EnvironmentNewParams
 	return param.MarshalObject(r, (*shadow)(&r))
 }
+func (r *EnvironmentNewParams) UnmarshalAPIJSON(data []byte) error { return r.UnmarshalJSON(data) }
 func (r *EnvironmentNewParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+	if err := apijson.UnmarshalRoot(data, r); err != nil {
+		return err
+	}
+	return unmarshalEnvironmentConfig(data, &r.Config)
 }
 
 // Get Environment
@@ -136,9 +140,10 @@ type EnvironmentUpdateParams struct {
 	Name param.Opt[string] `json:"name,omitzero"`
 	// New description.
 	Description param.Opt[string] `json:"description,omitzero"`
-	// New configuration; must not be `null` when passed, an explicit `null` returns 400.
-	// See the schemas for the available fields.
-	Config map[string]any `json:"config,omitzero"`
+	// Full configuration replacement. Omit Config to preserve it; when supplying
+	// Config, resend buckets to retain mounts. Only a same-name bucket's omitted
+	// credential preserves its stored credential. Explicit Config null returns 400.
+	Config EnvironmentConfigParams `json:"config,omitzero"`
 	// [Environment metadata](./schemas.md#environment-metadata) to merge; must not be
 	// `null` when passed, an explicit `null` returns 400.
 	Metadata map[string]any `json:"metadata,omitzero"`
@@ -149,8 +154,12 @@ func (r EnvironmentUpdateParams) MarshalJSON() ([]byte, error) {
 	type shadow EnvironmentUpdateParams
 	return param.MarshalObject(r, (*shadow)(&r))
 }
+func (r *EnvironmentUpdateParams) UnmarshalAPIJSON(data []byte) error { return r.UnmarshalJSON(data) }
 func (r *EnvironmentUpdateParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+	if err := apijson.UnmarshalRoot(data, r); err != nil {
+		return err
+	}
+	return unmarshalEnvironmentConfig(data, &r.Config)
 }
 
 // Archive an environment retained by historical sessions or tool calls.
@@ -211,12 +220,14 @@ func (r Environment) RawJSON() string                  { return r.JSON.raw }
 func (r *Environment) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type EnvironmentConfig struct {
+	Storage EnvironmentStorage `json:"storage"`
 	// Runs on sandbox start/resume; self-hosted execution depends on the worker.
 	StartupScript string                    `json:"startup_script"`
 	SetupScript   string                    `json:"setup_script"`
 	Type          string                    `json:"type"`
 	Packages      EnvironmentConfigPackages `json:"packages"`
 	JSON          struct {
+		Storage       respjson.Field
 		StartupScript respjson.Field
 		SetupScript   respjson.Field
 		Type          respjson.Field

@@ -227,11 +227,13 @@ func (r *SkillBindingParam) UnmarshalJSON(data []byte) error { return apijson.Un
 
 type MultiagentEntry struct {
 	OfString   string `json:"-"`
+	ID         string `json:"id"`
 	Model      string `json:"model"`
 	Type       string `json:"type" api:"required"`
 	TemplateID string `json:"template_id"`
 	Name       string `json:"name"`
 	JSON       struct {
+		ID          respjson.Field
 		Model       respjson.Field
 		Type        respjson.Field
 		TemplateID  respjson.Field
@@ -256,6 +258,7 @@ func (r *MultiagentEntry) UnmarshalJSON(data []byte) error {
 
 type MultiagentEntryParam struct {
 	OfString   param.Opt[string] `json:"-"`
+	ID         param.Opt[string] `json:"id,omitzero"`
 	Model      param.Opt[string] `json:"model,omitzero"`
 	Type       string            `json:"type" api:"required"`
 	TemplateID param.Opt[string] `json:"template_id,omitzero"`
@@ -265,7 +268,7 @@ type MultiagentEntryParam struct {
 
 func (r MultiagentEntryParam) MarshalJSON() ([]byte, error) {
 	if r.OfString.Valid() {
-		if r.Type != "" || r.Model.Valid() || r.TemplateID.Valid() || r.Name.Valid() {
+		if r.Type != "" || r.ID.Valid() || r.Model.Valid() || r.TemplateID.Valid() || r.Name.Valid() {
 			return nil, fmt.Errorf("multiagent entry must be either a template ID or an object")
 		}
 		return json.Marshal(r.OfString.Value)

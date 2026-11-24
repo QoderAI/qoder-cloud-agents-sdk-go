@@ -16,6 +16,26 @@ func ValueOf[T Constant[T]]() T {
 	return t.Default()
 }
 
+type AlwaysDeny string
+type BrowserToolset20260714 string
+type ImageGen string
+type ImageSearch string
+type VideoGen string
+type DeliverArtifacts string
+
+func (c AlwaysDeny) Default() AlwaysDeny                         { return "always_deny" }
+func (c BrowserToolset20260714) Default() BrowserToolset20260714 { return "browser_toolset_20260714" }
+func (c ImageGen) Default() ImageGen                             { return "ImageGen" }
+func (c ImageSearch) Default() ImageSearch                       { return "ImageSearch" }
+func (c VideoGen) Default() VideoGen                             { return "VideoGen" }
+func (c DeliverArtifacts) Default() DeliverArtifacts             { return "DeliverArtifacts" }
+func (c AlwaysDeny) MarshalJSON() ([]byte, error)                { return marshalString(c) }
+func (c BrowserToolset20260714) MarshalJSON() ([]byte, error)    { return marshalString(c) }
+func (c ImageGen) MarshalJSON() ([]byte, error)                  { return marshalString(c) }
+func (c ImageSearch) MarshalJSON() ([]byte, error)               { return marshalString(c) }
+func (c VideoGen) MarshalJSON() ([]byte, error)                  { return marshalString(c) }
+func (c DeliverArtifacts) MarshalJSON() ([]byte, error)          { return marshalString(c) }
+
 type Adaptive string                                // Always "adaptive"
 type Advisor string                                 // Always "advisor"
 type Advisor20260301 string                         // Always "advisor_20260301"

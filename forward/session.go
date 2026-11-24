@@ -2,6 +2,7 @@ package forward
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -104,6 +105,7 @@ func (r *SessionService) New(ctx context.Context, params SessionNewParams, opts 
 }
 
 type SessionNewParams struct {
+	AutoTitle param.Opt[bool] `json:"auto_title,omitzero"`
 	// Omit to keep the default/current budget; use param.NullStruct[SessionBudgetParam]() to clear.
 	Budget SessionBudgetParam `json:"budget,omitzero" api:"nullable"`
 	// Forward Identity ID.
@@ -188,6 +190,7 @@ func (r SessionUpdateParams) MarshalJSON() ([]byte, error) {
 func (r *SessionUpdateParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type SessionUpdateParamsConfigParam struct {
+	Multiagent MultiagentConfigParam `json:"multiagent,omitzero" api:"nullable"`
 	// Model override. Omit on create to inherit; explicit null on update restores inheritance.
 	Model                ModelConfigUnionParam `json:"model,omitzero"`
 	EnvironmentVariables map[string]any        `json:"environment_variables,omitzero"`
@@ -198,8 +201,28 @@ func (r SessionUpdateParamsConfigParam) MarshalJSON() ([]byte, error) {
 	type shadow SessionUpdateParamsConfigParam
 	return param.MarshalObject(r, (*shadow)(&r))
 }
+func (r *SessionUpdateParamsConfigParam) UnmarshalAPIJSON(data []byte) error {
+	return r.UnmarshalJSON(data)
+}
+
 func (r *SessionUpdateParamsConfigParam) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+	if err := apijson.UnmarshalRoot(data, r); err != nil {
+		return err
+	}
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if raw, present := fields["multiagent"]; present {
+		var multiagent MultiagentConfigParam
+		if string(raw) == "null" {
+			multiagent = param.NullStruct[MultiagentConfigParam]()
+		} else if err := json.Unmarshal(raw, &multiagent); err != nil {
+			return err
+		}
+		r.Multiagent = multiagent
+	}
+	return nil
 }
 
 // Archive Session
@@ -332,9 +355,11 @@ func (r SessionStats) RawJSON() string                  { return r.JSON.raw }
 func (r *SessionStats) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type SessionConfig struct {
+	Multiagent           MultiagentConfig  `json:"multiagent" api:"nullable"`
 	Model                ModelConfig       `json:"model"`
 	EnvironmentVariables map[string]string `json:"environment_variables"`
 	JSON                 struct {
+		Multiagent           respjson.Field
 		Model                respjson.Field
 		EnvironmentVariables respjson.Field
 		ExtraFields          map[string]respjson.Field

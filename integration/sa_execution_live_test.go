@@ -92,7 +92,7 @@ func TestServiceAccountExecutionLive(t *testing.T) {
 }
 
 func saForwardExecution(t *testing.T, ctx context.Context, client forward.Client, model string) {
-	environment, err := client.Environments.New(ctx, forward.EnvironmentNewParams{Name: "sdk-go-sa-env-" + testsupport.Marker(t), Config: map[string]any{"type": "cloud"}})
+	environment, err := client.Environments.New(ctx, forward.EnvironmentNewParams{Name: "sdk-go-sa-env-" + testsupport.Marker(t), Config: forward.EnvironmentConfigParams{Type: forward.String("cloud")}})
 	saCheck(t, err)
 	saCleanup(t, "environment "+environment.ID, func(ctx context.Context) error {
 		_, err := client.Environments.Archive(ctx, environment.ID)
