@@ -5,6 +5,8 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ## [Unreleased]
 
+## [0.16.0]
+
 ### Added
 
 - Add nullable Forward Session multiagent updates and response snapshots, plus create-only `auto_title`. Title conflicts remain server-validated; Session creation does not accept multiagent overrides.
