@@ -78,7 +78,7 @@ func (s *liveSuite) cleanup(t *testing.T, label string, fn func(context.Context)
 }
 func (s *liveSuite) environment(t *testing.T) *forward.Environment {
 	t.Helper()
-	r, err := s.client.Environments.New(s.context(t), forward.EnvironmentNewParams{Name: liveName("environment"), Config: map[string]any{"type": "cloud"}})
+	r, err := s.client.Environments.New(s.context(t), forward.EnvironmentNewParams{Name: liveName("environment"), Config: forward.EnvironmentConfigParams{Type: forward.String("cloud")}})
 	liveCheck(t, err)
 	s.cleanup(t, "environment", func(ctx context.Context) error {
 		err := s.client.Environments.Delete(ctx, r.ID)

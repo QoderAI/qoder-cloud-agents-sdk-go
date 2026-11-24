@@ -301,11 +301,20 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type EnvironmentConfigPackages](<#EnvironmentConfigPackages>)
   - [func \(r EnvironmentConfigPackages\) RawJSON\(\) string](<#EnvironmentConfigPackages.RawJSON>)
   - [func \(r \*EnvironmentConfigPackages\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentConfigPackages.UnmarshalJSON>)
+- [type EnvironmentConfigPackagesParam](<#EnvironmentConfigPackagesParam>)
+  - [func \(r EnvironmentConfigPackagesParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentConfigPackagesParam.MarshalJSON>)
+  - [func \(r \*EnvironmentConfigPackagesParam\) UnmarshalAPIJSON\(data \[\]byte\) error](<#EnvironmentConfigPackagesParam.UnmarshalAPIJSON>)
+  - [func \(r \*EnvironmentConfigPackagesParam\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentConfigPackagesParam.UnmarshalJSON>)
+- [type EnvironmentConfigParams](<#EnvironmentConfigParams>)
+  - [func \(r EnvironmentConfigParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentConfigParams.MarshalJSON>)
+  - [func \(r \*EnvironmentConfigParams\) UnmarshalAPIJSON\(data \[\]byte\) error](<#EnvironmentConfigParams.UnmarshalAPIJSON>)
+  - [func \(r \*EnvironmentConfigParams\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentConfigParams.UnmarshalJSON>)
 - [type EnvironmentListParams](<#EnvironmentListParams>)
   - [func \(r EnvironmentListParams\) URLQuery\(\) \(url.Values, error\)](<#EnvironmentListParams.URLQuery>)
 - [type EnvironmentNewParams](<#EnvironmentNewParams>)
   - [func \(r EnvironmentNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentNewParams.MarshalJSON>)
   - [func \(r EnvironmentNewParams\) URLQuery\(\) \(url.Values, error\)](<#EnvironmentNewParams.URLQuery>)
+  - [func \(r \*EnvironmentNewParams\) UnmarshalAPIJSON\(data \[\]byte\) error](<#EnvironmentNewParams.UnmarshalAPIJSON>)
   - [func \(r \*EnvironmentNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentNewParams.UnmarshalJSON>)
 - [type EnvironmentSearchParams](<#EnvironmentSearchParams>)
   - [func \(r EnvironmentSearchParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentSearchParams.MarshalJSON>)
@@ -322,9 +331,31 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*EnvironmentService\) Search\(ctx context.Context, params EnvironmentSearchParams, opts ...option.RequestOption\) \(\*pagination.PageCursor\[Environment\], error\)](<#EnvironmentService.Search>)
   - [func \(r \*EnvironmentService\) SearchAutoPaging\(ctx context.Context, params EnvironmentSearchParams, opts ...option.RequestOption\) \*pagination.PageCursorAutoPager\[Environment\]](<#EnvironmentService.SearchAutoPaging>)
   - [func \(r \*EnvironmentService\) Update\(ctx context.Context, id string, params EnvironmentUpdateParams, opts ...option.RequestOption\) \(res \*Environment, err error\)](<#EnvironmentService.Update>)
+- [type EnvironmentStorage](<#EnvironmentStorage>)
+  - [func \(r EnvironmentStorage\) RawJSON\(\) string](<#EnvironmentStorage.RawJSON>)
+  - [func \(r \*EnvironmentStorage\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentStorage.UnmarshalJSON>)
+- [type EnvironmentStorageBucket](<#EnvironmentStorageBucket>)
+  - [func \(r EnvironmentStorageBucket\) RawJSON\(\) string](<#EnvironmentStorageBucket.RawJSON>)
+  - [func \(r \*EnvironmentStorageBucket\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentStorageBucket.UnmarshalJSON>)
+- [type EnvironmentStorageBucketParam](<#EnvironmentStorageBucketParam>)
+  - [func \(r EnvironmentStorageBucketParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentStorageBucketParam.MarshalJSON>)
+  - [func \(r \*EnvironmentStorageBucketParam\) UnmarshalAPIJSON\(data \[\]byte\) error](<#EnvironmentStorageBucketParam.UnmarshalAPIJSON>)
+  - [func \(r \*EnvironmentStorageBucketParam\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentStorageBucketParam.UnmarshalJSON>)
+- [type EnvironmentStorageCredential](<#EnvironmentStorageCredential>)
+  - [func \(r EnvironmentStorageCredential\) RawJSON\(\) string](<#EnvironmentStorageCredential.RawJSON>)
+  - [func \(r \*EnvironmentStorageCredential\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentStorageCredential.UnmarshalJSON>)
+- [type EnvironmentStorageCredentialParam](<#EnvironmentStorageCredentialParam>)
+  - [func \(r EnvironmentStorageCredentialParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentStorageCredentialParam.MarshalJSON>)
+  - [func \(r \*EnvironmentStorageCredentialParam\) UnmarshalAPIJSON\(data \[\]byte\) error](<#EnvironmentStorageCredentialParam.UnmarshalAPIJSON>)
+  - [func \(r \*EnvironmentStorageCredentialParam\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentStorageCredentialParam.UnmarshalJSON>)
+- [type EnvironmentStorageParam](<#EnvironmentStorageParam>)
+  - [func \(r EnvironmentStorageParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentStorageParam.MarshalJSON>)
+  - [func \(r \*EnvironmentStorageParam\) UnmarshalAPIJSON\(data \[\]byte\) error](<#EnvironmentStorageParam.UnmarshalAPIJSON>)
+  - [func \(r \*EnvironmentStorageParam\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentStorageParam.UnmarshalJSON>)
 - [type EnvironmentUpdateParams](<#EnvironmentUpdateParams>)
   - [func \(r EnvironmentUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#EnvironmentUpdateParams.MarshalJSON>)
   - [func \(r EnvironmentUpdateParams\) URLQuery\(\) \(url.Values, error\)](<#EnvironmentUpdateParams.URLQuery>)
+  - [func \(r \*EnvironmentUpdateParams\) UnmarshalAPIJSON\(data \[\]byte\) error](<#EnvironmentUpdateParams.UnmarshalAPIJSON>)
   - [func \(r \*EnvironmentUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#EnvironmentUpdateParams.UnmarshalJSON>)
 - [type EnvironmentVariableOverride](<#EnvironmentVariableOverride>)
   - [func \(r EnvironmentVariableOverride\) RawJSON\(\) string](<#EnvironmentVariableOverride.RawJSON>)
@@ -909,6 +940,7 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
   - [func \(r \*SessionUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#SessionUpdateParams.UnmarshalJSON>)
 - [type SessionUpdateParamsConfigParam](<#SessionUpdateParamsConfigParam>)
   - [func \(r SessionUpdateParamsConfigParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#SessionUpdateParamsConfigParam.MarshalJSON>)
+  - [func \(r \*SessionUpdateParamsConfigParam\) UnmarshalAPIJSON\(data \[\]byte\) error](<#SessionUpdateParamsConfigParam.UnmarshalAPIJSON>)
   - [func \(r \*SessionUpdateParamsConfigParam\) UnmarshalJSON\(data \[\]byte\) error](<#SessionUpdateParamsConfigParam.UnmarshalJSON>)
 - [type SessionUsage](<#SessionUsage>)
   - [func \(r SessionUsage\) RawJSON\(\) string](<#SessionUsage.RawJSON>)
@@ -981,27 +1013,52 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/forward"
 - [type Template](<#Template>)
   - [func \(r Template\) RawJSON\(\) string](<#Template.RawJSON>)
   - [func \(r \*Template\) UnmarshalJSON\(data \[\]byte\) error](<#Template.UnmarshalJSON>)
+- [type TemplateA2AConfig](<#TemplateA2AConfig>)
+  - [func \(r TemplateA2AConfig\) RawJSON\(\) string](<#TemplateA2AConfig.RawJSON>)
+  - [func \(r \*TemplateA2AConfig\) UnmarshalJSON\(data \[\]byte\) error](<#TemplateA2AConfig.UnmarshalJSON>)
+- [type TemplateA2AConfigParam](<#TemplateA2AConfigParam>)
+  - [func \(r TemplateA2AConfigParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#TemplateA2AConfigParam.MarshalJSON>)
+  - [func \(r \*TemplateA2AConfigParam\) UnmarshalAPIJSON\(data \[\]byte\) error](<#TemplateA2AConfigParam.UnmarshalAPIJSON>)
+  - [func \(r \*TemplateA2AConfigParam\) UnmarshalJSON\(data \[\]byte\) error](<#TemplateA2AConfigParam.UnmarshalJSON>)
+- [type TemplateA2ASkill](<#TemplateA2ASkill>)
+  - [func \(r TemplateA2ASkill\) RawJSON\(\) string](<#TemplateA2ASkill.RawJSON>)
+  - [func \(r \*TemplateA2ASkill\) UnmarshalJSON\(data \[\]byte\) error](<#TemplateA2ASkill.UnmarshalJSON>)
+- [type TemplateA2ASkillParam](<#TemplateA2ASkillParam>)
+  - [func \(r TemplateA2ASkillParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#TemplateA2ASkillParam.MarshalJSON>)
+  - [func \(r \*TemplateA2ASkillParam\) UnmarshalAPIJSON\(data \[\]byte\) error](<#TemplateA2ASkillParam.UnmarshalAPIJSON>)
+  - [func \(r \*TemplateA2ASkillParam\) UnmarshalJSON\(data \[\]byte\) error](<#TemplateA2ASkillParam.UnmarshalJSON>)
+- [type TemplateAgentCard](<#TemplateAgentCard>)
+  - [func \(r TemplateAgentCard\) RawJSON\(\) string](<#TemplateAgentCard.RawJSON>)
+  - [func \(r \*TemplateAgentCard\) UnmarshalJSON\(data \[\]byte\) error](<#TemplateAgentCard.UnmarshalJSON>)
+- [type TemplateAgentCardInterface](<#TemplateAgentCardInterface>)
+  - [func \(r TemplateAgentCardInterface\) RawJSON\(\) string](<#TemplateAgentCardInterface.RawJSON>)
+  - [func \(r \*TemplateAgentCardInterface\) UnmarshalJSON\(data \[\]byte\) error](<#TemplateAgentCardInterface.UnmarshalJSON>)
 - [type TemplateArchiveParams](<#TemplateArchiveParams>)
   - [func \(r TemplateArchiveParams\) URLQuery\(\) \(url.Values, error\)](<#TemplateArchiveParams.URLQuery>)
 - [type TemplateCloneParams](<#TemplateCloneParams>)
   - [func \(r TemplateCloneParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#TemplateCloneParams.MarshalJSON>)
   - [func \(r \*TemplateCloneParams\) UnmarshalJSON\(data \[\]byte\) error](<#TemplateCloneParams.UnmarshalJSON>)
+- [type TemplateGetAgentCardParams](<#TemplateGetAgentCardParams>)
+  - [func \(r TemplateGetAgentCardParams\) URLQuery\(\) \(url.Values, error\)](<#TemplateGetAgentCardParams.URLQuery>)
 - [type TemplateListParams](<#TemplateListParams>)
   - [func \(r TemplateListParams\) URLQuery\(\) \(url.Values, error\)](<#TemplateListParams.URLQuery>)
 - [type TemplateNewParams](<#TemplateNewParams>)
   - [func \(r TemplateNewParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#TemplateNewParams.MarshalJSON>)
+  - [func \(r \*TemplateNewParams\) UnmarshalAPIJSON\(data \[\]byte\) error](<#TemplateNewParams.UnmarshalAPIJSON>)
   - [func \(r \*TemplateNewParams\) UnmarshalJSON\(data \[\]byte\) error](<#TemplateNewParams.UnmarshalJSON>)
 - [type TemplateService](<#TemplateService>)
   - [func NewTemplateService\(opts ...option.RequestOption\) TemplateService](<#NewTemplateService>)
   - [func \(r \*TemplateService\) Archive\(ctx context.Context, templateID string, params TemplateArchiveParams, opts ...option.RequestOption\) \(res \*Template, err error\)](<#TemplateService.Archive>)
   - [func \(r \*TemplateService\) Clone\(ctx context.Context, templateID string, params TemplateCloneParams, opts ...option.RequestOption\) \(res \*Template, err error\)](<#TemplateService.Clone>)
   - [func \(r \*TemplateService\) Get\(ctx context.Context, templateID string, opts ...option.RequestOption\) \(res \*Template, err error\)](<#TemplateService.Get>)
+  - [func \(r \*TemplateService\) GetAgentCard\(ctx context.Context, templateID string, params TemplateGetAgentCardParams, opts ...option.RequestOption\) \(res \*TemplateAgentCard, err error\)](<#TemplateService.GetAgentCard>)
   - [func \(r \*TemplateService\) List\(ctx context.Context, params TemplateListParams, opts ...option.RequestOption\) \(res \*pagination.Page\[Template\], err error\)](<#TemplateService.List>)
   - [func \(r \*TemplateService\) ListAutoPaging\(ctx context.Context, params TemplateListParams, opts ...option.RequestOption\) \*pagination.PageAutoPager\[Template\]](<#TemplateService.ListAutoPaging>)
   - [func \(r \*TemplateService\) New\(ctx context.Context, params TemplateNewParams, opts ...option.RequestOption\) \(res \*Template, err error\)](<#TemplateService.New>)
   - [func \(r \*TemplateService\) Update\(ctx context.Context, templateID string, params TemplateUpdateParams, opts ...option.RequestOption\) \(res \*Template, err error\)](<#TemplateService.Update>)
 - [type TemplateUpdateParams](<#TemplateUpdateParams>)
   - [func \(r TemplateUpdateParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#TemplateUpdateParams.MarshalJSON>)
+  - [func \(r \*TemplateUpdateParams\) UnmarshalAPIJSON\(data \[\]byte\) error](<#TemplateUpdateParams.UnmarshalAPIJSON>)
   - [func \(r \*TemplateUpdateParams\) UnmarshalJSON\(data \[\]byte\) error](<#TemplateUpdateParams.UnmarshalJSON>)
 - [type TemplateUsage](<#TemplateUsage>)
   - [func \(r TemplateUsage\) RawJSON\(\) string](<#TemplateUsage.RawJSON>)
@@ -4731,12 +4788,14 @@ func (r *EnvironmentBindingInfo) UnmarshalJSON(data []byte) error
 
 ```go
 type EnvironmentConfig struct {
+    Storage EnvironmentStorage `json:"storage"`
     // Runs on sandbox start/resume; self-hosted execution depends on the worker.
     StartupScript string                    `json:"startup_script"`
     SetupScript   string                    `json:"setup_script"`
     Type          string                    `json:"type"`
     Packages      EnvironmentConfigPackages `json:"packages"`
     JSON          struct {
+        Storage       respjson.Field
         StartupScript respjson.Field
         SetupScript   respjson.Field
         Type          respjson.Field
@@ -4811,6 +4870,93 @@ func (r *EnvironmentConfigPackages) UnmarshalJSON(data []byte) error
 
 
 
+<a name="EnvironmentConfigPackagesParam"></a>
+## type [EnvironmentConfigPackagesParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+
+
+```go
+type EnvironmentConfigPackagesParam struct {
+    Apt   []string `json:"apt,omitzero"`
+    Npm   []string `json:"npm,omitzero"`
+    Pip   []string `json:"pip,omitzero"`
+    Cargo []string `json:"cargo,omitzero"`
+    Gem   []string `json:"gem,omitzero"`
+    Go    []string `json:"go,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="EnvironmentConfigPackagesParam.MarshalJSON"></a>
+### func \(EnvironmentConfigPackagesParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r EnvironmentConfigPackagesParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="EnvironmentConfigPackagesParam.UnmarshalAPIJSON"></a>
+### func \(\*EnvironmentConfigPackagesParam\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentConfigPackagesParam) UnmarshalAPIJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentConfigPackagesParam.UnmarshalJSON"></a>
+### func \(\*EnvironmentConfigPackagesParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentConfigPackagesParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentConfigParams"></a>
+## type [EnvironmentConfigParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+
+
+```go
+type EnvironmentConfigParams struct {
+    Type          param.Opt[string]              `json:"type,omitzero"`
+    Packages      EnvironmentConfigPackagesParam `json:"packages,omitzero"`
+    SetupScript   param.Opt[string]              `json:"setup_script,omitzero"`
+    StartupScript param.Opt[string]              `json:"startup_script,omitzero"`
+    Storage       EnvironmentStorageParam        `json:"storage,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="EnvironmentConfigParams.MarshalJSON"></a>
+### func \(EnvironmentConfigParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r EnvironmentConfigParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="EnvironmentConfigParams.UnmarshalAPIJSON"></a>
+### func \(\*EnvironmentConfigParams\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentConfigParams) UnmarshalAPIJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentConfigParams.UnmarshalJSON"></a>
+### func \(\*EnvironmentConfigParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentConfigParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="EnvironmentListParams"></a>
 ## type [EnvironmentListParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
 
@@ -4858,7 +5004,7 @@ type EnvironmentNewParams struct {
     // Environment runtime configuration; defaults to `{"type":"cloud"}` when omitted.
     // When passed explicitly it must not be `null` or an empty object. See the schemas
     // for the available fields.
-    Config map[string]any `json:"config,omitzero"`
+    Config EnvironmentConfigParams `json:"config,omitzero"`
     // [Environment metadata](./schemas.md#environment-metadata); defaults to `{}` when
     // omitted and must not be `null` when passed explicitly.
     Metadata map[string]any `json:"metadata,omitzero"`
@@ -4883,6 +5029,15 @@ func (r EnvironmentNewParams) MarshalJSON() ([]byte, error)
 
 ```go
 func (r EnvironmentNewParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="EnvironmentNewParams.UnmarshalAPIJSON"></a>
+### func \(\*EnvironmentNewParams\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+```go
+func (r *EnvironmentNewParams) UnmarshalAPIJSON(data []byte) error
 ```
 
 
@@ -5053,6 +5208,251 @@ func (r *EnvironmentService) Update(ctx context.Context, id string, params Envir
 
 Update Environment
 
+<a name="EnvironmentStorage"></a>
+## type [EnvironmentStorage](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+
+
+```go
+type EnvironmentStorage struct {
+    Buckets []EnvironmentStorageBucket `json:"buckets"`
+    JSON    struct {
+        Buckets     respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="EnvironmentStorage.RawJSON"></a>
+### func \(EnvironmentStorage\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r EnvironmentStorage) RawJSON() string
+```
+
+
+
+<a name="EnvironmentStorage.UnmarshalJSON"></a>
+### func \(\*EnvironmentStorage\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentStorage) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentStorageBucket"></a>
+## type [EnvironmentStorageBucket](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+
+
+```go
+type EnvironmentStorageBucket struct {
+    Name                string                       `json:"name"`
+    Provider            string                       `json:"provider"`
+    Region              string                       `json:"region"`
+    Bucket              string                       `json:"bucket"`
+    Prefix              string                       `json:"prefix"`
+    Access              string                       `json:"access"`
+    AcceleratorEndpoint string                       `json:"accelerator_endpoint"`
+    Credential          EnvironmentStorageCredential `json:"credential"`
+    JSON                struct {
+        Name                respjson.Field
+        Provider            respjson.Field
+        Region              respjson.Field
+        Bucket              respjson.Field
+        Prefix              respjson.Field
+        Access              respjson.Field
+        AcceleratorEndpoint respjson.Field
+        Credential          respjson.Field
+        ExtraFields         map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="EnvironmentStorageBucket.RawJSON"></a>
+### func \(EnvironmentStorageBucket\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r EnvironmentStorageBucket) RawJSON() string
+```
+
+
+
+<a name="EnvironmentStorageBucket.UnmarshalJSON"></a>
+### func \(\*EnvironmentStorageBucket\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentStorageBucket) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentStorageBucketParam"></a>
+## type [EnvironmentStorageBucketParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+
+
+```go
+type EnvironmentStorageBucketParam struct {
+    Name                string                            `json:"name" api:"required"`
+    Provider            string                            `json:"provider" api:"required"`
+    Region              string                            `json:"region" api:"required"`
+    Bucket              string                            `json:"bucket" api:"required"`
+    Prefix              param.Opt[string]                 `json:"prefix,omitzero"`
+    Access              param.Opt[string]                 `json:"access,omitzero"`
+    AcceleratorEndpoint param.Opt[string]                 `json:"accelerator_endpoint,omitzero"`
+    Credential          EnvironmentStorageCredentialParam `json:"credential,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="EnvironmentStorageBucketParam.MarshalJSON"></a>
+### func \(EnvironmentStorageBucketParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r EnvironmentStorageBucketParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="EnvironmentStorageBucketParam.UnmarshalAPIJSON"></a>
+### func \(\*EnvironmentStorageBucketParam\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentStorageBucketParam) UnmarshalAPIJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentStorageBucketParam.UnmarshalJSON"></a>
+### func \(\*EnvironmentStorageBucketParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentStorageBucketParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentStorageCredential"></a>
+## type [EnvironmentStorageCredential](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+
+
+```go
+type EnvironmentStorageCredential struct {
+    Type        string `json:"type"`
+    AccessKeyID string `json:"access_key_id"`
+    JSON        struct {
+        Type        respjson.Field
+        AccessKeyID respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="EnvironmentStorageCredential.RawJSON"></a>
+### func \(EnvironmentStorageCredential\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r EnvironmentStorageCredential) RawJSON() string
+```
+
+
+
+<a name="EnvironmentStorageCredential.UnmarshalJSON"></a>
+### func \(\*EnvironmentStorageCredential\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentStorageCredential) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentStorageCredentialParam"></a>
+## type [EnvironmentStorageCredentialParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+
+
+```go
+type EnvironmentStorageCredentialParam struct {
+    Type            string            `json:"type" api:"required"`
+    RoleARN         param.Opt[string] `json:"role_arn,omitzero"`
+    AccessKeyID     param.Opt[string] `json:"access_key_id,omitzero"`
+    AccessKeySecret param.Opt[string] `json:"access_key_secret,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="EnvironmentStorageCredentialParam.MarshalJSON"></a>
+### func \(EnvironmentStorageCredentialParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r EnvironmentStorageCredentialParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="EnvironmentStorageCredentialParam.UnmarshalAPIJSON"></a>
+### func \(\*EnvironmentStorageCredentialParam\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentStorageCredentialParam) UnmarshalAPIJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentStorageCredentialParam.UnmarshalJSON"></a>
+### func \(\*EnvironmentStorageCredentialParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentStorageCredentialParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentStorageParam"></a>
+## type [EnvironmentStorageParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+
+
+```go
+type EnvironmentStorageParam struct {
+    Buckets []EnvironmentStorageBucketParam `json:"buckets,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="EnvironmentStorageParam.MarshalJSON"></a>
+### func \(EnvironmentStorageParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r EnvironmentStorageParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="EnvironmentStorageParam.UnmarshalAPIJSON"></a>
+### func \(\*EnvironmentStorageParam\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentStorageParam) UnmarshalAPIJSON(data []byte) error
+```
+
+
+
+<a name="EnvironmentStorageParam.UnmarshalJSON"></a>
+### func \(\*EnvironmentStorageParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environmentstorage.go>)
+
+```go
+func (r *EnvironmentStorageParam) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="EnvironmentUpdateParams"></a>
 ## type [EnvironmentUpdateParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
 
@@ -5066,9 +5466,10 @@ type EnvironmentUpdateParams struct {
     Name param.Opt[string] `json:"name,omitzero"`
     // New description.
     Description param.Opt[string] `json:"description,omitzero"`
-    // New configuration; must not be `null` when passed, an explicit `null` returns 400.
-    // See the schemas for the available fields.
-    Config map[string]any `json:"config,omitzero"`
+    // Full configuration replacement. Omit Config to preserve it; when supplying
+    // Config, resend buckets to retain mounts. Only a same-name bucket's omitted
+    // credential preserves its stored credential. Explicit Config null returns 400.
+    Config EnvironmentConfigParams `json:"config,omitzero"`
     // [Environment metadata](./schemas.md#environment-metadata) to merge; must not be
     // `null` when passed, an explicit `null` returns 400.
     Metadata map[string]any `json:"metadata,omitzero"`
@@ -5090,6 +5491,15 @@ func (r EnvironmentUpdateParams) MarshalJSON() ([]byte, error)
 
 ```go
 func (r EnvironmentUpdateParams) URLQuery() (url.Values, error)
+```
+
+
+
+<a name="EnvironmentUpdateParams.UnmarshalAPIJSON"></a>
+### func \(\*EnvironmentUpdateParams\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/environment.go>)
+
+```go
+func (r *EnvironmentUpdateParams) UnmarshalAPIJSON(data []byte) error
 ```
 
 
@@ -8192,11 +8602,13 @@ func (r *MultiagentConfigParam) UnmarshalJSON(data []byte) error
 ```go
 type MultiagentEntry struct {
     OfString   string `json:"-"`
+    ID         string `json:"id"`
     Model      string `json:"model"`
     Type       string `json:"type" api:"required"`
     TemplateID string `json:"template_id"`
     Name       string `json:"name"`
     JSON       struct {
+        ID          respjson.Field
         Model       respjson.Field
         Type        respjson.Field
         TemplateID  respjson.Field
@@ -8242,6 +8654,7 @@ func (r *MultiagentEntry) UnmarshalJSON(data []byte) error
 ```go
 type MultiagentEntryParam struct {
     OfString   param.Opt[string] `json:"-"`
+    ID         param.Opt[string] `json:"id,omitzero"`
     Model      param.Opt[string] `json:"model,omitzero"`
     Type       string            `json:"type" api:"required"`
     TemplateID param.Opt[string] `json:"template_id,omitzero"`
@@ -10922,9 +11335,11 @@ func (r SessionCancelParams) URLQuery() (url.Values, error)
 
 ```go
 type SessionConfig struct {
+    Multiagent           MultiagentConfig  `json:"multiagent" api:"nullable"`
     Model                ModelConfig       `json:"model"`
     EnvironmentVariables map[string]string `json:"environment_variables"`
     JSON                 struct {
+        Multiagent           respjson.Field
         Model                respjson.Field
         EnvironmentVariables respjson.Field
         ExtraFields          map[string]respjson.Field
@@ -11399,6 +11814,7 @@ func (r SessionListParams) URLQuery() (url.Values, error)
 
 ```go
 type SessionNewParams struct {
+    AutoTitle param.Opt[bool] `json:"auto_title,omitzero"`
     // Omit to keep the default/current budget; use param.NullStruct[SessionBudgetParam]() to clear.
     Budget SessionBudgetParam `json:"budget,omitzero" api:"nullable"`
     // Forward Identity ID.
@@ -12285,6 +12701,7 @@ func (r *SessionUpdateParams) UnmarshalJSON(data []byte) error
 
 ```go
 type SessionUpdateParamsConfigParam struct {
+    Multiagent MultiagentConfigParam `json:"multiagent,omitzero" api:"nullable"`
     // Model override. Omit on create to inherit; explicit null on update restores inheritance.
     Model                ModelConfigUnionParam `json:"model,omitzero"`
     EnvironmentVariables map[string]any        `json:"environment_variables,omitzero"`
@@ -12297,6 +12714,15 @@ type SessionUpdateParamsConfigParam struct {
 
 ```go
 func (r SessionUpdateParamsConfigParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="SessionUpdateParamsConfigParam.UnmarshalAPIJSON"></a>
+### func \(\*SessionUpdateParamsConfigParam\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/session.go>)
+
+```go
+func (r *SessionUpdateParamsConfigParam) UnmarshalAPIJSON(data []byte) error
 ```
 
 
@@ -13174,6 +13600,7 @@ func (r *SystemOverrideParam) UnmarshalJSON(data []byte) error
 
 ```go
 type Template struct {
+    A2A TemplateA2AConfig `json:"a2a" api:"nullable"`
     // Maximum tool-call rounds per Turn; omitted when unset.
     MaxToolRounds     int64             `json:"max_tool_rounds"`
     ManagedToolConfig ManagedToolConfig `json:"managed_tool_config"`
@@ -13206,6 +13633,7 @@ type Template struct {
     // Custom metadata.
     Metadata map[string]any `json:"metadata"`
     JSON     struct {
+        A2A                  respjson.Field
         MaxToolRounds        respjson.Field
         ManagedToolConfig    respjson.Field
         Type                 respjson.Field
@@ -13248,6 +13676,256 @@ func (r Template) RawJSON() string
 
 ```go
 func (r *Template) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="TemplateA2AConfig"></a>
+## type [TemplateA2AConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+
+
+```go
+type TemplateA2AConfig struct {
+    Enabled     bool               `json:"enabled"`
+    Description string             `json:"description"`
+    Skills      []TemplateA2ASkill `json:"skills"`
+    JSON        struct {
+        Enabled     respjson.Field
+        Description respjson.Field
+        Skills      respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="TemplateA2AConfig.RawJSON"></a>
+### func \(TemplateA2AConfig\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r TemplateA2AConfig) RawJSON() string
+```
+
+
+
+<a name="TemplateA2AConfig.UnmarshalJSON"></a>
+### func \(\*TemplateA2AConfig\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r *TemplateA2AConfig) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="TemplateA2AConfigParam"></a>
+## type [TemplateA2AConfigParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+
+
+```go
+type TemplateA2AConfigParam struct {
+    Enabled     param.Opt[bool]         `json:"enabled,omitzero"`
+    Description param.Opt[string]       `json:"description,omitzero"`
+    Skills      []TemplateA2ASkillParam `json:"skills,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="TemplateA2AConfigParam.MarshalJSON"></a>
+### func \(TemplateA2AConfigParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r TemplateA2AConfigParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="TemplateA2AConfigParam.UnmarshalAPIJSON"></a>
+### func \(\*TemplateA2AConfigParam\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r *TemplateA2AConfigParam) UnmarshalAPIJSON(data []byte) error
+```
+
+
+
+<a name="TemplateA2AConfigParam.UnmarshalJSON"></a>
+### func \(\*TemplateA2AConfigParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r *TemplateA2AConfigParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="TemplateA2ASkill"></a>
+## type [TemplateA2ASkill](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+
+
+```go
+type TemplateA2ASkill struct {
+    ID          string   `json:"id"`
+    Name        string   `json:"name"`
+    Description string   `json:"description"`
+    Tags        []string `json:"tags"`
+    Examples    []string `json:"examples"`
+    JSON        struct {
+        ID          respjson.Field
+        Name        respjson.Field
+        Description respjson.Field
+        Tags        respjson.Field
+        Examples    respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="TemplateA2ASkill.RawJSON"></a>
+### func \(TemplateA2ASkill\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r TemplateA2ASkill) RawJSON() string
+```
+
+
+
+<a name="TemplateA2ASkill.UnmarshalJSON"></a>
+### func \(\*TemplateA2ASkill\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r *TemplateA2ASkill) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="TemplateA2ASkillParam"></a>
+## type [TemplateA2ASkillParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+
+
+```go
+type TemplateA2ASkillParam struct {
+    ID          string   `json:"id" api:"required"`
+    Name        string   `json:"name" api:"required"`
+    Description string   `json:"description" api:"required"`
+    Tags        []string `json:"tags,omitzero"`
+    Examples    []string `json:"examples,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="TemplateA2ASkillParam.MarshalJSON"></a>
+### func \(TemplateA2ASkillParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r TemplateA2ASkillParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="TemplateA2ASkillParam.UnmarshalAPIJSON"></a>
+### func \(\*TemplateA2ASkillParam\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r *TemplateA2ASkillParam) UnmarshalAPIJSON(data []byte) error
+```
+
+
+
+<a name="TemplateA2ASkillParam.UnmarshalJSON"></a>
+### func \(\*TemplateA2ASkillParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r *TemplateA2ASkillParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="TemplateAgentCard"></a>
+## type [TemplateAgentCard](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+
+
+```go
+type TemplateAgentCard struct {
+    Name                string                       `json:"name"`
+    Description         string                       `json:"description"`
+    Version             string                       `json:"version"`
+    Skills              []TemplateA2ASkill           `json:"skills"`
+    DefaultInputModes   []string                     `json:"defaultInputModes"`
+    DefaultOutputModes  []string                     `json:"defaultOutputModes"`
+    URL                 string                       `json:"url"`
+    SupportedInterfaces []TemplateAgentCardInterface `json:"supportedInterfaces"`
+    JSON                struct {
+        Name                respjson.Field
+        Description         respjson.Field
+        Version             respjson.Field
+        Skills              respjson.Field
+        DefaultInputModes   respjson.Field
+        DefaultOutputModes  respjson.Field
+        URL                 respjson.Field
+        SupportedInterfaces respjson.Field
+        ExtraFields         map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="TemplateAgentCard.RawJSON"></a>
+### func \(TemplateAgentCard\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r TemplateAgentCard) RawJSON() string
+```
+
+
+
+<a name="TemplateAgentCard.UnmarshalJSON"></a>
+### func \(\*TemplateAgentCard\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r *TemplateAgentCard) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="TemplateAgentCardInterface"></a>
+## type [TemplateAgentCardInterface](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+
+
+```go
+type TemplateAgentCardInterface struct {
+    URL             string `json:"url"`
+    ProtocolBinding string `json:"protocolBinding"`
+    ProtocolVersion string `json:"protocolVersion"`
+    JSON            struct {
+        URL             respjson.Field
+        ProtocolBinding respjson.Field
+        ProtocolVersion respjson.Field
+        ExtraFields     map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="TemplateAgentCardInterface.RawJSON"></a>
+### func \(TemplateAgentCardInterface\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r TemplateAgentCardInterface) RawJSON() string
+```
+
+
+
+<a name="TemplateAgentCardInterface.UnmarshalJSON"></a>
+### func \(\*TemplateAgentCardInterface\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r *TemplateAgentCardInterface) UnmarshalJSON(data []byte) error
 ```
 
 
@@ -13309,6 +13987,28 @@ func (r *TemplateCloneParams) UnmarshalJSON(data []byte) error
 
 
 
+<a name="TemplateGetAgentCardParams"></a>
+## type [TemplateGetAgentCardParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+
+
+```go
+type TemplateGetAgentCardParams struct {
+    IdentityID param.Opt[string] `query:"identity_id,omitzero" json:"-"`
+    A2AVersion param.Opt[string] `header:"A2A-Version,omitzero" json:"-"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="TemplateGetAgentCardParams.URLQuery"></a>
+### func \(TemplateGetAgentCardParams\) [URLQuery](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r TemplateGetAgentCardParams) URLQuery() (url.Values, error)
+```
+
+
+
 <a name="TemplateListParams"></a>
 ## type [TemplateListParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/template.go>)
 
@@ -13344,6 +14044,7 @@ func (r TemplateListParams) URLQuery() (url.Values, error)
 
 ```go
 type TemplateNewParams struct {
+    A2A TemplateA2AConfigParam `json:"a2a,omitzero" api:"nullable"`
     // Maximum tool-call rounds per Turn; must be positive. Omit or pass null to use the platform default.
     MaxToolRounds param.Opt[int64] `json:"max_tool_rounds,omitzero" api:"nullable"`
     // Replaces the complete managed tool list; use an empty list to disable all.
@@ -13395,6 +14096,15 @@ type TemplateNewParams struct {
 
 ```go
 func (r TemplateNewParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="TemplateNewParams.UnmarshalAPIJSON"></a>
+### func \(\*TemplateNewParams\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/template.go>)
+
+```go
+func (r *TemplateNewParams) UnmarshalAPIJSON(data []byte) error
 ```
 
 
@@ -13455,6 +14165,15 @@ func (r *TemplateService) Get(ctx context.Context, templateID string, opts ...op
 
 Get Template
 
+<a name="TemplateService.GetAgentCard"></a>
+### func \(\*TemplateService\) [GetAgentCard](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/templatea2a.go>)
+
+```go
+func (r *TemplateService) GetAgentCard(ctx context.Context, templateID string, params TemplateGetAgentCardParams, opts ...option.RequestOption) (res *TemplateAgentCard, err error)
+```
+
+
+
 <a name="TemplateService.List"></a>
 ### func \(\*TemplateService\) [List](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/template.go>)
 
@@ -13498,6 +14217,7 @@ Update Template
 
 ```go
 type TemplateUpdateParams struct {
+    A2A TemplateA2AConfigParam `json:"a2a,omitzero" api:"nullable"`
     // Maximum tool-call rounds per Turn; must be positive. Omit to preserve the limit; pass null to clear it.
     MaxToolRounds param.Opt[int64] `json:"max_tool_rounds,omitzero" api:"nullable"`
     // Replaces the complete managed tool list; use an empty list to disable all.
@@ -13551,6 +14271,15 @@ type TemplateUpdateParams struct {
 
 ```go
 func (r TemplateUpdateParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="TemplateUpdateParams.UnmarshalAPIJSON"></a>
+### func \(\*TemplateUpdateParams\) [UnmarshalAPIJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/forward/template.go>)
+
+```go
+func (r *TemplateUpdateParams) UnmarshalAPIJSON(data []byte) error
 ```
 
 
@@ -15046,6 +15775,7 @@ Qoder managed API definitions.
   - [func \(u AgentNewParamsToolUnion\) GetInputSchema\(\) \*ManagedAgentsCustomToolInputSchemaParam](<#AgentNewParamsToolUnion.GetInputSchema>)
   - [func \(u AgentNewParamsToolUnion\) GetMCPServerName\(\) \*string](<#AgentNewParamsToolUnion.GetMCPServerName>)
   - [func \(u AgentNewParamsToolUnion\) GetName\(\) \*string](<#AgentNewParamsToolUnion.GetName>)
+  - [func \(u AgentNewParamsToolUnion\) GetPermissionPolicy\(\) \(res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion\)](<#AgentNewParamsToolUnion.GetPermissionPolicy>)
   - [func \(u AgentNewParamsToolUnion\) GetType\(\) \*string](<#AgentNewParamsToolUnion.GetType>)
   - [func \(u AgentNewParamsToolUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#AgentNewParamsToolUnion.MarshalJSON>)
   - [func \(u \*AgentNewParamsToolUnion\) UnmarshalJSON\(data \[\]byte\) error](<#AgentNewParamsToolUnion.UnmarshalJSON>)
@@ -15072,6 +15802,7 @@ Qoder managed API definitions.
   - [func \(u AgentUpdateParamsToolUnion\) GetInputSchema\(\) \*ManagedAgentsCustomToolInputSchemaParam](<#AgentUpdateParamsToolUnion.GetInputSchema>)
   - [func \(u AgentUpdateParamsToolUnion\) GetMCPServerName\(\) \*string](<#AgentUpdateParamsToolUnion.GetMCPServerName>)
   - [func \(u AgentUpdateParamsToolUnion\) GetName\(\) \*string](<#AgentUpdateParamsToolUnion.GetName>)
+  - [func \(u AgentUpdateParamsToolUnion\) GetPermissionPolicy\(\) \(res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion\)](<#AgentUpdateParamsToolUnion.GetPermissionPolicy>)
   - [func \(u AgentUpdateParamsToolUnion\) GetType\(\) \*string](<#AgentUpdateParamsToolUnion.GetType>)
   - [func \(u AgentUpdateParamsToolUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#AgentUpdateParamsToolUnion.MarshalJSON>)
   - [func \(u \*AgentUpdateParamsToolUnion\) UnmarshalJSON\(data \[\]byte\) error](<#AgentUpdateParamsToolUnion.UnmarshalJSON>)
@@ -15717,10 +16448,14 @@ Qoder managed API definitions.
 - [type ManagedAgentsAgentToolConfigUnion](<#ManagedAgentsAgentToolConfigUnion>)
   - [func \(u ManagedAgentsAgentToolConfigUnion\) AsAny\(\) anyManagedAgentsAgentToolConfig](<#ManagedAgentsAgentToolConfigUnion.AsAny>)
   - [func \(u ManagedAgentsAgentToolConfigUnion\) AsBash\(\) \(v ManagedAgentsBashToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsBash>)
+  - [func \(u ManagedAgentsAgentToolConfigUnion\) AsDeliverArtifacts\(\) \(v ManagedAgentsDeliverArtifactsToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsDeliverArtifacts>)
   - [func \(u ManagedAgentsAgentToolConfigUnion\) AsEdit\(\) \(v ManagedAgentsEditToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsEdit>)
   - [func \(u ManagedAgentsAgentToolConfigUnion\) AsGlob\(\) \(v ManagedAgentsGlobToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsGlob>)
   - [func \(u ManagedAgentsAgentToolConfigUnion\) AsGrep\(\) \(v ManagedAgentsGrepToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsGrep>)
+  - [func \(u ManagedAgentsAgentToolConfigUnion\) AsImageGen\(\) \(v ManagedAgentsImageGenToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsImageGen>)
+  - [func \(u ManagedAgentsAgentToolConfigUnion\) AsImageSearch\(\) \(v ManagedAgentsImageSearchToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsImageSearch>)
   - [func \(u ManagedAgentsAgentToolConfigUnion\) AsRead\(\) \(v ManagedAgentsReadToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsRead>)
+  - [func \(u ManagedAgentsAgentToolConfigUnion\) AsVideoGen\(\) \(v ManagedAgentsVideoGenToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsVideoGen>)
   - [func \(u ManagedAgentsAgentToolConfigUnion\) AsWebFetch\(\) \(v ManagedAgentsWebFetchToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsWebFetch>)
   - [func \(u ManagedAgentsAgentToolConfigUnion\) AsWebSearch\(\) \(v ManagedAgentsWebSearchToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsWebSearch>)
   - [func \(u ManagedAgentsAgentToolConfigUnion\) AsWrite\(\) \(v ManagedAgentsWriteToolConfig\)](<#ManagedAgentsAgentToolConfigUnion.AsWrite>)
@@ -15745,6 +16480,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsAgentToolUnion](<#ManagedAgentsAgentToolUnion>)
   - [func \(u ManagedAgentsAgentToolUnion\) AsAgentToolset20260401\(\) \(v ManagedAgentsAgentToolset20260401\)](<#ManagedAgentsAgentToolUnion.AsAgentToolset20260401>)
   - [func \(u ManagedAgentsAgentToolUnion\) AsAny\(\) anyManagedAgentsAgentTool](<#ManagedAgentsAgentToolUnion.AsAny>)
+  - [func \(u ManagedAgentsAgentToolUnion\) AsBrowserToolset20260714\(\) \(v ManagedBrowserToolset20260714\)](<#ManagedAgentsAgentToolUnion.AsBrowserToolset20260714>)
   - [func \(u ManagedAgentsAgentToolUnion\) AsCustom\(\) \(v ManagedAgentsCustomTool\)](<#ManagedAgentsAgentToolUnion.AsCustom>)
   - [func \(u ManagedAgentsAgentToolUnion\) AsMCPToolset\(\) \(v ManagedAgentsMCPToolset\)](<#ManagedAgentsAgentToolUnion.AsMCPToolset>)
   - [func \(u ManagedAgentsAgentToolUnion\) RawJSON\(\) string](<#ManagedAgentsAgentToolUnion.RawJSON>)
@@ -15799,6 +16535,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion](<#ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion>)
   - [func \(u ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion\) AsAlwaysAllow\(\) \(v ManagedAgentsAlwaysAllowPolicy\)](<#ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion.AsAlwaysAllow>)
   - [func \(u ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion\) AsAlwaysAsk\(\) \(v ManagedAgentsAlwaysAskPolicy\)](<#ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion.AsAlwaysAsk>)
+  - [func \(u ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion\) AsAlwaysDeny\(\) \(v ManagedAgentsAlwaysDenyPolicy\)](<#ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion.AsAlwaysDeny>)
   - [func \(u ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion\) AsAny\(\) anyManagedAgentsAgentToolsetDefaultConfigPermissionPolicy](<#ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion\) RawJSON\(\) string](<#ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion.RawJSON>)
   - [func \(r \*ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion.UnmarshalJSON>)
@@ -15813,6 +16550,7 @@ Qoder managed API definitions.
   - [func \(u ManagedAgentsAgentWithOverridesParamsToolUnion\) GetInputSchema\(\) \*ManagedAgentsCustomToolInputSchemaParam](<#ManagedAgentsAgentWithOverridesParamsToolUnion.GetInputSchema>)
   - [func \(u ManagedAgentsAgentWithOverridesParamsToolUnion\) GetMCPServerName\(\) \*string](<#ManagedAgentsAgentWithOverridesParamsToolUnion.GetMCPServerName>)
   - [func \(u ManagedAgentsAgentWithOverridesParamsToolUnion\) GetName\(\) \*string](<#ManagedAgentsAgentWithOverridesParamsToolUnion.GetName>)
+  - [func \(u ManagedAgentsAgentWithOverridesParamsToolUnion\) GetPermissionPolicy\(\) \(res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion\)](<#ManagedAgentsAgentWithOverridesParamsToolUnion.GetPermissionPolicy>)
   - [func \(u ManagedAgentsAgentWithOverridesParamsToolUnion\) GetType\(\) \*string](<#ManagedAgentsAgentWithOverridesParamsToolUnion.GetType>)
   - [func \(u ManagedAgentsAgentWithOverridesParamsToolUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedAgentsAgentWithOverridesParamsToolUnion.MarshalJSON>)
   - [func \(u \*ManagedAgentsAgentWithOverridesParamsToolUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsAgentWithOverridesParamsToolUnion.UnmarshalJSON>)
@@ -15833,6 +16571,14 @@ Qoder managed API definitions.
   - [func \(r ManagedAgentsAlwaysAskPolicyParam\) MarshalJSON\(\) \(data \[\]byte, err error\)](<#ManagedAgentsAlwaysAskPolicyParam.MarshalJSON>)
   - [func \(r \*ManagedAgentsAlwaysAskPolicyParam\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsAlwaysAskPolicyParam.UnmarshalJSON>)
 - [type ManagedAgentsAlwaysAskPolicyType](<#ManagedAgentsAlwaysAskPolicyType>)
+- [type ManagedAgentsAlwaysDenyPolicy](<#ManagedAgentsAlwaysDenyPolicy>)
+  - [func \(r ManagedAgentsAlwaysDenyPolicy\) RawJSON\(\) string](<#ManagedAgentsAlwaysDenyPolicy.RawJSON>)
+  - [func \(r ManagedAgentsAlwaysDenyPolicy\) ToParam\(\) ManagedAgentsAlwaysDenyPolicyParam](<#ManagedAgentsAlwaysDenyPolicy.ToParam>)
+  - [func \(r \*ManagedAgentsAlwaysDenyPolicy\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsAlwaysDenyPolicy.UnmarshalJSON>)
+- [type ManagedAgentsAlwaysDenyPolicyParam](<#ManagedAgentsAlwaysDenyPolicyParam>)
+  - [func \(r ManagedAgentsAlwaysDenyPolicyParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedAgentsAlwaysDenyPolicyParam.MarshalJSON>)
+  - [func \(r \*ManagedAgentsAlwaysDenyPolicyParam\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsAlwaysDenyPolicyParam.UnmarshalJSON>)
+- [type ManagedAgentsAlwaysDenyPolicyType](<#ManagedAgentsAlwaysDenyPolicyType>)
 - [type ManagedAgentsBase64DocumentSource](<#ManagedAgentsBase64DocumentSource>)
   - [func \(r ManagedAgentsBase64DocumentSource\) RawJSON\(\) string](<#ManagedAgentsBase64DocumentSource.RawJSON>)
   - [func \(r ManagedAgentsBase64DocumentSource\) ToParam\(\) ManagedAgentsBase64DocumentSourceParam](<#ManagedAgentsBase64DocumentSource.ToParam>)
@@ -15863,6 +16609,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsBashToolConfigPermissionPolicyUnion](<#ManagedAgentsBashToolConfigPermissionPolicyUnion>)
   - [func \(u ManagedAgentsBashToolConfigPermissionPolicyUnion\) AsAlwaysAllow\(\) \(v ManagedAgentsAlwaysAllowPolicy\)](<#ManagedAgentsBashToolConfigPermissionPolicyUnion.AsAlwaysAllow>)
   - [func \(u ManagedAgentsBashToolConfigPermissionPolicyUnion\) AsAlwaysAsk\(\) \(v ManagedAgentsAlwaysAskPolicy\)](<#ManagedAgentsBashToolConfigPermissionPolicyUnion.AsAlwaysAsk>)
+  - [func \(u ManagedAgentsBashToolConfigPermissionPolicyUnion\) AsAlwaysDeny\(\) \(v ManagedAgentsAlwaysDenyPolicy\)](<#ManagedAgentsBashToolConfigPermissionPolicyUnion.AsAlwaysDeny>)
   - [func \(u ManagedAgentsBashToolConfigPermissionPolicyUnion\) AsAny\(\) anyManagedAgentsBashToolConfigPermissionPolicy](<#ManagedAgentsBashToolConfigPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsBashToolConfigPermissionPolicyUnion\) RawJSON\(\) string](<#ManagedAgentsBashToolConfigPermissionPolicyUnion.RawJSON>)
   - [func \(r \*ManagedAgentsBashToolConfigPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsBashToolConfigPermissionPolicyUnion.UnmarshalJSON>)
@@ -15985,6 +16732,13 @@ Qoder managed API definitions.
   - [func \(r ManagedAgentsDeletedVault\) RawJSON\(\) string](<#ManagedAgentsDeletedVault.RawJSON>)
   - [func \(r \*ManagedAgentsDeletedVault\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsDeletedVault.UnmarshalJSON>)
 - [type ManagedAgentsDeletedVaultType](<#ManagedAgentsDeletedVaultType>)
+- [type ManagedAgentsDeliverArtifactsToolConfig](<#ManagedAgentsDeliverArtifactsToolConfig>)
+  - [func \(r ManagedAgentsDeliverArtifactsToolConfig\) RawJSON\(\) string](<#ManagedAgentsDeliverArtifactsToolConfig.RawJSON>)
+  - [func \(r ManagedAgentsDeliverArtifactsToolConfig\) ToParam\(\) ManagedAgentsDeliverArtifactsToolConfigParams](<#ManagedAgentsDeliverArtifactsToolConfig.ToParam>)
+  - [func \(r \*ManagedAgentsDeliverArtifactsToolConfig\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsDeliverArtifactsToolConfig.UnmarshalJSON>)
+- [type ManagedAgentsDeliverArtifactsToolConfigParams](<#ManagedAgentsDeliverArtifactsToolConfigParams>)
+  - [func \(r ManagedAgentsDeliverArtifactsToolConfigParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedAgentsDeliverArtifactsToolConfigParams.MarshalJSON>)
+  - [func \(r \*ManagedAgentsDeliverArtifactsToolConfigParams\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsDeliverArtifactsToolConfigParams.UnmarshalJSON>)
 - [type ManagedAgentsDeltaContent](<#ManagedAgentsDeltaContent>)
   - [func \(r ManagedAgentsDeltaContent\) RawJSON\(\) string](<#ManagedAgentsDeltaContent.RawJSON>)
   - [func \(r \*ManagedAgentsDeltaContent\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsDeltaContent.UnmarshalJSON>)
@@ -16133,6 +16887,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsEditToolConfigPermissionPolicyUnion](<#ManagedAgentsEditToolConfigPermissionPolicyUnion>)
   - [func \(u ManagedAgentsEditToolConfigPermissionPolicyUnion\) AsAlwaysAllow\(\) \(v ManagedAgentsAlwaysAllowPolicy\)](<#ManagedAgentsEditToolConfigPermissionPolicyUnion.AsAlwaysAllow>)
   - [func \(u ManagedAgentsEditToolConfigPermissionPolicyUnion\) AsAlwaysAsk\(\) \(v ManagedAgentsAlwaysAskPolicy\)](<#ManagedAgentsEditToolConfigPermissionPolicyUnion.AsAlwaysAsk>)
+  - [func \(u ManagedAgentsEditToolConfigPermissionPolicyUnion\) AsAlwaysDeny\(\) \(v ManagedAgentsAlwaysDenyPolicy\)](<#ManagedAgentsEditToolConfigPermissionPolicyUnion.AsAlwaysDeny>)
   - [func \(u ManagedAgentsEditToolConfigPermissionPolicyUnion\) AsAny\(\) anyManagedAgentsEditToolConfigPermissionPolicy](<#ManagedAgentsEditToolConfigPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsEditToolConfigPermissionPolicyUnion\) RawJSON\(\) string](<#ManagedAgentsEditToolConfigPermissionPolicyUnion.RawJSON>)
   - [func \(r \*ManagedAgentsEditToolConfigPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsEditToolConfigPermissionPolicyUnion.UnmarshalJSON>)
@@ -16338,6 +17093,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsGlobToolConfigPermissionPolicyUnion](<#ManagedAgentsGlobToolConfigPermissionPolicyUnion>)
   - [func \(u ManagedAgentsGlobToolConfigPermissionPolicyUnion\) AsAlwaysAllow\(\) \(v ManagedAgentsAlwaysAllowPolicy\)](<#ManagedAgentsGlobToolConfigPermissionPolicyUnion.AsAlwaysAllow>)
   - [func \(u ManagedAgentsGlobToolConfigPermissionPolicyUnion\) AsAlwaysAsk\(\) \(v ManagedAgentsAlwaysAskPolicy\)](<#ManagedAgentsGlobToolConfigPermissionPolicyUnion.AsAlwaysAsk>)
+  - [func \(u ManagedAgentsGlobToolConfigPermissionPolicyUnion\) AsAlwaysDeny\(\) \(v ManagedAgentsAlwaysDenyPolicy\)](<#ManagedAgentsGlobToolConfigPermissionPolicyUnion.AsAlwaysDeny>)
   - [func \(u ManagedAgentsGlobToolConfigPermissionPolicyUnion\) AsAny\(\) anyManagedAgentsGlobToolConfigPermissionPolicy](<#ManagedAgentsGlobToolConfigPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsGlobToolConfigPermissionPolicyUnion\) RawJSON\(\) string](<#ManagedAgentsGlobToolConfigPermissionPolicyUnion.RawJSON>)
   - [func \(r \*ManagedAgentsGlobToolConfigPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsGlobToolConfigPermissionPolicyUnion.UnmarshalJSON>)
@@ -16355,6 +17111,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsGrepToolConfigPermissionPolicyUnion](<#ManagedAgentsGrepToolConfigPermissionPolicyUnion>)
   - [func \(u ManagedAgentsGrepToolConfigPermissionPolicyUnion\) AsAlwaysAllow\(\) \(v ManagedAgentsAlwaysAllowPolicy\)](<#ManagedAgentsGrepToolConfigPermissionPolicyUnion.AsAlwaysAllow>)
   - [func \(u ManagedAgentsGrepToolConfigPermissionPolicyUnion\) AsAlwaysAsk\(\) \(v ManagedAgentsAlwaysAskPolicy\)](<#ManagedAgentsGrepToolConfigPermissionPolicyUnion.AsAlwaysAsk>)
+  - [func \(u ManagedAgentsGrepToolConfigPermissionPolicyUnion\) AsAlwaysDeny\(\) \(v ManagedAgentsAlwaysDenyPolicy\)](<#ManagedAgentsGrepToolConfigPermissionPolicyUnion.AsAlwaysDeny>)
   - [func \(u ManagedAgentsGrepToolConfigPermissionPolicyUnion\) AsAny\(\) anyManagedAgentsGrepToolConfigPermissionPolicy](<#ManagedAgentsGrepToolConfigPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsGrepToolConfigPermissionPolicyUnion\) RawJSON\(\) string](<#ManagedAgentsGrepToolConfigPermissionPolicyUnion.RawJSON>)
   - [func \(r \*ManagedAgentsGrepToolConfigPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsGrepToolConfigPermissionPolicyUnion.UnmarshalJSON>)
@@ -16381,6 +17138,20 @@ Qoder managed API definitions.
   - [func \(u ManagedAgentsImageBlockSourceUnionParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedAgentsImageBlockSourceUnionParam.MarshalJSON>)
   - [func \(u \*ManagedAgentsImageBlockSourceUnionParam\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsImageBlockSourceUnionParam.UnmarshalJSON>)
 - [type ManagedAgentsImageBlockType](<#ManagedAgentsImageBlockType>)
+- [type ManagedAgentsImageGenToolConfig](<#ManagedAgentsImageGenToolConfig>)
+  - [func \(r ManagedAgentsImageGenToolConfig\) RawJSON\(\) string](<#ManagedAgentsImageGenToolConfig.RawJSON>)
+  - [func \(r ManagedAgentsImageGenToolConfig\) ToParam\(\) ManagedAgentsImageGenToolConfigParams](<#ManagedAgentsImageGenToolConfig.ToParam>)
+  - [func \(r \*ManagedAgentsImageGenToolConfig\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsImageGenToolConfig.UnmarshalJSON>)
+- [type ManagedAgentsImageGenToolConfigParams](<#ManagedAgentsImageGenToolConfigParams>)
+  - [func \(r ManagedAgentsImageGenToolConfigParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedAgentsImageGenToolConfigParams.MarshalJSON>)
+  - [func \(r \*ManagedAgentsImageGenToolConfigParams\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsImageGenToolConfigParams.UnmarshalJSON>)
+- [type ManagedAgentsImageSearchToolConfig](<#ManagedAgentsImageSearchToolConfig>)
+  - [func \(r ManagedAgentsImageSearchToolConfig\) RawJSON\(\) string](<#ManagedAgentsImageSearchToolConfig.RawJSON>)
+  - [func \(r ManagedAgentsImageSearchToolConfig\) ToParam\(\) ManagedAgentsImageSearchToolConfigParams](<#ManagedAgentsImageSearchToolConfig.ToParam>)
+  - [func \(r \*ManagedAgentsImageSearchToolConfig\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsImageSearchToolConfig.UnmarshalJSON>)
+- [type ManagedAgentsImageSearchToolConfigParams](<#ManagedAgentsImageSearchToolConfigParams>)
+  - [func \(r ManagedAgentsImageSearchToolConfigParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedAgentsImageSearchToolConfigParams.MarshalJSON>)
+  - [func \(r \*ManagedAgentsImageSearchToolConfigParams\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsImageSearchToolConfigParams.UnmarshalJSON>)
 - [type ManagedAgentsInjectionLocationParams](<#ManagedAgentsInjectionLocationParams>)
   - [func \(r ManagedAgentsInjectionLocationParams\) MarshalJSON\(\) \(data \[\]byte, err error\)](<#ManagedAgentsInjectionLocationParams.MarshalJSON>)
   - [func \(r \*ManagedAgentsInjectionLocationParams\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsInjectionLocationParams.UnmarshalJSON>)
@@ -16480,12 +17251,14 @@ Qoder managed API definitions.
   - [func \(r ManagedAgentsMCPToolConfigParams\) MarshalJSON\(\) \(data \[\]byte, err error\)](<#ManagedAgentsMCPToolConfigParams.MarshalJSON>)
   - [func \(r \*ManagedAgentsMCPToolConfigParams\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsMCPToolConfigParams.UnmarshalJSON>)
 - [type ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion](<#ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion>)
+  - [func \(u ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion\) AsAny\(\) any](<#ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion\) GetType\(\) \*string](<#ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion.GetType>)
   - [func \(u ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion.MarshalJSON>)
   - [func \(u \*ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion.UnmarshalJSON>)
 - [type ManagedAgentsMCPToolConfigPermissionPolicyUnion](<#ManagedAgentsMCPToolConfigPermissionPolicyUnion>)
   - [func \(u ManagedAgentsMCPToolConfigPermissionPolicyUnion\) AsAlwaysAllow\(\) \(v ManagedAgentsAlwaysAllowPolicy\)](<#ManagedAgentsMCPToolConfigPermissionPolicyUnion.AsAlwaysAllow>)
   - [func \(u ManagedAgentsMCPToolConfigPermissionPolicyUnion\) AsAlwaysAsk\(\) \(v ManagedAgentsAlwaysAskPolicy\)](<#ManagedAgentsMCPToolConfigPermissionPolicyUnion.AsAlwaysAsk>)
+  - [func \(u ManagedAgentsMCPToolConfigPermissionPolicyUnion\) AsAlwaysDeny\(\) \(v ManagedAgentsAlwaysDenyPolicy\)](<#ManagedAgentsMCPToolConfigPermissionPolicyUnion.AsAlwaysDeny>)
   - [func \(u ManagedAgentsMCPToolConfigPermissionPolicyUnion\) AsAny\(\) anyManagedAgentsMCPToolConfigPermissionPolicy](<#ManagedAgentsMCPToolConfigPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsMCPToolConfigPermissionPolicyUnion\) RawJSON\(\) string](<#ManagedAgentsMCPToolConfigPermissionPolicyUnion.RawJSON>)
   - [func \(r \*ManagedAgentsMCPToolConfigPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsMCPToolConfigPermissionPolicyUnion.UnmarshalJSON>)
@@ -16505,6 +17278,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion](<#ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion>)
   - [func \(u ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion\) AsAlwaysAllow\(\) \(v ManagedAgentsAlwaysAllowPolicy\)](<#ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.AsAlwaysAllow>)
   - [func \(u ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion\) AsAlwaysAsk\(\) \(v ManagedAgentsAlwaysAskPolicy\)](<#ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.AsAlwaysAsk>)
+  - [func \(u ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion\) AsAlwaysDeny\(\) \(v ManagedAgentsAlwaysDenyPolicy\)](<#ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.AsAlwaysDeny>)
   - [func \(u ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion\) AsAny\(\) anyManagedAgentsMCPToolsetDefaultConfigPermissionPolicy](<#ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion\) RawJSON\(\) string](<#ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.RawJSON>)
   - [func \(r \*ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.UnmarshalJSON>)
@@ -16711,6 +17485,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsReadToolConfigPermissionPolicyUnion](<#ManagedAgentsReadToolConfigPermissionPolicyUnion>)
   - [func \(u ManagedAgentsReadToolConfigPermissionPolicyUnion\) AsAlwaysAllow\(\) \(v ManagedAgentsAlwaysAllowPolicy\)](<#ManagedAgentsReadToolConfigPermissionPolicyUnion.AsAlwaysAllow>)
   - [func \(u ManagedAgentsReadToolConfigPermissionPolicyUnion\) AsAlwaysAsk\(\) \(v ManagedAgentsAlwaysAskPolicy\)](<#ManagedAgentsReadToolConfigPermissionPolicyUnion.AsAlwaysAsk>)
+  - [func \(u ManagedAgentsReadToolConfigPermissionPolicyUnion\) AsAlwaysDeny\(\) \(v ManagedAgentsAlwaysDenyPolicy\)](<#ManagedAgentsReadToolConfigPermissionPolicyUnion.AsAlwaysDeny>)
   - [func \(u ManagedAgentsReadToolConfigPermissionPolicyUnion\) AsAny\(\) anyManagedAgentsReadToolConfigPermissionPolicy](<#ManagedAgentsReadToolConfigPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsReadToolConfigPermissionPolicyUnion\) RawJSON\(\) string](<#ManagedAgentsReadToolConfigPermissionPolicyUnion.RawJSON>)
   - [func \(r \*ManagedAgentsReadToolConfigPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsReadToolConfigPermissionPolicyUnion.UnmarshalJSON>)
@@ -16825,6 +17600,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsSessionAgentToolUnion](<#ManagedAgentsSessionAgentToolUnion>)
   - [func \(u ManagedAgentsSessionAgentToolUnion\) AsAgentToolset20260401\(\) \(v ManagedAgentsAgentToolset20260401\)](<#ManagedAgentsSessionAgentToolUnion.AsAgentToolset20260401>)
   - [func \(u ManagedAgentsSessionAgentToolUnion\) AsAny\(\) anyManagedAgentsSessionAgentTool](<#ManagedAgentsSessionAgentToolUnion.AsAny>)
+  - [func \(u ManagedAgentsSessionAgentToolUnion\) AsBrowserToolset20260714\(\) \(v ManagedBrowserToolset20260714\)](<#ManagedAgentsSessionAgentToolUnion.AsBrowserToolset20260714>)
   - [func \(u ManagedAgentsSessionAgentToolUnion\) AsCustom\(\) \(v ManagedAgentsCustomTool\)](<#ManagedAgentsSessionAgentToolUnion.AsCustom>)
   - [func \(u ManagedAgentsSessionAgentToolUnion\) AsMCPToolset\(\) \(v ManagedAgentsMCPToolset\)](<#ManagedAgentsSessionAgentToolUnion.AsMCPToolset>)
   - [func \(u ManagedAgentsSessionAgentToolUnion\) RawJSON\(\) string](<#ManagedAgentsSessionAgentToolUnion.RawJSON>)
@@ -16846,6 +17622,7 @@ Qoder managed API definitions.
   - [func \(u ManagedAgentsSessionAgentUpdateToolUnionParam\) GetInputSchema\(\) \*ManagedAgentsCustomToolInputSchemaParam](<#ManagedAgentsSessionAgentUpdateToolUnionParam.GetInputSchema>)
   - [func \(u ManagedAgentsSessionAgentUpdateToolUnionParam\) GetMCPServerName\(\) \*string](<#ManagedAgentsSessionAgentUpdateToolUnionParam.GetMCPServerName>)
   - [func \(u ManagedAgentsSessionAgentUpdateToolUnionParam\) GetName\(\) \*string](<#ManagedAgentsSessionAgentUpdateToolUnionParam.GetName>)
+  - [func \(u ManagedAgentsSessionAgentUpdateToolUnionParam\) GetPermissionPolicy\(\) \(res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion\)](<#ManagedAgentsSessionAgentUpdateToolUnionParam.GetPermissionPolicy>)
   - [func \(u ManagedAgentsSessionAgentUpdateToolUnionParam\) GetType\(\) \*string](<#ManagedAgentsSessionAgentUpdateToolUnionParam.GetType>)
   - [func \(u ManagedAgentsSessionAgentUpdateToolUnionParam\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedAgentsSessionAgentUpdateToolUnionParam.MarshalJSON>)
   - [func \(u \*ManagedAgentsSessionAgentUpdateToolUnionParam\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsSessionAgentUpdateToolUnionParam.UnmarshalJSON>)
@@ -17020,6 +17797,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsSessionThreadAgentToolUnion](<#ManagedAgentsSessionThreadAgentToolUnion>)
   - [func \(u ManagedAgentsSessionThreadAgentToolUnion\) AsAgentToolset20260401\(\) \(v ManagedAgentsAgentToolset20260401\)](<#ManagedAgentsSessionThreadAgentToolUnion.AsAgentToolset20260401>)
   - [func \(u ManagedAgentsSessionThreadAgentToolUnion\) AsAny\(\) anyManagedAgentsSessionThreadAgentTool](<#ManagedAgentsSessionThreadAgentToolUnion.AsAny>)
+  - [func \(u ManagedAgentsSessionThreadAgentToolUnion\) AsBrowserToolset20260714\(\) \(v ManagedBrowserToolset20260714\)](<#ManagedAgentsSessionThreadAgentToolUnion.AsBrowserToolset20260714>)
   - [func \(u ManagedAgentsSessionThreadAgentToolUnion\) AsCustom\(\) \(v ManagedAgentsCustomTool\)](<#ManagedAgentsSessionThreadAgentToolUnion.AsCustom>)
   - [func \(u ManagedAgentsSessionThreadAgentToolUnion\) AsMCPToolset\(\) \(v ManagedAgentsMCPToolset\)](<#ManagedAgentsSessionThreadAgentToolUnion.AsMCPToolset>)
   - [func \(u ManagedAgentsSessionThreadAgentToolUnion\) RawJSON\(\) string](<#ManagedAgentsSessionThreadAgentToolUnion.RawJSON>)
@@ -17517,6 +18295,13 @@ Qoder managed API definitions.
   - [func \(r \*ManagedAgentsVaultNotFoundRunError\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsVaultNotFoundRunError.UnmarshalJSON>)
 - [type ManagedAgentsVaultNotFoundRunErrorType](<#ManagedAgentsVaultNotFoundRunErrorType>)
 - [type ManagedAgentsVaultType](<#ManagedAgentsVaultType>)
+- [type ManagedAgentsVideoGenToolConfig](<#ManagedAgentsVideoGenToolConfig>)
+  - [func \(r ManagedAgentsVideoGenToolConfig\) RawJSON\(\) string](<#ManagedAgentsVideoGenToolConfig.RawJSON>)
+  - [func \(r ManagedAgentsVideoGenToolConfig\) ToParam\(\) ManagedAgentsVideoGenToolConfigParams](<#ManagedAgentsVideoGenToolConfig.ToParam>)
+  - [func \(r \*ManagedAgentsVideoGenToolConfig\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsVideoGenToolConfig.UnmarshalJSON>)
+- [type ManagedAgentsVideoGenToolConfigParams](<#ManagedAgentsVideoGenToolConfigParams>)
+  - [func \(r ManagedAgentsVideoGenToolConfigParams\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedAgentsVideoGenToolConfigParams.MarshalJSON>)
+  - [func \(r \*ManagedAgentsVideoGenToolConfigParams\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsVideoGenToolConfigParams.UnmarshalJSON>)
 - [type ManagedAgentsWebFetchToolConfig](<#ManagedAgentsWebFetchToolConfig>)
   - [func \(r ManagedAgentsWebFetchToolConfig\) RawJSON\(\) string](<#ManagedAgentsWebFetchToolConfig.RawJSON>)
   - [func \(r \*ManagedAgentsWebFetchToolConfig\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsWebFetchToolConfig.UnmarshalJSON>)
@@ -17531,6 +18316,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsWebFetchToolConfigPermissionPolicyUnion](<#ManagedAgentsWebFetchToolConfigPermissionPolicyUnion>)
   - [func \(u ManagedAgentsWebFetchToolConfigPermissionPolicyUnion\) AsAlwaysAllow\(\) \(v ManagedAgentsAlwaysAllowPolicy\)](<#ManagedAgentsWebFetchToolConfigPermissionPolicyUnion.AsAlwaysAllow>)
   - [func \(u ManagedAgentsWebFetchToolConfigPermissionPolicyUnion\) AsAlwaysAsk\(\) \(v ManagedAgentsAlwaysAskPolicy\)](<#ManagedAgentsWebFetchToolConfigPermissionPolicyUnion.AsAlwaysAsk>)
+  - [func \(u ManagedAgentsWebFetchToolConfigPermissionPolicyUnion\) AsAlwaysDeny\(\) \(v ManagedAgentsAlwaysDenyPolicy\)](<#ManagedAgentsWebFetchToolConfigPermissionPolicyUnion.AsAlwaysDeny>)
   - [func \(u ManagedAgentsWebFetchToolConfigPermissionPolicyUnion\) AsAny\(\) anyManagedAgentsWebFetchToolConfigPermissionPolicy](<#ManagedAgentsWebFetchToolConfigPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsWebFetchToolConfigPermissionPolicyUnion\) RawJSON\(\) string](<#ManagedAgentsWebFetchToolConfigPermissionPolicyUnion.RawJSON>)
   - [func \(r \*ManagedAgentsWebFetchToolConfigPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsWebFetchToolConfigPermissionPolicyUnion.UnmarshalJSON>)
@@ -17548,6 +18334,7 @@ Qoder managed API definitions.
 - [type ManagedAgentsWebSearchToolConfigPermissionPolicyUnion](<#ManagedAgentsWebSearchToolConfigPermissionPolicyUnion>)
   - [func \(u ManagedAgentsWebSearchToolConfigPermissionPolicyUnion\) AsAlwaysAllow\(\) \(v ManagedAgentsAlwaysAllowPolicy\)](<#ManagedAgentsWebSearchToolConfigPermissionPolicyUnion.AsAlwaysAllow>)
   - [func \(u ManagedAgentsWebSearchToolConfigPermissionPolicyUnion\) AsAlwaysAsk\(\) \(v ManagedAgentsAlwaysAskPolicy\)](<#ManagedAgentsWebSearchToolConfigPermissionPolicyUnion.AsAlwaysAsk>)
+  - [func \(u ManagedAgentsWebSearchToolConfigPermissionPolicyUnion\) AsAlwaysDeny\(\) \(v ManagedAgentsAlwaysDenyPolicy\)](<#ManagedAgentsWebSearchToolConfigPermissionPolicyUnion.AsAlwaysDeny>)
   - [func \(u ManagedAgentsWebSearchToolConfigPermissionPolicyUnion\) AsAny\(\) anyManagedAgentsWebSearchToolConfigPermissionPolicy](<#ManagedAgentsWebSearchToolConfigPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsWebSearchToolConfigPermissionPolicyUnion\) RawJSON\(\) string](<#ManagedAgentsWebSearchToolConfigPermissionPolicyUnion.RawJSON>)
   - [func \(r \*ManagedAgentsWebSearchToolConfigPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsWebSearchToolConfigPermissionPolicyUnion.UnmarshalJSON>)
@@ -17573,9 +18360,18 @@ Qoder managed API definitions.
 - [type ManagedAgentsWriteToolConfigPermissionPolicyUnion](<#ManagedAgentsWriteToolConfigPermissionPolicyUnion>)
   - [func \(u ManagedAgentsWriteToolConfigPermissionPolicyUnion\) AsAlwaysAllow\(\) \(v ManagedAgentsAlwaysAllowPolicy\)](<#ManagedAgentsWriteToolConfigPermissionPolicyUnion.AsAlwaysAllow>)
   - [func \(u ManagedAgentsWriteToolConfigPermissionPolicyUnion\) AsAlwaysAsk\(\) \(v ManagedAgentsAlwaysAskPolicy\)](<#ManagedAgentsWriteToolConfigPermissionPolicyUnion.AsAlwaysAsk>)
+  - [func \(u ManagedAgentsWriteToolConfigPermissionPolicyUnion\) AsAlwaysDeny\(\) \(v ManagedAgentsAlwaysDenyPolicy\)](<#ManagedAgentsWriteToolConfigPermissionPolicyUnion.AsAlwaysDeny>)
   - [func \(u ManagedAgentsWriteToolConfigPermissionPolicyUnion\) AsAny\(\) anyManagedAgentsWriteToolConfigPermissionPolicy](<#ManagedAgentsWriteToolConfigPermissionPolicyUnion.AsAny>)
   - [func \(u ManagedAgentsWriteToolConfigPermissionPolicyUnion\) RawJSON\(\) string](<#ManagedAgentsWriteToolConfigPermissionPolicyUnion.RawJSON>)
   - [func \(r \*ManagedAgentsWriteToolConfigPermissionPolicyUnion\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedAgentsWriteToolConfigPermissionPolicyUnion.UnmarshalJSON>)
+- [type ManagedBrowserToolset20260714](<#ManagedBrowserToolset20260714>)
+  - [func \(r ManagedBrowserToolset20260714\) RawJSON\(\) string](<#ManagedBrowserToolset20260714.RawJSON>)
+  - [func \(r ManagedBrowserToolset20260714\) ToParam\(\) ManagedBrowserToolset20260714Param](<#ManagedBrowserToolset20260714.ToParam>)
+  - [func \(r \*ManagedBrowserToolset20260714\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedBrowserToolset20260714.UnmarshalJSON>)
+- [type ManagedBrowserToolset20260714Param](<#ManagedBrowserToolset20260714Param>)
+  - [func \(r ManagedBrowserToolset20260714Param\) MarshalJSON\(\) \(\[\]byte, error\)](<#ManagedBrowserToolset20260714Param.MarshalJSON>)
+  - [func \(r \*ManagedBrowserToolset20260714Param\) UnmarshalJSON\(data \[\]byte\) error](<#ManagedBrowserToolset20260714Param.UnmarshalJSON>)
+- [type ManagedBrowserToolset20260714Type](<#ManagedBrowserToolset20260714Type>)
 - [type MemoryStoreArchiveParams](<#MemoryStoreArchiveParams>)
 - [type MemoryStoreDeleteParams](<#MemoryStoreDeleteParams>)
 - [type MemoryStoreGetParams](<#MemoryStoreGetParams>)
@@ -18642,9 +19438,10 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 
 ```go
 type AgentNewParamsToolUnion struct {
-    OfAgentToolset20260401 *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
-    OfMCPToolset           *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
-    OfCustom               *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
+    OfAgentToolset20260401   *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
+    OfBrowserToolset20260714 *ManagedBrowserToolset20260714Param      `json:",omitzero,inline"`
+    OfMCPToolset             *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
+    OfCustom                 *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -18706,6 +19503,15 @@ func (u AgentNewParamsToolUnion) GetName() *string
 ```
 
 Returns a pointer to the underlying variant's property, if present.
+
+<a name="AgentNewParamsToolUnion.GetPermissionPolicy"></a>
+### func \(AgentNewParamsToolUnion\) [GetPermissionPolicy](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
+
+```go
+func (u AgentNewParamsToolUnion) GetPermissionPolicy() (res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion)
+```
+
+Returns the MCP toolset's top\-level wildcard policy, or an omitted union.
 
 <a name="AgentNewParamsToolUnion.GetType"></a>
 ### func \(AgentNewParamsToolUnion\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
@@ -18950,9 +19756,10 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 
 ```go
 type AgentUpdateParamsToolUnion struct {
-    OfAgentToolset20260401 *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
-    OfMCPToolset           *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
-    OfCustom               *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
+    OfAgentToolset20260401   *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
+    OfBrowserToolset20260714 *ManagedBrowserToolset20260714Param      `json:",omitzero,inline"`
+    OfMCPToolset             *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
+    OfCustom                 *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -19014,6 +19821,15 @@ func (u AgentUpdateParamsToolUnion) GetName() *string
 ```
 
 Returns a pointer to the underlying variant's property, if present.
+
+<a name="AgentUpdateParamsToolUnion.GetPermissionPolicy"></a>
+### func \(AgentUpdateParamsToolUnion\) [GetPermissionPolicy](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
+
+```go
+func (u AgentUpdateParamsToolUnion) GetPermissionPolicy() (res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion)
+```
+
+Returns the MCP toolset's top\-level wildcard policy, or an omitted union.
 
 <a name="AgentUpdateParamsToolUnion.GetType"></a>
 ### func \(AgentUpdateParamsToolUnion\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
@@ -27140,14 +27956,18 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 
 ```go
 type ManagedAgentsAgentToolConfigParamsUnion struct {
-    OfBash      *ManagedAgentsBashToolConfigParams      `json:",omitzero,inline"`
-    OfEdit      *ManagedAgentsEditToolConfigParams      `json:",omitzero,inline"`
-    OfRead      *ManagedAgentsReadToolConfigParams      `json:",omitzero,inline"`
-    OfWrite     *ManagedAgentsWriteToolConfigParams     `json:",omitzero,inline"`
-    OfGlob      *ManagedAgentsGlobToolConfigParams      `json:",omitzero,inline"`
-    OfGrep      *ManagedAgentsGrepToolConfigParams      `json:",omitzero,inline"`
-    OfWebFetch  *ManagedAgentsWebFetchToolConfigParams  `json:",omitzero,inline"`
-    OfWebSearch *ManagedAgentsWebSearchToolConfigParams `json:",omitzero,inline"`
+    OfBash             *ManagedAgentsBashToolConfigParams             `json:",omitzero,inline"`
+    OfEdit             *ManagedAgentsEditToolConfigParams             `json:",omitzero,inline"`
+    OfRead             *ManagedAgentsReadToolConfigParams             `json:",omitzero,inline"`
+    OfWrite            *ManagedAgentsWriteToolConfigParams            `json:",omitzero,inline"`
+    OfGlob             *ManagedAgentsGlobToolConfigParams             `json:",omitzero,inline"`
+    OfGrep             *ManagedAgentsGrepToolConfigParams             `json:",omitzero,inline"`
+    OfWebFetch         *ManagedAgentsWebFetchToolConfigParams         `json:",omitzero,inline"`
+    OfWebSearch        *ManagedAgentsWebSearchToolConfigParams        `json:",omitzero,inline"`
+    OfImageGen         *ManagedAgentsImageGenToolConfigParams         `json:",omitzero,inline"`
+    OfImageSearch      *ManagedAgentsImageSearchToolConfigParams      `json:",omitzero,inline"`
+    OfVideoGen         *ManagedAgentsVideoGenToolConfigParams         `json:",omitzero,inline"`
+    OfDeliverArtifacts *ManagedAgentsDeliverArtifactsToolConfigParams `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -27322,6 +28142,15 @@ func (u ManagedAgentsAgentToolConfigUnion) AsBash() (v ManagedAgentsBashToolConf
 
 
 
+<a name="ManagedAgentsAgentToolConfigUnion.AsDeliverArtifacts"></a>
+### func \(ManagedAgentsAgentToolConfigUnion\) [AsDeliverArtifacts](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (u ManagedAgentsAgentToolConfigUnion) AsDeliverArtifacts() (v ManagedAgentsDeliverArtifactsToolConfig)
+```
+
+
+
 <a name="ManagedAgentsAgentToolConfigUnion.AsEdit"></a>
 ### func \(ManagedAgentsAgentToolConfigUnion\) [AsEdit](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
 
@@ -27349,11 +28178,38 @@ func (u ManagedAgentsAgentToolConfigUnion) AsGrep() (v ManagedAgentsGrepToolConf
 
 
 
+<a name="ManagedAgentsAgentToolConfigUnion.AsImageGen"></a>
+### func \(ManagedAgentsAgentToolConfigUnion\) [AsImageGen](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (u ManagedAgentsAgentToolConfigUnion) AsImageGen() (v ManagedAgentsImageGenToolConfig)
+```
+
+
+
+<a name="ManagedAgentsAgentToolConfigUnion.AsImageSearch"></a>
+### func \(ManagedAgentsAgentToolConfigUnion\) [AsImageSearch](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (u ManagedAgentsAgentToolConfigUnion) AsImageSearch() (v ManagedAgentsImageSearchToolConfig)
+```
+
+
+
 <a name="ManagedAgentsAgentToolConfigUnion.AsRead"></a>
 ### func \(ManagedAgentsAgentToolConfigUnion\) [AsRead](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
 
 ```go
 func (u ManagedAgentsAgentToolConfigUnion) AsRead() (v ManagedAgentsReadToolConfig)
+```
+
+
+
+<a name="ManagedAgentsAgentToolConfigUnion.AsVideoGen"></a>
+### func \(ManagedAgentsAgentToolConfigUnion\) [AsVideoGen](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (u ManagedAgentsAgentToolConfigUnion) AsVideoGen() (v ManagedAgentsVideoGenToolConfig)
 ```
 
 
@@ -27669,6 +28525,8 @@ type ManagedAgentsAgentToolUnion struct {
     DefaultConfig ManagedAgentsAgentToolUnionDefaultConfig `json:"default_config"`
     // Any of "agent_toolset_20260401", "mcp_toolset", "custom".
     Type string `json:"type"`
+    // Top-level wildcard policy from variant [ManagedAgentsMCPToolset].
+    PermissionPolicy ManagedAgentsMCPToolConfigPermissionPolicyUnion `json:"permission_policy"`
     // This field is from variant [ManagedAgentsMCPToolset].
     MCPServerName string `json:"mcp_server_name"`
     // This field is from variant [ManagedAgentsCustomTool].
@@ -27678,15 +28536,16 @@ type ManagedAgentsAgentToolUnion struct {
     // This field is from variant [ManagedAgentsCustomTool].
     Name string `json:"name"`
     JSON struct {
-        EnabledTools    respjson.Field
-        DisallowedTools respjson.Field
-        Configs         respjson.Field
-        DefaultConfig   respjson.Field
-        Type            respjson.Field
-        MCPServerName   respjson.Field
-        Description     respjson.Field
-        InputSchema     respjson.Field
-        Name            respjson.Field
+        EnabledTools     respjson.Field
+        DisallowedTools  respjson.Field
+        Configs          respjson.Field
+        DefaultConfig    respjson.Field
+        Type             respjson.Field
+        MCPServerName    respjson.Field
+        PermissionPolicy respjson.Field
+        Description      respjson.Field
+        InputSchema      respjson.Field
+        Name             respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -27719,6 +28578,15 @@ default:
   fmt.Errorf("no variant present")
 }
 ```
+
+<a name="ManagedAgentsAgentToolUnion.AsBrowserToolset20260714"></a>
+### func \(ManagedAgentsAgentToolUnion\) [AsBrowserToolset20260714](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/browsertoolset.go>)
+
+```go
+func (u ManagedAgentsAgentToolUnion) AsBrowserToolset20260714() (v ManagedBrowserToolset20260714)
+```
+
+
 
 <a name="ManagedAgentsAgentToolUnion.AsCustom"></a>
 ### func \(ManagedAgentsAgentToolUnion\) [AsCustom](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
@@ -28393,6 +29261,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 type ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion struct {
     OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
     OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+    OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -28458,6 +29327,15 @@ func (u ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion) AsAlwaysAll
 
 ```go
 func (u ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion) AsAlwaysAsk() (v ManagedAgentsAlwaysAskPolicy)
+```
+
+
+
+<a name="ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion.AsAlwaysDeny"></a>
+### func \(ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion\) [AsAlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (u ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion) AsAlwaysDeny() (v ManagedAgentsAlwaysDenyPolicy)
 ```
 
 
@@ -28576,9 +29454,10 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 
 ```go
 type ManagedAgentsAgentWithOverridesParamsToolUnion struct {
-    OfAgentToolset20260401 *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
-    OfMCPToolset           *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
-    OfCustom               *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
+    OfAgentToolset20260401   *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
+    OfBrowserToolset20260714 *ManagedBrowserToolset20260714Param      `json:",omitzero,inline"`
+    OfMCPToolset             *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
+    OfCustom                 *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -28640,6 +29519,15 @@ func (u ManagedAgentsAgentWithOverridesParamsToolUnion) GetName() *string
 ```
 
 Returns a pointer to the underlying variant's property, if present.
+
+<a name="ManagedAgentsAgentWithOverridesParamsToolUnion.GetPermissionPolicy"></a>
+### func \(ManagedAgentsAgentWithOverridesParamsToolUnion\) [GetPermissionPolicy](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (u ManagedAgentsAgentWithOverridesParamsToolUnion) GetPermissionPolicy() (res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion)
+```
+
+Returns the MCP toolset's top\-level wildcard policy, or an omitted union.
 
 <a name="ManagedAgentsAgentWithOverridesParamsToolUnion.GetType"></a>
 ### func \(ManagedAgentsAgentWithOverridesParamsToolUnion\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
@@ -28877,6 +29765,94 @@ type ManagedAgentsAlwaysAskPolicyType string
 const (
     ManagedAgentsAlwaysAskPolicyTypeAlwaysAsk ManagedAgentsAlwaysAskPolicyType = "always_ask"
 )
+```
+
+<a name="ManagedAgentsAlwaysDenyPolicy"></a>
+## type [ManagedAgentsAlwaysDenyPolicy](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+
+
+```go
+type ManagedAgentsAlwaysDenyPolicy struct {
+    Type ManagedAgentsAlwaysDenyPolicyType `json:"type" api:"required"`
+    JSON struct {
+        Type        respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ManagedAgentsAlwaysDenyPolicy.RawJSON"></a>
+### func \(ManagedAgentsAlwaysDenyPolicy\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (r ManagedAgentsAlwaysDenyPolicy) RawJSON() string
+```
+
+
+
+<a name="ManagedAgentsAlwaysDenyPolicy.ToParam"></a>
+### func \(ManagedAgentsAlwaysDenyPolicy\) [ToParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (r ManagedAgentsAlwaysDenyPolicy) ToParam() ManagedAgentsAlwaysDenyPolicyParam
+```
+
+
+
+<a name="ManagedAgentsAlwaysDenyPolicy.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsAlwaysDenyPolicy\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (r *ManagedAgentsAlwaysDenyPolicy) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedAgentsAlwaysDenyPolicyParam"></a>
+## type [ManagedAgentsAlwaysDenyPolicyParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+
+
+```go
+type ManagedAgentsAlwaysDenyPolicyParam struct {
+    Type ManagedAgentsAlwaysDenyPolicyType `json:"type" default:"always_deny" api:"required"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ManagedAgentsAlwaysDenyPolicyParam.MarshalJSON"></a>
+### func \(ManagedAgentsAlwaysDenyPolicyParam\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (r ManagedAgentsAlwaysDenyPolicyParam) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ManagedAgentsAlwaysDenyPolicyParam.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsAlwaysDenyPolicyParam\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (r *ManagedAgentsAlwaysDenyPolicyParam) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedAgentsAlwaysDenyPolicyType"></a>
+## type [ManagedAgentsAlwaysDenyPolicyType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+
+
+```go
+type ManagedAgentsAlwaysDenyPolicyType = constant.AlwaysDeny
+```
+
+<a name="ManagedAgentsAlwaysDenyPolicyTypeAlwaysDeny"></a>
+
+```go
+const ManagedAgentsAlwaysDenyPolicyTypeAlwaysDeny ManagedAgentsAlwaysDenyPolicyType = "always_deny"
 ```
 
 <a name="ManagedAgentsBase64DocumentSource"></a>
@@ -29190,6 +30166,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 type ManagedAgentsBashToolConfigParamsPermissionPolicyUnion struct {
     OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
     OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+    OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -29272,6 +30249,15 @@ func (u ManagedAgentsBashToolConfigPermissionPolicyUnion) AsAlwaysAllow() (v Man
 
 ```go
 func (u ManagedAgentsBashToolConfigPermissionPolicyUnion) AsAlwaysAsk() (v ManagedAgentsAlwaysAskPolicy)
+```
+
+
+
+<a name="ManagedAgentsBashToolConfigPermissionPolicyUnion.AsAlwaysDeny"></a>
+### func \(ManagedAgentsBashToolConfigPermissionPolicyUnion\) [AsAlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (u ManagedAgentsBashToolConfigPermissionPolicyUnion) AsAlwaysDeny() (v ManagedAgentsAlwaysDenyPolicy)
 ```
 
 
@@ -30943,6 +31929,88 @@ const (
     ManagedAgentsDeletedVaultTypeVaultDeleted ManagedAgentsDeletedVaultType = "vault_deleted"
 )
 ```
+
+<a name="ManagedAgentsDeliverArtifactsToolConfig"></a>
+## type [ManagedAgentsDeliverArtifactsToolConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+
+
+```go
+type ManagedAgentsDeliverArtifactsToolConfig struct {
+    Name             string                                                      `json:"name" api:"required"`
+    Type             string                                                      `json:"type"`
+    Enabled          bool                                                        `json:"enabled"`
+    PermissionPolicy ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion `json:"permission_policy"`
+    JSON             struct {
+        Name             respjson.Field
+        Type             respjson.Field
+        Enabled          respjson.Field
+        PermissionPolicy respjson.Field
+        ExtraFields      map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ManagedAgentsDeliverArtifactsToolConfig.RawJSON"></a>
+### func \(ManagedAgentsDeliverArtifactsToolConfig\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsDeliverArtifactsToolConfig) RawJSON() string
+```
+
+
+
+<a name="ManagedAgentsDeliverArtifactsToolConfig.ToParam"></a>
+### func \(ManagedAgentsDeliverArtifactsToolConfig\) [ToParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsDeliverArtifactsToolConfig) ToParam() ManagedAgentsDeliverArtifactsToolConfigParams
+```
+
+
+
+<a name="ManagedAgentsDeliverArtifactsToolConfig.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsDeliverArtifactsToolConfig\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r *ManagedAgentsDeliverArtifactsToolConfig) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedAgentsDeliverArtifactsToolConfigParams"></a>
+## type [ManagedAgentsDeliverArtifactsToolConfigParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+
+
+```go
+type ManagedAgentsDeliverArtifactsToolConfigParams struct {
+    Name             constant.DeliverArtifacts                                         `json:"name" default:"DeliverArtifacts" api:"required"`
+    Type             param.Opt[string]                                                 `json:"type,omitzero"`
+    Enabled          param.Opt[bool]                                                   `json:"enabled,omitzero"`
+    PermissionPolicy ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion `json:"permission_policy,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ManagedAgentsDeliverArtifactsToolConfigParams.MarshalJSON"></a>
+### func \(ManagedAgentsDeliverArtifactsToolConfigParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsDeliverArtifactsToolConfigParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ManagedAgentsDeliverArtifactsToolConfigParams.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsDeliverArtifactsToolConfigParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r *ManagedAgentsDeliverArtifactsToolConfigParams) UnmarshalJSON(data []byte) error
+```
+
+
 
 <a name="ManagedAgentsDeltaContent"></a>
 ## type [ManagedAgentsDeltaContent](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
@@ -32817,6 +33885,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 type ManagedAgentsEditToolConfigParamsPermissionPolicyUnion struct {
     OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
     OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+    OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -32899,6 +33968,15 @@ func (u ManagedAgentsEditToolConfigPermissionPolicyUnion) AsAlwaysAllow() (v Man
 
 ```go
 func (u ManagedAgentsEditToolConfigPermissionPolicyUnion) AsAlwaysAsk() (v ManagedAgentsAlwaysAskPolicy)
+```
+
+
+
+<a name="ManagedAgentsEditToolConfigPermissionPolicyUnion.AsAlwaysDeny"></a>
+### func \(ManagedAgentsEditToolConfigPermissionPolicyUnion\) [AsAlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (u ManagedAgentsEditToolConfigPermissionPolicyUnion) AsAlwaysDeny() (v ManagedAgentsAlwaysDenyPolicy)
 ```
 
 
@@ -35460,6 +36538,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 type ManagedAgentsGlobToolConfigParamsPermissionPolicyUnion struct {
     OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
     OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+    OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -35542,6 +36621,15 @@ func (u ManagedAgentsGlobToolConfigPermissionPolicyUnion) AsAlwaysAllow() (v Man
 
 ```go
 func (u ManagedAgentsGlobToolConfigPermissionPolicyUnion) AsAlwaysAsk() (v ManagedAgentsAlwaysAskPolicy)
+```
+
+
+
+<a name="ManagedAgentsGlobToolConfigPermissionPolicyUnion.AsAlwaysDeny"></a>
+### func \(ManagedAgentsGlobToolConfigPermissionPolicyUnion\) [AsAlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (u ManagedAgentsGlobToolConfigPermissionPolicyUnion) AsAlwaysDeny() (v ManagedAgentsAlwaysDenyPolicy)
 ```
 
 
@@ -35677,6 +36765,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 type ManagedAgentsGrepToolConfigParamsPermissionPolicyUnion struct {
     OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
     OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+    OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -35759,6 +36848,15 @@ func (u ManagedAgentsGrepToolConfigPermissionPolicyUnion) AsAlwaysAllow() (v Man
 
 ```go
 func (u ManagedAgentsGrepToolConfigPermissionPolicyUnion) AsAlwaysAsk() (v ManagedAgentsAlwaysAskPolicy)
+```
+
+
+
+<a name="ManagedAgentsGrepToolConfigPermissionPolicyUnion.AsAlwaysDeny"></a>
+### func \(ManagedAgentsGrepToolConfigPermissionPolicyUnion\) [AsAlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (u ManagedAgentsGrepToolConfigPermissionPolicyUnion) AsAlwaysDeny() (v ManagedAgentsAlwaysDenyPolicy)
 ```
 
 
@@ -36075,6 +37173,170 @@ const (
     ManagedAgentsImageBlockTypeImage ManagedAgentsImageBlockType = "image"
 )
 ```
+
+<a name="ManagedAgentsImageGenToolConfig"></a>
+## type [ManagedAgentsImageGenToolConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+
+
+```go
+type ManagedAgentsImageGenToolConfig struct {
+    Name             string                                                      `json:"name" api:"required"`
+    Type             string                                                      `json:"type"`
+    Enabled          bool                                                        `json:"enabled"`
+    PermissionPolicy ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion `json:"permission_policy"`
+    JSON             struct {
+        Name             respjson.Field
+        Type             respjson.Field
+        Enabled          respjson.Field
+        PermissionPolicy respjson.Field
+        ExtraFields      map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ManagedAgentsImageGenToolConfig.RawJSON"></a>
+### func \(ManagedAgentsImageGenToolConfig\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsImageGenToolConfig) RawJSON() string
+```
+
+
+
+<a name="ManagedAgentsImageGenToolConfig.ToParam"></a>
+### func \(ManagedAgentsImageGenToolConfig\) [ToParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsImageGenToolConfig) ToParam() ManagedAgentsImageGenToolConfigParams
+```
+
+
+
+<a name="ManagedAgentsImageGenToolConfig.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsImageGenToolConfig\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r *ManagedAgentsImageGenToolConfig) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedAgentsImageGenToolConfigParams"></a>
+## type [ManagedAgentsImageGenToolConfigParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+
+
+```go
+type ManagedAgentsImageGenToolConfigParams struct {
+    Name             constant.ImageGen                                                 `json:"name" default:"ImageGen" api:"required"`
+    Type             param.Opt[string]                                                 `json:"type,omitzero"`
+    Enabled          param.Opt[bool]                                                   `json:"enabled,omitzero"`
+    PermissionPolicy ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion `json:"permission_policy,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ManagedAgentsImageGenToolConfigParams.MarshalJSON"></a>
+### func \(ManagedAgentsImageGenToolConfigParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsImageGenToolConfigParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ManagedAgentsImageGenToolConfigParams.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsImageGenToolConfigParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r *ManagedAgentsImageGenToolConfigParams) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedAgentsImageSearchToolConfig"></a>
+## type [ManagedAgentsImageSearchToolConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+
+
+```go
+type ManagedAgentsImageSearchToolConfig struct {
+    Name             string                                                      `json:"name" api:"required"`
+    Type             string                                                      `json:"type"`
+    Enabled          bool                                                        `json:"enabled"`
+    PermissionPolicy ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion `json:"permission_policy"`
+    JSON             struct {
+        Name             respjson.Field
+        Type             respjson.Field
+        Enabled          respjson.Field
+        PermissionPolicy respjson.Field
+        ExtraFields      map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ManagedAgentsImageSearchToolConfig.RawJSON"></a>
+### func \(ManagedAgentsImageSearchToolConfig\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsImageSearchToolConfig) RawJSON() string
+```
+
+
+
+<a name="ManagedAgentsImageSearchToolConfig.ToParam"></a>
+### func \(ManagedAgentsImageSearchToolConfig\) [ToParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsImageSearchToolConfig) ToParam() ManagedAgentsImageSearchToolConfigParams
+```
+
+
+
+<a name="ManagedAgentsImageSearchToolConfig.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsImageSearchToolConfig\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r *ManagedAgentsImageSearchToolConfig) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedAgentsImageSearchToolConfigParams"></a>
+## type [ManagedAgentsImageSearchToolConfigParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+
+
+```go
+type ManagedAgentsImageSearchToolConfigParams struct {
+    Name             constant.ImageSearch                                              `json:"name" default:"ImageSearch" api:"required"`
+    Type             param.Opt[string]                                                 `json:"type,omitzero"`
+    Enabled          param.Opt[bool]                                                   `json:"enabled,omitzero"`
+    PermissionPolicy ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion `json:"permission_policy,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ManagedAgentsImageSearchToolConfigParams.MarshalJSON"></a>
+### func \(ManagedAgentsImageSearchToolConfigParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsImageSearchToolConfigParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ManagedAgentsImageSearchToolConfigParams.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsImageSearchToolConfigParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r *ManagedAgentsImageSearchToolConfigParams) UnmarshalJSON(data []byte) error
+```
+
+
 
 <a name="ManagedAgentsInjectionLocationParams"></a>
 ## type [ManagedAgentsInjectionLocationParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/vaultcredential.go>)
@@ -37374,9 +38636,19 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 type ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion struct {
     OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
     OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+    OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
+
+<a name="ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion.AsAny"></a>
+### func \(ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion\) [AsAny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
+
+```go
+func (u ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) AsAny() any
+```
+
+AsAny returns the selected permission policy, or nil when omitted.
 
 <a name="ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion.GetType"></a>
 ### func \(ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
@@ -37408,7 +38680,7 @@ func (u *ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion) UnmarshalJSON(da
 <a name="ManagedAgentsMCPToolConfigPermissionPolicyUnion"></a>
 ## type [ManagedAgentsMCPToolConfigPermissionPolicyUnion](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
 
-ManagedAgentsMCPToolConfigPermissionPolicyUnion contains all possible properties and values from [ManagedAgentsAlwaysAllowPolicy](<#ManagedAgentsAlwaysAllowPolicy>), [ManagedAgentsAlwaysAskPolicy](<#ManagedAgentsAlwaysAskPolicy>).
+ManagedAgentsMCPToolConfigPermissionPolicyUnion contains all possible properties and values from [ManagedAgentsAlwaysAllowPolicy](<#ManagedAgentsAlwaysAllowPolicy>), [ManagedAgentsAlwaysAskPolicy](<#ManagedAgentsAlwaysAskPolicy>), [ManagedAgentsAlwaysDenyPolicy](<#ManagedAgentsAlwaysDenyPolicy>).
 
 Use the [ManagedAgentsMCPToolConfigPermissionPolicyUnion.AsAny](<#ManagedAgentsMCPToolConfigPermissionPolicyUnion.AsAny>) method to switch on the variant.
 
@@ -37416,7 +38688,7 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 
 ```go
 type ManagedAgentsMCPToolConfigPermissionPolicyUnion struct {
-    // Any of "always_allow", "always_ask".
+    // Any of "always_allow", "always_ask", "always_deny".
     Type string `json:"type"`
     JSON struct {
         Type respjson.Field
@@ -37443,6 +38715,15 @@ func (u ManagedAgentsMCPToolConfigPermissionPolicyUnion) AsAlwaysAsk() (v Manage
 
 
 
+<a name="ManagedAgentsMCPToolConfigPermissionPolicyUnion.AsAlwaysDeny"></a>
+### func \(ManagedAgentsMCPToolConfigPermissionPolicyUnion\) [AsAlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (u ManagedAgentsMCPToolConfigPermissionPolicyUnion) AsAlwaysDeny() (v ManagedAgentsAlwaysDenyPolicy)
+```
+
+
+
 <a name="ManagedAgentsMCPToolConfigPermissionPolicyUnion.AsAny"></a>
 ### func \(ManagedAgentsMCPToolConfigPermissionPolicyUnion\) [AsAny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
 
@@ -37456,6 +38737,7 @@ Use the following switch statement to find the correct variant
 switch variant := ManagedAgentsMCPToolConfigPermissionPolicyUnion.AsAny().(type) {
 case qoder.ManagedAgentsAlwaysAllowPolicy:
 case qoder.ManagedAgentsAlwaysAskPolicy:
+case qoder.ManagedAgentsAlwaysDenyPolicy:
 default:
   fmt.Errorf("no variant present")
 }
@@ -37487,18 +38769,22 @@ func (r *ManagedAgentsMCPToolConfigPermissionPolicyUnion) UnmarshalJSON(data []b
 ```go
 type ManagedAgentsMCPToolset struct {
     Configs []ManagedAgentsMCPToolConfig `json:"configs" api:"required"`
-    // Resolved default configuration for all tools from an MCP server.
+    // Legacy default configuration. Its permission_policy does not control the
+    // MCP wildcard policy; use the top-level PermissionPolicy instead.
     DefaultConfig ManagedAgentsMCPToolsetDefaultConfig `json:"default_config" api:"required"`
     MCPServerName string                               `json:"mcp_server_name" api:"required"`
+    // Wildcard policy for tools from this server. Omission defaults to allow.
+    PermissionPolicy ManagedAgentsMCPToolConfigPermissionPolicyUnion `json:"permission_policy"`
     // Any of "mcp_toolset".
     Type ManagedAgentsMCPToolsetType `json:"type" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
-        Configs       respjson.Field
-        DefaultConfig respjson.Field
-        MCPServerName respjson.Field
-        Type          respjson.Field
-        ExtraFields   map[string]respjson.Field
+        Configs          respjson.Field
+        DefaultConfig    respjson.Field
+        MCPServerName    respjson.Field
+        PermissionPolicy respjson.Field
+        Type             respjson.Field
+        ExtraFields      map[string]respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -37525,12 +38811,12 @@ func (r *ManagedAgentsMCPToolset) UnmarshalJSON(data []byte) error
 <a name="ManagedAgentsMCPToolsetDefaultConfig"></a>
 ## type [ManagedAgentsMCPToolsetDefaultConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
 
-Resolved default configuration for all tools from an MCP server.
+Legacy default configuration for tools from an MCP server. MCP wildcard governance uses ManagedAgentsMCPToolset.PermissionPolicy instead.
 
 ```go
 type ManagedAgentsMCPToolsetDefaultConfig struct {
     Enabled bool `json:"enabled" api:"required"`
-    // Permission policy for tool execution.
+    // Legacy policy retained as received; it does not set the MCP wildcard policy.
     PermissionPolicy ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion `json:"permission_policy" api:"required"`
     // JSON contains metadata for fields, check presence with [respjson.Field.Valid].
     JSON struct {
@@ -37563,13 +38849,14 @@ func (r *ManagedAgentsMCPToolsetDefaultConfig) UnmarshalJSON(data []byte) error
 <a name="ManagedAgentsMCPToolsetDefaultConfigParams"></a>
 ## type [ManagedAgentsMCPToolsetDefaultConfigParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
 
-Default configuration for all tools from an MCP server.
+Legacy default configuration for tools from an MCP server. To deny MCP tools by default, set ManagedAgentsMCPToolsetParams.PermissionPolicy.
 
 ```go
 type ManagedAgentsMCPToolsetDefaultConfigParams struct {
     // Whether tools are enabled by default. Defaults to true if not specified.
     Enabled param.Opt[bool] `json:"enabled,omitzero"`
-    // Permission policy for tool execution.
+    // Legacy policy retained at default_config.permission_policy for wire
+    // compatibility. It does not set the MCP wildcard policy.
     PermissionPolicy ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion `json:"permission_policy,omitzero"`
     // contains filtered or unexported fields
 }
@@ -37604,6 +38891,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 type ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion struct {
     OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
     OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+    OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -37638,7 +38926,7 @@ func (u *ManagedAgentsMCPToolsetDefaultConfigParamsPermissionPolicyUnion) Unmars
 <a name="ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion"></a>
 ## type [ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
 
-ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion contains all possible properties and values from [ManagedAgentsAlwaysAllowPolicy](<#ManagedAgentsAlwaysAllowPolicy>), [ManagedAgentsAlwaysAskPolicy](<#ManagedAgentsAlwaysAskPolicy>).
+ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion contains all possible properties and values from [ManagedAgentsAlwaysAllowPolicy](<#ManagedAgentsAlwaysAllowPolicy>), [ManagedAgentsAlwaysAskPolicy](<#ManagedAgentsAlwaysAskPolicy>), [ManagedAgentsAlwaysDenyPolicy](<#ManagedAgentsAlwaysDenyPolicy>).
 
 Use the [ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.AsAny](<#ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.AsAny>) method to switch on the variant.
 
@@ -37646,7 +38934,7 @@ Use the methods beginning with 'As' to cast the union to one of its variants.
 
 ```go
 type ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion struct {
-    // Any of "always_allow", "always_ask".
+    // Any of "always_allow", "always_ask", "always_deny".
     Type string `json:"type"`
     JSON struct {
         Type respjson.Field
@@ -37673,6 +38961,15 @@ func (u ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion) AsAlwaysAsk()
 
 
 
+<a name="ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.AsAlwaysDeny"></a>
+### func \(ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion\) [AsAlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (u ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion) AsAlwaysDeny() (v ManagedAgentsAlwaysDenyPolicy)
+```
+
+
+
 <a name="ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.AsAny"></a>
 ### func \(ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion\) [AsAny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
 
@@ -37686,6 +38983,7 @@ Use the following switch statement to find the correct variant
 switch variant := ManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion.AsAny().(type) {
 case qoder.ManagedAgentsAlwaysAllowPolicy:
 case qoder.ManagedAgentsAlwaysAskPolicy:
+case qoder.ManagedAgentsAlwaysDenyPolicy:
 default:
   fmt.Errorf("no variant present")
 }
@@ -37725,7 +39023,11 @@ type ManagedAgentsMCPToolsetParams struct {
     Type ManagedAgentsMCPToolsetParamsType `json:"type,omitzero" api:"required"`
     // Per-tool configuration overrides.
     Configs []ManagedAgentsMCPToolConfigParams `json:"configs,omitzero"`
-    // Default configuration for all tools from an MCP server.
+    // Wildcard policy for tools from this server: always_allow, always_ask or
+    // always_deny. To deny by default, set this top-level field; omission allows.
+    PermissionPolicy ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion `json:"permission_policy,omitzero"`
+    // Legacy default configuration, retained in its original wire location.
+    // Its permission_policy does not set the MCP wildcard policy.
     DefaultConfig ManagedAgentsMCPToolsetDefaultConfigParams `json:"default_config,omitzero"`
     // contains filtered or unexported fields
 }
@@ -40557,6 +41859,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 type ManagedAgentsReadToolConfigParamsPermissionPolicyUnion struct {
     OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
     OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+    OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -40639,6 +41942,15 @@ func (u ManagedAgentsReadToolConfigPermissionPolicyUnion) AsAlwaysAllow() (v Man
 
 ```go
 func (u ManagedAgentsReadToolConfigPermissionPolicyUnion) AsAlwaysAsk() (v ManagedAgentsAlwaysAskPolicy)
+```
+
+
+
+<a name="ManagedAgentsReadToolConfigPermissionPolicyUnion.AsAlwaysDeny"></a>
+### func \(ManagedAgentsReadToolConfigPermissionPolicyUnion\) [AsAlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (u ManagedAgentsReadToolConfigPermissionPolicyUnion) AsAlwaysDeny() (v ManagedAgentsAlwaysDenyPolicy)
 ```
 
 
@@ -42262,6 +43574,8 @@ type ManagedAgentsSessionAgentToolUnion struct {
     DefaultConfig ManagedAgentsSessionAgentToolUnionDefaultConfig `json:"default_config"`
     // Any of "agent_toolset_20260401", "mcp_toolset", "custom".
     Type string `json:"type"`
+    // Top-level wildcard policy from variant [ManagedAgentsMCPToolset].
+    PermissionPolicy ManagedAgentsMCPToolConfigPermissionPolicyUnion `json:"permission_policy"`
     // This field is from variant [ManagedAgentsMCPToolset].
     MCPServerName string `json:"mcp_server_name"`
     // This field is from variant [ManagedAgentsCustomTool].
@@ -42271,15 +43585,16 @@ type ManagedAgentsSessionAgentToolUnion struct {
     // This field is from variant [ManagedAgentsCustomTool].
     Name string `json:"name"`
     JSON struct {
-        EnabledTools    respjson.Field
-        DisallowedTools respjson.Field
-        Configs         respjson.Field
-        DefaultConfig   respjson.Field
-        Type            respjson.Field
-        MCPServerName   respjson.Field
-        Description     respjson.Field
-        InputSchema     respjson.Field
-        Name            respjson.Field
+        EnabledTools     respjson.Field
+        DisallowedTools  respjson.Field
+        Configs          respjson.Field
+        DefaultConfig    respjson.Field
+        Type             respjson.Field
+        MCPServerName    respjson.Field
+        PermissionPolicy respjson.Field
+        Description      respjson.Field
+        InputSchema      respjson.Field
+        Name             respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -42312,6 +43627,15 @@ default:
   fmt.Errorf("no variant present")
 }
 ```
+
+<a name="ManagedAgentsSessionAgentToolUnion.AsBrowserToolset20260714"></a>
+### func \(ManagedAgentsSessionAgentToolUnion\) [AsBrowserToolset20260714](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/browsertoolset.go>)
+
+```go
+func (u ManagedAgentsSessionAgentToolUnion) AsBrowserToolset20260714() (v ManagedBrowserToolset20260714)
+```
+
+
 
 <a name="ManagedAgentsSessionAgentToolUnion.AsCustom"></a>
 ### func \(ManagedAgentsSessionAgentToolUnion\) [AsCustom](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
@@ -42505,9 +43829,10 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 
 ```go
 type ManagedAgentsSessionAgentUpdateToolUnionParam struct {
-    OfAgentToolset20260401 *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
-    OfMCPToolset           *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
-    OfCustom               *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
+    OfAgentToolset20260401   *ManagedAgentsAgentToolset20260401Params `json:",omitzero,inline"`
+    OfBrowserToolset20260714 *ManagedBrowserToolset20260714Param      `json:",omitzero,inline"`
+    OfMCPToolset             *ManagedAgentsMCPToolsetParams           `json:",omitzero,inline"`
+    OfCustom                 *ManagedAgentsCustomToolParams           `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -42569,6 +43894,15 @@ func (u ManagedAgentsSessionAgentUpdateToolUnionParam) GetName() *string
 ```
 
 Returns a pointer to the underlying variant's property, if present.
+
+<a name="ManagedAgentsSessionAgentUpdateToolUnionParam.GetPermissionPolicy"></a>
+### func \(ManagedAgentsSessionAgentUpdateToolUnionParam\) [GetPermissionPolicy](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
+
+```go
+func (u ManagedAgentsSessionAgentUpdateToolUnionParam) GetPermissionPolicy() (res ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion)
+```
+
+Returns the MCP toolset's top\-level wildcard policy, or an omitted union.
 
 <a name="ManagedAgentsSessionAgentUpdateToolUnionParam.GetType"></a>
 ### func \(ManagedAgentsSessionAgentUpdateToolUnionParam\) [GetType](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/session.go>)
@@ -45093,6 +46427,8 @@ type ManagedAgentsSessionThreadAgentToolUnion struct {
     DefaultConfig ManagedAgentsSessionThreadAgentToolUnionDefaultConfig `json:"default_config"`
     // Any of "agent_toolset_20260401", "mcp_toolset", "custom".
     Type string `json:"type"`
+    // Top-level wildcard policy from variant [ManagedAgentsMCPToolset].
+    PermissionPolicy ManagedAgentsMCPToolConfigPermissionPolicyUnion `json:"permission_policy"`
     // This field is from variant [ManagedAgentsMCPToolset].
     MCPServerName string `json:"mcp_server_name"`
     // This field is from variant [ManagedAgentsCustomTool].
@@ -45102,15 +46438,16 @@ type ManagedAgentsSessionThreadAgentToolUnion struct {
     // This field is from variant [ManagedAgentsCustomTool].
     Name string `json:"name"`
     JSON struct {
-        EnabledTools    respjson.Field
-        DisallowedTools respjson.Field
-        Configs         respjson.Field
-        DefaultConfig   respjson.Field
-        Type            respjson.Field
-        MCPServerName   respjson.Field
-        Description     respjson.Field
-        InputSchema     respjson.Field
-        Name            respjson.Field
+        EnabledTools     respjson.Field
+        DisallowedTools  respjson.Field
+        Configs          respjson.Field
+        DefaultConfig    respjson.Field
+        Type             respjson.Field
+        MCPServerName    respjson.Field
+        PermissionPolicy respjson.Field
+        Description      respjson.Field
+        InputSchema      respjson.Field
+        Name             respjson.Field
         // contains filtered or unexported fields
     }   `json:"-"`
 }
@@ -45143,6 +46480,15 @@ default:
   fmt.Errorf("no variant present")
 }
 ```
+
+<a name="ManagedAgentsSessionThreadAgentToolUnion.AsBrowserToolset20260714"></a>
+### func \(ManagedAgentsSessionThreadAgentToolUnion\) [AsBrowserToolset20260714](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/browsertoolset.go>)
+
+```go
+func (u ManagedAgentsSessionThreadAgentToolUnion) AsBrowserToolset20260714() (v ManagedBrowserToolset20260714)
+```
+
+
 
 <a name="ManagedAgentsSessionThreadAgentToolUnion.AsCustom"></a>
 ### func \(ManagedAgentsSessionThreadAgentToolUnion\) [AsCustom](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
@@ -52292,6 +53638,88 @@ const (
 )
 ```
 
+<a name="ManagedAgentsVideoGenToolConfig"></a>
+## type [ManagedAgentsVideoGenToolConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+
+
+```go
+type ManagedAgentsVideoGenToolConfig struct {
+    Name             string                                                      `json:"name" api:"required"`
+    Type             string                                                      `json:"type"`
+    Enabled          bool                                                        `json:"enabled"`
+    PermissionPolicy ManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion `json:"permission_policy"`
+    JSON             struct {
+        Name             respjson.Field
+        Type             respjson.Field
+        Enabled          respjson.Field
+        PermissionPolicy respjson.Field
+        ExtraFields      map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ManagedAgentsVideoGenToolConfig.RawJSON"></a>
+### func \(ManagedAgentsVideoGenToolConfig\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsVideoGenToolConfig) RawJSON() string
+```
+
+
+
+<a name="ManagedAgentsVideoGenToolConfig.ToParam"></a>
+### func \(ManagedAgentsVideoGenToolConfig\) [ToParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsVideoGenToolConfig) ToParam() ManagedAgentsVideoGenToolConfigParams
+```
+
+
+
+<a name="ManagedAgentsVideoGenToolConfig.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsVideoGenToolConfig\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r *ManagedAgentsVideoGenToolConfig) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedAgentsVideoGenToolConfigParams"></a>
+## type [ManagedAgentsVideoGenToolConfigParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+
+
+```go
+type ManagedAgentsVideoGenToolConfigParams struct {
+    Name             constant.VideoGen                                                 `json:"name" default:"VideoGen" api:"required"`
+    Type             param.Opt[string]                                                 `json:"type,omitzero"`
+    Enabled          param.Opt[bool]                                                   `json:"enabled,omitzero"`
+    PermissionPolicy ManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicyUnion `json:"permission_policy,omitzero"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ManagedAgentsVideoGenToolConfigParams.MarshalJSON"></a>
+### func \(ManagedAgentsVideoGenToolConfigParams\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r ManagedAgentsVideoGenToolConfigParams) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ManagedAgentsVideoGenToolConfigParams.UnmarshalJSON"></a>
+### func \(\*ManagedAgentsVideoGenToolConfigParams\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/mediatools.go>)
+
+```go
+func (r *ManagedAgentsVideoGenToolConfigParams) UnmarshalJSON(data []byte) error
+```
+
+
+
 <a name="ManagedAgentsWebFetchToolConfig"></a>
 ## type [ManagedAgentsWebFetchToolConfig](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
 
@@ -52406,6 +53834,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 type ManagedAgentsWebFetchToolConfigParamsPermissionPolicyUnion struct {
     OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
     OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+    OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -52488,6 +53917,15 @@ func (u ManagedAgentsWebFetchToolConfigPermissionPolicyUnion) AsAlwaysAllow() (v
 
 ```go
 func (u ManagedAgentsWebFetchToolConfigPermissionPolicyUnion) AsAlwaysAsk() (v ManagedAgentsAlwaysAskPolicy)
+```
+
+
+
+<a name="ManagedAgentsWebFetchToolConfigPermissionPolicyUnion.AsAlwaysDeny"></a>
+### func \(ManagedAgentsWebFetchToolConfigPermissionPolicyUnion\) [AsAlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (u ManagedAgentsWebFetchToolConfigPermissionPolicyUnion) AsAlwaysDeny() (v ManagedAgentsAlwaysDenyPolicy)
 ```
 
 
@@ -52642,6 +54080,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 type ManagedAgentsWebSearchToolConfigParamsPermissionPolicyUnion struct {
     OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
     OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+    OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -52724,6 +54163,15 @@ func (u ManagedAgentsWebSearchToolConfigPermissionPolicyUnion) AsAlwaysAllow() (
 
 ```go
 func (u ManagedAgentsWebSearchToolConfigPermissionPolicyUnion) AsAlwaysAsk() (v ManagedAgentsAlwaysAskPolicy)
+```
+
+
+
+<a name="ManagedAgentsWebSearchToolConfigPermissionPolicyUnion.AsAlwaysDeny"></a>
+### func \(ManagedAgentsWebSearchToolConfigPermissionPolicyUnion\) [AsAlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (u ManagedAgentsWebSearchToolConfigPermissionPolicyUnion) AsAlwaysDeny() (v ManagedAgentsAlwaysDenyPolicy)
 ```
 
 
@@ -52968,6 +54416,7 @@ Use \[param.IsOmitted\] to confirm if a field is set.
 type ManagedAgentsWriteToolConfigParamsPermissionPolicyUnion struct {
     OfAlwaysAllow *ManagedAgentsAlwaysAllowPolicyParam `json:",omitzero,inline"`
     OfAlwaysAsk   *ManagedAgentsAlwaysAskPolicyParam   `json:",omitzero,inline"`
+    OfAlwaysDeny  *ManagedAgentsAlwaysDenyPolicyParam  `json:",omitzero,inline"`
     // contains filtered or unexported fields
 }
 ```
@@ -53054,6 +54503,15 @@ func (u ManagedAgentsWriteToolConfigPermissionPolicyUnion) AsAlwaysAsk() (v Mana
 
 
 
+<a name="ManagedAgentsWriteToolConfigPermissionPolicyUnion.AsAlwaysDeny"></a>
+### func \(ManagedAgentsWriteToolConfigPermissionPolicyUnion\) [AsAlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/permissiondeny.go>)
+
+```go
+func (u ManagedAgentsWriteToolConfigPermissionPolicyUnion) AsAlwaysDeny() (v ManagedAgentsAlwaysDenyPolicy)
+```
+
+
+
 <a name="ManagedAgentsWriteToolConfigPermissionPolicyUnion.AsAny"></a>
 ### func \(ManagedAgentsWriteToolConfigPermissionPolicyUnion\) [AsAny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/agent.go>)
 
@@ -53089,6 +54547,94 @@ func (r *ManagedAgentsWriteToolConfigPermissionPolicyUnion) UnmarshalJSON(data [
 ```
 
 
+
+<a name="ManagedBrowserToolset20260714"></a>
+## type [ManagedBrowserToolset20260714](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/browsertoolset.go>)
+
+
+
+```go
+type ManagedBrowserToolset20260714 struct {
+    Type ManagedBrowserToolset20260714Type `json:"type" api:"required"`
+    JSON struct {
+        Type        respjson.Field
+        ExtraFields map[string]respjson.Field
+        // contains filtered or unexported fields
+    }   `json:"-"`
+}
+```
+
+<a name="ManagedBrowserToolset20260714.RawJSON"></a>
+### func \(ManagedBrowserToolset20260714\) [RawJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/browsertoolset.go>)
+
+```go
+func (r ManagedBrowserToolset20260714) RawJSON() string
+```
+
+
+
+<a name="ManagedBrowserToolset20260714.ToParam"></a>
+### func \(ManagedBrowserToolset20260714\) [ToParam](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/browsertoolset.go>)
+
+```go
+func (r ManagedBrowserToolset20260714) ToParam() ManagedBrowserToolset20260714Param
+```
+
+
+
+<a name="ManagedBrowserToolset20260714.UnmarshalJSON"></a>
+### func \(\*ManagedBrowserToolset20260714\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/browsertoolset.go>)
+
+```go
+func (r *ManagedBrowserToolset20260714) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedBrowserToolset20260714Param"></a>
+## type [ManagedBrowserToolset20260714Param](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/browsertoolset.go>)
+
+
+
+```go
+type ManagedBrowserToolset20260714Param struct {
+    Type ManagedBrowserToolset20260714Type `json:"type" default:"browser_toolset_20260714" api:"required"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ManagedBrowserToolset20260714Param.MarshalJSON"></a>
+### func \(ManagedBrowserToolset20260714Param\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/browsertoolset.go>)
+
+```go
+func (r ManagedBrowserToolset20260714Param) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ManagedBrowserToolset20260714Param.UnmarshalJSON"></a>
+### func \(\*ManagedBrowserToolset20260714Param\) [UnmarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/browsertoolset.go>)
+
+```go
+func (r *ManagedBrowserToolset20260714Param) UnmarshalJSON(data []byte) error
+```
+
+
+
+<a name="ManagedBrowserToolset20260714Type"></a>
+## type [ManagedBrowserToolset20260714Type](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/browsertoolset.go>)
+
+
+
+```go
+type ManagedBrowserToolset20260714Type = constant.BrowserToolset20260714
+```
+
+<a name="ManagedBrowserToolset20260714TypeBrowserToolset20260714"></a>
+
+```go
+const ManagedBrowserToolset20260714TypeBrowserToolset20260714 ManagedBrowserToolset20260714Type = "browser_toolset_20260714"
+```
 
 <a name="MemoryStoreArchiveParams"></a>
 ## type [MemoryStoreArchiveParams](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/managed/memorystore.go>)
@@ -62153,6 +63699,9 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/constant"
 - [type All](<#All>)
   - [func \(c All\) Default\(\) All](<#All.Default>)
   - [func \(c All\) MarshalJSON\(\) \(\[\]byte, error\)](<#All.MarshalJSON>)
+- [type AlwaysDeny](<#AlwaysDeny>)
+  - [func \(c AlwaysDeny\) Default\(\) AlwaysDeny](<#AlwaysDeny.Default>)
+  - [func \(c AlwaysDeny\) MarshalJSON\(\) \(\[\]byte, error\)](<#AlwaysDeny.MarshalJSON>)
 - [type Any](<#Any>)
   - [func \(c Any\) Default\(\) Any](<#Any.Default>)
   - [func \(c Any\) MarshalJSON\(\) \(\[\]byte, error\)](<#Any.MarshalJSON>)
@@ -62207,6 +63756,9 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/constant"
 - [type BrowserState](<#BrowserState>)
   - [func \(c BrowserState\) Default\(\) BrowserState](<#BrowserState.Default>)
   - [func \(c BrowserState\) MarshalJSON\(\) \(\[\]byte, error\)](<#BrowserState.MarshalJSON>)
+- [type BrowserToolset20260714](<#BrowserToolset20260714>)
+  - [func \(c BrowserToolset20260714\) Default\(\) BrowserToolset20260714](<#BrowserToolset20260714.Default>)
+  - [func \(c BrowserToolset20260714\) MarshalJSON\(\) \(\[\]byte, error\)](<#BrowserToolset20260714.MarshalJSON>)
 - [type BrowserToolset20260801](<#BrowserToolset20260801>)
   - [func \(c BrowserToolset20260801\) Default\(\) BrowserToolset20260801](<#BrowserToolset20260801.Default>)
   - [func \(c BrowserToolset20260801\) MarshalJSON\(\) \(\[\]byte, error\)](<#BrowserToolset20260801.MarshalJSON>)
@@ -62316,6 +63868,9 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/constant"
 - [type Delete](<#Delete>)
   - [func \(c Delete\) Default\(\) Delete](<#Delete.Default>)
   - [func \(c Delete\) MarshalJSON\(\) \(\[\]byte, error\)](<#Delete.MarshalJSON>)
+- [type DeliverArtifacts](<#DeliverArtifacts>)
+  - [func \(c DeliverArtifacts\) Default\(\) DeliverArtifacts](<#DeliverArtifacts.Default>)
+  - [func \(c DeliverArtifacts\) MarshalJSON\(\) \(\[\]byte, error\)](<#DeliverArtifacts.MarshalJSON>)
 - [type DeploymentArchived](<#DeploymentArchived>)
   - [func \(c DeploymentArchived\) Default\(\) DeploymentArchived](<#DeploymentArchived.Default>)
   - [func \(c DeploymentArchived\) MarshalJSON\(\) \(\[\]byte, error\)](<#DeploymentArchived.MarshalJSON>)
@@ -62448,6 +64003,12 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/constant"
 - [type Image](<#Image>)
   - [func \(c Image\) Default\(\) Image](<#Image.Default>)
   - [func \(c Image\) MarshalJSON\(\) \(\[\]byte, error\)](<#Image.MarshalJSON>)
+- [type ImageGen](<#ImageGen>)
+  - [func \(c ImageGen\) Default\(\) ImageGen](<#ImageGen.Default>)
+  - [func \(c ImageGen\) MarshalJSON\(\) \(\[\]byte, error\)](<#ImageGen.MarshalJSON>)
+- [type ImageSearch](<#ImageSearch>)
+  - [func \(c ImageSearch\) Default\(\) ImageSearch](<#ImageSearch.Default>)
+  - [func \(c ImageSearch\) MarshalJSON\(\) \(\[\]byte, error\)](<#ImageSearch.MarshalJSON>)
 - [type Inline](<#Inline>)
   - [func \(c Inline\) Default\(\) Inline](<#Inline.Default>)
   - [func \(c Inline\) MarshalJSON\(\) \(\[\]byte, error\)](<#Inline.MarshalJSON>)
@@ -62835,6 +64396,9 @@ import "github.com/QoderAI/qoder-cloud-agents-sdk-go/convention/constant"
 - [type VaultDeleted](<#VaultDeleted>)
   - [func \(c VaultDeleted\) Default\(\) VaultDeleted](<#VaultDeleted.Default>)
   - [func \(c VaultDeleted\) MarshalJSON\(\) \(\[\]byte, error\)](<#VaultDeleted.MarshalJSON>)
+- [type VideoGen](<#VideoGen>)
+  - [func \(c VideoGen\) Default\(\) VideoGen](<#VideoGen.Default>)
+  - [func \(c VideoGen\) MarshalJSON\(\) \(\[\]byte, error\)](<#VideoGen.MarshalJSON>)
 - [type View](<#View>)
   - [func \(c View\) Default\(\) View](<#View.Default>)
   - [func \(c View\) MarshalJSON\(\) \(\[\]byte, error\)](<#View.MarshalJSON>)
@@ -63353,6 +64917,33 @@ func (c All) MarshalJSON() ([]byte, error)
 
 
 
+<a name="AlwaysDeny"></a>
+## type [AlwaysDeny](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+
+
+```go
+type AlwaysDeny string
+```
+
+<a name="AlwaysDeny.Default"></a>
+### func \(AlwaysDeny\) [Default](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c AlwaysDeny) Default() AlwaysDeny
+```
+
+
+
+<a name="AlwaysDeny.MarshalJSON"></a>
+### func \(AlwaysDeny\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c AlwaysDeny) MarshalJSON() ([]byte, error)
+```
+
+
+
 <a name="Any"></a>
 ## type [Any](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
 
@@ -63835,6 +65426,33 @@ func (c BrowserState) Default() BrowserState
 
 ```go
 func (c BrowserState) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="BrowserToolset20260714"></a>
+## type [BrowserToolset20260714](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+
+
+```go
+type BrowserToolset20260714 string
+```
+
+<a name="BrowserToolset20260714.Default"></a>
+### func \(BrowserToolset20260714\) [Default](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c BrowserToolset20260714) Default() BrowserToolset20260714
+```
+
+
+
+<a name="BrowserToolset20260714.MarshalJSON"></a>
+### func \(BrowserToolset20260714\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c BrowserToolset20260714) MarshalJSON() ([]byte, error)
 ```
 
 
@@ -64818,6 +66436,33 @@ func (c Delete) Default() Delete
 
 ```go
 func (c Delete) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="DeliverArtifacts"></a>
+## type [DeliverArtifacts](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+
+
+```go
+type DeliverArtifacts string
+```
+
+<a name="DeliverArtifacts.Default"></a>
+### func \(DeliverArtifacts\) [Default](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c DeliverArtifacts) Default() DeliverArtifacts
+```
+
+
+
+<a name="DeliverArtifacts.MarshalJSON"></a>
+### func \(DeliverArtifacts\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c DeliverArtifacts) MarshalJSON() ([]byte, error)
 ```
 
 
@@ -66006,6 +67651,60 @@ func (c Image) Default() Image
 
 ```go
 func (c Image) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ImageGen"></a>
+## type [ImageGen](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+
+
+```go
+type ImageGen string
+```
+
+<a name="ImageGen.Default"></a>
+### func \(ImageGen\) [Default](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c ImageGen) Default() ImageGen
+```
+
+
+
+<a name="ImageGen.MarshalJSON"></a>
+### func \(ImageGen\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c ImageGen) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="ImageSearch"></a>
+## type [ImageSearch](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+
+
+```go
+type ImageSearch string
+```
+
+<a name="ImageSearch.Default"></a>
+### func \(ImageSearch\) [Default](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c ImageSearch) Default() ImageSearch
+```
+
+
+
+<a name="ImageSearch.MarshalJSON"></a>
+### func \(ImageSearch\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c ImageSearch) MarshalJSON() ([]byte, error)
 ```
 
 
@@ -69489,6 +71188,33 @@ func (c VaultDeleted) Default() VaultDeleted
 
 ```go
 func (c VaultDeleted) MarshalJSON() ([]byte, error)
+```
+
+
+
+<a name="VideoGen"></a>
+## type [VideoGen](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+
+
+```go
+type VideoGen string
+```
+
+<a name="VideoGen.Default"></a>
+### func \(VideoGen\) [Default](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c VideoGen) Default() VideoGen
+```
+
+
+
+<a name="VideoGen.MarshalJSON"></a>
+### func \(VideoGen\) [MarshalJSON](<https://github.com/QoderAI/qoder-cloud-agents-sdk-go/blob/main/convention/constant/constants.go>)
+
+```go
+func (c VideoGen) MarshalJSON() ([]byte, error)
 ```
 
 

@@ -78,6 +78,7 @@ func (r *TemplateService) New(ctx context.Context, params TemplateNewParams, opt
 }
 
 type TemplateNewParams struct {
+	A2A TemplateA2AConfigParam `json:"a2a,omitzero" api:"nullable"`
 	// Maximum tool-call rounds per Turn; must be positive. Omit or pass null to use the platform default.
 	MaxToolRounds param.Opt[int64] `json:"max_tool_rounds,omitzero" api:"nullable"`
 	// Replaces the complete managed tool list; use an empty list to disable all.
@@ -127,7 +128,13 @@ func (r TemplateNewParams) MarshalJSON() ([]byte, error) {
 	type shadow TemplateNewParams
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *TemplateNewParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
+func (r *TemplateNewParams) UnmarshalAPIJSON(data []byte) error { return r.UnmarshalJSON(data) }
+func (r *TemplateNewParams) UnmarshalJSON(data []byte) error {
+	if err := apijson.UnmarshalRoot(data, r); err != nil {
+		return err
+	}
+	return unmarshalTemplateA2A(data, &r.A2A)
+}
 
 // Get Template
 func (r *TemplateService) Get(ctx context.Context, templateID string, opts ...option.RequestOption) (res *Template, err error) {
@@ -159,6 +166,7 @@ func (r *TemplateService) Update(ctx context.Context, templateID string, params 
 }
 
 type TemplateUpdateParams struct {
+	A2A TemplateA2AConfigParam `json:"a2a,omitzero" api:"nullable"`
 	// Maximum tool-call rounds per Turn; must be positive. Omit to preserve the limit; pass null to clear it.
 	MaxToolRounds param.Opt[int64] `json:"max_tool_rounds,omitzero" api:"nullable"`
 	// Replaces the complete managed tool list; use an empty list to disable all.
@@ -210,8 +218,12 @@ func (r TemplateUpdateParams) MarshalJSON() ([]byte, error) {
 	type shadow TemplateUpdateParams
 	return param.MarshalObject(r, (*shadow)(&r))
 }
+func (r *TemplateUpdateParams) UnmarshalAPIJSON(data []byte) error { return r.UnmarshalJSON(data) }
 func (r *TemplateUpdateParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+	if err := apijson.UnmarshalRoot(data, r); err != nil {
+		return err
+	}
+	return unmarshalTemplateA2A(data, &r.A2A)
 }
 
 // Archive Template
@@ -269,6 +281,7 @@ func (r TemplateCloneParams) MarshalJSON() ([]byte, error) {
 func (r *TemplateCloneParams) UnmarshalJSON(data []byte) error { return apijson.UnmarshalRoot(data, r) }
 
 type Template struct {
+	A2A TemplateA2AConfig `json:"a2a" api:"nullable"`
 	// Maximum tool-call rounds per Turn; omitted when unset.
 	MaxToolRounds     int64             `json:"max_tool_rounds"`
 	ManagedToolConfig ManagedToolConfig `json:"managed_tool_config"`
@@ -301,6 +314,7 @@ type Template struct {
 	// Custom metadata.
 	Metadata map[string]any `json:"metadata"`
 	JSON     struct {
+		A2A                  respjson.Field
 		MaxToolRounds        respjson.Field
 		ManagedToolConfig    respjson.Field
 		Type                 respjson.Field

@@ -177,6 +177,43 @@ See the official [Forward](https://docs.qoder.com/cloud-agents/api/forward/envir
 and [Managed](https://docs.qoder.com/cloud-agents/api/environments/schemas#environment-startup-script)
 contracts.
 
+Forward Environment create/update Config is typed (formerly `map[string]any`):
+
+```go
+func cloudEnvironmentParams(roleARN string) forward.EnvironmentNewParams {
+    return forward.EnvironmentNewParams{
+        Name: "cloud-with-storage",
+        Config: forward.EnvironmentConfigParams{
+            Type: forward.String("cloud"),
+            Packages: forward.EnvironmentConfigPackagesParam{Apt: []string{"curl"}},
+            SetupScript: forward.String("mkdir -p /workspace/cache"),
+            StartupScript: forward.String("test -d /workspace/cache"),
+            Storage: forward.EnvironmentStorageParam{
+                Buckets: []forward.EnvironmentStorageBucketParam{{
+                    Name: "data", Provider: "aliyun-oss",
+                    Region: "cn-hangzhou", Bucket: "your-bucket",
+                    Access: forward.String("read_only"),
+                    Credential: forward.EnvironmentStorageCredentialParam{
+                        Type: "ram_role", RoleARN: forward.String(roleARN),
+                    },
+                }},
+            },
+        },
+    }
+}
+```
+
+Pass `option.WithHeader("X-Qoder-Beta", "oss-bucket-2026-09-23")` to the
+Environment request. Forward supports at most seven buckets, only on cloud
+Environments. For access-key writes use credential `Type: "access_key"` with
+`AccessKeyID` and `AccessKeySecret`. Responses expose only credential Type and an
+optional masked AccessKeyID, never typed secret or RoleARN fields. Omit the entire
+Config on update to preserve the configuration and mounts. Supplying Config
+replaces the whole configuration: resend the buckets you want to retain. Only
+omitting Credential on a bucket with the same Name preserves its stored
+credential; explicit credential null is not omission. Send
+`Buckets: []forward.EnvironmentStorageBucketParam{}` to clear the mounts.
+
 ## Streaming
 
 Streaming responses are consumed incrementally. Close the stream when finished and handle interruption explicitly; closing a local stream does not cancel server-side work.
@@ -225,6 +262,49 @@ func configuredModel(modelID string) forward.ModelConfigUnionParam {
 ```
 
 Options such as `Effort` must match what the selected model supports. To send only the ID, use `forward.ModelConfigUnionParam{OfString: forward.String(modelID)}`.
+
+Managed media tool configs use canonical names (ImageGen, ImageSearch, VideoGen,
+DeliverArtifacts); their zero-value request structs supply those names and omit
+Type. Policies can select `OfAlwaysDeny: &managed.ManagedAgentsAlwaysDenyPolicyParam{}`
+on built-in tools, default configs and MCP. For MCP default-deny, set the
+**top-level** `ManagedAgentsMCPToolsetParams.PermissionPolicy`:
+
+```go
+func denyMCPTools(serverName string) managed.ManagedAgentsMCPToolsetParams {
+    return managed.ManagedAgentsMCPToolsetParams{
+        Type: "mcp_toolset", MCPServerName: serverName,
+        PermissionPolicy: managed.ManagedAgentsMCPToolConfigParamsPermissionPolicyUnion{
+            OfAlwaysDeny: &managed.ManagedAgentsAlwaysDenyPolicyParam{},
+        },
+    }
+}
+```
+
+The top-level policy also supports `OfAlwaysAllow` and `OfAlwaysAsk`; omission
+allows by default. Legacy `DefaultConfig.PermissionPolicy` remains in
+`default_config.permission_policy` for wire compatibility, but does not set the
+MCP wildcard policy. The SDK does not move it to the top level automatically.
+This example constructs parameters only; it does not execute any tools.
+
+Browser tool unions select
+`OfBrowserToolset20260714: &managed.ManagedBrowserToolset20260714Param{}`; the
+request has only Type. Enable its beta through existing Betas parameters or
+`option.WithHeader("X-Qoder-Beta", "browser-use-2026-07-14")`.
+
+Forward Session updates accept nullable `Config.Multiagent`; omission preserves
+it and `param.NullStruct[forward.MultiagentConfigParam]()` clears it. Session
+creation intentionally has no Multiagent Config field. Create-only AutoTitle
+uses `forward.Bool(true)`; the service rejects any simultaneously present Title,
+including an empty string or null. Main Agent reference versions remain numeric.
+
+Template A2A config is independent of resource Skill bindings. Omission and `{}`
+preserve it, whole-object null disables and clears it, and an empty Skills slice
+replaces the advertised skills. Null members are server-rejected. Retrieve its
+public Agent Card with `client.Templates.GetAgentCard(ctx, templateID,
+forward.TemplateGetAgentCardParams{IdentityID: forward.String(identityID),
+A2AVersion: forward.String("1.0")})`. PAT callers supply the runtime Identity;
+SAT callers omit IdentityID. Version `"0.3"` is also supported. The typed Card
+preserves unknown JSON and does not trigger a request to its returned URL.
 
 ### Extra fields
 
