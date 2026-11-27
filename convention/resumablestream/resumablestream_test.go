@@ -3,12 +3,15 @@ package resumablestream
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
+	"crypto/x509"
 	"encoding/json"
 	"errors"
 	"io"
 	"net/http"
 	"net/url"
 	"reflect"
+	"runtime"
 	"sync"
 	"testing"
 	"time"
@@ -333,6 +336,11 @@ func TestRetryClassificationMatchesRequestPolicy(t *testing.T) {
 		{name: "malformed JSON", err: malformedJSON, want: false},
 		{name: "JSON type error", err: typeJSON, want: false},
 		{name: "arbitrary validation error", err: errors.New("missing required parameter"), want: false},
+		{name: "x509 unknown authority", err: &url.Error{Op: "Get", URL: "https://sdk.test", Err: x509.UnknownAuthorityError{}}, want: false},
+		{name: "x509 hostname mismatch", err: &url.Error{Op: "Get", URL: "https://sdk.test", Err: x509.HostnameError{Host: "sdk.test"}}, want: false},
+		{name: "x509 invalid cert", err: &url.Error{Op: "Get", URL: "https://sdk.test", Err: x509.CertificateInvalidError{Reason: x509.Expired}}, want: false},
+		{name: "tls record header", err: &url.Error{Op: "Get", URL: "https://sdk.test", Err: tls.RecordHeaderError{Msg: "not TLS"}}, want: false},
+		{name: "scheme mismatch", err: &url.Error{Op: "Get", URL: "https://sdk.test", Err: http.ErrSchemeMismatch}, want: false},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			if got := retryable(context.Background(), tc.err); got != tc.want {
@@ -403,5 +411,42 @@ func TestStreamCloseInterruptsBackoff(t *testing.T) {
 		}
 	case <-time.After(time.Second):
 		t.Fatal("close did not interrupt backoff")
+	}
+}
+
+func TestNewDoesNotLeakWatcherGoroutineWithoutClose(t *testing.T) {
+	before := runtime.NumGoroutine()
+	streams := make([]*Stream[string], 32)
+	for i := range streams {
+		streams[i] = New(context.Background(), "", func(context.Context, string, bool) Child[string] {
+			return &fakeChild[string]{}
+		}, nil)
+	}
+	after := runtime.NumGoroutine()
+	runtime.KeepAlive(streams)
+	// Context cancellation is watched via context.AfterFunc without spawning per-stream goroutines.
+	if delta := after - before; delta >= 8 {
+		t.Fatalf("unexpected goroutine growth creating 32 streams without Close: before=%d after=%d", before, after)
+	}
+}
+
+func TestStreamStopsImmediatelyOnPermanentTLSError(t *testing.T) {
+	tlsErr := &url.Error{Op: "Get", URL: "https://sdk.test", Err: x509.UnknownAuthorityError{}}
+	calls := 0
+	var delays []time.Duration
+	stream := newStream(context.Background(), "", func(context.Context, string, bool) Child[string] {
+		calls++
+		return &fakeChild[string]{err: tlsErr}
+	}, nil, immediateSettings(&delays))
+	defer stream.Close()
+
+	if stream.Next() {
+		t.Fatal("expected stream to fail on TLS certificate error")
+	}
+	if !errors.Is(stream.Err(), tlsErr) {
+		t.Fatalf("err = %v, want %v", stream.Err(), tlsErr)
+	}
+	if calls != 1 || len(delays) != 0 {
+		t.Fatalf("calls = %d, delays = %v; want single attempt without retry", calls, delays)
 	}
 }

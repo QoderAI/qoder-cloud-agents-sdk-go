@@ -16,6 +16,7 @@ existing `0.1.0` release; earlier development prereleases are not listed.
 
 ### Fixed
 
+- Replace the per-stream watcher goroutine in `convention/resumablestream` with `context.AfterFunc` so unclosed streams using long-lived contexts do not leak goroutines, and treat permanent TLS/certificate and scheme-mismatch `*url.Error` failures as non-retryable.
 - Decode Managed tool configurations using case-insensitive canonical names and snake_case aliases, preserving the authored name when round-tripping request parameters.
 - Preserve unknown fields, malformed members, explicit nulls and authored empty objects when decoding typed Forward Environment and Template A2A parameters. Typed edits replace automatically retained raw values; explicit caller overrides retain precedence. Invalid values reach server validation rather than disappearing from a configuration update.
 - Clear stale null metadata when reusing a decoded Forward Session multiagent update parameter, so a subsequent roster is sent instead of an unintended clearing request.

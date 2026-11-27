@@ -3,6 +3,8 @@ package resumablestream
 
 import (
 	"context"
+	"crypto/tls"
+	"crypto/x509"
 	"encoding/json"
 	"errors"
 	"io"
@@ -70,12 +72,13 @@ func defaultSettings() settings {
 
 // Stream reconnects child streams while retaining the latest yielded event cursor.
 type Stream[T any] struct {
-	parent   context.Context
-	ctx      context.Context
-	cancel   context.CancelFunc
-	open     Open[T]
-	terminal func(T) bool
-	config   settings
+	parent      context.Context
+	ctx         context.Context
+	cancel      context.CancelFunc
+	stopWatcher func() bool
+	open        Open[T]
+	terminal    func(T) bool
+	config      settings
 
 	mu            sync.Mutex
 	child         Child[T]
@@ -118,7 +121,7 @@ func newStream[T any](ctx context.Context, lastEventID string, open Open[T], ter
 		s.err = initialErr[0]
 		cancel()
 	} else {
-		go s.closeOnContext()
+		s.stopWatcher = context.AfterFunc(streamCtx, s.closeOnContext)
 	}
 	return s
 }
@@ -152,7 +155,7 @@ func (s *Stream[T]) Next() bool {
 			accepted, terminal := s.checkpoint(child.Current(), child.LastEventID())
 			if terminal {
 				s.closeChild(child)
-				s.cancel()
+				s.stopAndCancel()
 			}
 			return accepted
 		}
@@ -208,15 +211,21 @@ func (s *Stream[T]) Close() error {
 	s.child = nil
 	s.mu.Unlock()
 
-	s.cancel()
+	s.stopAndCancel()
 	if child != nil {
 		return child.Close()
 	}
 	return nil
 }
 
+func (s *Stream[T]) stopAndCancel() {
+	if s.stopWatcher != nil {
+		s.stopWatcher()
+	}
+	s.cancel()
+}
+
 func (s *Stream[T]) closeOnContext() {
-	<-s.ctx.Done()
 	s.mu.Lock()
 	if err := s.parent.Err(); err != nil && s.err == nil && !s.closed {
 		s.err = err
@@ -317,7 +326,7 @@ func (s *Stream[T]) fail(err error) {
 	}
 	s.mu.Unlock()
 	if failed {
-		s.cancel()
+		s.stopAndCancel()
 	}
 }
 
@@ -378,8 +387,30 @@ func retryable(_ context.Context, err error) bool {
 	}
 	var urlErr *url.Error
 	if errors.As(err, &urlErr) {
-		return true
+		return !isPermanentURLError(urlErr)
 	}
 	var netErr net.Error
 	return errors.As(err, &netErr) || errors.Is(err, io.ErrUnexpectedEOF) || errors.Is(err, io.ErrClosedPipe)
+}
+
+func isPermanentURLError(err error) bool {
+	if errors.Is(err, http.ErrSchemeMismatch) {
+		return true
+	}
+	var (
+		unknownAuthority x509.UnknownAuthorityError
+		hostnameErr      x509.HostnameError
+		certInvalid      x509.CertificateInvalidError
+		sysRoots         x509.SystemRootsError
+		constraintErr    x509.ConstraintViolationError
+		insecureAlg      x509.InsecureAlgorithmError
+		recordHeader     tls.RecordHeaderError
+	)
+	return errors.As(err, &unknownAuthority) ||
+		errors.As(err, &hostnameErr) ||
+		errors.As(err, &certInvalid) ||
+		errors.As(err, &sysRoots) ||
+		errors.As(err, &constraintErr) ||
+		errors.As(err, &insecureAlg) ||
+		errors.As(err, &recordHeader)
 }
